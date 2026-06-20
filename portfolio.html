@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Портфолио — Litera.Studio</title>
+<meta name="description" content="Работы студии Litera: полиграфия, упаковка, брендинг, мерч и реклама. Дизайн и собственная печать.">
+
+<!-- ===================================================================
+     LITERA.STUDIO — СТРАНИЦА ПОРТФОЛИО
+     Image-first bento-сетка. Фильтр по направлениям с цветовым кодированием.
+     Каждая работа несёт data-cat = направление; цвет берётся из --c.
+     ================================================================== -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = { theme: { extend: {
+    colors: { ink:'#000', paper:'#fff', 'b-blue':'#0000FF','b-magenta':'#FF00FF','b-lime':'#CCFF00','b-yellow':'#FFFF00','b-green':'#00CC00','b-gray':'#ABA7A7' },
+    fontFamily: { sans: ['"Raptor V2"','Manrope','system-ui','sans-serif'] },
+  }}}
+</script>
+<style>
+  :root{ --accent:#0000FF; --on-accent:#fff; }
+  html{ scroll-behavior:smooth; }
+  body{ -webkit-font-smoothing:antialiased; }
+  .accent{ color:var(--accent); }
+  .kicker{ font-size:.8rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); }
+
+  .btn{ display:inline-flex; align-items:center; gap:.5rem; font-weight:700; border-radius:99px; padding:.95rem 1.6rem; transition:.18s ease; line-height:1; }
+  .btn-accent{ background:var(--accent); color:var(--on-accent); }
+  .btn-accent:hover{ transform:translateY(-2px); box-shadow:0 12px 30px -10px var(--accent); }
+  .btn-ghost{ background:transparent; color:#000; border:1.5px solid #e4e4e7; }
+  .btn-ghost:hover{ border-color:#000; }
+  .btn-dark{ background:#000; color:#fff; } .btn-dark:hover{ transform:translateY(-2px); }
+
+  /* Фильтр-чипы по направлениям */
+  .chip{ display:inline-flex; align-items:center; gap:.5rem; font-weight:600; font-size:.9rem;
+         padding:.6rem 1.1rem; border-radius:99px; border:1.5px solid #ececee; background:#fff; cursor:pointer; transition:.15s; }
+  .chip:hover{ border-color:#bbb; }
+  .chip .dot{ width:.6rem; height:.6rem; border-radius:99px; background:var(--c,#000); }
+  .chip.active{ background:var(--c,#000); border-color:var(--c,#000); color:var(--ct,#fff); }
+  .chip.active .dot{ background:var(--ct,#fff); }
+
+  /* Bento-сетка */
+  .bento{ display:grid; grid-template-columns:repeat(2,1fr); grid-auto-rows:165px; gap:1rem; grid-auto-flow:dense; }
+  @media(min-width:768px){ .bento{ grid-template-columns:repeat(3,1fr); grid-auto-rows:185px; } }
+  @media(min-width:1024px){ .bento{ grid-template-columns:repeat(4,1fr); grid-auto-rows:200px; } }
+  .tall{ grid-row:span 2; } .wide{ grid-column:span 2; } .big{ grid-column:span 2; grid-row:span 2; }
+
+  /* Карточка работы */
+  .work{ position:relative; overflow:hidden; border-radius:1.25rem; cursor:pointer;
+         background:linear-gradient(135deg,#ececee,#dadade); }
+  .work .ph-label{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+         font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; color:#9a9aa2; font-weight:600; }
+  .work .veil{ position:absolute; inset:0; background:linear-gradient(to top,rgba(0,0,0,.85),rgba(0,0,0,.05) 55%,transparent);
+         opacity:0; transition:.25s; }
+  .work:hover .veil{ opacity:1; }
+  .work .meta{ position:absolute; left:0; right:0; bottom:0; padding:1.25rem; color:#fff;
+         transform:translateY(8px); opacity:0; transition:.25s; }
+  .work:hover .meta{ transform:none; opacity:1; }
+  .work .cat-dot{ position:absolute; top:.9rem; left:.9rem; width:.7rem; height:.7rem; border-radius:99px;
+         background:var(--c); box-shadow:0 0 0 4px rgba(255,255,255,.85); }
+  .work .arrow{ position:absolute; top:.75rem; right:.75rem; width:2.1rem; height:2.1rem; border-radius:99px;
+         background:var(--c); display:grid; place-items:center; opacity:0; transform:scale(.7); transition:.25s; }
+  .work:hover .arrow{ opacity:1; transform:none; }
+  .work.is-hidden{ display:none; }
+
+  .marker-accent::before{ content:''; display:inline-block; width:.5rem; height:.5rem; border-radius:99px; background:var(--accent); margin-right:.6rem; vertical-align:middle; }
+</style>
+</head>
+
+<body class="font-sans text-ink bg-paper">
+
+<!-- ШАПКА (как на странице категории) -->
+<header class="sticky top-0 z-50 bg-paper/90 backdrop-blur border-b border-zinc-100">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <div class="flex items-center justify-between h-16 lg:h-20">
+      <a href="category.html" class="flex items-center gap-2 shrink-0">
+        <span class="inline-flex items-center justify-center w-8 h-8 bg-ink text-paper font-extrabold text-sm tracking-tighter rounded-[7px]">LS</span>
+        <span class="font-extrabold text-lg tracking-tight">LITERA<span class="accent">.</span>STUDIO</span>
+      </a>
+      <nav class="hidden lg:flex items-center gap-1 text-[15px] font-medium">
+        <a href="category.html" class="px-4 py-2 rounded-full hover:bg-zinc-100">Услуги</a>
+        <a href="portfolio.html" class="px-4 py-2 rounded-full bg-zinc-100">Проекты</a>
+        <a href="#" class="px-4 py-2 rounded-full hover:bg-zinc-100">Блог</a>
+        <a href="#" class="px-4 py-2 rounded-full hover:bg-zinc-100">Контакты</a>
+      </nav>
+      <div class="flex items-center gap-3">
+        <a href="tel:+74950213577" class="hidden xl:block text-sm font-semibold">+7 (495) 021-35-77</a>
+        <a href="#lead" class="btn btn-accent text-sm hidden sm:inline-flex">Оставить заявку</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+
+<!-- HERO + ФИЛЬТР -->
+<section class="max-w-7xl mx-auto px-5 lg:px-8 pt-14 lg:pt-20 pb-10">
+  <div class="kicker mb-3">Портфолио</div>
+  <div class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+    <h1 class="text-[2.6rem] leading-[1.02] sm:text-6xl lg:text-7xl font-extrabold tracking-tight">
+      Работы, которые<br>можно <span class="accent">потрогать</span>
+    </h1>
+    <p class="text-zinc-600 max-w-sm text-lg">Дизайн и собственная печать. Более 2 500 проектов в год — от визитки до упаковки под ключ.</p>
+  </div>
+
+  <!-- Фильтр по направлениям -->
+  <div id="filters" class="flex flex-wrap gap-2.5 mt-10">
+    <button class="chip active" data-filter="all" style="--c:#000;--ct:#fff"><span class="dot"></span>Все работы</button>
+    <button class="chip" data-filter="poly" style="--c:#0000FF;--ct:#fff"><span class="dot"></span>Полиграфия</button>
+    <button class="chip" data-filter="pack" style="--c:#FF00FF;--ct:#fff"><span class="dot"></span>Упаковка и этикетки</button>
+    <button class="chip" data-filter="brand" style="--c:#9bbf00;--ct:#000"><span class="dot"></span>Брендинг</button>
+    <button class="chip" data-filter="merch" style="--c:#00CC00;--ct:#000"><span class="dot"></span>Мерч и сувениры</button>
+    <button class="chip" data-filter="ads" style="--c:#d4b300;--ct:#000"><span class="dot"></span>Реклама и соцсети</button>
+  </div>
+</section>
+
+<!-- BENTO-СЕТКА РАБОТ -->
+<section class="max-w-7xl mx-auto px-5 lg:px-8 pb-20 lg:pb-28">
+  <div class="bento" id="grid">
+
+    <article class="work big" data-cat="poly" style="--c:#0000FF">
+      <span class="ph-label">Фото · Фирменный комплект</span>
+      <span class="cat-dot"></span><span class="arrow"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg></span>
+      <div class="veil"></div>
+      <div class="meta"><div class="text-xs uppercase tracking-wider text-white/70 mb-1">Полиграфия · кейс</div><h3 class="text-2xl font-bold">Фирменный комплект для студии «Vega»</h3></div>
+    </article>
+
+    <article class="work tall" data-cat="pack" style="--c:#FF00FF">
+      <span class="ph-label">Фото · Этикетка</span>
+      <span class="cat-dot"></span><span class="arrow"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg></span>
+      <div class="veil"></div>
+      <div class="meta"><div class="text-xs uppercase tracking-wider text-white/70 mb-1">Упаковка</div><h3 class="text-xl font-bold">Этикетки «Vegalavka»</h3></div>
+    </article>
+
+    <article class="work" data-cat="brand" style="--c:#9bbf00">
+      <span class="ph-label">Фото · Логотип</span>
+      <span class="cat-dot"></span><span class="arrow"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg></span>
+      <div class="veil"></div>
+      <div class="meta"><div class="text-xs uppercase tracking-wider text-white/70 mb-1">Брендинг</div><h3 class="text-lg font-bold">Логотип «Finch»</h3></div>
+    </article>
+
+    <article class="work" data-cat="merch" style="--c:#00CC00">
+      <span class="ph-label">Фото · Мерч</span>
+      <span class="cat-dot"></span><span class="arrow"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg></span>
+      <div class="veil"></div>
+      <div class="meta"><div class="text-xs uppercase tracking-wider text-white/70 mb-1">Мерч</div><h3 class="text-lg font-bold">Худи для IT-команды</h3></div>
+    </article>
+
+    <article class="work wide" data-cat="ads" style="--c:#d4b300">
+      <span class="ph-label">Фото · Рекламная кампания</span>
+      <span class="cat-dot"></span><span class="arrow"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg></span>
+      <div class="veil"></div>
+      <div class="meta"><div class="text-xs uppercase tracking-wider text-white/70 mb-1">Реклама · соцсети</div><h3 class="text-xl font-bold">Серия креативов для запуска</h3></div>
+    </article>
+
+    <article class="work tall" data-cat="poly" style="--c:#0000FF">
+      <span class="ph-label">Фото · Каталог</span>
+      <span class="cat-dot"></span><span class="arrow"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg></span>
+      <div class="veil"></div>
+      <div class="meta"><div class="text-xs uppercase tracking-wider text-white/70 mb-1">Полиграфия</div><h3 class="text-xl font-bold">Каталог продукции, 64 полосы</h3></div>
+    </article>
+
+    <article class="work" data-cat="pack" style="--c:#FF00FF">
+      <span class="ph-label">Фото · Коробка</span>
+      <span class="cat-dot"></span><span class="arrow"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg></span>
+      <div class="veil"></div>
+      <div class="meta"><div class="text-xs uppercase tracking-wider text-white/70 mb-1">Упаковка</div><h3 class="text-lg font-bold">Подарочная коробка с ложементом</h3></div>
+    </article>
+
+    <article class="work" data-cat="brand" style="--c:#9bbf00">
+      <span class="ph-label">Фото · Брендбук</span>
+      <span class="cat-dot"></span><span class="arrow"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg></span>
+      <div class="veil"></div>
+      <div class="meta"><div class="text-xs uppercase tracking-wider text-white/70 mb-1">Брендинг</div><h3 class="text-lg font-bold">Брендбук сети кофеен</h3></div>
+    </article>
+
+    <article class="work wide" data-cat="merch" style="--c:#00CC00">
+      <span class="ph-label">Фото · Welcome-pack</span>
+      <span class="cat-dot"></span><span class="arrow"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg></span>
+      <div class="veil"></div>
+      <div class="meta"><div class="text-xs uppercase tracking-wider text-white/70 mb-1">Мерч · сувениры</div><h3 class="text-xl font-bold">Welcome-pack для новых сотрудников</h3></div>
+    </article>
+
+    <article class="work" data-cat="poly" style="--c:#0000FF">
+      <span class="ph-label">Фото · Визитки</span>
+      <span class="cat-dot"></span><span class="arrow"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg></span>
+      <div class="veil"></div>
+      <div class="meta"><div class="text-xs uppercase tracking-wider text-white/70 mb-1">Полиграфия</div><h3 class="text-lg font-bold">Визитки с тиснением фольгой</h3></div>
+    </article>
+
+    <article class="work tall" data-cat="pack" style="--c:#FF00FF">
+      <span class="ph-label">Фото · Адвент-календарь</span>
+      <span class="cat-dot"></span><span class="arrow"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg></span>
+      <div class="veil"></div>
+      <div class="meta"><div class="text-xs uppercase tracking-wider text-white/70 mb-1">Упаковка</div><h3 class="text-xl font-bold">Адвент-календарь к НГ</h3></div>
+    </article>
+
+    <article class="work" data-cat="ads" style="--c:#d4b300">
+      <span class="ph-label">Фото · POS</span>
+      <span class="cat-dot"></span><span class="arrow"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M7 17L17 7M7 7h10v10"/></svg></span>
+      <div class="veil"></div>
+      <div class="meta"><div class="text-xs uppercase tracking-wider text-white/70 mb-1">Реклама</div><h3 class="text-lg font-bold">POS-материалы для ритейла</h3></div>
+    </article>
+
+  </div>
+
+  <div class="text-center mt-12">
+    <button class="btn btn-ghost">Показать ещё</button>
+  </div>
+</section>
+
+<!-- ИЗБРАННЫЙ КЕЙС -->
+<section class="bg-zinc-950 text-paper py-20 lg:py-28">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <div class="kicker mb-8">Избранный кейс</div>
+    <div class="grid lg:grid-cols-2 gap-8 items-center">
+      <div class="work big !rounded-3xl min-h-[360px] lg:min-h-[460px]" style="--c:#FF00FF; grid-column:auto; grid-row:auto;">
+        <span class="ph-label">Большое фото кейса</span>
+      </div>
+      <div>
+        <div class="flex gap-2 mb-5 text-sm">
+          <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10"><span class="w-2 h-2 rounded-full" style="background:#FF00FF"></span>Упаковка</span>
+          <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/10"><span class="w-2 h-2 rounded-full" style="background:#0000FF"></span>Полиграфия</span>
+        </div>
+        <h2 class="text-3xl lg:text-5xl font-extrabold tracking-tight mb-5">Этикетки и упаковка для «Vegalavka»</h2>
+        <p class="text-white/70 text-lg mb-8 max-w-lg">К выходу новой линейки продукции клиент обратился за дизайном и печатью этикеток, которые выделяли бы товар на полке. Сделали систему этикеток, напечатали тираж и закрыли запуск за 3 недели.</p>
+        <div class="grid grid-cols-3 gap-6 mb-8 max-w-md">
+          <div><div class="text-3xl font-extrabold accent">3 нед</div><div class="text-white/50 text-sm mt-1">от брифа до полки</div></div>
+          <div><div class="text-3xl font-extrabold accent">12</div><div class="text-white/50 text-sm mt-1">SKU в линейке</div></div>
+          <div><div class="text-3xl font-extrabold accent">+34%</div><div class="text-white/50 text-sm mt-1">к узнаваемости</div></div>
+        </div>
+        <a href="#" class="btn btn-accent">Читать кейс целиком
+          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="lead" class="max-w-7xl mx-auto px-5 lg:px-8 py-20 lg:py-28">
+  <div class="rounded-3xl bg-ink text-paper p-8 lg:p-16 text-center">
+    <h2 class="text-3xl lg:text-5xl font-extrabold tracking-tight max-w-2xl mx-auto">Хотите такой же результат для своего бренда?</h2>
+    <p class="mt-5 text-white/70 max-w-md mx-auto text-lg">Расскажите о задаче — предложим решение и посчитаем стоимость.</p>
+    <div class="mt-8 flex flex-wrap gap-3 justify-center">
+      <a href="#" class="btn btn-accent">Оставить заявку</a>
+      <a href="tel:+74950213577" class="btn btn-ghost !text-white !border-white/20 hover:!border-white">+7 (495) 021-35-77</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ПОДВАЛ -->
+<footer class="bg-ink text-paper pt-20 pb-10">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <div class="grid lg:grid-cols-4 gap-10 pb-14 border-b border-white/10">
+      <div>
+        <div class="flex items-center gap-2 mb-4">
+          <span class="inline-flex items-center justify-center w-8 h-8 bg-paper text-ink font-extrabold text-sm tracking-tighter rounded-[7px]">LS</span>
+          <span class="font-extrabold text-lg tracking-tight">LITERA<span class="accent">.</span>STUDIO</span>
+        </div>
+        <p class="text-white/50 text-sm max-w-xs">Студия графического дизайна и собственная типография в Москве.</p>
+      </div>
+      <div>
+        <div class="text-white/40 text-sm mb-4">Услуги</div>
+        <ul class="space-y-2.5 text-sm text-white/80">
+          <li><a href="category.html" class="hover:text-white">Полиграфия</a></li>
+          <li><a href="#" class="hover:text-white">Упаковка и этикетки</a></li>
+          <li><a href="#" class="hover:text-white">Брендинг</a></li>
+          <li><a href="#" class="hover:text-white">Мерч и сувениры</a></li>
+          <li><a href="#" class="hover:text-white">Реклама и соцсети</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="text-white/40 text-sm mb-4">Студия</div>
+        <ul class="space-y-2.5 text-sm text-white/80">
+          <li><a href="portfolio.html" class="hover:text-white">Проекты</a></li>
+          <li><a href="#" class="hover:text-white">Блог</a></li>
+          <li><a href="#" class="hover:text-white">Контакты</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="text-white/40 text-sm mb-4">Контакты</div>
+        <ul class="space-y-2.5 text-sm text-white/80">
+          <li><a href="tel:+74950213577" class="hover:text-white">+7 (495) 021-35-77</a></li>
+          <li><a href="mailto:zakaz@litera.studio" class="hover:text-white">zakaz@litera.studio</a></li>
+          <li class="text-white/50">Москва, Холодильный пер., 3с1/3</li>
+        </ul>
+      </div>
+    </div>
+    <div class="pt-8 flex flex-col sm:flex-row justify-between gap-4 text-xs text-white/40">
+      <span>© 2026 Litera.Studio. Все права защищены.</span>
+      <div class="flex gap-5"><a href="#" class="hover:text-white">Политика конфиденциальности</a><a href="#" class="hover:text-white">Публичная оферта</a></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Фильтрация работ по направлению
+  const chips = document.querySelectorAll('.chip');
+  const works = document.querySelectorAll('.work[data-cat]');
+  chips.forEach(chip => chip.addEventListener('click', () => {
+    chips.forEach(c => c.classList.remove('active'));
+    chip.classList.add('active');
+    const f = chip.dataset.filter;
+    works.forEach(w => {
+      const show = f === 'all' || w.dataset.cat === f;
+      w.classList.toggle('is-hidden', !show);
+    });
+  }));
+</script>
+</body>
+</html>
