@@ -37,6 +37,18 @@
         fontFamily: {
           sans: ['"Raptor V2"', 'Manrope', 'system-ui', 'sans-serif'],
         },
+        // Модульная шкала: база 17px, множитель 1.25. Размеры берём только отсюда.
+        fontSize: {
+          'eyebrow': ['11px', { lineHeight: '1.3' }],   // надзаголовок, подписи
+          'caption': ['14px', { lineHeight: '1.5' }],   // мелкий текст, меню
+          'body':    ['17px', { lineHeight: '1.7' }],   // тело текста
+          'lead':    ['21px', { lineHeight: '1.6' }],   // крупный абзац / lead
+          'h4':      ['27px', { lineHeight: '1.25' }],  // заголовок карточки
+          'h3':      ['33px', { lineHeight: '1.2' }],   // подзаголовок
+          'h2':      ['42px', { lineHeight: '1.1', letterSpacing: '-0.02em' }], // заголовок секции
+          'h1':      ['52px', { lineHeight: '1.0', letterSpacing: '-0.03em' }], // крупный h2
+          'display': ['65px', { lineHeight: '0.9', letterSpacing: '-0.06em' }], // hero
+        },
         borderRadius: { 'xl2': '1.75rem' },
       }
     }
@@ -44,10 +56,14 @@
 </script>
 
 <style>
-  /* Когда появятся файлы Raptor V2 — раскомментировать и подложить пути:
-  @font-face { font-family:'Raptor V2'; src:url('assets/RaptorV2-Regular.woff2') format('woff2'); font-weight:400; font-display:swap; }
-  @font-face { font-family:'Raptor V2'; src:url('assets/RaptorV2-Bold.woff2') format('woff2'); font-weight:700; font-display:swap; }
-  */
+  /* Raptor V2 Premium — пока только Bold (700). Используется точечно на заголовке hero. */
+  @font-face {
+    font-family:'Raptor V2 Premium';
+    src:url('assets/RaptorV2Premium-Bold.woff2') format('woff2'),
+        url('assets/RaptorV2Premium-Bold.woff') format('woff');
+    font-weight:700; font-style:normal; font-display:swap;
+  }
+  .font-display{ font-family:'Raptor V2 Premium','Manrope',system-ui,sans-serif; font-weight:700; }
 
   :root{
     --accent: #0000FF;        /* цвет направления "Полиграфия" */
@@ -75,7 +91,7 @@
         font-size:.72rem; letter-spacing:.12em; text-transform:uppercase; color:#a3a3aa; font-weight:600; }
 
   /* Кнопки */
-  .btn{ display:inline-flex; align-items:center; gap:.5rem; font-weight:700; border-radius:99px;
+  .btn{ display:inline-flex; align-items:center; gap:.5rem; font-weight:700; border-radius:0;
         padding:.95rem 1.6rem; transition:.18s ease; line-height:1; }
   .btn-accent{ background:var(--accent); color:var(--on-accent); }
   .btn-accent:hover{ transform:translateY(-2px); box-shadow:0 12px 30px -10px var(--accent); }
@@ -84,11 +100,16 @@
   .btn-dark{ background:#000; color:#fff; }
   .btn-dark:hover{ transform:translateY(-2px); }
 
-  .tag{ display:inline-flex; align-items:center; gap:.45rem; font-size:.8rem; font-weight:600;
-        padding:.4rem .85rem; border-radius:99px; background:#fff; border:1px solid #ececee; }
-  .tag .dot{ width:.42rem; height:.42rem; border-radius:99px; background:var(--accent); }
+  .tag{ display:inline-flex; align-items:center; font-size:.8rem; font-weight:600;
+        padding:.28rem .7rem; border-radius:0; color:var(--accent);
+        background:color-mix(in srgb, var(--accent) 7%, transparent); }
 
   .kicker{ font-size:.8rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:var(--accent); }
+
+  /* Поля формы попапа */
+  .lbl{ display:block; font-size:11px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:#71717a; margin-bottom:.35rem; }
+  .fld{ width:100%; background:#f4f4f5; border:1px solid transparent; padding:.7rem .9rem; font-size:14px; }
+  .fld:focus{ outline:none; background:#fff; border-color:var(--accent); }
 
   /* Навигация направлений в шапке */
   .nav-link{ display:inline-flex; align-items:center; gap:.3rem; padding:.5rem .7rem; border-radius:99px; transition:.15s; }
@@ -142,9 +163,26 @@
     <div class="flex items-center justify-between h-16 lg:h-20">
 
       <!-- Лого -->
-      <a href="#" class="flex items-center gap-2 shrink-0">
-        <span class="inline-flex items-center justify-center w-8 h-8 bg-ink text-paper font-extrabold text-sm tracking-tighter rounded-[7px]">LS</span>
-        <span class="font-extrabold text-lg tracking-tight">LITERA<span class="accent">.</span>STUDIO</span>
+      <a href="#" class="flex items-center shrink-0 text-ink" aria-label="ЛИТЕРА.СТУДИО">
+        <svg class="h-[22px] w-auto" viewBox="0 0 167 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16.7434 0.439453H5.40039V4.48911H12.6938L16.7434 0.439453Z" fill="#0000FF"/>
+          <path d="M5.40039 10.1616L16.7434 21.5069V15.8343L5.40039 4.48911V10.1616Z" fill="#0000FF"/>
+          <path d="M0 21.507L4.04965 25.5567V0.439453L0 4.48911V21.507Z" fill="currentColor"/>
+          <path d="M5.40234 21.5068V25.5565H12.6957L16.7454 21.5068H5.40234Z" fill="currentColor"/>
+          <path d="M166.998 19.9746H164.358V8.45461H162.558C161.318 8.45461 160.598 9.19461 160.598 10.2746C160.598 11.3546 161.318 12.1146 162.558 12.1146H164.358L160.178 19.9746H157.218L160.438 13.9346C158.878 13.3946 157.858 12.1546 157.858 10.2746C157.858 7.65461 159.878 5.97461 162.558 5.97461H166.998V19.9746Z" fill="currentColor"/>
+          <path d="M149.35 19.9746H146.61L150.69 5.97461H153.43L149.35 19.9746ZM144.07 19.9746V5.97461H146.61V19.9746H144.07ZM153.43 19.9746V5.97461H155.97V19.9746H153.43Z" fill="currentColor"/>
+          <path d="M128.236 22.5746V17.4946H129.196C130.416 17.4946 130.936 16.9746 131.016 15.7146L131.496 5.97461H140.876V17.4946H142.496V22.5746H140.316V19.9746H130.396V22.5746H128.236ZM133.116 17.4946H138.236V8.45461H134.036L133.656 15.7146C133.616 16.4546 133.436 17.0346 133.116 17.4946Z" fill="currentColor"/>
+          <path d="M122.405 19.9746L127.265 5.97461H130.045L125.185 19.9746H122.405ZM118.085 5.97461H121.045L124.385 14.1546H121.445L118.085 5.97461Z" fill="currentColor"/>
+          <path d="M111.734 19.9746V8.45461H108.354V5.97461H117.774V8.45461H114.374V19.9746H111.734Z" fill="currentColor"/>
+          <path d="M101.346 20.2553C97.4862 20.2553 94.3662 17.3753 94.3662 12.9753C94.3662 8.57531 97.4862 5.69531 101.346 5.69531C104.466 5.69531 107.106 7.57531 107.926 10.6353H105.066C104.426 9.15531 103.086 8.23531 101.346 8.23531C98.8262 8.23531 97.1062 10.1553 97.1062 12.9753C97.1062 15.7953 98.8262 17.7153 101.346 17.7153C103.166 17.7153 104.506 16.7153 105.126 15.1153H107.966C107.206 18.2953 104.526 20.2553 101.346 20.2553Z" fill="currentColor"/>
+          <path d="M91.9812 20.2552C90.9412 20.2552 90.2012 19.4552 90.2012 18.4352C90.2012 17.4352 90.9412 16.6152 91.9812 16.6152C93.0012 16.6152 93.7412 17.4352 93.7412 18.4352C93.7412 19.4552 93.0012 20.2552 91.9812 20.2552Z" fill="#0000FF"/>
+          <path d="M75.7402 19.9746L79.6002 5.97461H82.3602L80.2402 13.6746H84.5202L82.3602 5.97461H85.1802L89.1202 19.9746H86.2802L85.2002 16.1346H79.5802L78.5202 19.9746H75.7402Z" fill="currentColor"/>
+          <path d="M68.3545 19.9746V5.97461H72.4945C75.1745 5.97461 77.1745 7.79461 77.1745 10.4946C77.1745 13.1946 75.1745 15.0146 72.4945 15.0146H70.9945V19.9746H68.3545ZM70.9945 12.5546H72.4945C73.7345 12.5546 74.4345 11.6546 74.4345 10.4946C74.4345 9.33461 73.7345 8.45461 72.4945 8.45461H70.9945V12.5546Z" fill="currentColor"/>
+          <path d="M58.9502 19.9746V5.97461H66.2702V8.45461H61.5902V11.3546H65.7702V13.8146H61.5902V17.4946H66.4702V19.9746H58.9502Z" fill="currentColor"/>
+          <path d="M51.4396 19.9746V8.45461H48.0596V5.97461H57.4796V8.45461H54.0796V19.9746H51.4396Z" fill="currentColor"/>
+          <path d="M39.9323 19.9746H37.1923L41.2723 5.97461H44.0123L39.9323 19.9746ZM34.6523 19.9746V5.97461H37.1923V19.9746H34.6523ZM44.0123 19.9746V5.97461H46.5523V19.9746H44.0123Z" fill="currentColor"/>
+          <path d="M20.5996 17.4946C21.8196 17.4946 22.3396 16.9746 22.3996 15.7146L22.8996 5.97461H32.2596V19.9746H29.6196V8.45461H25.4396L25.0396 15.7146C24.8996 18.7746 23.4796 19.9746 20.5996 19.9746V17.4946Z" fill="currentColor"/>
+        </svg>
       </a>
 
       <!-- Навигация: направления вынесены в шапку (короткие лейблы + выпадашки) -->
@@ -259,31 +297,29 @@
 
 <!-- ============================ HERO ============================ -->
 <section class="relative overflow-hidden">
-  <!-- декоративная приводочная сетка -->
-  <div class="absolute inset-0 opacity-[0.04] pointer-events-none"
-       style="background-image:linear-gradient(var(--accent) 1px,transparent 1px),linear-gradient(90deg,var(--accent) 1px,transparent 1px);background-size:46px 46px"></div>
+  <!-- декоративная приводочная сетка, растворяется к краям -->
+  <div class="absolute inset-0 opacity-[0.06] pointer-events-none"
+       style="background-image:linear-gradient(var(--accent) 1px,transparent 1px),linear-gradient(90deg,var(--accent) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(ellipse 70% 70% at 50% 40%,#000 0%,transparent 75%);mask-image:radial-gradient(ellipse 70% 70% at 50% 40%,#000 0%,transparent 75%)"></div>
 
   <!-- Центрированный контент -->
-  <div class="relative z-10 max-w-3xl mx-auto px-5 text-center pt-14 lg:pt-20">
-    <div class="flex flex-wrap justify-center gap-2 mb-8">
-      <span class="tag"><span class="dot"></span>Дизайн и доработка макетов</span>
-      <span class="tag"><span class="dot"></span>Собственная типография</span>
-      <span class="tag"><span class="dot"></span>Печать и доставка</span>
+  <div class="relative z-10 max-w-4xl mx-auto px-5 text-center pt-14 lg:pt-20">
+    <div class="flex flex-wrap justify-center gap-2 mb-4">
+      <span class="tag">Дизайн и доработка макетов</span>
+      <span class="tag">Собственная типография</span>
+      <span class="tag">Печать и доставка</span>
     </div>
 
-    <h1 class="text-[2.5rem] leading-[1.05] sm:text-6xl lg:text-[4rem] lg:leading-[1.02] font-extrabold tracking-tight">
-      Дизайн и печать<br>полиграфии для <span class="accent">бизнеса</span>
+    <h1 class="font-display text-[2.5rem] sm:text-[3.25rem] lg:text-[64px] leading-[0.9] tracking-[-0.06em]">
+      Дизайн и печать полиграфии<br>для <span class="accent">бизнеса</span>
     </h1>
 
-    <p class="mt-6 text-lg text-zinc-600 max-w-xl mx-auto">
+    <p class="mt-6 text-[1.05rem] leading-[1.7] tracking-[0.01em] text-zinc-600 max-w-xl mx-auto">
       Разрабатываем макеты и печатаем визитки, листовки, буклеты и бизнес-полиграфию
       на собственном производстве под задачи бизнеса с 2012 года.
     </p>
 
     <div class="mt-8">
-      <a href="#lead" class="btn btn-accent">Рассчитать стоимость
-        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-      </a>
+      <a href="#lead" data-lead-open class="btn btn-accent">Рассчитать стоимость</a>
     </div>
   </div>
 
@@ -767,9 +803,26 @@
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
     <div class="grid lg:grid-cols-4 gap-10 pb-14 border-b border-white/10">
       <div class="lg:col-span-1">
-        <div class="flex items-center gap-2 mb-4">
-          <span class="inline-flex items-center justify-center w-8 h-8 bg-paper text-ink font-extrabold text-sm tracking-tighter rounded-[7px]">LS</span>
-          <span class="font-extrabold text-lg tracking-tight">LITERA<span class="accent">.</span>STUDIO</span>
+        <div class="flex items-center mb-4 text-paper">
+          <svg class="h-[22px] w-auto" viewBox="0 0 167 26" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="ЛИТЕРА.СТУДИО">
+            <path d="M16.7434 0.439453H5.40039V4.48911H12.6938L16.7434 0.439453Z" fill="#0000FF"/>
+            <path d="M5.40039 10.1616L16.7434 21.5069V15.8343L5.40039 4.48911V10.1616Z" fill="#0000FF"/>
+            <path d="M0 21.507L4.04965 25.5567V0.439453L0 4.48911V21.507Z" fill="currentColor"/>
+            <path d="M5.40234 21.5068V25.5565H12.6957L16.7454 21.5068H5.40234Z" fill="currentColor"/>
+            <path d="M166.998 19.9746H164.358V8.45461H162.558C161.318 8.45461 160.598 9.19461 160.598 10.2746C160.598 11.3546 161.318 12.1146 162.558 12.1146H164.358L160.178 19.9746H157.218L160.438 13.9346C158.878 13.3946 157.858 12.1546 157.858 10.2746C157.858 7.65461 159.878 5.97461 162.558 5.97461H166.998V19.9746Z" fill="currentColor"/>
+            <path d="M149.35 19.9746H146.61L150.69 5.97461H153.43L149.35 19.9746ZM144.07 19.9746V5.97461H146.61V19.9746H144.07ZM153.43 19.9746V5.97461H155.97V19.9746H153.43Z" fill="currentColor"/>
+            <path d="M128.236 22.5746V17.4946H129.196C130.416 17.4946 130.936 16.9746 131.016 15.7146L131.496 5.97461H140.876V17.4946H142.496V22.5746H140.316V19.9746H130.396V22.5746H128.236ZM133.116 17.4946H138.236V8.45461H134.036L133.656 15.7146C133.616 16.4546 133.436 17.0346 133.116 17.4946Z" fill="currentColor"/>
+            <path d="M122.405 19.9746L127.265 5.97461H130.045L125.185 19.9746H122.405ZM118.085 5.97461H121.045L124.385 14.1546H121.445L118.085 5.97461Z" fill="currentColor"/>
+            <path d="M111.734 19.9746V8.45461H108.354V5.97461H117.774V8.45461H114.374V19.9746H111.734Z" fill="currentColor"/>
+            <path d="M101.346 20.2553C97.4862 20.2553 94.3662 17.3753 94.3662 12.9753C94.3662 8.57531 97.4862 5.69531 101.346 5.69531C104.466 5.69531 107.106 7.57531 107.926 10.6353H105.066C104.426 9.15531 103.086 8.23531 101.346 8.23531C98.8262 8.23531 97.1062 10.1553 97.1062 12.9753C97.1062 15.7953 98.8262 17.7153 101.346 17.7153C103.166 17.7153 104.506 16.7153 105.126 15.1153H107.966C107.206 18.2953 104.526 20.2553 101.346 20.2553Z" fill="currentColor"/>
+            <path d="M91.9812 20.2552C90.9412 20.2552 90.2012 19.4552 90.2012 18.4352C90.2012 17.4352 90.9412 16.6152 91.9812 16.6152C93.0012 16.6152 93.7412 17.4352 93.7412 18.4352C93.7412 19.4552 93.0012 20.2552 91.9812 20.2552Z" fill="#0000FF"/>
+            <path d="M75.7402 19.9746L79.6002 5.97461H82.3602L80.2402 13.6746H84.5202L82.3602 5.97461H85.1802L89.1202 19.9746H86.2802L85.2002 16.1346H79.5802L78.5202 19.9746H75.7402Z" fill="currentColor"/>
+            <path d="M68.3545 19.9746V5.97461H72.4945C75.1745 5.97461 77.1745 7.79461 77.1745 10.4946C77.1745 13.1946 75.1745 15.0146 72.4945 15.0146H70.9945V19.9746H68.3545ZM70.9945 12.5546H72.4945C73.7345 12.5546 74.4345 11.6546 74.4345 10.4946C74.4345 9.33461 73.7345 8.45461 72.4945 8.45461H70.9945V12.5546Z" fill="currentColor"/>
+            <path d="M58.9502 19.9746V5.97461H66.2702V8.45461H61.5902V11.3546H65.7702V13.8146H61.5902V17.4946H66.4702V19.9746H58.9502Z" fill="currentColor"/>
+            <path d="M51.4396 19.9746V8.45461H48.0596V5.97461H57.4796V8.45461H54.0796V19.9746H51.4396Z" fill="currentColor"/>
+            <path d="M39.9323 19.9746H37.1923L41.2723 5.97461H44.0123L39.9323 19.9746ZM34.6523 19.9746V5.97461H37.1923V19.9746H34.6523ZM44.0123 19.9746V5.97461H46.5523V19.9746H44.0123Z" fill="currentColor"/>
+            <path d="M20.5996 17.4946C21.8196 17.4946 22.3396 16.9746 22.3996 15.7146L22.8996 5.97461H32.2596V19.9746H29.6196V8.45461H25.4396L25.0396 15.7146C24.8996 18.7746 23.4796 19.9746 20.5996 19.9746V17.4946Z" fill="currentColor"/>
+          </svg>
         </div>
         <p class="text-white/50 text-sm max-w-xs">Студия графического дизайна и собственная типография в Москве.</p>
       </div>
@@ -812,7 +865,119 @@
   </div>
 </footer>
 
+<!-- ==================== ПОПАП ЗАЯВКИ ==================== -->
+<div id="lead-modal" class="fixed inset-0 z-[60] hidden items-center justify-center p-4">
+  <div class="absolute inset-0 bg-black/60" data-lead-close></div>
+  <div class="crop relative bg-white w-full max-w-4xl max-h-[90vh] overflow-y-auto grid md:grid-cols-[2fr_3fr]">
+    <button type="button" data-lead-close aria-label="Закрыть"
+            class="absolute top-3 right-3 z-10 w-9 h-9 inline-flex items-center justify-center text-zinc-400 hover:text-ink text-2xl leading-none">×</button>
+
+    <!-- ЛЕВО: связаться напрямую (фото + контакты с копированием) -->
+    <div class="relative flex flex-col justify-end gap-6 p-7 lg:p-8 text-white overflow-hidden min-h-[300px]">
+      <!-- дизайнерское фото упаковки (заменить src на своё при наличии) -->
+      <img src="assets/bag.jpg" alt="Брендированная упаковка Litera" class="absolute inset-0 w-full h-full object-cover">
+      <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-black/10"></div>
+      <div class="relative">
+        <p class="text-eyebrow font-bold uppercase tracking-[0.14em] text-white/70">Связаться напрямую</p>
+        <h3 class="mt-2 text-h3 font-extrabold leading-tight">Ответим без формы</h3>
+      </div>
+      <div class="relative space-y-4">
+        <div>
+          <p class="text-eyebrow uppercase tracking-[0.14em] text-white/55 mb-1">Телефон</p>
+          <button type="button" data-copy="+7 (495) 021-35-77" class="group relative inline-flex items-center gap-2 text-body font-bold hover:text-white/90 transition">
+            +7 (495) 021-35-77
+            <svg class="w-4 h-4 opacity-60 group-hover:opacity-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="11" height="11" rx="1"/><path d="M5 15V5a1 1 0 0 1 1-1h10"/></svg>
+            <span class="copy-tip pointer-events-none absolute -top-7 left-0 whitespace-nowrap bg-black text-white text-eyebrow px-2 py-1 opacity-0 group-hover:opacity-100 transition">Копировать</span>
+          </button>
+        </div>
+        <div>
+          <p class="text-eyebrow uppercase tracking-[0.14em] text-white/55 mb-1">Почта</p>
+          <button type="button" data-copy="zakaz@litera.studio" class="group relative inline-flex items-center gap-2 text-body font-semibold hover:text-white/90 transition">
+            zakaz@litera.studio
+            <svg class="w-4 h-4 opacity-60 group-hover:opacity-100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="11" height="11" rx="1"/><path d="M5 15V5a1 1 0 0 1 1-1h10"/></svg>
+            <span class="copy-tip pointer-events-none absolute -top-7 left-0 whitespace-nowrap bg-black text-white text-eyebrow px-2 py-1 opacity-0 group-hover:opacity-100 transition">Копировать</span>
+          </button>
+        </div>
+        <div>
+          <p class="text-eyebrow uppercase tracking-[0.14em] text-white/55 mb-2">Мессенджеры</p>
+          <div class="flex gap-2 text-caption font-semibold">
+            <a href="https://t.me/litera_studio" target="_blank" rel="noopener" class="border border-white/35 px-4 py-2 hover:bg-white hover:text-black transition">Telegram</a>
+            <a href="https://max.ru/u/f9LHodD0cOIV9InOx6ulNiryFx5jU7n5eIY9DliBnMiKjsrZAmOxnfX0e38" target="_blank" rel="noopener" class="border border-white/35 px-4 py-2 hover:bg-white hover:text-black transition">MAX</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ПРАВО: форма обратной связи -->
+    <div class="p-7 lg:p-8">
+      <p class="text-eyebrow font-bold uppercase tracking-[0.14em] text-[color:var(--accent)]">Оставить заявку</p>
+      <h2 class="mt-2 text-h3 font-extrabold tracking-tight">Рассчитать стоимость</h2>
+      <p class="mt-2 text-caption text-zinc-500">Заполните форму — менеджер пришлёт смету в течение часа.</p>
+      <form class="mt-5 space-y-3" onsubmit="return false">
+        <div class="grid grid-cols-2 gap-3">
+          <label class="block">
+            <span class="lbl">Имя <span class="text-[color:var(--accent)]">*</span></span>
+            <input required class="fld" placeholder="Иван Иванов">
+          </label>
+          <label class="block">
+            <span class="lbl">Способ связи <span class="text-[color:var(--accent)]">*</span></span>
+            <select required class="fld text-zinc-500">
+              <option value="">Выберите канал</option>
+              <option value="phone">По телефону</option>
+              <option value="telegram">Telegram</option>
+              <option value="max">MAX</option>
+              <option value="email">Почта</option>
+            </select>
+          </label>
+          <label class="block">
+            <span class="lbl">Телефон <span class="text-[color:var(--accent)]">*</span></span>
+            <input required type="tel" class="fld" placeholder="+7">
+          </label>
+          <label class="block">
+            <span class="lbl">Почта</span>
+            <input type="email" class="fld" placeholder="name@company.ru">
+          </label>
+        </div>
+        <label class="block">
+          <span class="lbl">Что нужно напечатать</span>
+          <textarea class="fld" rows="2" placeholder="Тираж, сроки, пожелания"></textarea>
+        </label>
+        <label class="block">
+          <span class="lbl">Документы</span>
+          <input type="file" multiple accept=".pdf,.ai,.eps,.psd,.cdr,.png,.jpg,.jpeg,.tif,.tiff,.zip,.rar"
+                 class="w-full text-caption text-zinc-500 cursor-pointer file:mr-3 file:border-0 file:bg-zinc-200 file:px-3 file:py-2 file:font-semibold file:text-ink file:text-caption hover:file:bg-zinc-300">
+        </label>
+        <p class="text-eyebrow text-zinc-400 leading-snug">До 5 файлов, до 25 МБ суммарно. PDF, AI, EPS, PSD, CDR, JPG, PNG, ZIP. Больше — приложите архивом.</p>
+        <label class="flex gap-2 items-start text-eyebrow text-zinc-500 leading-snug pt-1">
+          <input type="checkbox" required class="mt-0.5 shrink-0 accent-[color:var(--accent)]">
+          <span>Я даю согласие на обработку моих персональных данных с целью обработки заявки и принимаю
+            <a href="#privacy" class="underline hover:text-ink">политику конфиденциальности</a> и
+            <a href="#consent" class="underline hover:text-ink">условия обработки ПДн</a>.</span>
+        </label>
+        <button class="btn btn-accent w-full justify-center">Отправить заявку</button>
+      </form>
+    </div>
+  </div>
+</div>
+
 <script>
+  // Попап заявки
+  (function(){
+    const modal = document.getElementById('lead-modal');
+    const open = () => { modal.classList.remove('hidden'); modal.classList.add('flex'); document.body.style.overflow = 'hidden'; };
+    const close = () => { modal.classList.add('hidden'); modal.classList.remove('flex'); document.body.style.overflow = ''; };
+    document.querySelectorAll('[data-lead-open]').forEach(el => el.addEventListener('click', e => { e.preventDefault(); open(); }));
+    modal.querySelectorAll('[data-lead-close]').forEach(el => el.addEventListener('click', close));
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+    // Копирование контактов с подсказкой
+    document.querySelectorAll('[data-copy]').forEach(el => el.addEventListener('click', async () => {
+      const tip = el.querySelector('.copy-tip');
+      try {
+        await navigator.clipboard.writeText(el.dataset.copy);
+        if (tip) { tip.textContent = 'Скопировано'; setTimeout(() => { tip.textContent = 'Копировать'; }, 1300); }
+      } catch (e) {}
+    }));
+  })();
   // Мобильное меню
   document.getElementById('burger').addEventListener('click', () => {
     document.getElementById('mobile-menu').classList.toggle('hidden');
