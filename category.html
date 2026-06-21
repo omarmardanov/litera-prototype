@@ -112,15 +112,15 @@
   .fld:focus{ outline:none; background:#fff; border-color:var(--accent); }
 
   /* Навигация направлений в шапке */
-  .nav-link{ display:inline-flex; align-items:center; gap:.3rem; padding:.5rem .7rem; border-radius:99px; transition:.15s; }
+  .nav-link{ display:inline-flex; align-items:center; gap:.3rem; padding:.45rem .55rem; border-bottom:2px solid transparent; transition:.15s; }
   .nav-link::before{ content:''; display:inline-block; width:.48rem; height:.48rem; border-radius:99px; background:var(--c); margin-right:.1rem; }
-  .nav-item:hover .nav-link{ background:#f4f4f5; }
+  .nav-item:hover .nav-link{ color:var(--c); border-bottom-color:var(--c); }
   .nav-chev{ width:.8rem; height:.8rem; opacity:.4; transition:.2s; }
   .nav-item:hover .nav-chev{ transform:rotate(180deg); }
   .nav-pop{ position:absolute; left:0; top:100%; padding-top:.55rem; min-width:248px; opacity:0; visibility:hidden; transform:translateY(6px); transition:.18s; z-index:60; }
   .nav-item:hover .nav-pop{ opacity:1; visibility:visible; transform:none; }
-  .nav-card{ background:#fff; border-radius:1rem; box-shadow:0 22px 44px -14px rgba(0,0,0,.22); padding:.45rem; border-top:3px solid var(--c); }
-  .nav-sub{ display:block; padding:.55rem .85rem; border-radius:.6rem; font-size:.92rem; color:#27272a; transition:.12s; }
+  .nav-card{ background:#fff; border-radius:0; box-shadow:0 22px 44px -14px rgba(0,0,0,.22); padding:.45rem; border-top:3px solid var(--c); }
+  .nav-sub{ display:block; padding:.55rem .85rem; font-size:.92rem; color:#27272a; transition:.12s; }
   .nav-sub:hover{ background:#f6f6f7; color:var(--c); padding-left:1.05rem; }
 
   /* FAQ */
@@ -134,24 +134,6 @@
   .hide-scroll::-webkit-scrollbar{ display:none; }
   .hide-scroll{ scrollbar-width:none; }
 
-  /* Hero: веер карточек-категорий продукта (как в концепте) */
-  .hero-deck{ display:flex; justify-content:flex-start; align-items:flex-end; padding:2.5rem 1rem 1.5rem; }
-  @media(min-width:1024px){ .hero-deck{ justify-content:center; } }
-  .deck-card{ position:relative; width:168px; height:208px; flex:0 0 auto; background:#fff;
-    border-radius:1.1rem; border:1px solid #efeff1; box-shadow:0 18px 40px -16px rgba(0,0,0,.26);
-    transition:transform .25s ease, box-shadow .25s ease; transform-origin:bottom center; }
-  .deck-card + .deck-card{ margin-left:-2.3rem; }
-  .deck-card:hover{ transform:translateY(-16px) rotate(0deg) scale(1.04) !important; z-index:30 !important;
-    box-shadow:0 34px 64px -20px rgba(0,0,0,.36); }
-  .deck-label{ position:absolute; top:.9rem; left:.95rem; right:.95rem; z-index:2; text-align:left;
-    font-weight:700; font-size:.83rem; line-height:1.12; }
-  .deck-photo{ position:absolute; left:.55rem; right:.55rem; bottom:.55rem; top:2.7rem;
-    border-radius:.8rem; background:linear-gradient(135deg,#f1f1f3,#e3e3e6); overflow:hidden; }
-  .deck-photo .ph-label{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
-    font-size:.58rem; letter-spacing:.1em; text-transform:uppercase; color:#a6a6ad; font-weight:600; }
-  .deck-more{ width:128px; height:150px; border:2px dashed #d4d4d8; background:#fafafa; box-shadow:none;
-    display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:1rem; }
-  .deck-more:hover{ border-color:var(--accent); }
 </style>
 </head>
 
@@ -261,15 +243,15 @@
         </div>
 
         <span class="w-px h-5 bg-zinc-200 mx-2"></span>
-        <a href="portfolio.html" class="px-3 py-2 rounded-full hover:bg-zinc-100">Проекты</a>
-        <a href="#" class="px-3 py-2 rounded-full hover:bg-zinc-100">Блог</a>
-        <a href="#contacts" class="px-3 py-2 rounded-full hover:bg-zinc-100">Контакты</a>
+        <a href="portfolio.html" class="px-2.5 py-2 hover:text-[color:var(--accent)] transition">Проекты</a>
+        <a href="#" class="px-2.5 py-2 hover:text-[color:var(--accent)] transition">Блог</a>
+        <a href="#contacts" class="px-2.5 py-2 hover:text-[color:var(--accent)] transition">Контакты</a>
       </nav>
 
       <!-- Контакт + CTA -->
       <div class="flex items-center gap-3">
         <a href="tel:+74950213577" class="hidden 2xl:block text-sm font-semibold whitespace-nowrap">+7 (495) 021-35-77</a>
-        <a href="#lead" class="btn btn-accent text-sm hidden sm:inline-flex">Оставить заявку</a>
+        <a href="#lead" data-lead-open class="btn btn-accent text-sm hidden sm:inline-flex">Оставить заявку</a>
         <button id="burger" class="xl:hidden w-10 h-10 grid place-items-center" aria-label="Меню">
           <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
         </button>
@@ -295,76 +277,122 @@
 
 <main>
 
-<!-- ============================ HERO ============================ -->
-<section class="relative overflow-hidden">
-  <!-- декоративная приводочная сетка, растворяется к краям -->
-  <div class="absolute inset-0 opacity-[0.06] pointer-events-none"
-       style="background-image:linear-gradient(var(--accent) 1px,transparent 1px),linear-gradient(90deg,var(--accent) 1px,transparent 1px);background-size:46px 46px;-webkit-mask-image:radial-gradient(ellipse 70% 70% at 50% 40%,#000 0%,transparent 75%);mask-image:radial-gradient(ellipse 70% 70% at 50% 40%,#000 0%,transparent 75%)"></div>
+<!-- Переключатель вариантов hero (служебный, для сравнения) -->
+<div class="fixed bottom-4 left-1/2 -translate-x-1/2 z-[80] flex items-center gap-1 bg-ink text-white text-xs font-semibold p-1 shadow-lg">
+  <span class="px-2 text-white/50">Hero:</span>
+  <button data-hero="a" class="px-3 py-1.5">A · Карточки</button>
+  <button data-hero="b" class="px-3 py-1.5">B · Фото</button>
+  <button data-hero="c" class="px-3 py-1.5">C · Текст</button>
+</div>
 
-  <!-- Центрированный контент -->
-  <div class="relative z-10 max-w-4xl mx-auto px-5 text-center pt-14 lg:pt-20">
+<!-- ============================ HERO A — центр + куча карточек ============================ -->
+<section id="hero-a" class="relative bg-white overflow-hidden">
+  <div class="max-w-3xl mx-auto px-5 text-center pt-16 lg:pt-24">
     <div class="flex flex-wrap justify-center gap-2 mb-4">
       <span class="tag">Дизайн и доработка макетов</span>
       <span class="tag">Собственная типография</span>
       <span class="tag">Печать и доставка</span>
     </div>
-
     <h1 class="font-display text-[2.5rem] sm:text-[3.25rem] lg:text-[64px] leading-[0.9] tracking-[-0.06em]">
       Дизайн и печать полиграфии<br>для <span class="accent">бизнеса</span>
     </h1>
-
     <p class="mt-6 text-[1.05rem] leading-[1.7] tracking-[0.01em] text-zinc-600 max-w-xl mx-auto">
       Разрабатываем макеты и печатаем визитки, листовки, буклеты и бизнес-полиграфию
       на собственном производстве под задачи бизнеса с 2012 года.
     </p>
-
     <div class="mt-8 flex flex-wrap justify-center gap-3">
       <a href="#lead" data-lead-open class="btn btn-accent">Рассчитать стоимость</a>
       <a href="#prices" class="btn btn-ghost">Смотреть цены</a>
     </div>
   </div>
 
-  <!-- Веер карточек-категорий продукта (как в концепте) -->
-  <div class="relative z-10 max-w-7xl mx-auto overflow-x-auto hide-scroll lg:overflow-visible">
-    <div class="hero-deck">
-      <div class="deck-card" style="transform:rotate(-9deg) translateY(28px); z-index:1">
-        <div class="deck-label">Визитки</div><div class="deck-photo"><span class="ph-label">Фото</span></div>
-      </div>
-      <div class="deck-card" style="transform:rotate(-5deg) translateY(12px); z-index:2">
-        <div class="deck-label">Листовки<br>и флаеры</div><div class="deck-photo"><span class="ph-label">Фото</span></div>
-      </div>
-      <div class="deck-card" style="transform:rotate(-1deg) translateY(0); z-index:3">
-        <div class="deck-label">Буклеты</div><div class="deck-photo"><span class="ph-label">Фото</span></div>
-      </div>
-      <div class="deck-card" style="transform:rotate(3deg) translateY(8px); z-index:4">
-        <div class="deck-label">Сертификаты<br>и дипломы</div><div class="deck-photo"><span class="ph-label">Фото</span></div>
-      </div>
-      <div class="deck-card" style="transform:rotate(8deg) translateY(22px); z-index:5">
-        <div class="deck-label">Бланки<br>и папки</div><div class="deck-photo"><span class="ph-label">Фото</span></div>
-      </div>
-      <div class="deck-card deck-more" style="transform:rotate(12deg) translateY(40px); z-index:6">
-        <span class="text-sm font-bold accent leading-tight">Ещё 20+<br>видов</span>
-        <span class="text-xs text-zinc-400 mt-1">продукции</span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Бегущая строка -->
-  <div class="border-y border-zinc-100 py-4 overflow-hidden">
-    <div class="marquee text-zinc-400 font-semibold uppercase tracking-wider text-sm">
-      <span class="flex gap-12 shrink-0">
-        <span class="marker-accent">Визитки</span><span class="marker-accent">Листовки</span><span class="marker-accent">Флаеры</span>
-        <span class="marker-accent">Буклеты</span><span class="marker-accent">Сертификаты</span><span class="marker-accent">Бланки</span>
-        <span class="marker-accent">Открытки</span><span class="marker-accent">Каталоги</span>
-      </span>
-      <span class="flex gap-12 shrink-0" aria-hidden="true">
-        <span class="marker-accent">Визитки</span><span class="marker-accent">Листовки</span><span class="marker-accent">Флаеры</span>
-        <span class="marker-accent">Буклеты</span><span class="marker-accent">Сертификаты</span><span class="marker-accent">Бланки</span>
-        <span class="marker-accent">Открытки</span><span class="marker-accent">Каталоги</span>
-      </span>
+  <!-- куча карточек снизу (обрезается сгибом) -->
+  <div class="relative h-[180px] sm:h-[220px] lg:h-[280px] mt-12 overflow-hidden">
+    <div class="absolute inset-x-0 bottom-[-48px] flex justify-center items-end">
+      <div class="shrink-0 -mr-7 w-36 sm:w-40 lg:w-44 h-48 sm:h-52 lg:h-60 p-4 flex items-start shadow-[0_22px_44px_-18px_rgba(0,0,0,.4)]" style="background:#0000FF;color:#fff;transform:rotate(-11deg) translateY(26px)"><span class="text-xl font-extrabold leading-tight">Визитки</span></div>
+      <div class="shrink-0 -mr-7 w-36 sm:w-40 lg:w-44 h-48 sm:h-52 lg:h-60 p-4 flex items-start shadow-[0_22px_44px_-18px_rgba(0,0,0,.4)]" style="background:#111;color:#fff;transform:rotate(-6deg) translateY(8px)"><span class="text-xl font-extrabold leading-tight">Листовки</span></div>
+      <div class="shrink-0 -mr-7 w-36 sm:w-40 lg:w-44 h-48 sm:h-52 lg:h-60 p-4 flex items-start border border-zinc-200 shadow-[0_22px_44px_-18px_rgba(0,0,0,.4)]" style="background:#fff;color:#111;transform:rotate(-1deg) translateY(0)"><span class="text-xl font-extrabold leading-tight">Буклеты</span></div>
+      <div class="shrink-0 -mr-7 w-36 sm:w-40 lg:w-44 h-48 sm:h-52 lg:h-60 p-4 flex items-start shadow-[0_22px_44px_-18px_rgba(0,0,0,.4)]" style="background:#0000FF;color:#fff;transform:rotate(4deg) translateY(7px)"><span class="text-xl font-extrabold leading-tight">Сертификаты</span></div>
+      <div class="shrink-0 -mr-7 w-36 sm:w-40 lg:w-44 h-48 sm:h-52 lg:h-60 p-4 flex items-start border border-[#cdcdf5] shadow-[0_22px_44px_-18px_rgba(0,0,0,.4)]" style="background:#E8E8FF;color:#1e1e6e;transform:rotate(9deg) translateY(18px)"><span class="text-xl font-extrabold leading-tight">Бланки<br>и папки</span></div>
+      <div class="shrink-0 w-36 sm:w-40 lg:w-44 h-48 sm:h-52 lg:h-60 p-4 flex items-start shadow-[0_22px_44px_-18px_rgba(0,0,0,.4)]" style="background:#111;color:#fff;transform:rotate(13deg) translateY(36px)"><span class="text-xl font-extrabold leading-tight">Открытки</span></div>
     </div>
   </div>
 </section>
+
+<!-- ============================ HERO B — центр + фото, растворяется в белый ============================ -->
+<section id="hero-b" class="relative bg-white overflow-hidden hidden">
+  <!-- фото-фон (чистый верх под текст), без градиента -->
+  <img src="assets/hero-flatlay.jpg" alt="Полиграфия Litera" class="absolute inset-0 w-full h-full object-cover object-center">
+  <!-- текст поверх чистой верхней зоны -->
+  <div class="relative z-10 max-w-5xl mx-auto px-5 text-center pt-16 lg:pt-24 pb-[38vh] lg:pb-[44vh]">
+    <div class="flex flex-wrap justify-center gap-2 mb-4">
+      <span class="tag">Дизайн и доработка макетов</span>
+      <span class="tag">Собственная типография</span>
+      <span class="tag">Печать и доставка</span>
+    </div>
+    <h1 class="font-display text-[2.5rem] sm:text-[3.25rem] lg:text-[64px] leading-[0.95] tracking-[-0.05em]">
+      Дизайн и печать полиграфии для <span class="accent">бизнеса</span>
+    </h1>
+    <p class="mt-6 text-[1.05rem] leading-[1.7] tracking-[0.01em] text-zinc-600 max-w-xl mx-auto">
+      Разрабатываем макеты и печатаем визитки, листовки, буклеты и бизнес-полиграфию
+      на собственном производстве под задачи бизнеса с 2012 года.
+    </p>
+    <div class="mt-8 flex flex-wrap justify-center gap-3">
+      <a href="#lead" data-lead-open class="btn btn-accent">Рассчитать стоимость</a>
+      <a href="#prices" class="btn btn-ghost">Смотреть цены</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ HERO C — центр + типографическая куча ============================ -->
+<section id="hero-c" class="relative bg-white overflow-hidden hidden">
+  <div class="relative z-10 max-w-3xl mx-auto px-5 text-center pt-16 lg:pt-24">
+    <div class="flex flex-wrap justify-center gap-2 mb-4">
+      <span class="tag">Дизайн и доработка макетов</span>
+      <span class="tag">Собственная типография</span>
+      <span class="tag">Печать и доставка</span>
+    </div>
+    <h1 class="font-display text-[2.5rem] sm:text-[3.25rem] lg:text-[64px] leading-[0.9] tracking-[-0.06em]">
+      Дизайн и печать полиграфии<br>для <span class="accent">бизнеса</span>
+    </h1>
+    <p class="mt-6 text-[1.05rem] leading-[1.7] tracking-[0.01em] text-zinc-600 max-w-xl mx-auto">
+      Разрабатываем макеты и печатаем визитки, листовки, буклеты и бизнес-полиграфию
+      на собственном производстве под задачи бизнеса с 2012 года.
+    </p>
+    <div class="mt-8 flex flex-wrap justify-center gap-3">
+      <a href="#lead" data-lead-open class="btn btn-accent">Рассчитать стоимость</a>
+      <a href="#prices" class="btn btn-ghost">Смотреть цены</a>
+    </div>
+  </div>
+
+  <!-- типографическая «куча»: крупные названия внахлёст, обрезаются сгибом -->
+  <div class="relative h-[210px] sm:h-[260px] lg:h-[320px] mt-10 overflow-hidden select-none">
+    <div class="absolute inset-x-0 bottom-0 max-w-5xl mx-auto h-full font-display font-extrabold tracking-[-0.04em] leading-[0.8]">
+      <span class="absolute left-[1%] top-[6%] text-[3.5rem] lg:text-[5rem]" style="color:#111;transform:rotate(-7deg)">Визитки</span>
+      <span class="absolute left-[30%] top-[30%] text-[4.5rem] lg:text-[6.5rem]" style="color:#0000FF;transform:rotate(3deg)">Буклеты</span>
+      <span class="absolute right-[2%] top-[2%] text-[3rem] lg:text-[4rem]" style="color:#111;transform:rotate(5deg)">Сертификаты</span>
+      <span class="absolute left-[4%] top-[58%] text-[3.25rem] lg:text-[4.5rem]" style="-webkit-text-stroke:2px #0000FF;color:transparent;transform:rotate(-3deg)">Листовки</span>
+      <span class="absolute right-[6%] top-[52%] text-[3rem] lg:text-[4rem]" style="color:#0000FF;transform:rotate(-9deg)">Бланки</span>
+      <span class="absolute left-[44%] top-[76%] text-[2.5rem] lg:text-[3.25rem]" style="color:#d4d4d8;transform:rotate(7deg)">Открытки</span>
+    </div>
+  </div>
+</section>
+
+<!-- Бегущая строка — разделитель между блоками (вне первого экрана) -->
+<div class="border-y border-zinc-100 py-4 overflow-hidden">
+  <div class="marquee text-zinc-400 font-semibold uppercase tracking-wider text-sm">
+    <span class="flex gap-12 shrink-0">
+      <span class="marker-accent">Визитки</span><span class="marker-accent">Листовки</span><span class="marker-accent">Флаеры</span>
+      <span class="marker-accent">Буклеты</span><span class="marker-accent">Сертификаты</span><span class="marker-accent">Бланки</span>
+      <span class="marker-accent">Открытки</span><span class="marker-accent">Каталоги</span>
+    </span>
+    <span class="flex gap-12 shrink-0" aria-hidden="true">
+      <span class="marker-accent">Визитки</span><span class="marker-accent">Листовки</span><span class="marker-accent">Флаеры</span>
+      <span class="marker-accent">Буклеты</span><span class="marker-accent">Сертификаты</span><span class="marker-accent">Бланки</span>
+      <span class="marker-accent">Открытки</span><span class="marker-accent">Каталоги</span>
+    </span>
+  </div>
+</div>
 
 <!-- ==================== БЛОК: КАК РАБОТАЕТ НА БИЗНЕС ==================== -->
 <!-- Кастомная monoline-графика (НЕ дудл) в полиграфическом коде -->
@@ -972,6 +1000,24 @@
         if (tip) { tip.textContent = 'Скопировано'; setTimeout(() => { tip.textContent = 'Копировать'; }, 1300); }
       } catch (e) {}
     }));
+  })();
+  // Переключатель вариантов hero
+  (function(){
+    const variants = ['a', 'b', 'c'];
+    const set = (v) => {
+      variants.forEach(x => document.getElementById('hero-' + x).classList.toggle('hidden', x !== v));
+      document.querySelectorAll('[data-hero]').forEach(b => {
+        const on = b.dataset.hero === v;
+        b.classList.toggle('bg-white', on);
+        b.classList.toggle('text-ink', on);
+      });
+      try { localStorage.setItem('heroVariant', v); } catch (e) {}
+    };
+    document.querySelectorAll('[data-hero]').forEach(b => b.addEventListener('click', () => set(b.dataset.hero)));
+    let init = 'a';
+    try { init = localStorage.getItem('heroVariant') || 'a'; } catch (e) {}
+    if (!variants.includes(init)) init = 'a';
+    set(init);
   })();
   // Мобильное меню
   document.getElementById('burger').addEventListener('click', () => {
