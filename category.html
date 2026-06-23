@@ -92,11 +92,11 @@
 
   /* Кнопки */
   .btn{ display:inline-flex; align-items:center; gap:.5rem; font-weight:700; border-radius:0;
-        padding:.95rem 1.6rem; transition:.18s ease; line-height:1; }
+        padding:.95rem 1.6rem; transition:.18s ease; line-height:1; border:1.5px solid transparent; }
   .btn-accent{ background:var(--accent); color:var(--on-accent); }
   .btn-accent:hover{ transform:translateY(-2px); box-shadow:0 12px 30px -10px var(--accent); }
-  .btn-ghost{ background:transparent; color:#000; border:1.5px solid #e4e4e7; }
-  .btn-ghost:hover{ border-color:#000; }
+  .btn-ghost{ background:transparent; color:#000; border-color:#e4e4e7; }
+  .btn-ghost:hover{ transform:translateY(-2px); border-color:#000; box-shadow:0 12px 30px -10px rgba(0,0,0,.18); }
   .btn-dark{ background:#000; color:#fff; }
   .btn-dark:hover{ transform:translateY(-2px); }
 
@@ -120,8 +120,39 @@
   .nav-pop{ position:absolute; left:0; top:100%; padding-top:.55rem; min-width:248px; opacity:0; visibility:hidden; transform:translateY(6px); transition:.18s; z-index:60; }
   .nav-item:hover .nav-pop{ opacity:1; visibility:visible; transform:none; }
   .nav-card{ background:#fff; border-radius:0; box-shadow:0 22px 44px -14px rgba(0,0,0,.22); padding:.45rem; border-top:3px solid var(--c); }
+  .nav-head{ display:block; padding:.5rem .85rem .55rem; margin-bottom:.25rem; border-bottom:1px solid #f0f0f1; font-size:.72rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--c); }
   .nav-sub{ display:block; padding:.55rem .85rem; font-size:.92rem; color:#27272a; transition:.12s; }
   .nav-sub:hover{ background:#f6f6f7; color:var(--c); padding-left:1.05rem; }
+  /* Мега-меню каталога */
+  .nav-mega{ left:0; min-width:auto; }
+  .mega-card{ display:flex; flex-direction:column; background:#fff; box-shadow:0 22px 44px -14px rgba(0,0,0,.22); border-top:3px solid var(--c); width:860px; max-width:calc(100vw - 3rem); }
+  .mega-search{ position:relative; border-bottom:1px solid #f0f0f1; }
+  .mega-search-ico{ position:absolute; left:1rem; top:50%; transform:translateY(-50%); width:18px; height:18px; color:#a1a1aa; pointer-events:none; }
+  .mega-search input{ width:100%; padding:.85rem 1rem .85rem 2.6rem; font-size:.95rem; border:0; outline:none; background:transparent; }
+  .mega-search input::placeholder{ color:#a1a1aa; }
+  .mega-body{ display:flex; }
+  .mega-rail{ width:240px; flex-shrink:0; background:#fafafa; border-right:1px solid #f0f0f1; padding:.5rem; }
+  .mega-dir{ display:block; width:100%; text-align:left; padding:.6rem .8rem; font-size:.9rem; font-weight:600; color:#3f3f46; border-left:2px solid transparent; cursor:pointer; transition:.12s; }
+  .mega-dir:hover{ color:var(--c); }
+  .mega-dir.is-active{ color:var(--c); border-left-color:var(--c); background:#fff; }
+  .mega-panels{ flex:1; min-width:0; padding:1rem 1.25rem; }
+  .mega-panel{ display:none; }
+  .mega-panel.is-active{ display:block; }
+  .mega-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:.5rem 1.4rem; }
+  .mega-cat-h{ display:block; padding:.35rem 0 .3rem; font-size:.72rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--c); }
+  .mega-svc{ display:block; padding:.26rem 0; font-size:.875rem; color:#52525b; transition:.12s; }
+  .mega-svc:hover{ color:var(--c); padding-left:.25rem; }
+  /* Результаты поиска */
+  .mega-results{ display:none; max-height:60vh; overflow:auto; }
+  .mega-results.is-active{ display:block; }
+  .mega-res{ display:flex; align-items:baseline; gap:.5rem; padding:.5rem .2rem; border-bottom:1px solid #f5f5f5; }
+  .mega-res:hover{ color:var(--rc); }
+  .mega-res .dot{ width:.45rem; height:.45rem; border-radius:99px; background:var(--rc); flex-shrink:0; align-self:center; }
+  .mega-res .svc{ font-size:.92rem; font-weight:600; color:#27272a; }
+  .mega-res:hover .svc{ color:var(--rc); }
+  .mega-res .path{ font-size:.78rem; color:#a1a1aa; }
+  .mega-res mark{ background:transparent; color:var(--rc); font-weight:700; }
+  .mega-empty{ padding:1rem .2rem; color:#a1a1aa; font-size:.9rem; }
 
   /* FAQ */
   .faq-item[open] .faq-icon{ transform:rotate(45deg); }
@@ -140,9 +171,32 @@
 <body class="font-sans text-ink bg-paper antialiased">
 
 <!-- ============================ ШАПКА ============================ -->
-<header class="sticky top-0 z-50 bg-paper/90 backdrop-blur border-b border-zinc-100">
-  <div class="max-w-7xl mx-auto px-5 lg:px-8">
-    <div class="flex items-center justify-between h-16 lg:h-20">
+<header class="sticky top-0 z-50">
+
+  <!-- ТОПБАР: контакты, режим, второстепенные страницы -->
+  <div class="hidden lg:block bg-ink text-white/80 text-xs">
+    <div class="max-w-7xl mx-auto px-5 lg:px-8 h-10 flex items-center justify-between">
+      <div class="flex items-center gap-5">
+        <a href="tel:+74950213577" class="font-semibold text-white hover:text-white transition">+7 (495) 021-35-77</a>
+        <a href="tel:+79777936481" class="font-semibold text-white hover:text-white transition">+7 (977) 793-64-81</a>
+        <span class="text-white/45">Пн–Пт 10:00–19:00</span>
+        <a href="#contacts" class="hover:text-white transition">Москва, Холодильный пер., 3к1с3, под. 6, офис 404</a>
+      </div>
+      <nav class="flex items-center gap-5">
+        <a href="#" class="hover:text-white transition">О нас</a>
+        <a href="#" class="hover:text-white transition">Оплата и доставка</a>
+        <a href="#" class="hover:text-white transition">Вакансии</a>
+        <span class="w-px h-3.5 bg-white/20"></span>
+        <a href="#" aria-label="Telegram" class="hover:text-white transition"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M21.94 4.6 18.9 19.3c-.23 1.01-.83 1.26-1.68.78l-4.64-3.42-2.24 2.16c-.25.25-.46.46-.94.46l.33-4.73 8.6-7.77c.37-.33-.08-.52-.58-.19L7.43 13.1l-4.57-1.43c-1-.31-1.01-1 .21-1.48l17.86-6.88c.83-.31 1.56.19 1.29 1.29z"/></svg></a>
+        <a href="#" aria-label="WhatsApp" class="hover:text-white transition"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51l-.57-.01c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.06 2.87 1.21 3.07.15.2 2.09 3.2 5.07 4.49.71.3 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.08 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.13-.27-.2-.57-.35zM12 2a10 10 0 0 0-8.55 15.15L2 22l4.96-1.4A10 10 0 1 0 12 2z"/></svg></a>
+      </nav>
+    </div>
+  </div>
+
+  <!-- НАВБАР: лого, направления, CTA -->
+  <div class="bg-paper/90 backdrop-blur border-b border-zinc-100">
+    <div class="max-w-7xl mx-auto px-5 lg:px-8">
+      <div class="flex items-center justify-between h-16 lg:h-20">
 
       <!-- Лого -->
       <a href="#" class="flex items-center shrink-0 text-ink" aria-label="ЛИТЕРА.СТУДИО">
@@ -167,77 +221,82 @@
         </svg>
       </a>
 
-      <!-- Навигация: направления вынесены в шапку (короткие лейблы + выпадашки) -->
+      <!-- Навигация: единый каталог-мегаменю (направления → категории → услуги) -->
       <nav class="hidden xl:flex items-center gap-0.5 text-[15px] font-medium">
 
-        <!-- Полиграфия -->
+        <!-- Каталог -->
         <div class="nav-item group relative" style="--c:#0000FF">
-          <button class="nav-link">Полиграфия<svg class="nav-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></button>
-          <div class="nav-pop">
-            <div class="nav-card">
-              <a href="#" class="nav-sub">Листовая полиграфия</a>
-              <a href="#" class="nav-sub">Многостраничная продукция</a>
-              <a href="#" class="nav-sub">Широкоформатная печать</a>
-              <a href="#" class="nav-sub">Визитки и бланки</a>
-              <a href="#" class="nav-sub">Календари</a>
-              <a href="#" class="nav-sub">Наклейки и стикеры</a>
-            </div>
-          </div>
-        </div>
+          <button class="nav-link">Каталог<svg class="nav-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></button>
+          <div class="nav-pop nav-mega">
+            <div class="mega-card">
+              <!-- Поиск по каталогу -->
+              <div class="mega-search">
+                <svg class="mega-search-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+                <input type="text" id="mega-q" placeholder="Найти услугу — визитки, коробки, логотип…" autocomplete="off">
+              </div>
 
-        <!-- Упаковка -->
-        <div class="nav-item group relative" style="--c:#FF00FF">
-          <button class="nav-link">Упаковка<svg class="nav-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></button>
-          <div class="nav-pop">
-            <div class="nav-card">
-              <a href="#" class="nav-sub">Коробки</a>
-              <a href="#" class="nav-sub">Этикетки</a>
-              <a href="#" class="nav-sub">Паки и шуберы</a>
-              <a href="#" class="nav-sub">Пакеты</a>
-              <a href="#" class="nav-sub">Упаковочная бумага</a>
-              <a href="#" class="nav-sub">Адвент-календари</a>
-            </div>
-          </div>
-        </div>
+              <div class="mega-body">
+                <!-- Рейл направлений -->
+                <div class="mega-rail">
+                  <button class="mega-dir is-active" data-mega="0" style="--c:#0000FF">Полиграфия</button>
+                  <button class="mega-dir" data-mega="1" style="--c:#FF00FF">Упаковка и этикетки</button>
+                  <button class="mega-dir" data-mega="2" style="--c:#9bbf00">Логотип и фирменный стиль</button>
+                  <button class="mega-dir" data-mega="3" style="--c:#00CC00">Корпоративный брендинг, сувениры</button>
+                </div>
+                <!-- Панели: категории + услуги -->
+                <div class="mega-panels">
 
-        <!-- Брендинг -->
-        <div class="nav-item group relative" style="--c:#9bbf00">
-          <button class="nav-link">Брендинг<svg class="nav-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></button>
-          <div class="nav-pop">
-            <div class="nav-card">
-              <a href="#" class="nav-sub">Логотип</a>
-              <a href="#" class="nav-sub">Брендбук</a>
-              <a href="#" class="nav-sub">Маскот бренда</a>
-              <a href="#" class="nav-sub">Редизайн</a>
-              <a href="#" class="nav-sub">Фирменные носители</a>
-            </div>
-          </div>
-        </div>
+                  <div class="mega-panel is-active" data-panel="0" data-dir="Полиграфия" style="--c:#0000FF">
+                    <div class="mega-grid">
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Листовая полиграфия</a><a href="#" class="mega-svc">Визитки</a><a href="#" class="mega-svc">Листовки и флаеры</a><a href="#" class="mega-svc">Буклеты</a><a href="#" class="mega-svc">Плакаты и афиши</a><a href="#" class="mega-svc">Открытки</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Многостраничная</a><a href="#" class="mega-svc">Каталоги</a><a href="#" class="mega-svc">Брошюры</a><a href="#" class="mega-svc">Журналы</a><a href="#" class="mega-svc">Меню</a><a href="#" class="mega-svc">Книги</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Широкоформатная</a><a href="#" class="mega-svc">Баннеры</a><a href="#" class="mega-svc">Постеры</a><a href="#" class="mega-svc">Таблички</a><a href="#" class="mega-svc">Холсты</a><a href="#" class="mega-svc">Обои и фрески</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Бизнес-полиграфия</a><a href="#" class="mega-svc">Визитки</a><a href="#" class="mega-svc">Бланки</a><a href="#" class="mega-svc">Сертификаты</a><a href="#" class="mega-svc">Папки</a><a href="#" class="mega-svc">Конверты</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Календари</a><a href="#" class="mega-svc">Настенные</a><a href="#" class="mega-svc">Карманные</a><a href="#" class="mega-svc">Квартальные</a><a href="#" class="mega-svc">Домики</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Наклейки и стикеры</a><a href="#" class="mega-svc">Этикетки-наклейки</a><a href="#" class="mega-svc">Стикерпаки</a><a href="#" class="mega-svc">Наклейки на заказ</a><a href="#" class="mega-svc">Голографические</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Печати и штампы</a><a href="#" class="mega-svc">Печати</a><a href="#" class="mega-svc">Штампы</a><a href="#" class="mega-svc">Оснастки</a><a href="#" class="mega-svc">Факсимиле</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Настольные игры</a><a href="#" class="mega-svc">Игральные карты</a><a href="#" class="mega-svc">Настольные игры</a><a href="#" class="mega-svc">Мемо и пазлы</a></div>
+                    </div>
+                  </div>
 
-        <!-- Мерч -->
-        <div class="nav-item group relative" style="--c:#00CC00">
-          <button class="nav-link">Мерч<svg class="nav-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></button>
-          <div class="nav-pop">
-            <div class="nav-card">
-              <a href="#" class="nav-sub">Одежда</a>
-              <a href="#" class="nav-sub">Посуда и термокружки</a>
-              <a href="#" class="nav-sub">Сумки и шопперы</a>
-              <a href="#" class="nav-sub">Welcome-паки</a>
-              <a href="#" class="nav-sub">Подарочные наборы</a>
-            </div>
-          </div>
-        </div>
+                  <div class="mega-panel" data-panel="1" data-dir="Упаковка и этикетки" style="--c:#FF00FF">
+                    <div class="mega-grid">
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Коробки</a><a href="#" class="mega-svc">Самосборные</a><a href="#" class="mega-svc">Кашированные</a><a href="#" class="mega-svc">Подарочные</a><a href="#" class="mega-svc">Под пиццу и еду</a><a href="#" class="mega-svc">С окном</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Этикетки</a><a href="#" class="mega-svc">Самоклеящиеся</a><a href="#" class="mega-svc">Термоэтикетки</a><a href="#" class="mega-svc">На бутылки</a><a href="#" class="mega-svc">Рулонные</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Паки и шуберы</a><a href="#" class="mega-svc">Паки</a><a href="#" class="mega-svc">Шуберы</a><a href="#" class="mega-svc">Слипкейсы</a><a href="#" class="mega-svc">Диджипаки</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Пакеты</a><a href="#" class="mega-svc">Бумажные</a><a href="#" class="mega-svc">Крафт</a><a href="#" class="mega-svc">С логотипом</a><a href="#" class="mega-svc">Зип-пакеты</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Упаковочная бумага</a><a href="#" class="mega-svc">Крафт-бумага</a><a href="#" class="mega-svc">Тишью</a><a href="#" class="mega-svc">С печатью</a><a href="#" class="mega-svc">Скотч брендированный</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Адвент-календари</a><a href="#" class="mega-svc">Под заказ</a><a href="#" class="mega-svc">С наполнением</a></div>
+                    </div>
+                  </div>
 
-        <!-- Реклама -->
-        <div class="nav-item group relative" style="--c:#d4b300">
-          <button class="nav-link">Реклама<svg class="nav-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></button>
-          <div class="nav-pop">
-            <div class="nav-card">
-              <a href="#" class="nav-sub">Баннеры</a>
-              <a href="#" class="nav-sub">Креативы</a>
-              <a href="#" class="nav-sub">POS-материалы</a>
-              <a href="#" class="nav-sub">Наружная реклама</a>
-              <a href="#" class="nav-sub">Оформление соцсетей</a>
+                  <div class="mega-panel" data-panel="2" data-dir="Логотип и фирменный стиль" style="--c:#9bbf00">
+                    <div class="mega-grid">
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Логотип</a><a href="#" class="mega-svc">Разработка</a><a href="#" class="mega-svc">Редизайн</a><a href="#" class="mega-svc">Логобук</a><a href="#" class="mega-svc">Знак и эмблема</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Брендбук</a><a href="#" class="mega-svc">Гайдлайн</a><a href="#" class="mega-svc">Фирменный стиль</a><a href="#" class="mega-svc">Айдентика</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Маскот бренда</a><a href="#" class="mega-svc">Разработка</a><a href="#" class="mega-svc">Иллюстрации</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Редизайн</a><a href="#" class="mega-svc">Обновление айдентики</a><a href="#" class="mega-svc">Аудит бренда</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Фирменные носители</a><a href="#" class="mega-svc">Визитки</a><a href="#" class="mega-svc">Бланки</a><a href="#" class="mega-svc">Папки</a><a href="#" class="mega-svc">Презентации</a></div>
+                    </div>
+                  </div>
+
+                  <div class="mega-panel" data-panel="3" data-dir="Корпоративный брендинг, сувениры" style="--c:#00CC00">
+                    <div class="mega-grid">
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Одежда</a><a href="#" class="mega-svc">Футболки</a><a href="#" class="mega-svc">Худи</a><a href="#" class="mega-svc">Кепки</a><a href="#" class="mega-svc">Поло</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Посуда и термокружки</a><a href="#" class="mega-svc">Кружки</a><a href="#" class="mega-svc">Термокружки</a><a href="#" class="mega-svc">Бутылки</a><a href="#" class="mega-svc">Термосы</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Сумки и шопперы</a><a href="#" class="mega-svc">Шопперы</a><a href="#" class="mega-svc">Рюкзаки</a><a href="#" class="mega-svc">Сумки</a><a href="#" class="mega-svc">Косметички</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Аксессуары</a><a href="#" class="mega-svc">Значки</a><a href="#" class="mega-svc">Брелоки</a><a href="#" class="mega-svc">Ленты</a><a href="#" class="mega-svc">Блокноты</a><a href="#" class="mega-svc">Ручки</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Welcome-паки</a><a href="#" class="mega-svc">Готовые наборы</a><a href="#" class="mega-svc">Для сотрудников</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Подарочные наборы</a><a href="#" class="mega-svc">Под задачу</a><a href="#" class="mega-svc">Новогодние</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Нанесение логотипа</a><a href="#" class="mega-svc">Шелкография</a><a href="#" class="mega-svc">Вышивка</a><a href="#" class="mega-svc">УФ-печать</a><a href="#" class="mega-svc">Гравировка</a></div>
+                    </div>
+                  </div>
+
+                  <!-- Результаты поиска -->
+                  <div class="mega-results" id="mega-results" hidden></div>
+
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -248,29 +307,33 @@
         <a href="#contacts" class="px-2.5 py-2 hover:text-[color:var(--accent)] transition">Контакты</a>
       </nav>
 
-      <!-- Контакт + CTA -->
+      <!-- CTA -->
       <div class="flex items-center gap-3">
-        <a href="tel:+74950213577" class="hidden 2xl:block text-sm font-semibold whitespace-nowrap">+7 (495) 021-35-77</a>
         <a href="#lead" data-lead-open class="btn btn-accent text-sm hidden sm:inline-flex">Оставить заявку</a>
         <button id="burger" class="xl:hidden w-10 h-10 grid place-items-center" aria-label="Меню">
           <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
         </button>
       </div>
+      </div>
     </div>
   </div>
 
   <!-- Мобильное меню -->
-  <div id="mobile-menu" class="xl:hidden hidden border-t border-zinc-100 px-5 py-4 text-[15px] font-medium">
+  <div id="mobile-menu" class="xl:hidden hidden bg-paper border-t border-zinc-100 px-5 py-4 text-[15px] font-medium">
     <div class="text-xs uppercase tracking-wider text-zinc-400 mb-2 mt-1">Направления</div>
     <a href="#" class="flex items-center gap-2.5 py-2.5"><span class="w-2 h-2 rounded-full" style="background:#0000FF"></span>Полиграфия</a>
     <a href="#" class="flex items-center gap-2.5 py-2.5"><span class="w-2 h-2 rounded-full" style="background:#FF00FF"></span>Упаковка и этикетки</a>
-    <a href="#" class="flex items-center gap-2.5 py-2.5"><span class="w-2 h-2 rounded-full" style="background:#9bbf00"></span>Брендинг</a>
-    <a href="#" class="flex items-center gap-2.5 py-2.5"><span class="w-2 h-2 rounded-full" style="background:#00CC00"></span>Мерч и сувениры</a>
-    <a href="#" class="flex items-center gap-2.5 py-2.5"><span class="w-2 h-2 rounded-full" style="background:#d4b300"></span>Реклама и соцсети</a>
+    <a href="#" class="flex items-center gap-2.5 py-2.5"><span class="w-2 h-2 rounded-full" style="background:#9bbf00"></span>Логотип и фирменный стиль</a>
+    <a href="#" class="flex items-center gap-2.5 py-2.5"><span class="w-2 h-2 rounded-full" style="background:#00CC00"></span>Корпоративный брендинг, бизнес-сувениры</a>
     <div class="h-px bg-zinc-100 my-3"></div>
     <a href="portfolio.html" class="block py-2.5">Проекты</a>
     <a href="#" class="block py-2.5">Блог</a>
+    <a href="#" class="block py-2.5">О нас</a>
+    <a href="#" class="block py-2.5">Оплата и доставка</a>
+    <a href="#" class="block py-2.5">Вакансии</a>
     <a href="#contacts" class="block py-2.5">Контакты</a>
+    <a href="tel:+74950213577" class="block py-2.5 font-semibold">+7 (495) 021-35-77</a>
+    <a href="tel:+79777936481" class="block py-2.5 font-semibold">+7 (977) 793-64-81</a>
     <a href="#lead" class="btn btn-accent w-full justify-center mt-3">Оставить заявку</a>
   </div>
 </header>
@@ -286,7 +349,7 @@
 </div>
 
 <!-- ============================ HERO A — центр + куча карточек ============================ -->
-<section id="hero-a" class="relative bg-white overflow-hidden">
+<section id="hero-a" class="relative bg-white overflow-hidden h-[calc(100svh-4rem)] lg:h-[calc(100svh-7.5rem)] flex flex-col">
   <div class="max-w-3xl mx-auto px-5 text-center pt-16 lg:pt-24">
     <div class="flex flex-wrap justify-center gap-2 mb-4">
       <span class="tag">Дизайн и доработка макетов</span>
@@ -307,24 +370,24 @@
   </div>
 
   <!-- куча карточек снизу (обрезается сгибом) -->
-  <div class="relative h-[180px] sm:h-[220px] lg:h-[280px] mt-12 overflow-hidden">
+  <div class="relative h-[180px] sm:h-[220px] lg:h-[280px] mt-auto overflow-hidden">
     <div class="absolute inset-x-0 bottom-[-48px] flex justify-center items-end">
-      <div class="relative overflow-hidden shrink-0 -mr-7 w-36 sm:w-40 lg:w-44 h-48 sm:h-52 lg:h-60 shadow-[0_22px_44px_-18px_rgba(0,0,0,.45)]" style="transform:rotate(-11deg) translateY(26px)"><img src="assets/mock-vizitki.jpg" alt="Визитки" class="absolute inset-0 w-full h-full object-cover"><span class="absolute top-4 left-4 right-4 text-xl font-extrabold leading-tight text-white">Визитки</span></div>
-      <div class="relative overflow-hidden shrink-0 -mr-7 w-36 sm:w-40 lg:w-44 h-48 sm:h-52 lg:h-60 shadow-[0_22px_44px_-18px_rgba(0,0,0,.45)]" style="transform:rotate(-6deg) translateY(8px)"><img src="assets/mock-listovki.jpg" alt="Листовки" class="absolute inset-0 w-full h-full object-cover"><span class="absolute top-4 left-4 right-4 text-xl font-extrabold leading-tight text-white">Листовки</span></div>
-      <div class="shrink-0 -mr-7 w-36 sm:w-40 lg:w-44 h-48 sm:h-52 lg:h-60 p-4 flex items-start border border-zinc-200 shadow-[0_22px_44px_-18px_rgba(0,0,0,.4)]" style="background:#fff;color:#111;transform:rotate(-1deg) translateY(0)"><span class="text-xl font-extrabold leading-tight">Буклеты</span></div>
-      <div class="shrink-0 -mr-7 w-36 sm:w-40 lg:w-44 h-48 sm:h-52 lg:h-60 p-4 flex items-start shadow-[0_22px_44px_-18px_rgba(0,0,0,.4)]" style="background:#0000FF;color:#fff;transform:rotate(4deg) translateY(7px)"><span class="text-xl font-extrabold leading-tight">Сертификаты</span></div>
-      <div class="shrink-0 -mr-7 w-36 sm:w-40 lg:w-44 h-48 sm:h-52 lg:h-60 p-4 flex items-start border border-[#cdcdf5] shadow-[0_22px_44px_-18px_rgba(0,0,0,.4)]" style="background:#E8E8FF;color:#1e1e6e;transform:rotate(9deg) translateY(18px)"><span class="text-xl font-extrabold leading-tight">Бланки<br>и папки</span></div>
-      <div class="shrink-0 w-36 sm:w-40 lg:w-44 h-48 sm:h-52 lg:h-60 p-4 flex items-start shadow-[0_22px_44px_-18px_rgba(0,0,0,.4)]" style="background:#111;color:#fff;transform:rotate(13deg) translateY(36px)"><span class="text-xl font-extrabold leading-tight">Открытки</span></div>
+      <div class="shrink-0 -mr-7 w-36 sm:w-40 lg:w-44 h-48 sm:h-52 lg:h-60 flex flex-col overflow-hidden bg-white border border-zinc-200 shadow-[0_22px_44px_-18px_rgba(0,0,0,.4)]" style="transform:rotate(-11deg) translateY(26px)"><span class="px-4 pt-4 text-xl font-extrabold leading-tight text-ink">Визитки</span><img src="assets/card-vizitki.jpg" alt="Визитки" class="mt-2 w-full flex-1 min-h-0 object-cover object-center mix-blend-darken"></div>
+      <div class="shrink-0 -mr-7 w-36 sm:w-40 lg:w-44 h-48 sm:h-52 lg:h-60 flex flex-col overflow-hidden bg-white border border-zinc-200 shadow-[0_22px_44px_-18px_rgba(0,0,0,.4)]" style="transform:rotate(-6deg) translateY(8px)"><span class="px-4 pt-4 text-xl font-extrabold leading-tight text-ink">Листовки</span><img src="assets/card-listovki.jpg" alt="Листовки" class="mt-2 w-full flex-1 min-h-0 object-cover object-center mix-blend-darken"></div>
+      <div class="shrink-0 -mr-7 w-36 sm:w-40 lg:w-44 h-48 sm:h-52 lg:h-60 flex flex-col overflow-hidden bg-white border border-zinc-200 shadow-[0_22px_44px_-18px_rgba(0,0,0,.4)]" style="transform:rotate(-1deg) translateY(0)"><span class="px-4 pt-4 text-xl font-extrabold leading-tight text-ink">Буклеты</span><img src="assets/card-buklety.jpg" alt="Буклеты" class="mt-2 w-full flex-1 min-h-0 object-cover object-center mix-blend-darken"></div>
+      <div class="shrink-0 -mr-7 w-36 sm:w-40 lg:w-44 h-48 sm:h-52 lg:h-60 flex flex-col overflow-hidden bg-white border border-zinc-200 shadow-[0_22px_44px_-18px_rgba(0,0,0,.4)]" style="transform:rotate(4deg) translateY(7px)"><span class="px-4 pt-4 text-xl font-extrabold leading-tight text-ink">Сертификаты</span><img src="assets/card-sertifikaty.jpg" alt="Сертификаты" class="mt-2 w-full flex-1 min-h-0 object-cover object-center mix-blend-darken"></div>
+      <div class="shrink-0 -mr-7 w-36 sm:w-40 lg:w-44 h-48 sm:h-52 lg:h-60 flex flex-col overflow-hidden bg-white border border-zinc-200 shadow-[0_22px_44px_-18px_rgba(0,0,0,.4)]" style="transform:rotate(9deg) translateY(18px)"><span class="px-4 pt-4 text-xl font-extrabold leading-tight text-ink">Бланки<br>и папки</span><img src="assets/card-blanki.jpg" alt="Бланки и папки" class="mt-2 w-full flex-1 min-h-0 object-cover object-center mix-blend-darken"></div>
+      <div class="shrink-0 w-36 sm:w-40 lg:w-44 h-48 sm:h-52 lg:h-60 flex flex-col overflow-hidden bg-white border border-zinc-200 shadow-[0_22px_44px_-18px_rgba(0,0,0,.4)]" style="transform:rotate(13deg) translateY(36px)"><span class="px-4 pt-4 text-xl font-extrabold leading-tight text-ink">Открытки</span><img src="assets/card-otkrytki.jpg" alt="Открытки" class="mt-2 w-full flex-1 min-h-0 object-cover object-center mix-blend-darken"></div>
     </div>
   </div>
 </section>
 
 <!-- ============================ HERO B — центр + фото, растворяется в белый ============================ -->
-<section id="hero-b" class="relative bg-white overflow-hidden hidden">
+<section id="hero-b" class="relative bg-white overflow-hidden hidden h-[calc(100svh-4rem)] lg:h-[calc(100svh-7.5rem)]">
   <!-- фото-фон (чистый верх под текст), без градиента -->
-  <img src="assets/hero-flatlay.jpg" alt="Полиграфия Litera" class="absolute inset-0 w-full h-full object-cover object-top">
+  <img src="assets/hero-flatlay.jpg" alt="Полиграфия Litera" class="absolute inset-x-0 bottom-0 top-[7vh] lg:top-[10vh] w-full object-cover object-top">
   <!-- текст поверх чистой верхней зоны -->
-  <div class="relative z-10 max-w-5xl mx-auto px-5 text-center pt-16 lg:pt-24 pb-[44vh] lg:pb-[52vh]">
+  <div class="relative z-10 max-w-5xl mx-auto px-5 text-center pt-16 lg:pt-24 pb-12">
     <div class="flex flex-wrap justify-center gap-2 mb-4">
       <span class="tag">Дизайн и доработка макетов</span>
       <span class="tag">Собственная типография</span>
@@ -337,7 +400,7 @@
       Разрабатываем макеты и печатаем визитки, листовки, буклеты и бизнес-полиграфию
       на собственном производстве под задачи бизнеса с 2012 года.
     </p>
-    <div class="mt-8 hidden flex-wrap justify-center gap-3">
+    <div class="mt-8 flex flex-wrap justify-center gap-3">
       <a href="#lead" data-lead-open class="btn btn-accent">Рассчитать стоимость</a>
       <a href="#prices" class="btn btn-ghost">Смотреть цены</a>
     </div>
@@ -345,7 +408,7 @@
 </section>
 
 <!-- ============================ HERO C — центр + веер (как было, без мокапов) ============================ -->
-<section id="hero-c" class="relative bg-white overflow-hidden hidden">
+<section id="hero-c" class="relative bg-white overflow-hidden hidden h-[calc(100svh-4rem)] lg:h-[calc(100svh-7.5rem)] flex flex-col">
   <div class="max-w-3xl mx-auto px-5 text-center pt-16 lg:pt-24">
     <div class="flex flex-wrap justify-center gap-2 mb-4">
       <span class="tag">Дизайн и доработка макетов</span>
@@ -366,7 +429,7 @@
   </div>
 
   <!-- куча карточек снизу — сплошные цвета (синий + чб), без картинок -->
-  <div class="relative h-[180px] sm:h-[220px] lg:h-[280px] mt-12 overflow-hidden">
+  <div class="relative h-[180px] sm:h-[220px] lg:h-[280px] mt-auto overflow-hidden">
     <div class="absolute inset-x-0 bottom-[-48px] flex justify-center items-end">
       <div class="shrink-0 -mr-7 w-36 sm:w-40 lg:w-44 h-48 sm:h-52 lg:h-60 p-4 flex items-start shadow-[0_22px_44px_-18px_rgba(0,0,0,.4)]" style="background:#0000FF;color:#fff;transform:rotate(-11deg) translateY(26px)"><span class="text-xl font-extrabold leading-tight">Визитки</span></div>
       <div class="shrink-0 -mr-7 w-36 sm:w-40 lg:w-44 h-48 sm:h-52 lg:h-60 p-4 flex items-start shadow-[0_22px_44px_-18px_rgba(0,0,0,.4)]" style="background:#111;color:#fff;transform:rotate(-6deg) translateY(8px)"><span class="text-xl font-extrabold leading-tight">Листовки</span></div>
@@ -878,8 +941,9 @@
         <div class="text-white/40 text-sm mb-4">Контакты</div>
         <ul class="space-y-2.5 text-sm text-white/80">
           <li><a href="tel:+74950213577" class="hover:text-white">+7 (495) 021-35-77</a></li>
+          <li><a href="tel:+79777936481" class="hover:text-white">+7 (977) 793-64-81</a></li>
           <li><a href="mailto:zakaz@litera.studio" class="hover:text-white">zakaz@litera.studio</a></li>
-          <li class="text-white/50">Москва, Холодильный пер., 3с1/3</li>
+          <li class="text-white/50">Москва, Холодильный пер., 3к1с3, под. 6, офис 404</li>
         </ul>
         <a href="#lead" class="btn btn-accent mt-5 text-sm">Оставить заявку</a>
       </div>
@@ -913,6 +977,11 @@
         <button type="button" data-copy="+7 (495) 021-35-77" class="group relative flex items-center gap-3 w-full text-left hover:text-white/80 transition">
           <svg class="w-[18px] h-[18px] shrink-0 opacity-80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
           +7 (495) 021-35-77
+          <span class="copy-tip pointer-events-none absolute -top-7 left-7 whitespace-nowrap bg-black text-white text-eyebrow px-2 py-1 opacity-0 group-hover:opacity-100 transition">Копировать</span>
+        </button>
+        <button type="button" data-copy="+7 (977) 793-64-81" class="group relative flex items-center gap-3 w-full text-left hover:text-white/80 transition">
+          <svg class="w-[18px] h-[18px] shrink-0 opacity-80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          +7 (977) 793-64-81
           <span class="copy-tip pointer-events-none absolute -top-7 left-7 whitespace-nowrap bg-black text-white text-eyebrow px-2 py-1 opacity-0 group-hover:opacity-100 transition">Копировать</span>
         </button>
         <button type="button" data-copy="zakaz@litera.studio" class="group relative flex items-center gap-3 w-full text-left hover:text-white/80 transition">
@@ -1018,6 +1087,59 @@
     try { init = localStorage.getItem('heroVariant') || 'a'; } catch (e) {}
     if (!variants.includes(init)) init = 'a';
     set(init);
+  })();
+  // Каталог-мегаменю: рейл направлений + поиск по каталогу
+  (function () {
+    const dirs = [...document.querySelectorAll('.mega-dir')];
+    const panels = [...document.querySelectorAll('.mega-panel')];
+    const card = document.querySelector('.mega-card');
+    const input = document.getElementById('mega-q');
+    const results = document.getElementById('mega-results');
+    if (!input) return;
+
+    function activateDir(d) {
+      const i = d.dataset.mega;
+      dirs.forEach(x => x.classList.toggle('is-active', x === d));
+      panels.forEach(p => p.classList.toggle('is-active', p.dataset.panel === i));
+      if (card) card.style.setProperty('--c', getComputedStyle(d).getPropertyValue('--c'));
+    }
+    dirs.forEach(d => d.addEventListener('mouseenter', () => { if (!input.value.trim()) activateDir(d); }));
+
+    // Индекс услуг: услуга → категория → направление + цвет
+    const index = [];
+    panels.forEach(p => {
+      const dir = p.dataset.dir;
+      const color = getComputedStyle(p).getPropertyValue('--c').trim();
+      p.querySelectorAll('.mega-cat').forEach(c => {
+        const cat = c.querySelector('.mega-cat-h').textContent;
+        c.querySelectorAll('.mega-svc').forEach(s => index.push({ svc: s.textContent, cat, dir, color }));
+      });
+    });
+
+    const esc = s => s.replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m]));
+    function hl(text, q) {
+      const i = text.toLowerCase().indexOf(q);
+      if (i < 0) return esc(text);
+      return esc(text.slice(0, i)) + '<mark>' + esc(text.slice(i, i + q.length)) + '</mark>' + esc(text.slice(i + q.length));
+    }
+
+    function reset() {
+      results.classList.remove('is-active'); results.hidden = true;
+      dirs.forEach(x => x.classList.toggle('is-active', x.dataset.mega === '0'));
+      panels.forEach(p => p.classList.toggle('is-active', p.dataset.panel === '0'));
+      if (card) card.style.setProperty('--c', '#0000FF');
+    }
+
+    input.addEventListener('input', () => {
+      const q = input.value.trim().toLowerCase();
+      if (!q) { reset(); return; }
+      panels.forEach(p => p.classList.remove('is-active'));
+      const hits = index.filter(it => it.svc.toLowerCase().includes(q) || it.cat.toLowerCase().includes(q)).slice(0, 40);
+      results.innerHTML = hits.length
+        ? hits.map(it => `<a href="#" class="mega-res" style="--rc:${it.color}"><span class="dot"></span><span class="svc">${hl(it.svc, q)}</span><span class="path">${esc(it.dir)} › ${esc(it.cat)}</span></a>`).join('')
+        : '<div class="mega-empty">Ничего не нашлось. Попробуйте другой запрос или напишите нам.</div>';
+      results.hidden = false; results.classList.add('is-active');
+    });
   })();
   // Мобильное меню
   document.getElementById('burger').addEventListener('click', () => {
