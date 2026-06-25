@@ -131,25 +131,59 @@
   /* Третий уровень шапки: каталог и поиск — белая панель на всю ширину, контент по контейнеру */
   .header-panel{ position:absolute; left:0; right:0; top:100%; background:rgba(255,255,255,.9);
         -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px);
-        border-bottom:1px solid #e4e4e7; display:none; z-index:55; }
-  .header-panel.is-open{ display:block; }
+        border-bottom:1px solid #e4e4e7; z-index:55;
+        opacity:0; visibility:hidden; transform:translateY(-8px);
+        transition:opacity .18s ease, transform .18s ease, visibility .18s; }
+  .header-panel.is-open{ opacity:1; visibility:visible; transform:none; }
+  /* Боковые разделители выпадашки — ровно по краю контента (как лого и кнопка: отступ контейнера 2rem) */
+  .header-panel > div{ position:relative; }
+  .header-panel > div::before, .header-panel > div::after{ content:''; position:absolute; top:0; bottom:0; width:1px; background:#e4e4e7; pointer-events:none; }
+  .header-panel > div::before{ left:2rem; }
+  .header-panel > div::after{ right:2rem; }
+  /* Разделитель справа от рейла — на всю высоту дропа (как боковые линии) */
+  #catalog-panel > div{ background-image:linear-gradient(#e4e4e7,#e4e4e7); background-repeat:no-repeat; background-position:calc(2rem + 18rem) 0; background-size:1px 100%; background-origin:border-box; }
   .nav-card{ background:#fff; border-radius:0; box-shadow:0 22px 44px -14px rgba(0,0,0,.22); padding:.45rem; border-top:3px solid var(--c); }
   .nav-head{ display:block; padding:.5rem .85rem .55rem; margin-bottom:.25rem; border-bottom:1px solid #f0f0f1; font-size:.72rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--c); }
   .nav-sub{ display:block; padding:.55rem .85rem; font-size:.92rem; color:#27272a; transition:.12s; }
   .nav-sub:hover{ background:#f6f6f7; color:var(--c); padding-left:1.05rem; }
   /* Мега-меню каталога */
   .mega-body{ display:flex; }
-  .mega-rail{ width:240px; flex-shrink:0; background:#fafafa; border-right:1px solid #f0f0f1; padding:.5rem; }
-  .mega-dir{ display:block; width:100%; text-align:left; padding:.6rem .8rem; font-size:.9rem; font-weight:600; color:#3f3f46; border-left:2px solid transparent; cursor:pointer; transition:.12s; }
-  .mega-dir:hover{ color:var(--c); }
-  .mega-dir.is-active{ color:var(--c); border-left-color:var(--c); background:#fff; }
-  .mega-panels{ flex:1; min-width:0; padding:1rem 1.25rem; }
+  .mega-rail{ width:18rem; flex-shrink:0; padding:.4rem 0; }
+  .mega-rail-h{ padding:.35rem .8rem .55rem; font-size:.66rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#a1a1aa; }
+  .mega-dir{ position:relative; display:flex; align-items:center; gap:.6rem; width:100%; text-align:left; padding:.58rem .8rem; font-size:.9rem; font-weight:600; color:#3f3f46; white-space:nowrap; border-left:2px solid transparent; cursor:pointer;
+        transition:color .18s ease, border-color .18s ease, padding .18s ease, background .18s ease; }
+  .mega-dir::before{ content:''; width:.74rem; height:1.04rem; flex-shrink:0; opacity:.45; background:var(--c);
+        -webkit-mask:var(--litera-mark) center/contain no-repeat; mask:var(--litera-mark) center/contain no-repeat;
+        transition:opacity .18s ease, transform .18s ease; }
+  .mega-dir::after{ content:''; margin-left:auto; width:.42rem; height:.42rem; border-top:2px solid currentColor; border-right:2px solid currentColor; transform:translateX(-5px) rotate(45deg); opacity:0; transition:opacity .18s ease, transform .18s ease; }
+  .mega-dir:hover, .mega-dir.is-active{ color:var(--c); border-left-color:var(--c); padding-left:1.1rem; background:color-mix(in srgb, var(--c) 8%, transparent); }
+  .mega-dir:hover::before, .mega-dir.is-active::before{ opacity:1; transform:scale(1.12); }
+  .mega-dir:hover::after, .mega-dir.is-active::after{ opacity:.6; transform:translateX(0) rotate(45deg); }
+  .mega-panels{ flex:1; min-width:0; padding:1.1rem 1.5rem 1.25rem; }
   .mega-panel{ display:none; }
   .mega-panel.is-active{ display:block; }
-  .mega-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:.5rem 1.4rem; }
-  .mega-cat-h{ display:block; padding:.35rem 0 .3rem; font-size:.72rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--c); }
-  .mega-svc{ display:block; padding:.26rem 0; font-size:.875rem; color:#52525b; transition:.12s; }
-  .mega-svc:hover{ color:var(--c); padding-left:.25rem; }
+  /* Подпись: цвет направления «прокатывается» по разделителю под навбаром, услуги проявляются */
+  #catalog-panel{ --c:#0000FF; }
+  #catalog-panel::before{ content:''; position:absolute; top:0; left:0; right:0; height:2px; background:var(--c); transform-origin:left; }
+  #catalog-panel.swept::before{ animation:mega-sweep .32s ease; }
+  .mega-panel.is-active .mega-cat{ animation:mega-rise .34s ease both; }
+  .mega-panel.is-active .mega-cat:nth-child(2){ animation-delay:.03s; }
+  .mega-panel.is-active .mega-cat:nth-child(3){ animation-delay:.06s; }
+  .mega-panel.is-active .mega-cat:nth-child(4){ animation-delay:.09s; }
+  .mega-panel.is-active .mega-cat:nth-child(5){ animation-delay:.12s; }
+  .mega-panel.is-active .mega-cat:nth-child(6){ animation-delay:.15s; }
+  .mega-panel.is-active .mega-cat:nth-child(7){ animation-delay:.18s; }
+  .mega-panel.is-active .mega-cat:nth-child(8){ animation-delay:.21s; }
+  @keyframes mega-sweep{ from{ transform:scaleX(0); } to{ transform:scaleX(1); } }
+  @keyframes mega-rise{ from{ opacity:0; transform:translateY(8px); } to{ opacity:1; transform:none; } }
+  @media (prefers-reduced-motion:reduce){ #catalog-panel.swept::before, .mega-panel.is-active .mega-cat{ animation:none; } }
+  .mega-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:1.25rem 1.75rem; }
+  .mega-cat-h{ display:block; padding:0 0 .45rem; font-size:.72rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--c); }
+  .mega-svc{ display:block; padding:.24rem 0; font-size:.875rem; color:#52525b; transition:.12s; }
+  .mega-svc:hover{ color:var(--c); padding-left:.3rem; }
+  .mega-foot{ display:flex; align-items:center; justify-content:space-between; gap:1rem; margin-top:1rem; padding-top:.9rem; border-top:1px solid #ececee; font-size:.85rem; color:#71717a; }
+  .mega-foot a{ font-weight:700; color:var(--accent); white-space:nowrap; }
+  .mega-foot a:hover{ text-decoration:underline; }
   /* Поиск по каталогу в навбаре */
   .navsearch-btn{ width:2.5rem; height:2.5rem; display:grid; place-items:center; color:#3f3f46; transition:.15s; }
   .navsearch-btn svg{ width:20px; height:20px; }
@@ -272,10 +306,11 @@
         <div class="mega-body">
                 <!-- Рейл направлений -->
                 <div class="mega-rail">
+                  <div class="mega-rail-h">Направления</div>
                   <button class="mega-dir is-active" data-mega="0" style="--c:#0000FF">Полиграфия</button>
                   <button class="mega-dir" data-mega="1" style="--c:#FF00FF">Упаковка и этикетки</button>
                   <button class="mega-dir" data-mega="2" style="--c:#9bbf00">Логотип и фирменный стиль</button>
-                  <button class="mega-dir" data-mega="3" style="--c:#00CC00">Корпоративный брендинг, сувениры</button>
+                  <button class="mega-dir" data-mega="3" style="--c:#00CC00">Мерч и сувениры</button>
                   <button class="mega-dir" data-mega="4" style="--c:#64748b">Отраслевые решения</button>
                 </div>
                 <!-- Панели: категории + услуги -->
@@ -337,6 +372,10 @@
                   </div>
 
                 </div>
+              </div>
+              <div class="mega-foot">
+                <span>Не нашли нужное? Подберём под задачу, материал и тираж.</span>
+                <a href="#lead" data-lead-open>Оставить заявку →</a>
               </div>
             </div>
           </div>
@@ -1118,17 +1157,25 @@
     const results = document.getElementById('nav-results');
     if (!catalogTrigger) return;
 
+    function sweep() { catalogPanel.classList.remove('swept'); void catalogPanel.offsetWidth; catalogPanel.classList.add('swept'); }
     function activateDir(d) {
       const i = d.dataset.mega;
       dirs.forEach(x => x.classList.toggle('is-active', x === d));
       panels.forEach(p => p.classList.toggle('is-active', p.dataset.panel === i));
+      catalogPanel.style.setProperty('--c', getComputedStyle(d).getPropertyValue('--c').trim());
+      sweep();   // прокат полосы по разделителю под навбаром
     }
     dirs.forEach(d => d.addEventListener('mouseenter', () => activateDir(d)));
 
     // Открытие/закрытие панелей 3-го уровня (взаимоисключающие)
     function closeResults() { results.hidden = true; results.innerHTML = ''; }
     function closeCatalog() { catalogPanel.classList.remove('is-open'); catalogTrigger.classList.remove('is-open'); }
-    function openCatalog() { closeSearch(); catalogPanel.classList.add('is-open'); catalogTrigger.classList.add('is-open'); }
+    function openCatalog() {
+      closeSearch(); catalogPanel.classList.add('is-open'); catalogTrigger.classList.add('is-open');
+      const ap = catalogPanel.querySelector('.mega-panel.is-active');   // перезапустить проявление услуг при открытии
+      if (ap) { ap.classList.remove('is-active'); void ap.offsetWidth; ap.classList.add('is-active'); }
+      sweep();   // и прокат полосы по разделителю
+    }
     function closeSearch() { searchPanel.classList.remove('is-open'); searchToggle.classList.remove('is-open'); input.value = ''; closeResults(); }
     function openSearch() { closeCatalog(); searchPanel.classList.add('is-open'); searchToggle.classList.add('is-open'); input.focus(); }
 
