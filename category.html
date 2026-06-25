@@ -209,7 +209,9 @@
   </div>
 
   <!-- НАВБАР: лого, направления, CTA -->
-  <div class="relative bg-paper/90 backdrop-blur border-b border-zinc-100" id="navbar">
+  <div class="relative" id="navbar">
+    <!-- Полоса навбара: матовое стекло -->
+    <div class="bg-paper/90 backdrop-blur border-b border-zinc-100">
     <div class="max-w-7xl mx-auto px-5 lg:px-8">
       <div class="flex items-center justify-between h-14 lg:h-16">
 
@@ -262,6 +264,7 @@
       </div>
       </div>
     </div>
+    </div>
 
     <!-- 3-й уровень шапки: КАТАЛОГ — белый фон на всю ширину, контент по контейнеру -->
     <div class="header-panel" id="catalog-panel">
@@ -273,53 +276,63 @@
                   <button class="mega-dir" data-mega="1" style="--c:#FF00FF">Упаковка и этикетки</button>
                   <button class="mega-dir" data-mega="2" style="--c:#9bbf00">Логотип и фирменный стиль</button>
                   <button class="mega-dir" data-mega="3" style="--c:#00CC00">Корпоративный брендинг, сувениры</button>
+                  <button class="mega-dir" data-mega="4" style="--c:#64748b">Отраслевые решения</button>
                 </div>
                 <!-- Панели: категории + услуги -->
                 <div class="mega-panels">
 
                   <div class="mega-panel is-active" data-panel="0" data-dir="Полиграфия" style="--c:#0000FF">
                     <div class="mega-grid">
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Листовая полиграфия</a><a href="#" class="mega-svc">Визитки</a><a href="#" class="mega-svc">Листовки и флаеры</a><a href="#" class="mega-svc">Буклеты</a><a href="#" class="mega-svc">Плакаты и афиши</a><a href="#" class="mega-svc">Открытки</a></div>
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Многостраничная</a><a href="#" class="mega-svc">Каталоги</a><a href="#" class="mega-svc">Брошюры</a><a href="#" class="mega-svc">Журналы</a><a href="#" class="mega-svc">Меню</a><a href="#" class="mega-svc">Книги</a></div>
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Широкоформатная</a><a href="#" class="mega-svc">Баннеры</a><a href="#" class="mega-svc">Постеры</a><a href="#" class="mega-svc">Таблички</a><a href="#" class="mega-svc">Холсты</a><a href="#" class="mega-svc">Обои и фрески</a></div>
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Бизнес-полиграфия</a><a href="#" class="mega-svc">Визитки</a><a href="#" class="mega-svc">Бланки</a><a href="#" class="mega-svc">Сертификаты</a><a href="#" class="mega-svc">Папки</a><a href="#" class="mega-svc">Конверты</a></div>
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Календари</a><a href="#" class="mega-svc">Настенные</a><a href="#" class="mega-svc">Карманные</a><a href="#" class="mega-svc">Квартальные</a><a href="#" class="mega-svc">Домики</a></div>
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Наклейки и стикеры</a><a href="#" class="mega-svc">Этикетки-наклейки</a><a href="#" class="mega-svc">Стикерпаки</a><a href="#" class="mega-svc">Наклейки на заказ</a><a href="#" class="mega-svc">Голографические</a></div>
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Печати и штампы</a><a href="#" class="mega-svc">Печати</a><a href="#" class="mega-svc">Штампы</a><a href="#" class="mega-svc">Оснастки</a><a href="#" class="mega-svc">Факсимиле</a></div>
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Настольные игры</a><a href="#" class="mega-svc">Игральные карты</a><a href="#" class="mega-svc">Настольные игры</a><a href="#" class="mega-svc">Мемо и пазлы</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Листовая полиграфия</a><a href="#" class="mega-svc">Визитки</a><a href="#" class="mega-svc">Листовки</a><a href="#" class="mega-svc">Флаеры</a><a href="#" class="mega-svc">Буклеты и лифлеты</a><a href="#" class="mega-svc">Открытки</a><a href="#" class="mega-svc">Приглашения</a><a href="#" class="mega-svc">Билеты</a><a href="#" class="mega-svc">Абонементы</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Многостраничная</a><a href="#" class="mega-svc">Каталоги</a><a href="#" class="mega-svc">Брошюры</a><a href="#" class="mega-svc">Журналы</a><a href="#" class="mega-svc">Книги</a><a href="#" class="mega-svc">Блокноты</a><a href="#" class="mega-svc">Ежедневники</a><a href="#" class="mega-svc">Фотокниги</a><a href="#" class="mega-svc">Презентации</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Деловая полиграфия</a><a href="#" class="mega-svc">Бланки</a><a href="#" class="mega-svc">Конверты</a><a href="#" class="mega-svc">Папки</a><a href="#" class="mega-svc">Папки на кольцах</a><a href="#" class="mega-svc">Сертификаты</a><a href="#" class="mega-svc">Грамоты</a><a href="#" class="mega-svc">Дипломы</a><a href="#" class="mega-svc">Бейджи</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Широкоформатная</a><a href="#" class="mega-svc">Плакаты</a><a href="#" class="mega-svc">Афиши</a><a href="#" class="mega-svc">Постеры</a><a href="#" class="mega-svc">Баннеры</a><a href="#" class="mega-svc">Бэклит</a><a href="#" class="mega-svc">Press-wall</a><a href="#" class="mega-svc">Roll-up</a><a href="#" class="mega-svc">Таблички</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Календари</a><a href="#" class="mega-svc">Настольные</a><a href="#" class="mega-svc">Карманные</a><a href="#" class="mega-svc">Перекидные</a><a href="#" class="mega-svc">Квартальные</a><a href="#" class="mega-svc">Адвент-календари</a><a href="#" class="mega-svc">Календарь-плакат</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Наклейки и этикетки</a><a href="#" class="mega-svc">Наклейки и стикеры</a><a href="#" class="mega-svc">Стикерпаки</a><a href="#" class="mega-svc">Этикетки</a><a href="#" class="mega-svc">UF/DTF-наклейки</a><a href="#" class="mega-svc">3D-стикеры</a><a href="#" class="mega-svc">Светящиеся стикеры</a><a href="#" class="mega-svc">Ремувки</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Печати, штампы, карты</a><a href="#" class="mega-svc">Печати</a><a href="#" class="mega-svc">Штампы</a><a href="#" class="mega-svc">Пластиковые карты</a><a href="#" class="mega-svc">Дисконтные карты</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Карты и настольные игры</a><a href="#" class="mega-svc">Настольные игры</a><a href="#" class="mega-svc">Колода карт</a><a href="#" class="mega-svc">Метафорические карты</a><a href="#" class="mega-svc">Таро</a></div>
+                      <!-- POS-материалы временно скрыты (раздували меню) — вернуть при подтверждении
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">POS-материалы</a><a href="#" class="mega-svc">Воблеры</a><a href="#" class="mega-svc">Шелфстопперы</a><a href="#" class="mega-svc">Дисплеи</a><a href="#" class="mega-svc">Дорхенгеры</a><a href="#" class="mega-svc">Топперы</a><a href="#" class="mega-svc">Хардпостеры</a><a href="#" class="mega-svc">Промостойки</a><a href="#" class="mega-svc">Тейбл-тенты</a></div>
+                      -->
                     </div>
                   </div>
 
                   <div class="mega-panel" data-panel="1" data-dir="Упаковка и этикетки" style="--c:#FF00FF">
                     <div class="mega-grid">
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Коробки</a><a href="#" class="mega-svc">Самосборные</a><a href="#" class="mega-svc">Кашированные</a><a href="#" class="mega-svc">Подарочные</a><a href="#" class="mega-svc">Под пиццу и еду</a><a href="#" class="mega-svc">С окном</a></div>
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Этикетки</a><a href="#" class="mega-svc">Самоклеящиеся</a><a href="#" class="mega-svc">Термоэтикетки</a><a href="#" class="mega-svc">На бутылки</a><a href="#" class="mega-svc">Рулонные</a></div>
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Паки и шуберы</a><a href="#" class="mega-svc">Паки</a><a href="#" class="mega-svc">Шуберы</a><a href="#" class="mega-svc">Слипкейсы</a><a href="#" class="mega-svc">Диджипаки</a></div>
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Пакеты</a><a href="#" class="mega-svc">Бумажные</a><a href="#" class="mega-svc">Крафт</a><a href="#" class="mega-svc">С логотипом</a><a href="#" class="mega-svc">Зип-пакеты</a></div>
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Упаковочная бумага</a><a href="#" class="mega-svc">Крафт-бумага</a><a href="#" class="mega-svc">Тишью</a><a href="#" class="mega-svc">С печатью</a><a href="#" class="mega-svc">Скотч брендированный</a></div>
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Адвент-календари</a><a href="#" class="mega-svc">Под заказ</a><a href="#" class="mega-svc">С наполнением</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Коробки из картона</a><a href="#" class="mega-svc">Самосборные</a><a href="#" class="mega-svc">Крышка-дно</a><a href="#" class="mega-svc">Пенал</a><a href="#" class="mega-svc">Ласточкин хвост</a><a href="#" class="mega-svc">Два клапана</a><a href="#" class="mega-svc">С подвесом</a><a href="#" class="mega-svc">Моноблок</a><a href="#" class="mega-svc">Шкатулка</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Коробки из МГК</a><a href="#" class="mega-svc">Самосборные</a><a href="#" class="mega-svc">Лоток</a><a href="#" class="mega-svc">Самолёт</a><a href="#" class="mega-svc">С ручкой</a><a href="#" class="mega-svc">Четыре клапана</a><a href="#" class="mega-svc">С ложементом</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Кашированные коробки</a><a href="#" class="mega-svc">Крышка-дно</a><a href="#" class="mega-svc">Ларец</a><a href="#" class="mega-svc">Тортовые</a><a href="#" class="mega-svc">С магнитными клапанами</a><a href="#" class="mega-svc">С двойным дном</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Этикетки</a><a href="#" class="mega-svc">Этикетки на товар</a><a href="#" class="mega-svc">Самоклеящиеся</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Пакеты и бумага</a><a href="#" class="mega-svc">Бумажные пакеты</a><a href="#" class="mega-svc">ПВД-пакеты</a><a href="#" class="mega-svc">Упаковочная бумага</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Подарочная упаковка</a><a href="#" class="mega-svc">Подарочная упаковка</a><a href="#" class="mega-svc">Бонбоньерки</a><a href="#" class="mega-svc">Коробки для свечей</a><a href="#" class="mega-svc">Шуберы</a><a href="#" class="mega-svc">Ремувки</a></div>
                     </div>
                   </div>
 
                   <div class="mega-panel" data-panel="2" data-dir="Логотип и фирменный стиль" style="--c:#9bbf00">
                     <div class="mega-grid">
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Логотип</a><a href="#" class="mega-svc">Разработка</a><a href="#" class="mega-svc">Редизайн</a><a href="#" class="mega-svc">Логобук</a><a href="#" class="mega-svc">Знак и эмблема</a></div>
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Брендбук</a><a href="#" class="mega-svc">Гайдлайн</a><a href="#" class="mega-svc">Фирменный стиль</a><a href="#" class="mega-svc">Айдентика</a></div>
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Маскот бренда</a><a href="#" class="mega-svc">Разработка</a><a href="#" class="mega-svc">Иллюстрации</a></div>
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Редизайн</a><a href="#" class="mega-svc">Обновление айдентики</a><a href="#" class="mega-svc">Аудит бренда</a></div>
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Фирменные носители</a><a href="#" class="mega-svc">Визитки</a><a href="#" class="mega-svc">Бланки</a><a href="#" class="mega-svc">Папки</a><a href="#" class="mega-svc">Презентации</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Логотип</a><a href="#" class="mega-svc">Разработка логотипа</a><a href="#" class="mega-svc">Редизайн логотипа</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Фирменный стиль</a><a href="#" class="mega-svc">Брендбук</a><a href="#" class="mega-svc">Фирменный стиль</a><a href="#" class="mega-svc">Редизайн носителей</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Маскот бренда</a><a href="#" class="mega-svc">Дизайн маскота</a><a href="#" class="mega-svc">Айдентика маскота</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Иллюстрации</a><a href="#" class="mega-svc">Авторские</a><a href="#" class="mega-svc">Для книги</a><a href="#" class="mega-svc">Для сайта</a><a href="#" class="mega-svc">Для обложки</a><a href="#" class="mega-svc">Обложки</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Фирменные носители</a><a href="#" class="mega-svc">Визитки</a><a href="#" class="mega-svc">Бланки</a><a href="#" class="mega-svc">Конверты</a><a href="#" class="mega-svc">Папки</a><a href="#" class="mega-svc">Презентации</a></div>
                     </div>
                   </div>
 
                   <div class="mega-panel" data-panel="3" data-dir="Корпоративный брендинг, сувениры" style="--c:#00CC00">
                     <div class="mega-grid">
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Одежда</a><a href="#" class="mega-svc">Футболки</a><a href="#" class="mega-svc">Худи</a><a href="#" class="mega-svc">Кепки</a><a href="#" class="mega-svc">Поло</a></div>
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Посуда и термокружки</a><a href="#" class="mega-svc">Кружки</a><a href="#" class="mega-svc">Термокружки</a><a href="#" class="mega-svc">Бутылки</a><a href="#" class="mega-svc">Термосы</a></div>
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Сумки и шопперы</a><a href="#" class="mega-svc">Шопперы</a><a href="#" class="mega-svc">Рюкзаки</a><a href="#" class="mega-svc">Сумки</a><a href="#" class="mega-svc">Косметички</a></div>
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Аксессуары</a><a href="#" class="mega-svc">Значки</a><a href="#" class="mega-svc">Брелоки</a><a href="#" class="mega-svc">Ленты</a><a href="#" class="mega-svc">Блокноты</a><a href="#" class="mega-svc">Ручки</a></div>
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Welcome-паки</a><a href="#" class="mega-svc">Готовые наборы</a><a href="#" class="mega-svc">Для сотрудников</a></div>
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Подарочные наборы</a><a href="#" class="mega-svc">Под задачу</a><a href="#" class="mega-svc">Новогодние</a></div>
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Нанесение логотипа</a><a href="#" class="mega-svc">Шелкография</a><a href="#" class="mega-svc">Вышивка</a><a href="#" class="mega-svc">УФ-печать</a><a href="#" class="mega-svc">Гравировка</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Подарочные наборы</a><a href="#" class="mega-svc">Корпоративные наборы</a><a href="#" class="mega-svc">Welcome-паки</a><a href="#" class="mega-svc">Под задачу</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Мерч и одежда</a><a href="#" class="mega-svc">Футболки</a><a href="#" class="mega-svc">Толстовки</a><a href="#" class="mega-svc">Мерч</a><a href="#" class="mega-svc">Нанесение логотипа</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Посуда и термокружки</a><a href="#" class="mega-svc">Кружки</a><a href="#" class="mega-svc">Термокружки</a><a href="#" class="mega-svc">Бутылки</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Сумки и аксессуары</a><a href="#" class="mega-svc">Шопперы</a><a href="#" class="mega-svc">Сумки и рюкзаки</a><a href="#" class="mega-svc">Зонты</a><a href="#" class="mega-svc">Ручки</a><a href="#" class="mega-svc">Аккумуляторы</a><a href="#" class="mega-svc">Брелоки и обвесы</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Сувениры</a><a href="#" class="mega-svc">Корпоративные сувениры</a><a href="#" class="mega-svc">Стикеры для мерча</a><a href="#" class="mega-svc">Ежедневники</a><a href="#" class="mega-svc">Планинги</a></div>
+                    </div>
+                  </div>
+
+                  <div class="mega-panel" data-panel="4" data-dir="Отраслевые решения" style="--c:#64748b">
+                    <div class="mega-grid">
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Рестораны и бары</a><a href="#" class="mega-svc">Барное меню</a><a href="#" class="mega-svc">Барная карта</a><a href="#" class="mega-svc">Коктейльная карта</a><a href="#" class="mega-svc">Папка для меню</a><a href="#" class="mega-svc">Тейбл-тент</a><a href="#" class="mega-svc">Полиграфия для ресторанов</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Свадьба</a><a href="#" class="mega-svc">Приглашения</a><a href="#" class="mega-svc">Свадебное меню</a><a href="#" class="mega-svc">План рассадки</a><a href="#" class="mega-svc">Конверты</a><a href="#" class="mega-svc">Свадебная полиграфия</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Салоны красоты</a><a href="#" class="mega-svc">Сертификаты</a><a href="#" class="mega-svc">Прайс-лист</a><a href="#" class="mega-svc">Абонементы</a></div>
                     </div>
                   </div>
 
@@ -347,6 +360,7 @@
     <a href="#" class="flex items-center gap-2.5 py-2.5"><span class="w-2 h-2 rounded-full" style="background:#FF00FF"></span>Упаковка и этикетки</a>
     <a href="#" class="flex items-center gap-2.5 py-2.5"><span class="w-2 h-2 rounded-full" style="background:#9bbf00"></span>Логотип и фирменный стиль</a>
     <a href="#" class="flex items-center gap-2.5 py-2.5"><span class="w-2 h-2 rounded-full" style="background:#00CC00"></span>Корпоративный брендинг, бизнес-сувениры</a>
+    <a href="#" class="flex items-center gap-2.5 py-2.5"><span class="w-2 h-2 rounded-full" style="background:#64748b"></span>Отраслевые решения</a>
     <div class="h-px bg-zinc-100 my-3"></div>
     <a href="portfolio.html" class="block py-2.5">Проекты</a>
     <a href="#" class="block py-2.5">Блог</a>
