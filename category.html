@@ -135,12 +135,7 @@
         opacity:0; visibility:hidden; transform:translateY(-8px);
         transition:opacity .18s ease, transform .18s ease, visibility .18s; }
   .header-panel.is-open{ opacity:1; visibility:visible; transform:none; }
-  /* Боковые разделители выпадашки — ровно по краю контента (как лого и кнопка: отступ контейнера 2rem) */
-  .header-panel > div{ position:relative; }
-  .header-panel > div::before, .header-panel > div::after{ content:''; position:absolute; top:0; bottom:0; width:1px; background:#e4e4e7; pointer-events:none; }
-  .header-panel > div::before{ left:2rem; }
-  .header-panel > div::after{ right:2rem; }
-  /* Разделитель справа от рейла — на всю высоту дропа (как боковые линии) */
+  /* Разделитель справа от рейла — на всю высоту дропа */
   #catalog-panel > div{ background-image:linear-gradient(#e4e4e7,#e4e4e7); background-repeat:no-repeat; background-position:calc(2rem + 18rem) 0; background-size:1px 100%; background-origin:border-box; }
   .nav-card{ background:#fff; border-radius:0; box-shadow:0 22px 44px -14px rgba(0,0,0,.22); padding:.45rem; border-top:3px solid var(--c); }
   .nav-head{ display:block; padding:.5rem .85rem .55rem; margin-bottom:.25rem; border-bottom:1px solid #f0f0f1; font-size:.72rem; font-weight:700; letter-spacing:.06em; text-transform:uppercase; color:var(--c); }
@@ -177,12 +172,22 @@
   @keyframes mega-sweep{ from{ transform:scaleX(0); } to{ transform:scaleX(1); } }
   @keyframes mega-rise{ from{ opacity:0; transform:translateY(8px); } to{ opacity:1; transform:none; } }
   @media (prefers-reduced-motion:reduce){ #catalog-panel.swept::before, .mega-panel.is-active .mega-cat{ animation:none; } }
+  /* Заголовок панели: полное имя направления (Raptor) + дескриптор */
+  .mega-head{ display:flex; align-items:baseline; flex-wrap:wrap; gap:.2rem .7rem; padding-bottom:.8rem; margin-bottom:1rem; border-bottom:1px solid #ececee; }
+  .mega-head-t{ font-family:'Raptor V2 Premium','Manrope',system-ui,sans-serif; font-weight:700; font-size:1.4rem; line-height:1; letter-spacing:-.02em; color:var(--c); }
+  .mega-head-d{ font-size:.82rem; color:#a1a1aa; }
   .mega-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:1.25rem 1.75rem; }
-  .mega-cat-h{ display:block; padding:0 0 .45rem; font-size:.72rem; font-weight:700; letter-spacing:.05em; text-transform:uppercase; color:var(--c); }
+  .mega-cat-h{ display:block; padding:0 0 .5rem; font-family:'Raptor V2 Premium','Manrope',system-ui,sans-serif; font-size:1rem; font-weight:700; letter-spacing:-.01em; color:#18181b; }
   .mega-svc{ display:block; padding:.24rem 0; font-size:.875rem; color:#52525b; transition:.12s; }
   .mega-svc:hover{ color:var(--c); padding-left:.3rem; }
-  .mega-foot{ display:flex; align-items:center; justify-content:space-between; gap:1rem; margin-top:1rem; padding-top:.9rem; border-top:1px solid #ececee; font-size:.85rem; color:#71717a; }
-  .mega-foot a{ font-weight:700; color:var(--accent); white-space:nowrap; }
+  /* Футер-фид: фирменная фигура + промо активного направления + CTA */
+  .mega-foot{ display:flex; align-items:center; justify-content:space-between; gap:1rem; margin-top:1rem; padding-top:.9rem; border-top:1px solid #ececee; font-size:.85rem; }
+  .mega-foot-promo{ display:flex; align-items:center; gap:.5rem; min-width:0; }
+  .mega-foot-mark{ width:.66rem; height:.94rem; flex-shrink:0; background:var(--c);
+        -webkit-mask:var(--litera-mark) center/contain no-repeat; mask:var(--litera-mark) center/contain no-repeat; }
+  .mega-foot-promo b{ color:#18181b; font-weight:700; }
+  .mega-foot-tail{ color:#a1a1aa; }
+  .mega-foot a{ font-weight:700; color:var(--c); white-space:nowrap; }
   .mega-foot a:hover{ text-decoration:underline; }
   /* Поиск по каталогу в навбаре */
   .navsearch-btn{ width:2.5rem; height:2.5rem; display:grid; place-items:center; color:#3f3f46; transition:.15s; }
@@ -315,6 +320,7 @@
                 </div>
                 <!-- Панели: категории + услуги -->
                 <div class="mega-panels">
+                  <div class="mega-head" id="mega-head"></div>
 
                   <div class="mega-panel is-active" data-panel="0" data-dir="Полиграфия" style="--c:#0000FF">
                     <div class="mega-grid">
@@ -374,7 +380,7 @@
                 </div>
               </div>
               <div class="mega-foot">
-                <span>Не нашли нужное? Подберём под задачу, материал и тираж.</span>
+                <span class="mega-foot-promo"><span class="mega-foot-mark"></span><b id="mega-promo">Визитки за 1 день</b> <span class="mega-foot-tail">— рассчитаем стоимость за час</span></span>
                 <a href="#lead" data-lead-open>Оставить заявку →</a>
               </div>
             </div>
@@ -1157,15 +1163,36 @@
     const results = document.getElementById('nav-results');
     if (!catalogTrigger) return;
 
+    // Дескриптор и промо-фид по направлению (ключ — data-mega)
+    const META = {
+      '0': { desc: 'Печать и изготовление под ключ', promo: 'Визитки за 1 день' },
+      '1': { desc: 'Коробки, этикетки, пакеты', promo: 'Бесплатный образец коробки' },
+      '2': { desc: 'Айдентика и фирменные носители', promo: 'Логотип за 3 дня' },
+      '3': { desc: 'Мерч, сувениры, наборы', promo: 'Welcome-пак под ключ' },
+      '4': { desc: 'Готовые подборки по отраслям', promo: 'Готовое барное меню' },
+    };
+    const megaHead = document.getElementById('mega-head');
+    const megaPromo = document.getElementById('mega-promo');
+    function setMeta(i, fullName) {
+      const m = META[i]; if (!m) return;
+      if (megaHead) megaHead.innerHTML = `<span class="mega-head-t">${fullName}</span><span class="mega-head-d">${m.desc}</span>`;
+      if (megaPromo) megaPromo.textContent = m.promo;
+    }
+
     function sweep() { catalogPanel.classList.remove('swept'); void catalogPanel.offsetWidth; catalogPanel.classList.add('swept'); }
     function activateDir(d) {
       const i = d.dataset.mega;
       dirs.forEach(x => x.classList.toggle('is-active', x === d));
-      panels.forEach(p => p.classList.toggle('is-active', p.dataset.panel === i));
+      const ap = panels.find(p => p.dataset.panel === i);
+      panels.forEach(p => p.classList.toggle('is-active', p === ap));
       catalogPanel.style.setProperty('--c', getComputedStyle(d).getPropertyValue('--c').trim());
+      setMeta(i, ap ? ap.dataset.dir : '');
       sweep();   // прокат полосы по разделителю под навбаром
     }
     dirs.forEach(d => d.addEventListener('mouseenter', () => activateDir(d)));
+    // Стартовое состояние шапки-фида (активное направление при загрузке)
+    (() => { const d0 = dirs.find(x => x.classList.contains('is-active')) || dirs[0];
+      if (d0) { const p0 = panels.find(p => p.dataset.panel === d0.dataset.mega); setMeta(d0.dataset.mega, p0 ? p0.dataset.dir : ''); } })();
 
     // Открытие/закрытие панелей 3-го уровня (взаимоисключающие)
     function closeResults() { results.hidden = true; results.innerHTML = ''; }
