@@ -141,11 +141,13 @@
   /* Мега-меню каталога */
   /* Каталог разворачивается сверху вниз: направления — строкой-табами, категории — сеткой под ними */
   .mega-body{ display:block; }
-  .mega-rail{ display:flex; flex-wrap:wrap; gap:.1rem .3rem; border-bottom:1px solid #ececee; margin-bottom:1.3rem; }
+  .mega-rail{ position:relative; display:flex; flex-wrap:wrap; gap:.1rem .3rem; margin-bottom:1.3rem; }
+  /* Линия под табами — нейтральная, во всю ширину панели, до краёв экрана */
+  .mega-rail::after{ content:''; position:absolute; bottom:0; left:50%; transform:translateX(-50%); width:100vw; height:1px; background:#ececee; }
   .mega-rail-h{ display:none; }
-  .mega-dir{ position:relative; display:inline-flex; align-items:center; gap:.5rem; padding:.6rem .85rem .7rem; font-size:.95rem; font-weight:600; color:#52525b; white-space:nowrap; border-bottom:2px solid transparent; margin-bottom:-1px; cursor:pointer;
+  .mega-dir{ position:relative; z-index:1; display:inline-flex; align-items:center; gap:.5rem; padding:.65rem .85rem; font-size:.95rem; font-weight:600; color:#52525b; white-space:nowrap; border-bottom:2px solid transparent; margin-bottom:-1px; cursor:pointer;
         transition:color .18s ease, border-color .18s ease; }
-  .mega-dir::before{ content:''; width:.66rem; height:.94rem; flex-shrink:0; opacity:.45; background:var(--c);
+  .mega-dir::before{ content:''; width:.82rem; height:1.16rem; flex-shrink:0; opacity:.45; background:var(--c);
         -webkit-mask:var(--litera-mark) center/contain no-repeat; mask:var(--litera-mark) center/contain no-repeat;
         transition:opacity .18s ease, transform .18s ease; }
   .mega-dir:hover, .mega-dir.is-active{ color:var(--c); border-bottom-color:var(--c); }
@@ -153,10 +155,8 @@
   .mega-panels{ min-width:0; }
   .mega-panel{ display:none; }
   .mega-panel.is-active{ display:block; }
-  /* Подпись: цвет направления «прокатывается» по разделителю под навбаром, услуги проявляются */
+  /* Дефолтный цвет направления + проявление услуг (верхний край держит бордюр навбара) */
   #catalog-panel{ --c:#0000FF; }
-  #catalog-panel::before{ content:''; position:absolute; top:0; left:0; right:0; height:2px; background:var(--c); transform-origin:left; }
-  #catalog-panel.swept::before{ animation:mega-sweep .32s ease; }
   .mega-panel.is-active .mega-cat{ animation:mega-rise .34s ease both; }
   .mega-panel.is-active .mega-cat:nth-child(2){ animation-delay:.03s; }
   .mega-panel.is-active .mega-cat:nth-child(3){ animation-delay:.06s; }
@@ -165,22 +165,27 @@
   .mega-panel.is-active .mega-cat:nth-child(6){ animation-delay:.15s; }
   .mega-panel.is-active .mega-cat:nth-child(7){ animation-delay:.18s; }
   .mega-panel.is-active .mega-cat:nth-child(8){ animation-delay:.21s; }
-  @keyframes mega-sweep{ from{ transform:scaleX(0); } to{ transform:scaleX(1); } }
   @keyframes mega-rise{ from{ opacity:0; transform:translateY(8px); } to{ opacity:1; transform:none; } }
-  @media (prefers-reduced-motion:reduce){ #catalog-panel.swept::before, .mega-panel.is-active .mega-cat{ animation:none; } }
-  /* Дескриптор активного направления — лёгкая подпись над сеткой (имя уже в табе) */
-  .mega-head{ display:block; margin:-.4rem 0 1.1rem; }
-  .mega-head-t{ display:none; }
+  @media (prefers-reduced-motion:reduce){ .mega-panel.is-active .mega-cat{ animation:none; } }
+  /* Заголовок активного направления (имя + дескриптор) — меняется при наведении на таб */
+  .mega-head{ display:flex; align-items:baseline; flex-wrap:wrap; gap:.4rem .7rem; margin:-.1rem 0 1.15rem; }
+  .mega-head-t{ font-family:'Raptor V2 Premium','Manrope',system-ui,sans-serif; font-weight:700; font-size:1.35rem; line-height:1; letter-spacing:-.02em; color:var(--c); }
   .mega-head-d{ font-size:.84rem; color:#a1a1aa; }
+  /* Ссылка на страницу направления — справа в строке заголовка */
+  .mega-head-all{ margin-left:auto; font-size:.85rem; font-weight:700; color:var(--c); white-space:nowrap; transition:opacity .15s; }
+  .mega-head-all:hover{ text-decoration:underline; }
   /* Категории — сбалансированные колонки: плотная упаковка без рваных провалов грида */
   .mega-grid{ column-count:4; column-gap:1.75rem; }
   .mega-cat{ break-inside:avoid; margin-bottom:1.4rem; }
   .mega-cat:last-child{ margin-bottom:0; }
-  .mega-cat-h{ display:block; padding:0 0 .5rem; font-family:'Raptor V2 Premium','Manrope',system-ui,sans-serif; font-size:1rem; font-weight:700; letter-spacing:-.01em; color:#18181b; }
+  .mega-cat-h{ display:block; padding:0 0 .5rem; font-family:'Raptor V2 Premium','Manrope',system-ui,sans-serif; font-size:1rem; font-weight:700; letter-spacing:-.01em; color:#18181b; transition:color .12s; }
+  .mega-cat-h:hover{ color:var(--c); }
   .mega-svc{ display:block; padding:.24rem 0; font-size:.875rem; color:#52525b; transition:.12s; }
   .mega-svc:hover{ color:var(--c); padding-left:.3rem; }
   /* Футер-фид: фирменная фигура + промо активного направления + CTA */
-  .mega-foot{ display:flex; align-items:center; justify-content:space-between; gap:1rem; margin-top:1rem; padding-top:.9rem; border-top:1px solid #ececee; font-size:.85rem; }
+  .mega-foot{ position:relative; display:flex; align-items:center; justify-content:space-between; gap:1rem; margin-top:1rem; padding-top:.9rem; font-size:.85rem; }
+  /* Линия над футером — во всю ширину панели, до краёв экрана */
+  .mega-foot::before{ content:''; position:absolute; top:0; left:50%; transform:translateX(-50%); width:100vw; height:1px; background:#ececee; }
   .mega-foot-promo{ display:flex; align-items:center; gap:.5rem; min-width:0; }
   .mega-foot-mark{ width:.66rem; height:.94rem; flex-shrink:0; background:var(--c);
         -webkit-mask:var(--litera-mark) center/contain no-repeat; mask:var(--litera-mark) center/contain no-repeat; }
@@ -306,7 +311,7 @@
 
     <!-- 3-й уровень шапки: КАТАЛОГ — белый фон на всю ширину, контент по контейнеру -->
     <div class="header-panel" id="catalog-panel">
-      <div class="max-w-7xl mx-auto px-5 lg:px-8 py-5">
+      <div class="max-w-7xl mx-auto px-5 lg:px-8 pb-5">
         <div class="mega-body">
                 <!-- Рейл направлений -->
                 <div class="mega-rail">
@@ -1174,7 +1179,7 @@
     const megaPromo = document.getElementById('mega-promo');
     function setMeta(i, fullName) {
       const m = META[i]; if (!m) return;
-      if (megaHead) megaHead.innerHTML = `<span class="mega-head-t">${fullName}</span><span class="mega-head-d">${m.desc}</span>`;
+      if (megaHead) megaHead.innerHTML = `<span class="mega-head-t">${fullName}</span><span class="mega-head-d">${m.desc}</span><a href="#" class="mega-head-all">Все услуги направления →</a>`;
       if (megaPromo) megaPromo.textContent = m.promo;
     }
 
