@@ -78,6 +78,7 @@
   .accent{ color:var(--accent); }
   .bg-accent{ background:var(--accent); color:var(--on-accent); }
   .border-accent{ border-color:var(--accent); }
+  .logo-accent{ fill:var(--accent); }   /* марка логотипа следует за акцентом страницы */
   /* Маркер списка/строки = фирменная фигура вместо кружка */
   .marker-accent::before{ content:''; display:inline-block; width:.62rem; height:.88rem; margin-right:.55rem; vertical-align:-2px; background:var(--accent);
         -webkit-mask:var(--litera-mark) center/contain no-repeat; mask:var(--litera-mark) center/contain no-repeat; }
@@ -124,8 +125,8 @@
   .fld:focus{ outline:none; background:#fff; border-color:var(--accent); }
 
   /* Навигация направлений в шапке */
-  .nav-link{ display:inline-flex; align-items:center; gap:.3rem; padding:.45rem .55rem; transition:.15s; cursor:pointer; }
-  .nav-link:hover, .nav-link.is-open{ color:var(--c); }
+  .nav-link{ display:inline-flex; align-items:center; gap:.3rem; padding:.45rem .55rem; color:#3f3f46; transition:.15s; cursor:pointer; }
+  .nav-link:hover, .nav-link.is-open{ color:#18181b; }
   .nav-chev{ width:.8rem; height:.8rem; opacity:.4; transition:.2s; }
   .nav-link.is-open .nav-chev{ transform:rotate(180deg); }
   /* Третий уровень шапки: каталог и поиск — белая панель на всю ширину, контент по контейнеру */
@@ -196,7 +197,7 @@
   /* Поиск по каталогу в навбаре */
   .navsearch-btn{ width:2.5rem; height:2.5rem; display:grid; place-items:center; color:#3f3f46; transition:.15s; }
   .navsearch-btn svg{ width:20px; height:20px; }
-  .navsearch-btn:hover, .navsearch-btn.is-open{ color:var(--accent); }
+  .navsearch-btn:hover, .navsearch-btn.is-open{ color:#18181b; }
   /* Поле поиска внутри 3-го уровня шапки */
   .searchfield{ width:100%; padding:.9rem 1rem .9rem 3rem; font-size:1.05rem; border:0; border-bottom:2px solid #ececee; outline:none; background:transparent; }
   .searchfield:focus{ border-color:var(--accent); }
@@ -232,21 +233,30 @@
 <!-- ============================ ШАПКА ============================ -->
 <header class="sticky top-0 z-50">
 
-  <!-- ТОПБАР: контакты, режим, второстепенные страницы -->
-  <div class="hidden lg:block bg-ink text-white/80 text-xs">
+  <!-- ТОПБАР: цветовая шкала (печатная калибровка) + контакты, режим, адрес -->
+  <div class="hidden lg:block bg-zinc-50 text-zinc-500 text-xs border-b border-zinc-100">
     <div class="max-w-7xl mx-auto px-5 lg:px-8 h-10 flex items-center justify-between">
-      <!-- Связь: телефоны и мессенджеры -->
+      <!-- Связь: цветошкала + телефоны и мессенджеры -->
       <div class="flex items-center gap-4">
-        <a href="tel:+74950213577" class="font-semibold text-white hover:text-white/70 transition">+7 (495) 021-35-77</a>
-        <a href="tel:+79777936481" class="font-semibold text-white hover:text-white/70 transition">+7 (977) 793-64-81</a>
-        <a href="https://t.me/litera_studio" target="_blank" rel="noopener" aria-label="Telegram" class="hover:text-white transition"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M21.94 4.6 18.9 19.3c-.23 1.01-.83 1.26-1.68.78l-4.64-3.42-2.24 2.16c-.25.25-.46.46-.94.46l.33-4.73 8.6-7.77c.37-.33-.08-.52-.58-.19L7.43 13.1l-4.57-1.43c-1-.31-1.01-1 .21-1.48l17.86-6.88c.83-.31 1.56.19 1.29 1.29z"/></svg></a>
-        <a href="#" aria-label="WhatsApp" class="hover:text-white transition"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.77-.87-2.04-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.17-.17.2-.35.22-.65.07-.3-.15-1.26-.46-2.4-1.48-.89-.79-1.49-1.77-1.66-2.07-.17-.3-.02-.46.13-.61.13-.13.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.67-1.62-.92-2.22-.24-.58-.49-.5-.67-.51l-.57-.01c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48 0 1.46 1.06 2.87 1.21 3.07.15.2 2.09 3.2 5.07 4.49.71.3 1.26.49 1.69.62.71.23 1.36.2 1.87.12.57-.08 1.77-.72 2.02-1.42.25-.7.25-1.3.17-1.42-.07-.13-.27-.2-.57-.35zM12 2a10 10 0 0 0-8.55 15.15L2 22l4.96-1.4A10 10 0 1 0 12 2z"/></svg></a>
+        <!-- Печатная цветовая шкала — фирменные RGB направлений -->
+        <span class="flex items-center shrink-0" aria-hidden="true" title="Литера.Студия — типография полного цикла">
+          <span class="block w-2.5 h-3.5" style="background:#0000FF"></span>
+          <span class="block w-2.5 h-3.5" style="background:#FF00FF"></span>
+          <span class="block w-2.5 h-3.5" style="background:#9BBF00"></span>
+          <span class="block w-2.5 h-3.5" style="background:#00CC00"></span>
+        </span>
+        <span class="text-zinc-400">Пн–Пт 10:00–19:00</span>
+        <span class="w-px h-3.5 bg-zinc-200"></span>
+        <a href="#contacts" class="text-zinc-500 hover:text-ink transition">Москва, Холодильный пер., 3к1с3, под. 6, офис 404</a>
       </div>
-      <!-- Режим работы и адрес -->
-      <div class="flex items-center gap-4">
-        <span class="text-white/45">Пн–Пт 10:00–19:00</span>
-        <span class="w-px h-3.5 bg-white/20"></span>
-        <a href="#contacts" class="hover:text-white transition">Москва, Холодильный пер., 3к1с3, под. 6, офис 404</a>
+      <!-- Контакты: телефоны + почта + мессенджеры -->
+      <div class="flex items-center gap-3.5">
+        <a href="tel:+74950213577" class="text-zinc-500 hover:text-ink transition">+7 (495) 021-35-77</a>
+        <a href="tel:+79777936481" class="text-zinc-500 hover:text-ink transition">+7 (977) 793-64-81</a>
+        <a href="mailto:zakaz@litera.studio" class="text-zinc-500 hover:text-ink transition">zakaz@litera.studio</a>
+        <span class="w-px h-3.5 bg-zinc-200"></span>
+        <a href="https://t.me/litera_studio" target="_blank" rel="noopener" class="flex items-center gap-1.5 text-zinc-400 hover:text-ink transition"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M21.94 4.6 18.9 19.3c-.23 1.01-.83 1.26-1.68.78l-4.64-3.42-2.24 2.16c-.25.25-.46.46-.94.46l.33-4.73 8.6-7.77c.37-.33-.08-.52-.58-.19L7.43 13.1l-4.57-1.43c-1-.31-1.01-1 .21-1.48l17.86-6.88c.83-.31 1.56.19 1.29 1.29z"/></svg><span>Telegram</span></a>
+        <a href="#" class="flex items-center gap-1.5 text-zinc-400 hover:text-ink transition"><span class="inline-flex items-center justify-center w-4 h-4 rounded-[3px] border border-current text-[9px] font-extrabold leading-none" aria-hidden="true">M</span><span>MAX</span></a>
       </div>
     </div>
   </div>
@@ -261,8 +271,8 @@
       <!-- Лого -->
       <a href="#" class="flex items-center shrink-0 text-ink" aria-label="ЛИТЕРА.СТУДИО">
         <svg class="h-[22px] w-auto" viewBox="0 0 167 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M16.7434 0.439453H5.40039V4.48911H12.6938L16.7434 0.439453Z" fill="#0000FF"/>
-          <path d="M5.40039 10.1616L16.7434 21.5069V15.8343L5.40039 4.48911V10.1616Z" fill="#0000FF"/>
+          <path class="logo-accent" d="M16.7434 0.439453H5.40039V4.48911H12.6938L16.7434 0.439453Z" fill="#0000FF"/>
+          <path class="logo-accent" d="M5.40039 10.1616L16.7434 21.5069V15.8343L5.40039 4.48911V10.1616Z" fill="#0000FF"/>
           <path d="M0 21.507L4.04965 25.5567V0.439453L0 4.48911V21.507Z" fill="currentColor"/>
           <path d="M5.40234 21.5068V25.5565H12.6957L16.7454 21.5068H5.40234Z" fill="currentColor"/>
           <path d="M166.998 19.9746H164.358V8.45461H162.558C161.318 8.45461 160.598 9.19461 160.598 10.2746C160.598 11.3546 161.318 12.1146 162.558 12.1146H164.358L160.178 19.9746H157.218L160.438 13.9346C158.878 13.3946 157.858 12.1546 157.858 10.2746C157.858 7.65461 159.878 5.97461 162.558 5.97461H166.998V19.9746Z" fill="currentColor"/>
@@ -271,7 +281,7 @@
           <path d="M122.405 19.9746L127.265 5.97461H130.045L125.185 19.9746H122.405ZM118.085 5.97461H121.045L124.385 14.1546H121.445L118.085 5.97461Z" fill="currentColor"/>
           <path d="M111.734 19.9746V8.45461H108.354V5.97461H117.774V8.45461H114.374V19.9746H111.734Z" fill="currentColor"/>
           <path d="M101.346 20.2553C97.4862 20.2553 94.3662 17.3753 94.3662 12.9753C94.3662 8.57531 97.4862 5.69531 101.346 5.69531C104.466 5.69531 107.106 7.57531 107.926 10.6353H105.066C104.426 9.15531 103.086 8.23531 101.346 8.23531C98.8262 8.23531 97.1062 10.1553 97.1062 12.9753C97.1062 15.7953 98.8262 17.7153 101.346 17.7153C103.166 17.7153 104.506 16.7153 105.126 15.1153H107.966C107.206 18.2953 104.526 20.2553 101.346 20.2553Z" fill="currentColor"/>
-          <path d="M91.9812 20.2552C90.9412 20.2552 90.2012 19.4552 90.2012 18.4352C90.2012 17.4352 90.9412 16.6152 91.9812 16.6152C93.0012 16.6152 93.7412 17.4352 93.7412 18.4352C93.7412 19.4552 93.0012 20.2552 91.9812 20.2552Z" fill="#0000FF"/>
+          <path class="logo-accent" d="M91.9812 20.2552C90.9412 20.2552 90.2012 19.4552 90.2012 18.4352C90.2012 17.4352 90.9412 16.6152 91.9812 16.6152C93.0012 16.6152 93.7412 17.4352 93.7412 18.4352C93.7412 19.4552 93.0012 20.2552 91.9812 20.2552Z" fill="#0000FF"/>
           <path d="M75.7402 19.9746L79.6002 5.97461H82.3602L80.2402 13.6746H84.5202L82.3602 5.97461H85.1802L89.1202 19.9746H86.2802L85.2002 16.1346H79.5802L78.5202 19.9746H75.7402Z" fill="currentColor"/>
           <path d="M68.3545 19.9746V5.97461H72.4945C75.1745 5.97461 77.1745 7.79461 77.1745 10.4946C77.1745 13.1946 75.1745 15.0146 72.4945 15.0146H70.9945V19.9746H68.3545ZM70.9945 12.5546H72.4945C73.7345 12.5546 74.4345 11.6546 74.4345 10.4946C74.4345 9.33461 73.7345 8.45461 72.4945 8.45461H70.9945V12.5546Z" fill="currentColor"/>
           <path d="M58.9502 19.9746V5.97461H66.2702V8.45461H61.5902V11.3546H65.7702V13.8146H61.5902V17.4946H66.4702V19.9746H58.9502Z" fill="currentColor"/>
@@ -291,11 +301,11 @@
 
         <!-- Каталог: открывает 3-й уровень шапки -->
         <button type="button" id="catalog-trigger" class="nav-link" style="--c:#0000FF">Каталог<svg class="nav-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></button>
-        <a href="portfolio.html" class="px-2.5 py-2 hover:text-[color:var(--accent)] transition">Проекты</a>
-        <a href="#" class="px-2.5 py-2 hover:text-[color:var(--accent)] transition">Блог</a>
-        <a href="#" class="px-2.5 py-2 hover:text-[color:var(--accent)] transition">О нас</a>
-        <a href="#" class="px-2.5 py-2 hover:text-[color:var(--accent)] transition">Оплата и доставка</a>
-        <a href="#contacts" class="px-2.5 py-2 hover:text-[color:var(--accent)] transition">Контакты</a>
+        <a href="portfolio.html" class="px-2.5 py-2 text-zinc-700 hover:text-ink transition">Проекты</a>
+        <a href="#" class="px-2.5 py-2 text-zinc-700 hover:text-ink transition">Блог</a>
+        <a href="#" class="px-2.5 py-2 text-zinc-700 hover:text-ink transition">О нас</a>
+        <a href="#" class="px-2.5 py-2 text-zinc-700 hover:text-ink transition">Оплата и доставка</a>
+        <a href="#contacts" class="px-2.5 py-2 text-zinc-700 hover:text-ink transition">Контакты</a>
       </nav>
 
       <!-- CTA -->
@@ -963,8 +973,8 @@
       <div class="lg:col-span-1">
         <div class="flex items-center mb-4 text-paper">
           <svg class="h-[22px] w-auto" viewBox="0 0 167 26" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="ЛИТЕРА.СТУДИО">
-            <path d="M16.7434 0.439453H5.40039V4.48911H12.6938L16.7434 0.439453Z" fill="#0000FF"/>
-            <path d="M5.40039 10.1616L16.7434 21.5069V15.8343L5.40039 4.48911V10.1616Z" fill="#0000FF"/>
+            <path class="logo-accent" d="M16.7434 0.439453H5.40039V4.48911H12.6938L16.7434 0.439453Z" fill="#0000FF"/>
+            <path class="logo-accent" d="M5.40039 10.1616L16.7434 21.5069V15.8343L5.40039 4.48911V10.1616Z" fill="#0000FF"/>
             <path d="M0 21.507L4.04965 25.5567V0.439453L0 4.48911V21.507Z" fill="currentColor"/>
             <path d="M5.40234 21.5068V25.5565H12.6957L16.7454 21.5068H5.40234Z" fill="currentColor"/>
             <path d="M166.998 19.9746H164.358V8.45461H162.558C161.318 8.45461 160.598 9.19461 160.598 10.2746C160.598 11.3546 161.318 12.1146 162.558 12.1146H164.358L160.178 19.9746H157.218L160.438 13.9346C158.878 13.3946 157.858 12.1546 157.858 10.2746C157.858 7.65461 159.878 5.97461 162.558 5.97461H166.998V19.9746Z" fill="currentColor"/>
@@ -973,7 +983,7 @@
             <path d="M122.405 19.9746L127.265 5.97461H130.045L125.185 19.9746H122.405ZM118.085 5.97461H121.045L124.385 14.1546H121.445L118.085 5.97461Z" fill="currentColor"/>
             <path d="M111.734 19.9746V8.45461H108.354V5.97461H117.774V8.45461H114.374V19.9746H111.734Z" fill="currentColor"/>
             <path d="M101.346 20.2553C97.4862 20.2553 94.3662 17.3753 94.3662 12.9753C94.3662 8.57531 97.4862 5.69531 101.346 5.69531C104.466 5.69531 107.106 7.57531 107.926 10.6353H105.066C104.426 9.15531 103.086 8.23531 101.346 8.23531C98.8262 8.23531 97.1062 10.1553 97.1062 12.9753C97.1062 15.7953 98.8262 17.7153 101.346 17.7153C103.166 17.7153 104.506 16.7153 105.126 15.1153H107.966C107.206 18.2953 104.526 20.2553 101.346 20.2553Z" fill="currentColor"/>
-            <path d="M91.9812 20.2552C90.9412 20.2552 90.2012 19.4552 90.2012 18.4352C90.2012 17.4352 90.9412 16.6152 91.9812 16.6152C93.0012 16.6152 93.7412 17.4352 93.7412 18.4352C93.7412 19.4552 93.0012 20.2552 91.9812 20.2552Z" fill="#0000FF"/>
+            <path class="logo-accent" d="M91.9812 20.2552C90.9412 20.2552 90.2012 19.4552 90.2012 18.4352C90.2012 17.4352 90.9412 16.6152 91.9812 16.6152C93.0012 16.6152 93.7412 17.4352 93.7412 18.4352C93.7412 19.4552 93.0012 20.2552 91.9812 20.2552Z" fill="#0000FF"/>
             <path d="M75.7402 19.9746L79.6002 5.97461H82.3602L80.2402 13.6746H84.5202L82.3602 5.97461H85.1802L89.1202 19.9746H86.2802L85.2002 16.1346H79.5802L78.5202 19.9746H75.7402Z" fill="currentColor"/>
             <path d="M68.3545 19.9746V5.97461H72.4945C75.1745 5.97461 77.1745 7.79461 77.1745 10.4946C77.1745 13.1946 75.1745 15.0146 72.4945 15.0146H70.9945V19.9746H68.3545ZM70.9945 12.5546H72.4945C73.7345 12.5546 74.4345 11.6546 74.4345 10.4946C74.4345 9.33461 73.7345 8.45461 72.4945 8.45461H70.9945V12.5546Z" fill="currentColor"/>
             <path d="M58.9502 19.9746V5.97461H66.2702V8.45461H61.5902V11.3546H65.7702V13.8146H61.5902V17.4946H66.4702V19.9746H58.9502Z" fill="currentColor"/>
@@ -1254,6 +1264,20 @@
   faqs.forEach(d => d.addEventListener('toggle', () => {
     if (d.open) faqs.forEach(o => { if (o !== d) o.open = false; });
   }));
+</script>
+
+<!-- DEV: предпросмотр акцента направления. Кликни цвет — лого/кнопка/контент-акценты перекрасятся. Удалить перед продакшеном. -->
+<div id="accent-preview" class="hidden lg:flex fixed bottom-3 left-3 z-[60] items-center gap-1.5 bg-white/95 backdrop-blur border border-zinc-200 rounded-full pl-3 pr-2 py-1.5 shadow-lg text-[11px]">
+  <span class="text-zinc-400 font-semibold mr-1">Акцент страницы:</span>
+  <button type="button" data-accent="#0000FF" class="w-4 h-4 rounded-full ring-1 ring-black/10" style="background:#0000FF" title="Полиграфия"></button>
+  <button type="button" data-accent="#FF00FF" class="w-4 h-4 rounded-full ring-1 ring-black/10" style="background:#FF00FF" title="Упаковка и этикетки"></button>
+  <button type="button" data-accent="#9BBF00" class="w-4 h-4 rounded-full ring-1 ring-black/10" style="background:#9BBF00" title="Логотип и фирменный стиль"></button>
+  <button type="button" data-accent="#00CC00" class="w-4 h-4 rounded-full ring-1 ring-black/10" style="background:#00CC00" title="Мерч и сувениры"></button>
+  <button type="button" data-accent="#64748B" class="w-4 h-4 rounded-full ring-1 ring-black/10" style="background:#64748B" title="Отраслевые решения"></button>
+</div>
+<script>
+  document.querySelectorAll('#accent-preview [data-accent]').forEach(b =>
+    b.addEventListener('click', () => document.documentElement.style.setProperty('--accent', b.dataset.accent)));
 </script>
 </body>
 </html>
