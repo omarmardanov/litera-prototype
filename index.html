@@ -16,7 +16,7 @@
 <!-- Шрифты: Raptor V2 (лицензия у заказчика) первым; Manrope — видимый fallback -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
@@ -26,10 +26,10 @@
         colors: {
           ink:      '#000000',
           paper:    '#ffffff',
-          'b-blue':    '#0000FF',
-          'b-magenta': '#FF00FF',
+          'b-blue':    '#2A37C2',
+          'b-magenta': '#C633A0',
           'b-lime':    '#CCFF00',
-          'b-yellow':  '#FFFF00',
+          'b-yellow':  '#E8BE1E',
           'b-green':   '#00CC00',
           'b-gray':    '#ABA7A7',
         },
@@ -118,7 +118,7 @@
   .mega-panels{ min-width:0; }
   .mega-panel{ display:none; }
   .mega-panel.is-active{ display:block; }
-  #catalog-panel{ --c:#0000FF; }
+  #catalog-panel{ --c:#2A37C2; }
   .mega-panel.is-active .mega-cat{ animation:mega-rise .34s ease both; }
   .mega-panel.is-active .mega-cat:nth-child(2){ animation-delay:.03s; }
   .mega-panel.is-active .mega-cat:nth-child(3){ animation-delay:.06s; }
@@ -184,24 +184,114 @@
   .dir-col:hover .dir-desc{ opacity:.85; max-height:3rem; margin-top:.5rem; }
 
   /* ---- Герой C (в духе G.F Smith): полноэкранный цвет, крупная типографика ---- */
-  #hero-c{ transition:background-color .5s cubic-bezier(.4,0,.2,1), color .5s; }
+  #hero-c{ transition:background-color .5s cubic-bezier(.4,0,.2,1), color .5s; isolation:isolate; }
   /* Гигантская фирменная фигура — водяной знак за текстом */
-  .hc-mark{ position:absolute; right:-8vh; top:-12vh; width:88vh; height:88vh; opacity:.09; background:currentColor; pointer-events:none;
+  .hc-mark{ position:absolute; right:-6vh; top:-8vh; width:74vh; height:74vh; opacity:.07; background:currentColor; pointer-events:none;
+        -webkit-mask:var(--litera-mark) center/contain no-repeat; mask:var(--litera-mark) center/contain no-repeat;
+        animation:hcDrift 22s ease-in-out infinite; }
+  @keyframes hcDrift{ 0%,100%{ transform:translateY(0) rotate(0deg); } 50%{ transform:translateY(-2.4vh) rotate(-3deg); } }
+  /* Текстура бумаги поверх цвета (печатный приём): SVG-шум, multiply подкрашивается под направление */
+  .hc-paper{ position:absolute; inset:0; z-index:1; pointer-events:none; mix-blend-mode:multiply; opacity:.16;
+        background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E");
+        background-size:200px 200px; }
+  #hero-c .btn{ transition:transform .18s ease, box-shadow .18s ease; }
+  #hero-c .btn:hover{ transform:translateY(-2px); box-shadow:0 14px 30px -12px rgba(0,0,0,.45); }
+  /* Основная кнопка: заливка цветом текста направления, текст — в цвет фона (адаптивно) */
+  #hero-c .hc-cta{ background:var(--hcfg,#ffffff); color:var(--hcbg,#2A37C2); border-color:transparent; }
+
+  /* ---- Hero C: три переключателя направлений ---- */
+  .sw{ display:none; }
+  /* Вариант 1 — индекс справа */
+  #hero-c.sw-1 .hc-inner{ display:grid; gap:2.5rem; }
+  @media(min-width:1024px){ #hero-c.sw-1 .hc-inner{ grid-template-columns:minmax(0,1fr) auto; align-items:center; gap:4.5rem; } }
+  #hero-c.sw-1 .sw-index{ display:flex; flex-direction:column; gap:.1rem; min-width:210px; }
+  .sw-index .sw-item{ position:relative; display:flex; align-items:baseline; gap:.85rem; width:100%; text-align:left; color:inherit; opacity:.5; cursor:pointer; padding:.55rem 0;
+        font-family:'Raptor V2 Premium','Manrope',system-ui,sans-serif; font-weight:700; transition:opacity .2s, padding-left .2s; }
+  .sw-index .sw-item .n{ font-size:.78rem; opacity:.7; font-variant-numeric:tabular-nums; letter-spacing:.06em; }
+  .sw-index .sw-item .t{ font-size:1.55rem; line-height:1; letter-spacing:-.02em; }
+  .sw-index .sw-item:hover{ opacity:.8; }
+  .sw-index .sw-item.is-active{ opacity:1; padding-left:.5rem; }
+  .sw-index .sw-item .sw-fill{ position:absolute; left:0; bottom:.15rem; height:2px; width:100%; background:currentColor; transform:scaleX(var(--p,0)); transform-origin:left; opacity:0; }
+  .sw-index .sw-item.is-active .sw-fill{ opacity:1; }
+  /* Вариант 2 — точки/пипсы снизу */
+  #hero-c.sw-2 .sw-dots{ display:flex; align-items:center; gap:.55rem; }
+  .sw-dots .sw-item{ position:relative; height:4px; width:48px; background:color-mix(in srgb, currentColor 26%, transparent); cursor:pointer; overflow:hidden; transition:width .25s ease; }
+  .sw-dots .sw-item.is-active{ width:84px; }
+  .sw-dots .sw-item .sw-fill{ position:absolute; inset:0; background:currentColor; transform:scaleX(var(--p,0)); transform-origin:left; }
+  /* Вариант 3 — боковые вкладки у правого края */
+  #hero-c.sw-3 .sw-tabs{ display:flex; position:absolute; top:0; right:0; bottom:0; z-index:10; flex-direction:column; justify-content:center; gap:.5rem; }
+  .sw-tabs .sw-item{ position:relative; display:flex; align-items:center; gap:.6rem; height:48px; padding:0 1.4rem 0 1.3rem; color:inherit; cursor:pointer; white-space:nowrap; font-weight:700; font-size:.92rem;
+        background:color-mix(in srgb, currentColor 10%, transparent); transform:translateX(calc(100% - 16px)); transition:transform .3s cubic-bezier(.4,0,.2,1), background-color .2s; }
+  .sw-tabs .sw-item::before{ content:''; position:absolute; left:0; top:0; bottom:0; width:6px; background:var(--tc); }
+  .sw-tabs .sw-item .t{ opacity:0; transition:opacity .2s; }
+  .sw-tabs .sw-item:hover, .sw-tabs .sw-item.is-active{ transform:none; background:color-mix(in srgb, currentColor 20%, transparent); }
+  .sw-tabs .sw-item:hover .t, .sw-tabs .sw-item.is-active .t{ opacity:1; }
+  .sw-tabs .sw-item .sw-fill{ position:absolute; left:0; bottom:0; height:2px; width:100%; background:currentColor; transform:scaleX(var(--p,0)); transform-origin:left; }
+
+  /* ---- Премиум-герои (сдержанный холст, цвет акцентом) ---- */
+  .prem-light{ background:#F6F5F2; color:#16161a; }
+  .prem-dark{ background:#141417; color:#f4f4f5; }
+  .prem-kicker{ font-size:.8rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; opacity:.5; margin-bottom:1.5rem; }
+  .prem-title{ font-family:'Raptor V2 Premium','Manrope',system-ui,sans-serif; font-weight:700; font-size:clamp(2.6rem,7.5vw,6rem); line-height:.95; letter-spacing:-.035em; }
+  .prem-sub{ margin-top:1.6rem; font-size:1.1rem; line-height:1.65; max-width:34rem; opacity:.65; }
+  .prem-cta{ margin-top:2.2rem; display:flex; flex-wrap:wrap; gap:.8rem; }
+  .prem-light .prem-btn-primary{ background:#111; color:#fff; }
+  .prem-dark .prem-btn-primary{ background:#fff; color:#111; }
+  .prem-btn-ghost{ background:transparent; color:inherit; border-color:color-mix(in srgb, currentColor 28%, transparent); }
+  .prem-btn-ghost:hover{ border-color:currentColor; }
+  .prem-index{ display:flex; flex-direction:column; min-width:240px; border-top:1px solid color-mix(in srgb, currentColor 15%, transparent); }
+  .prem-index li{ border-bottom:1px solid color-mix(in srgb, currentColor 15%, transparent); }
+  .prem-index a{ display:flex; align-items:center; gap:1rem; padding:.85rem .25rem; color:inherit; transition:padding-left .2s ease, color .2s ease; }
+  .prem-index a:hover{ padding-left:.55rem; }
+  .prem-index .pi-chip{ width:.85rem; height:.85rem; flex-shrink:0; background:var(--c); }
+  .prem-index .pi-n{ font-size:.74rem; opacity:.45; font-variant-numeric:tabular-nums; letter-spacing:.06em; }
+  .prem-index .pi-t{ font-family:'Raptor V2 Premium','Manrope',system-ui,sans-serif; font-weight:700; font-size:1.18rem; letter-spacing:-.01em; }
+  .prem-index a:hover .pi-t{ color:var(--c); }
+
+  /* ---- Премиум-герой с ремеслом (бумага, серифный акцент, редакционная сетка) ---- */
+  .hero-craft{ background:#F3F1EA; color:#16150F; }
+  .craft-grain{ position:absolute; inset:0; z-index:1; pointer-events:none; mix-blend-mode:multiply; opacity:.55;
+        background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+        background-size:200px 200px; }
+  .craft-mark{ position:absolute; right:-5vw; top:50%; transform:translateY(-50%); width:46vw; max-width:680px; aspect-ratio:113.12/161.82;
+        background:#16150F; opacity:.045; pointer-events:none; z-index:0;
         -webkit-mask:var(--litera-mark) center/contain no-repeat; mask:var(--litera-mark) center/contain no-repeat; }
+  .craft-kicker{ display:flex; align-items:center; gap:1rem; margin-bottom:2.2rem; font-size:.72rem; font-weight:600; letter-spacing:.22em; text-transform:uppercase; opacity:.55; }
+  .craft-kicker .hair{ width:46px; height:1px; background:currentColor; opacity:.55; }
+  .craft-title{ font-family:'Raptor V2 Premium','Manrope',system-ui,sans-serif; font-weight:700; font-size:clamp(2.7rem,8.4vw,7rem); line-height:.96; letter-spacing:-.035em; }
+  .craft-title em{ font-family:'Instrument Serif',Georgia,serif; font-style:italic; font-weight:400; letter-spacing:0; font-size:1.08em; }
+  .craft-foot{ display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:1.4rem 2rem; margin-top:3rem; padding-top:1.4rem; border-top:1px solid color-mix(in srgb, currentColor 20%, transparent); }
+  .craft-link{ position:relative; display:inline-flex; align-items:center; gap:.5rem; font-weight:700; font-size:1.05rem; color:inherit; }
+  .craft-link .arr{ transition:transform .2s ease; }
+  .craft-link:hover .arr{ transform:translateX(4px); }
+  .craft-link .ln{ position:absolute; left:0; right:0; bottom:-4px; height:1.5px; background:currentColor; transform:scaleX(0); transform-origin:left; transition:transform .3s ease; }
+  .craft-link:hover .ln{ transform:scaleX(1); }
+  .craft-dirs{ display:flex; flex-wrap:wrap; gap:.5rem 1.4rem; font-size:.74rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; }
+  .craft-dirs a{ display:inline-flex; align-items:center; gap:.5rem; color:inherit; opacity:.6; transition:opacity .15s; }
+  .craft-dirs a:hover{ opacity:1; }
+  .craft-dirs i{ width:.6rem; height:.6rem; flex-shrink:0; background:var(--c); }
+  @media (prefers-reduced-motion:reduce){ .hc-mark{ animation:none; } }
   .hc-eyebrow{ display:inline-flex; align-items:baseline; gap:.6rem; font-size:.8rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; }
   .hc-eyebrow .swatch{ font-variant-numeric:tabular-nums; opacity:.6; }
   .hc-title{ font-family:'Raptor V2 Premium','Manrope',system-ui,sans-serif; font-weight:700;
-        font-size:clamp(3.2rem, 13vw, 9.5rem); line-height:.86; letter-spacing:-.04em; }
+        font-size:clamp(2.6rem, 10.5vw, 7rem); line-height:.92; letter-spacing:-.035em; }
+  /* Мягкое появление при смене слайда карусели */
+  @keyframes hcRise{ from{ opacity:0; transform:translateY(10px); } to{ opacity:1; transform:none; } }
+  .hc-eyebrow{ animation:hcRise .5s ease both; }
+  .hc-title #hc-head{ display:inline-block; animation:hcRise .5s ease .05s both; }
+  @media (prefers-reduced-motion:reduce){ .hc-eyebrow, .hc-title #hc-head{ animation:none; } }
   /* Нижний ряд свотчей = выбор направления (поклон «Colourer») */
-  .hc-swatches{ display:flex; align-items:stretch; height:4.25rem; background:rgba(0,0,0,.12); }
-  .hc-sw{ flex:1; position:relative; display:flex; align-items:center; gap:.6rem; padding:0 1.1rem; cursor:pointer;
-        font-size:.82rem; font-weight:700; color:inherit; transition:flex-grow .35s ease; overflow:hidden; white-space:nowrap; }
-  .hc-sw + .hc-sw{ box-shadow:inset 1px 0 0 rgba(255,255,255,.22); }
-  .hc-sw .chip{ width:.95rem; height:.95rem; flex-shrink:0; box-shadow:0 0 0 1px rgba(255,255,255,.5); }
-  .hc-sw .lbl{ opacity:.78; transition:opacity .2s; }
-  .hc-sw:hover{ flex-grow:1.5; }
+  .hc-swatches{ display:flex; align-items:stretch; height:3.75rem; border:1px solid color-mix(in srgb, currentColor 26%, transparent); }
+  .hc-sw{ flex:1; min-width:0; position:relative; display:flex; align-items:center; gap:.6rem; padding:0 1.1rem; cursor:pointer;
+        font-size:.82rem; font-weight:700; color:inherit; transition:flex-grow .35s ease, background-color .2s; overflow:hidden; white-space:nowrap; }
+  .hc-sw + .hc-sw{ border-left:1px solid color-mix(in srgb, currentColor 16%, transparent); }
+  .hc-sw .chip{ width:.9rem; height:.9rem; flex-shrink:0; box-shadow:0 0 0 1px color-mix(in srgb, currentColor 55%, transparent); }
+  .hc-sw .lbl{ opacity:.8; transition:opacity .2s; }
+  .hc-sw:hover{ flex-grow:1.5; background:color-mix(in srgb, currentColor 8%, transparent); }
+  .hc-sw.is-active{ background:color-mix(in srgb, currentColor 15%, transparent); }
   .hc-sw:hover .lbl, .hc-sw.is-active .lbl{ opacity:1; }
-  .hc-sw.is-active::after{ content:''; position:absolute; left:0; right:0; bottom:0; height:3px; background:currentColor; }
+  /* Полоса прогресса слайда (как у сторис/карусели) */
+  .hc-sw .hc-prog{ position:absolute; left:0; bottom:0; height:2px; width:100%; background:currentColor; transform:scaleX(var(--p,0)); transform-origin:left; will-change:transform; }
 
   /* ---- Тема C: шапка под полноэкранный цвет (бесшовно с hero, цвет ведёт JS) ---- */
   body.theme-c .topbar{ display:none; }
@@ -214,7 +304,7 @@
   body.theme-c #burger{ color:inherit; }
   body.theme-c nav a{ color:inherit !important; opacity:.82; transition:opacity .2s; }
   body.theme-c nav a:hover{ opacity:1; }
-  body.theme-c .btn-accent{ background:var(--hc-fg,#fff); color:var(--hc-bg,#0000FF); }
+  body.theme-c .btn-accent{ background:var(--hc-fg,#fff); color:var(--hc-bg,#2A37C2); }
   body.theme-c .btn-accent:hover{ box-shadow:0 12px 30px -10px rgba(0,0,0,.45); }
 
   /* ---- Каталог, стиль 1 (тема C): цветная редакционная выпадашка-флуд ---- */
@@ -240,7 +330,7 @@
   body.theme-c.cat-panel .mega-foot-mark{ background:currentColor; }
 
   /* ---- Каталог, стиль 2 (тема C): полноэкранный индекс-тейковер ---- */
-  .cat-full-overlay{ position:fixed; inset:0; z-index:90; display:flex; flex-direction:column; color:#fff; background:#0000FF;
+  .cat-full-overlay{ position:fixed; inset:0; z-index:90; display:flex; flex-direction:column; color:#fff; background:#2A37C2;
         transition:background-color .45s cubic-bezier(.4,0,.2,1), color .35s; }
   .cat-full-overlay[hidden]{ display:none; }
   .cf-top{ display:flex; align-items:center; justify-content:space-between; max-width:80rem; width:100%; margin:0 auto; padding:1.4rem 1.25rem; }
@@ -286,10 +376,12 @@
         background:#fff; color:#18181b; border:1px solid #e4e4e7; border-radius:14px; box-shadow:0 18px 50px -18px rgba(0,0,0,.45);
         font-size:13px; overflow:hidden; }
   #proto-guide.is-collapsed .pg-body{ display:none; }
+  #proto-guide.pg-hidden{ display:none; }
+  .pg-key{ margin-left:auto; color:#c4c4cc; font-weight:600; font-size:11px; white-space:nowrap; }
   .pg-bar{ display:flex; align-items:center; gap:.55rem; padding:.6rem .85rem; }
   .pg-bar b{ font-weight:800; letter-spacing:-.01em; }
   .pg-sub{ color:#a1a1aa; font-weight:600; }
-  .pg-collapse{ margin-left:auto; color:#71717a; font-weight:700; padding:.2rem .55rem; border-radius:7px; transition:.15s; }
+  .pg-collapse{ color:#71717a; font-weight:700; padding:.2rem .55rem; border-radius:7px; transition:.15s; }
   .pg-collapse:hover{ background:#f4f4f5; color:#18181b; }
   .pg-body{ padding:0 .85rem .85rem; display:flex; flex-direction:column; gap:.55rem; }
   .pg-row{ display:flex; align-items:center; gap:.7rem; }
@@ -325,10 +417,10 @@
     <div class="max-w-7xl mx-auto px-5 lg:px-8 h-10 flex items-center justify-between">
       <div class="flex items-center gap-4">
         <span class="flex items-center shrink-0" aria-hidden="true" title="Литера.Студия — типография полного цикла">
-          <span class="block w-2.5 h-3.5" style="background:#0000FF"></span>
-          <span class="block w-2.5 h-3.5" style="background:#FF00FF"></span>
+          <span class="block w-2.5 h-3.5" style="background:#2A37C2"></span>
+          <span class="block w-2.5 h-3.5" style="background:#C633A0"></span>
           <span class="block w-2.5 h-3.5" style="background:#9BBF00"></span>
-          <span class="block w-2.5 h-3.5" style="background:#00CC00"></span>
+          <span class="block w-2.5 h-3.5" style="background:#E8BE1E"></span>
         </span>
         <span class="text-zinc-400">Пн–Пт 10:00–19:00</span>
         <span class="w-px h-3.5 bg-zinc-200"></span>
@@ -354,8 +446,8 @@
       <!-- Лого -->
       <a href="index.html" class="flex items-center shrink-0 text-ink" aria-label="ЛИТЕРА.СТУДИО">
         <svg class="h-[22px] w-auto" viewBox="0 0 167 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path class="logo-accent" d="M16.7434 0.439453H5.40039V4.48911H12.6938L16.7434 0.439453Z" fill="#0000FF"/>
-          <path class="logo-accent" d="M5.40039 10.1616L16.7434 21.5069V15.8343L5.40039 4.48911V10.1616Z" fill="#0000FF"/>
+          <path class="logo-accent" d="M16.7434 0.439453H5.40039V4.48911H12.6938L16.7434 0.439453Z" fill="#2A37C2"/>
+          <path class="logo-accent" d="M5.40039 10.1616L16.7434 21.5069V15.8343L5.40039 4.48911V10.1616Z" fill="#2A37C2"/>
           <path d="M0 21.507L4.04965 25.5567V0.439453L0 4.48911V21.507Z" fill="currentColor"/>
           <path d="M5.40234 21.5068V25.5565H12.6957L16.7454 21.5068H5.40234Z" fill="currentColor"/>
           <path d="M166.998 19.9746H164.358V8.45461H162.558C161.318 8.45461 160.598 9.19461 160.598 10.2746C160.598 11.3546 161.318 12.1146 162.558 12.1146H164.358L160.178 19.9746H157.218L160.438 13.9346C158.878 13.3946 157.858 12.1546 157.858 10.2746C157.858 7.65461 159.878 5.97461 162.558 5.97461H166.998V19.9746Z" fill="currentColor"/>
@@ -364,7 +456,7 @@
           <path d="M122.405 19.9746L127.265 5.97461H130.045L125.185 19.9746H122.405ZM118.085 5.97461H121.045L124.385 14.1546H121.445L118.085 5.97461Z" fill="currentColor"/>
           <path d="M111.734 19.9746V8.45461H108.354V5.97461H117.774V8.45461H114.374V19.9746H111.734Z" fill="currentColor"/>
           <path d="M101.346 20.2553C97.4862 20.2553 94.3662 17.3753 94.3662 12.9753C94.3662 8.57531 97.4862 5.69531 101.346 5.69531C104.466 5.69531 107.106 7.57531 107.926 10.6353H105.066C104.426 9.15531 103.086 8.23531 101.346 8.23531C98.8262 8.23531 97.1062 10.1553 97.1062 12.9753C97.1062 15.7953 98.8262 17.7153 101.346 17.7153C103.166 17.7153 104.506 16.7153 105.126 15.1153H107.966C107.206 18.2953 104.526 20.2553 101.346 20.2553Z" fill="currentColor"/>
-          <path class="logo-accent" d="M91.9812 20.2552C90.9412 20.2552 90.2012 19.4552 90.2012 18.4352C90.2012 17.4352 90.9412 16.6152 91.9812 16.6152C93.0012 16.6152 93.7412 17.4352 93.7412 18.4352C93.7412 19.4552 93.0012 20.2552 91.9812 20.2552Z" fill="#0000FF"/>
+          <path class="logo-accent" d="M91.9812 20.2552C90.9412 20.2552 90.2012 19.4552 90.2012 18.4352C90.2012 17.4352 90.9412 16.6152 91.9812 16.6152C93.0012 16.6152 93.7412 17.4352 93.7412 18.4352C93.7412 19.4552 93.0012 20.2552 91.9812 20.2552Z" fill="#2A37C2"/>
           <path d="M75.7402 19.9746L79.6002 5.97461H82.3602L80.2402 13.6746H84.5202L82.3602 5.97461H85.1802L89.1202 19.9746H86.2802L85.2002 16.1346H79.5802L78.5202 19.9746H75.7402Z" fill="currentColor"/>
           <path d="M68.3545 19.9746V5.97461H72.4945C75.1745 5.97461 77.1745 7.79461 77.1745 10.4946C77.1745 13.1946 75.1745 15.0146 72.4945 15.0146H70.9945V19.9746H68.3545ZM70.9945 12.5546H72.4945C73.7345 12.5546 74.4345 11.6546 74.4345 10.4946C74.4345 9.33461 73.7345 8.45461 72.4945 8.45461H70.9945V12.5546Z" fill="currentColor"/>
           <path d="M58.9502 19.9746V5.97461H66.2702V8.45461H61.5902V11.3546H65.7702V13.8146H61.5902V17.4946H66.4702V19.9746H58.9502Z" fill="currentColor"/>
@@ -379,7 +471,7 @@
         <button type="button" id="nav-search-toggle" aria-label="Поиск" class="navsearch-btn">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
         </button>
-        <button type="button" id="catalog-trigger" class="nav-link" style="--c:#0000FF">Каталог<svg class="nav-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></button>
+        <button type="button" id="catalog-trigger" class="nav-link" style="--c:#2A37C2">Каталог<svg class="nav-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></button>
         <a href="portfolio.html" class="px-2.5 py-2 text-zinc-700 hover:text-ink transition">Проекты</a>
         <a href="#" class="px-2.5 py-2 text-zinc-700 hover:text-ink transition">Блог</a>
         <a href="#" class="px-2.5 py-2 text-zinc-700 hover:text-ink transition">О нас</a>
@@ -406,16 +498,16 @@
         <div class="mega-body">
                 <div class="mega-rail">
                   <div class="mega-rail-h">Направления</div>
-                  <button class="mega-dir is-active" data-mega="0" style="--c:#0000FF">Полиграфия</button>
-                  <button class="mega-dir" data-mega="1" style="--c:#FF00FF">Упаковка и этикетки</button>
+                  <button class="mega-dir is-active" data-mega="0" style="--c:#2A37C2">Полиграфия</button>
+                  <button class="mega-dir" data-mega="1" style="--c:#C633A0">Упаковка и этикетки</button>
                   <button class="mega-dir" data-mega="2" style="--c:#9bbf00">Логотип и фирменный стиль</button>
-                  <button class="mega-dir" data-mega="3" style="--c:#00CC00">Мерч и сувениры</button>
+                  <button class="mega-dir" data-mega="3" style="--c:#E8BE1E">Мерч и сувениры</button>
                   <button class="mega-dir" data-mega="4" style="--c:#64748b">Отраслевые решения</button>
                 </div>
                 <div class="mega-panels">
                   <div class="mega-head" id="mega-head"></div>
 
-                  <div class="mega-panel is-active" data-panel="0" data-dir="Полиграфия" style="--c:#0000FF">
+                  <div class="mega-panel is-active" data-panel="0" data-dir="Полиграфия" style="--c:#2A37C2">
                     <div class="mega-grid">
                       <div class="mega-cat"><a href="category.html" class="mega-cat-h">Листовая полиграфия</a><a href="#" class="mega-svc">Визитки</a><a href="#" class="mega-svc">Листовки</a><a href="#" class="mega-svc">Флаеры</a><a href="#" class="mega-svc">Буклеты и лифлеты</a><a href="#" class="mega-svc">Открытки</a><a href="#" class="mega-svc">Приглашения</a><a href="#" class="mega-svc">Билеты</a><a href="#" class="mega-svc">Абонементы</a></div>
                       <div class="mega-cat"><a href="#" class="mega-cat-h">Многостраничная</a><a href="#" class="mega-svc">Каталоги</a><a href="#" class="mega-svc">Брошюры</a><a href="#" class="mega-svc">Журналы</a><a href="#" class="mega-svc">Книги</a><a href="#" class="mega-svc">Блокноты</a><a href="#" class="mega-svc">Ежедневники</a><a href="#" class="mega-svc">Фотокниги</a><a href="#" class="mega-svc">Презентации</a></div>
@@ -428,7 +520,7 @@
                     </div>
                   </div>
 
-                  <div class="mega-panel" data-panel="1" data-dir="Упаковка и этикетки" style="--c:#FF00FF">
+                  <div class="mega-panel" data-panel="1" data-dir="Упаковка и этикетки" style="--c:#C633A0">
                     <div class="mega-grid">
                       <div class="mega-cat"><a href="#" class="mega-cat-h">Коробки из картона</a><a href="#" class="mega-svc">Самосборные</a><a href="#" class="mega-svc">Крышка-дно</a><a href="#" class="mega-svc">Пенал</a><a href="#" class="mega-svc">Ласточкин хвост</a><a href="#" class="mega-svc">Два клапана</a><a href="#" class="mega-svc">С подвесом</a><a href="#" class="mega-svc">Моноблок</a><a href="#" class="mega-svc">Шкатулка</a></div>
                       <div class="mega-cat"><a href="#" class="mega-cat-h">Коробки из МГК</a><a href="#" class="mega-svc">Самосборные</a><a href="#" class="mega-svc">Лоток</a><a href="#" class="mega-svc">Самолёт</a><a href="#" class="mega-svc">С ручкой</a><a href="#" class="mega-svc">Четыре клапана</a><a href="#" class="mega-svc">С ложементом</a></div>
@@ -449,7 +541,7 @@
                     </div>
                   </div>
 
-                  <div class="mega-panel" data-panel="3" data-dir="Корпоративный брендинг, сувениры" style="--c:#00CC00">
+                  <div class="mega-panel" data-panel="3" data-dir="Корпоративный брендинг, сувениры" style="--c:#E8BE1E">
                     <div class="mega-grid">
                       <div class="mega-cat"><a href="#" class="mega-cat-h">Подарочные наборы</a><a href="#" class="mega-svc">Корпоративные наборы</a><a href="#" class="mega-svc">Welcome-паки</a><a href="#" class="mega-svc">Под задачу</a></div>
                       <div class="mega-cat"><a href="#" class="mega-cat-h">Мерч и одежда</a><a href="#" class="mega-svc">Футболки</a><a href="#" class="mega-svc">Толстовки</a><a href="#" class="mega-svc">Мерч</a><a href="#" class="mega-svc">Нанесение логотипа</a></div>
@@ -491,10 +583,10 @@
   <!-- Мобильное меню -->
   <div id="mobile-menu" class="xl:hidden hidden bg-paper border-t border-zinc-100 px-5 py-4 text-[15px] font-medium">
     <div class="text-xs uppercase tracking-wider text-zinc-400 mb-2 mt-1">Направления</div>
-    <a href="#" class="flex items-center gap-2.5 py-2.5"><span class="w-2 h-2 rounded-full" style="background:#0000FF"></span>Полиграфия</a>
-    <a href="#" class="flex items-center gap-2.5 py-2.5"><span class="w-2 h-2 rounded-full" style="background:#FF00FF"></span>Упаковка и этикетки</a>
+    <a href="#" class="flex items-center gap-2.5 py-2.5"><span class="w-2 h-2 rounded-full" style="background:#2A37C2"></span>Полиграфия</a>
+    <a href="#" class="flex items-center gap-2.5 py-2.5"><span class="w-2 h-2 rounded-full" style="background:#C633A0"></span>Упаковка и этикетки</a>
     <a href="#" class="flex items-center gap-2.5 py-2.5"><span class="w-2 h-2 rounded-full" style="background:#9bbf00"></span>Логотип и фирменный стиль</a>
-    <a href="#" class="flex items-center gap-2.5 py-2.5"><span class="w-2 h-2 rounded-full" style="background:#00CC00"></span>Корпоративный брендинг, бизнес-сувениры</a>
+    <a href="#" class="flex items-center gap-2.5 py-2.5"><span class="w-2 h-2 rounded-full" style="background:#E8BE1E"></span>Корпоративный брендинг, бизнес-сувениры</a>
     <a href="#" class="flex items-center gap-2.5 py-2.5"><span class="w-2 h-2 rounded-full" style="background:#64748b"></span>Отраслевые решения</a>
     <div class="h-px bg-zinc-100 my-3"></div>
     <a href="portfolio.html" class="block py-2.5">Проекты</a>
@@ -517,6 +609,7 @@
   <div class="pg-bar">
     <b>Прототип главной — Litera</b>
     <span class="pg-sub">демо для согласования</span>
+    <span class="pg-key">H — скрыть</span>
     <button class="pg-collapse" type="button" aria-label="Свернуть">Свернуть –</button>
   </div>
   <div class="pg-body">
@@ -524,27 +617,15 @@
       <span class="pg-label">Первый экран</span>
       <div class="pg-seg">
         <button data-hero="a">Цветошкала</button>
-        <button data-hero="b">Сплит + фото</button>
         <button data-hero="c">Полноэкранный цвет</button>
-      </div>
-    </div>
-    <div class="pg-row pg-row-cat">
-      <span class="pg-label">Каталог</span>
-      <div class="pg-seg">
-        <button data-catmode="panel">Выпадашка</button>
-        <button data-catmode="full">Во весь экран</button>
       </div>
     </div>
     <button class="pg-why" type="button">Чем отличаются варианты? ▾</button>
     <div class="pg-explain">
-      <p class="pg-h">Первый экран</p>
-      <p><span class="dot" style="background:#0000FF"></span><b>Цветошкала</b> — 5 направлений-цветов как навигация. Узнаваемо и быстро, не зависит от качества фото.</p>
-      <p><span class="dot" style="background:#9BBF00"></span><b>Сплит + фото</b> — привычный «текст + изображение». Понятно и тепло, но держится на хорошем снимке.</p>
-      <p><span class="dot" style="background:#FF00FF"></span><b>Полноэкранный цвет</b> — смелое имиджевое решение в духе мировых студий (G.F Smith). Премиум-восприятие и отстройка от конкурентов на рынке РФ/СНГ.</p>
-      <p class="pg-h">Каталог <span class="pg-note">— для «Полноэкранного цвета»</span></p>
-      <p>• <b>Выпадашка</b> — привычная механика магазина: все разделы и ссылки под рукой, но в фирменном цвете. Безопасный вариант.</p>
-      <p>• <b>Во весь экран</b> — каталог-разворот как в журнале, шапка сворачивается в минимум (лого + «Меню»). Самое дерзкое; до услуги — на один клик дольше.</p>
-      <p class="pg-fine">Глубина и все ссылки каталога сохранены во всех вариантах — меняется только подача.</p>
+      <p class="pg-h">Две версии главной</p>
+      <p><span class="dot" style="background:#2A37C2"></span><b>Цветошкала</b> — нейтральная главная, 5 направлений-цветов как навигация. Спокойнее и привычнее.</p>
+      <p><span class="dot" style="background:#E8BE1E"></span><b>Полноэкранный цвет</b> — смелая имиджевая версия: фирменный цвет во весь экран, каталог-разворот по кнопке «Меню», индекс направлений. Премиум-восприятие и отстройка от конкурентов.</p>
+      <p class="pg-fine">Глубина каталога и все ссылки сохранены в обеих версиях.</p>
     </div>
   </div>
 </div>
@@ -568,13 +649,14 @@
     </div>
   </div>
 
-  <!-- Полоса направлений: печатная цветошкала = навигация по 5 направлениям -->
-  <div class="dirbar mt-auto h-[34vh] min-h-[200px]">
-    <a href="category.html" class="dir-col" style="background:#0000FF;--fg:#fff">
+  <!-- Полоса направлений: печатная цветошкала = навигация (в контейнере шапки) -->
+  <div class="mt-auto w-full max-w-7xl mx-auto px-5 lg:px-8 pb-5 lg:pb-7">
+  <div class="dirbar h-[28vh] min-h-[180px]">
+    <a href="category.html" class="dir-col" style="background:#2A37C2;--fg:#fff">
       <span class="dir-num">01</span><span class="dir-name">Полиграфия</span>
       <span class="dir-desc">Визитки, листовки, каталоги, бизнес-печать</span>
     </a>
-    <a href="#" class="dir-col" style="background:#FF00FF;--fg:#fff">
+    <a href="#" class="dir-col" style="background:#C633A0;--fg:#fff">
       <span class="dir-num">02</span><span class="dir-name">Упаковка</span>
       <span class="dir-desc">Коробки, этикетки, пакеты под продукт</span>
     </a>
@@ -582,7 +664,7 @@
       <span class="dir-num">03</span><span class="dir-name">Брендинг</span>
       <span class="dir-desc">Логотип и фирменный стиль под ключ</span>
     </a>
-    <a href="#" class="dir-col" style="background:#00CC00;--fg:#fff">
+    <a href="#" class="dir-col" style="background:#E8BE1E;--fg:#111">
       <span class="dir-num">04</span><span class="dir-name">Мерч</span>
       <span class="dir-desc">Сувениры, одежда, корпоративные наборы</span>
     </a>
@@ -590,6 +672,7 @@
       <span class="dir-num">05</span><span class="dir-name">Отраслевые</span>
       <span class="dir-desc">Готовые решения: рестораны, свадьбы, бьюти</span>
     </a>
+  </div>
   </div>
 </section>
 
@@ -613,10 +696,10 @@
       <!-- Полоса направлений-цветов как тонкий акцент под текстом -->
       <div class="mt-10 flex items-center gap-4">
         <div class="flex h-2.5 w-40">
-          <span class="flex-1" style="background:#0000FF"></span>
-          <span class="flex-1" style="background:#FF00FF"></span>
+          <span class="flex-1" style="background:#2A37C2"></span>
+          <span class="flex-1" style="background:#C633A0"></span>
           <span class="flex-1" style="background:#9BBF00"></span>
-          <span class="flex-1" style="background:#00CC00"></span>
+          <span class="flex-1" style="background:#E8BE1E"></span>
           <span class="flex-1" style="background:#64748B"></span>
         </div>
         <span class="text-caption text-zinc-500">5 направлений · одно производство</span>
@@ -630,36 +713,92 @@
 </section>
 
 <!-- ============================ HERO C — G.F Smith: полноэкранный цвет ============================ -->
-<section id="hero-c" class="relative overflow-hidden hidden h-[calc(100svh-3.5rem)] lg:h-[calc(100svh-4rem)] flex flex-col text-white" style="background:#0000FF">
+<section id="hero-c" class="relative overflow-hidden hidden h-[calc(100svh-3.5rem)] lg:h-[calc(100svh-4rem)] flex flex-col text-white sw-1" style="background:#2A37C2">
   <span class="hc-mark"></span>
+  <span class="hc-paper"></span>
 
-  <!-- Верхняя мета-строка -->
-  <div class="relative z-10 w-full max-w-7xl mx-auto flex items-center justify-between px-5 lg:px-8 pt-6 lg:pt-8 text-[.8rem] font-bold uppercase tracking-[.16em]">
-    <span>Litera · студия дизайна и печати</span>
-    <span><span id="hc-index">01</span> / 05</span>
+  <!-- Центр + переключатель «индекс справа» -->
+  <div class="hc-inner relative z-10 my-auto w-full max-w-7xl mx-auto px-5 lg:px-8">
+    <div class="hc-main">
+      <div class="hc-eyebrow mb-5"><span id="hc-dir">Полиграфия</span><span class="swatch"><span id="hc-index">01</span> / 05</span></div>
+      <h1 class="hc-title">От логотипа<br>до <span id="hc-head">тиража</span></h1>
+      <p class="mt-7 text-[1.1rem] leading-[1.6] max-w-xl opacity-90">
+        Студия графического дизайна и собственная типография с 2012 года.
+        Пять направлений, один цвет на каждое — от макета до готового тиража.
+      </p>
+      <div class="mt-9 flex flex-wrap gap-3">
+        <a href="#lead" data-lead-open class="btn btn-lg hc-cta">Обсудить проект</a>
+        <a href="portfolio.html" class="btn btn-lg" style="background:transparent;color:currentColor;border-color:currentColor">Смотреть работы</a>
+      </div>
+    </div>
+    <!-- Переключатель 1 — индекс справа -->
+    <ul class="sw sw-index">
+      <li><button class="sw-item" data-i="0"><span class="n">01</span><span class="t">Полиграфия</span><i class="sw-fill"></i></button></li>
+      <li><button class="sw-item" data-i="1"><span class="n">02</span><span class="t">Упаковка</span><i class="sw-fill"></i></button></li>
+      <li><button class="sw-item" data-i="2"><span class="n">03</span><span class="t">Брендинг</span><i class="sw-fill"></i></button></li>
+      <li><button class="sw-item" data-i="3"><span class="n">04</span><span class="t">Мерч</span><i class="sw-fill"></i></button></li>
+      <li><button class="sw-item" data-i="4"><span class="n">05</span><span class="t">Отраслевые</span><i class="sw-fill"></i></button></li>
+    </ul>
   </div>
 
-  <!-- Центр: заявление -->
-  <div class="relative z-10 my-auto w-full max-w-7xl mx-auto px-5 lg:px-8">
-    <div class="hc-eyebrow mb-5"><span id="hc-dir">Полиграфия</span><span class="swatch" id="hc-hex">0000FF</span></div>
-    <h1 class="hc-title">От логотипа<br>до <span id="hc-head">тиража</span></h1>
-    <p class="mt-7 text-[1.1rem] leading-[1.6] max-w-xl opacity-90">
-      Студия графического дизайна и собственная типография с 2012 года.
-      Пять направлений, один цвет на каждое — от макета до готового тиража.
-    </p>
-    <div class="mt-9 flex flex-wrap gap-3">
-      <a href="#lead" data-lead-open class="btn btn-lg" style="background:#fff;color:#111">Обсудить проект</a>
-      <a href="portfolio.html" class="btn btn-lg" style="background:transparent;color:currentColor;border-color:currentColor">Смотреть работы</a>
+  <!-- Переключатель 2 — точки/пипсы снизу -->
+  <div class="sw sw-dots relative z-10 w-full max-w-7xl mx-auto px-5 lg:px-8 pb-7">
+    <button class="sw-item" data-i="0"><i class="sw-fill"></i></button>
+    <button class="sw-item" data-i="1"><i class="sw-fill"></i></button>
+    <button class="sw-item" data-i="2"><i class="sw-fill"></i></button>
+    <button class="sw-item" data-i="3"><i class="sw-fill"></i></button>
+    <button class="sw-item" data-i="4"><i class="sw-fill"></i></button>
+  </div>
+
+  <!-- Переключатель 3 — боковые вкладки у правого края -->
+  <div class="sw sw-tabs">
+    <button class="sw-item" data-i="0" style="--tc:#2A37C2"><span class="t">Полиграфия</span><i class="sw-fill"></i></button>
+    <button class="sw-item" data-i="1" style="--tc:#C633A0"><span class="t">Упаковка</span><i class="sw-fill"></i></button>
+    <button class="sw-item" data-i="2" style="--tc:#9BBF00"><span class="t">Брендинг</span><i class="sw-fill"></i></button>
+    <button class="sw-item" data-i="3" style="--tc:#E8BE1E"><span class="t">Мерч</span><i class="sw-fill"></i></button>
+    <button class="sw-item" data-i="4" style="--tc:#64748B"><span class="t">Отраслевые</span><i class="sw-fill"></i></button>
+  </div>
+</section>
+
+<!-- ============================ HERO D — премиум, светлый холст (цвет акцентом) ============================ -->
+<section id="hero-d" class="hero-craft relative overflow-hidden hidden h-[calc(100svh-3.5rem)] lg:h-[calc(100svh-6.5rem)] flex flex-col justify-center">
+  <span class="craft-grain" aria-hidden="true"></span>
+  <span class="craft-mark" aria-hidden="true"></span>
+  <div class="relative z-10 w-full max-w-7xl mx-auto px-5 lg:px-8">
+    <div class="craft-kicker"><span class="hair"></span>Студия дизайна и печати · Москва · с 2012</div>
+    <h1 class="craft-title">Дизайн,<br>который уходит<br>в <em>тираж.</em></h1>
+    <div class="craft-foot">
+      <a href="portfolio.html" class="craft-link">Смотреть работы <span class="arr">→</span><i class="ln"></i></a>
+      <div class="craft-dirs">
+        <a href="category.html"><i style="--c:#2A37C2"></i>Полиграфия</a>
+        <a href="#"><i style="--c:#C633A0"></i>Упаковка</a>
+        <a href="#"><i style="--c:#9BBF00"></i>Брендинг</a>
+        <a href="#"><i style="--c:#E8BE1E"></i>Мерч</a>
+        <a href="#"><i style="--c:#64748B"></i>Отраслевые</a>
+      </div>
     </div>
   </div>
+</section>
 
-  <!-- Свотчи направлений: клик перекрашивает экран -->
-  <div class="hc-swatches relative z-10" id="hc-swatches">
-    <button class="hc-sw is-active" data-color="#0000FF" data-fg="#ffffff" data-dir="Полиграфия"  data-n="01" data-head="тиража"><span class="chip" style="background:#0000FF"></span><span class="lbl">Полиграфия</span></button>
-    <button class="hc-sw" data-color="#FF00FF" data-fg="#ffffff" data-dir="Упаковка"   data-n="02" data-head="упаковки"><span class="chip" style="background:#FF00FF"></span><span class="lbl">Упаковка</span></button>
-    <button class="hc-sw" data-color="#9BBF00" data-fg="#111111" data-dir="Брендинг"   data-n="03" data-head="бренда"><span class="chip" style="background:#9BBF00"></span><span class="lbl">Брендинг</span></button>
-    <button class="hc-sw" data-color="#00CC00" data-fg="#ffffff" data-dir="Мерч"       data-n="04" data-head="мерча"><span class="chip" style="background:#00CC00"></span><span class="lbl">Мерч</span></button>
-    <button class="hc-sw" data-color="#64748B" data-fg="#ffffff" data-dir="Отраслевые" data-n="05" data-head="решения"><span class="chip" style="background:#64748B"></span><span class="lbl">Отраслевые</span></button>
+<!-- ============================ HERO E — премиум, тёмный холст (цвет акцентом) ============================ -->
+<section id="hero-e" class="hero-prem prem-dark relative overflow-hidden hidden h-[calc(100svh-3.5rem)] lg:h-[calc(100svh-6.5rem)] flex items-center">
+  <div class="w-full max-w-7xl mx-auto px-5 lg:px-8 grid lg:grid-cols-[minmax(0,1fr)_auto] gap-10 lg:gap-20 items-center">
+    <div class="prem-main">
+      <div class="prem-kicker">Студия графического дизайна · собственная типография с 2012</div>
+      <h1 class="prem-title">От логотипа<br>до тиража</h1>
+      <p class="prem-sub">Придумываем фирменный стиль и печатаем его на собственном производстве — полиграфия, упаковка, брендинг и мерч. От макета до готового тиража, без посредников.</p>
+      <div class="prem-cta">
+        <a href="#lead" data-lead-open class="btn btn-lg prem-btn-primary">Обсудить проект</a>
+        <a href="portfolio.html" class="btn btn-lg prem-btn-ghost">Смотреть работы</a>
+      </div>
+    </div>
+    <ul class="prem-index">
+      <li><a href="category.html"><span class="pi-chip" style="--c:#2A37C2"></span><span class="pi-n">01</span><span class="pi-t">Полиграфия</span></a></li>
+      <li><a href="#"><span class="pi-chip" style="--c:#C633A0"></span><span class="pi-n">02</span><span class="pi-t">Упаковка</span></a></li>
+      <li><a href="#"><span class="pi-chip" style="--c:#9BBF00"></span><span class="pi-n">03</span><span class="pi-t">Брендинг</span></a></li>
+      <li><a href="#"><span class="pi-chip" style="--c:#E8BE1E"></span><span class="pi-n">04</span><span class="pi-t">Мерч</span></a></li>
+      <li><a href="#"><span class="pi-chip" style="--c:#64748B"></span><span class="pi-n">05</span><span class="pi-t">Отраслевые</span></a></li>
+    </ul>
   </div>
 </section>
 
@@ -680,17 +819,17 @@
 </div>
 
 <!-- Каталог, стиль 2: полноэкранный индекс-тейковер (тема C) -->
-<div id="catalog-full" class="cat-full-overlay" hidden style="background:#0000FF;color:#ffffff">
+<div id="catalog-full" class="cat-full-overlay" hidden style="background:#2A37C2;color:#ffffff">
   <div class="cf-top">
     <span class="cf-kicker">Каталог · 5 направлений</span>
     <button id="cf-close" aria-label="Закрыть каталог">✕&nbsp;&nbsp;Закрыть</button>
   </div>
   <div class="cf-body">
     <ul class="cf-dirs">
-      <li><button class="cf-dir is-active" data-i="0" data-color="#0000FF" data-fg="#ffffff"><span class="n">01</span>Полиграфия</button></li>
-      <li><button class="cf-dir" data-i="1" data-color="#FF00FF" data-fg="#ffffff"><span class="n">02</span>Упаковка</button></li>
+      <li><button class="cf-dir is-active" data-i="0" data-color="#2A37C2" data-fg="#ffffff"><span class="n">01</span>Полиграфия</button></li>
+      <li><button class="cf-dir" data-i="1" data-color="#C633A0" data-fg="#ffffff"><span class="n">02</span>Упаковка</button></li>
       <li><button class="cf-dir" data-i="2" data-color="#9BBF00" data-fg="#111111"><span class="n">03</span>Брендинг</button></li>
-      <li><button class="cf-dir" data-i="3" data-color="#00CC00" data-fg="#ffffff"><span class="n">04</span>Мерч</button></li>
+      <li><button class="cf-dir" data-i="3" data-color="#E8BE1E" data-fg="#111111"><span class="n">04</span>Мерч</button></li>
       <li><button class="cf-dir" data-i="4" data-color="#64748B" data-fg="#ffffff"><span class="n">05</span>Отраслевые</button></li>
     </ul>
     <div class="cf-detail" id="cf-detail"></div>
@@ -740,30 +879,83 @@
     const r = parseInt(m.slice(0,2),16), g = parseInt(m.slice(2,4),16), b = parseInt(m.slice(4,6),16);
     return (0.299*r + 0.587*g + 0.114*b) / 255 > 0.6 ? '#111111' : '#ffffff';
   }
-  // Герой C: свотчи направлений перекрашивают экран (поклон G.F Smith «Colourer»)
+  // Герой C: автокарусель направлений + 3 переключателя (индекс / точки / вкладки)
   (function(){
     const hero = document.getElementById('hero-c');
     if (!hero) return;
-    const sws = [...hero.querySelectorAll('.hc-sw')];
+    const DIRS = [
+      { dir:'Полиграфия', color:'#2A37C2', fg:'#ffffff', n:'01', head:'тиража' },
+      { dir:'Упаковка',   color:'#C633A0', fg:'#ffffff', n:'02', head:'упаковки' },
+      { dir:'Брендинг',   color:'#9BBF00', fg:'#111111', n:'03', head:'бренда' },
+      { dir:'Мерч',       color:'#E8BE1E', fg:'#111111', n:'04', head:'мерча' },
+      { dir:'Отраслевые', color:'#64748B', fg:'#ffffff', n:'05', head:'решения' },
+    ];
+    const swItems = [...hero.querySelectorAll('.sw-item')];
     const dirEl = document.getElementById('hc-dir');
-    const hexEl = document.getElementById('hc-hex');
     const idxEl = document.getElementById('hc-index');
     const headEl = document.getElementById('hc-head');
-    function apply(sw){
-      sws.forEach(s => s.classList.toggle('is-active', s === sw));
-      hero.style.background = sw.dataset.color;
-      hero.style.color = sw.dataset.fg;
-      dirEl.textContent = sw.dataset.dir;
-      hexEl.textContent = sw.dataset.color.replace('#', '').toUpperCase();
-      idxEl.textContent = sw.dataset.n;
-      if (headEl) headEl.textContent = sw.dataset.head;
-      if (document.body.classList.contains('theme-c')) paintHeaderC(sw.dataset.color, sw.dataset.fg);
+    const eyebrowEl = hero.querySelector('.hc-eyebrow');
+    function reanim(el){ if (!el) return; el.style.animation = 'none'; void el.offsetWidth; el.style.animation = ''; }
+    const DURATION = 4200;
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let idx = 0, raf = null, last = null, prog = 0, paused = false, playing = false;
+
+    function setProg(v){ swItems.forEach(s => s.style.setProperty('--p', s.dataset.i === String(idx) ? v : 0)); }
+    function apply(i){
+      idx = (i + DIRS.length) % DIRS.length;
+      const d = DIRS[idx];
+      swItems.forEach(s => s.classList.toggle('is-active', s.dataset.i === String(idx)));
+      hero.style.background = d.color;
+      hero.style.color = d.fg;
+      hero.style.setProperty('--hcfg', d.fg);
+      hero.style.setProperty('--hcbg', d.color);
+      dirEl.textContent = d.dir;
+      if (idxEl) idxEl.textContent = d.n;
+      if (headEl) headEl.textContent = d.head;
+      reanim(eyebrowEl); reanim(headEl);
+      if (document.body.classList.contains('theme-c')) paintHeaderC(d.color, d.fg);
+      prog = 0; setProg(0);
     }
-    sws.forEach(sw => { sw.addEventListener('mouseenter', () => apply(sw)); sw.addEventListener('click', () => apply(sw)); });
+    function tick(t){
+      if (!playing) return;
+      if (paused || document.body.classList.contains('cat-open')){ last = t; raf = requestAnimationFrame(tick); return; }
+      if (last == null) last = t;
+      prog += (t - last) / DURATION; last = t;
+      if (prog >= 1) apply(idx + 1); else setProg(prog);
+      raf = requestAnimationFrame(tick);
+    }
+    function play(){ if (playing || reduce) return; playing = true; last = null; raf = requestAnimationFrame(tick); }
+    function stop(){ playing = false; if (raf) cancelAnimationFrame(raf); raf = null; setProg(0); }
+
+    swItems.forEach(s => { const i = parseInt(s.dataset.i, 10);
+      s.addEventListener('mouseenter', () => apply(i)); s.addEventListener('click', () => apply(i)); });
+    hero.addEventListener('mouseenter', () => { paused = true; });
+    hero.addEventListener('mouseleave', () => { paused = false; });
+
+    function sync(){
+      const onC = document.body.classList.contains('theme-c') && !hero.classList.contains('hidden');
+      if (onC){ apply(idx); play(); } else stop();
+    }
+    document.addEventListener('litera:variant', sync);
+    document.addEventListener('visibilitychange', () => { paused = document.hidden; });
+    apply(0); sync();
+  })();
+  // Герой C: тумблер вида переключателя (индекс / точки / вкладки) — только в теме C
+  (function(){
+    const hero = document.getElementById('hero-c'); if (!hero) return;
+    let mode = '1'; // зафиксирован «индекс» (под-тумблер убран из показа)
+    const btns = [...document.querySelectorAll('[data-sw]')];
+    function apply(){
+      hero.classList.remove('sw-1', 'sw-2', 'sw-3');
+      hero.classList.add('sw-' + mode);
+      btns.forEach(b => b.classList.toggle('is-active', b.dataset.sw === mode));
+    }
+    btns.forEach(b => b.addEventListener('click', () => { mode = b.dataset.sw; try { localStorage.setItem('swMode', mode); } catch (e) {} apply(); }));
+    apply();
   })();
   // Переключатель вариантов hero
   (function(){
-    const variants = ['a', 'b', 'c'];
+    const variants = ['a', 'c'];
     const set = (v) => {
       variants.forEach(x => document.getElementById('hero-' + x).classList.toggle('hidden', x !== v));
       document.querySelectorAll('[data-hero]').forEach(b => b.classList.toggle('is-active', b.dataset.hero === v));
@@ -857,17 +1049,16 @@
     cfDirs.forEach(b => { b.addEventListener('mouseenter', () => cfActivate(b)); b.addEventListener('click', () => cfActivate(b)); });
     function openCatalogFull(){ if (!overlay) return; closeCatalog(); closeSearch();
       cfActivate(cfDirs.find(x => x.classList.contains('is-active')) || cfDirs[0]);
-      overlay.hidden = false; document.body.style.overflow = 'hidden'; }
-    function closeCatalogFull(){ if (!overlay) return; overlay.hidden = true; document.body.style.overflow = ''; }
+      overlay.hidden = false; document.body.style.overflow = 'hidden'; document.body.classList.add('cat-open'); }
+    function closeCatalogFull(){ if (!overlay) return; overlay.hidden = true; document.body.style.overflow = ''; document.body.classList.remove('cat-open'); }
     const cfClose = document.getElementById('cf-close');
     if (cfClose) cfClose.addEventListener('click', closeCatalogFull);
     catalogTrigger.addEventListener('click', () => { if (document.body.classList.contains('cat-full')) openCatalogFull(); });
     const menuTrigger = document.getElementById('menu-trigger');
     if (menuTrigger) menuTrigger.addEventListener('click', openCatalogFull);
 
-    // --- Переключатель режимов каталога (действует только в теме C) ---
-    let catMode = 'panel';
-    try { catMode = localStorage.getItem('catMode') || 'panel'; } catch (e) {}
+    // --- Режим каталога зафиксирован: «во весь экран» (под-тумблер убран из показа) ---
+    let catMode = 'full';
     const catBtns = [...document.querySelectorAll('[data-catmode]')];
     function applyCatMode(){
       const c = document.body.classList.contains('theme-c');
@@ -924,6 +1115,13 @@
     guide.querySelector('.pg-why').addEventListener('click', () => {
       const on = guide.classList.toggle('show-why');
       guide.querySelector('.pg-why').textContent = on ? 'Свернуть пояснения ▴' : 'Чем отличаются варианты? ▾';
+    });
+    // Клавиша H — полностью скрыть/показать панель (не мешать вводу в поля)
+    document.addEventListener('keydown', e => {
+      if (e.code !== 'KeyH' || e.metaKey || e.ctrlKey || e.altKey) return;
+      const t = e.target;
+      if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
+      guide.classList.toggle('pg-hidden');
     });
   })();
 </script>
