@@ -1,0 +1,931 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Litera.Studio — дизайн и печать на собственном производстве</title>
+<meta name="description" content="Студия графического дизайна и типография полного цикла: полиграфия, упаковка, фирменный стиль, мерч. Собственное производство в Москве с 2012 года.">
+
+<!-- ===================================================================
+     LITERA.STUDIO — ГЛАВНАЯ СТРАНИЦА (зонтик над 5 направлениями)
+     Шапка — общая система с category.html (нейтральный хром, без одного
+     акцента: главная не привязана к направлению). Пока: шапка + первый экран.
+     Два варианта hero (A/B) переключаются нижним тумблером.
+     ================================================================== -->
+
+<!-- Шрифты: Raptor V2 (лицензия у заказчика) первым; Manrope — видимый fallback -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          ink:      '#000000',
+          paper:    '#ffffff',
+          'b-blue':    '#0000FF',
+          'b-magenta': '#FF00FF',
+          'b-lime':    '#CCFF00',
+          'b-yellow':  '#FFFF00',
+          'b-green':   '#00CC00',
+          'b-gray':    '#ABA7A7',
+        },
+        fontFamily: {
+          sans: ['"Raptor V2"', 'Manrope', 'system-ui', 'sans-serif'],
+        },
+        fontSize: {
+          'eyebrow': ['11px', { lineHeight: '1.3' }],
+          'caption': ['14px', { lineHeight: '1.5' }],
+          'body':    ['17px', { lineHeight: '1.7' }],
+          'lead':    ['21px', { lineHeight: '1.6' }],
+          'h4':      ['27px', { lineHeight: '1.25' }],
+          'h3':      ['33px', { lineHeight: '1.2' }],
+          'h2':      ['42px', { lineHeight: '1.1', letterSpacing: '-0.02em' }],
+          'h1':      ['52px', { lineHeight: '1.0', letterSpacing: '-0.03em' }],
+          'display': ['65px', { lineHeight: '0.9', letterSpacing: '-0.06em' }],
+        },
+        borderRadius: { 'xl2': '1.75rem' },
+      }
+    }
+  }
+</script>
+
+<style>
+  @font-face {
+    font-family:'Raptor V2 Premium';
+    src:url('assets/RaptorV2Premium-Bold.woff2') format('woff2'),
+        url('assets/RaptorV2Premium-Bold.woff') format('woff');
+    font-weight:700; font-style:normal; font-display:swap;
+  }
+  .font-display{ font-family:'Raptor V2 Premium','Manrope',system-ui,sans-serif; font-weight:700; }
+
+  :root{
+    /* Главная — нейтральный хром: акцент = чёрный, цвета живут в полосе направлений */
+    --accent: #111111;
+    --accent-soft: #f4f4f5;
+    --on-accent: #ffffff;
+    --litera-mark:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 113.12 161.82'%3E%3Cpath fill='black' d='m53.39,38.49l-4.17,17.01c-.35,1.45-2.16,1.95-3.21.9l-22.43-22.43c-1.16-1.16-3.15-.34-3.15,1.31v30.92c0,.49.19.96.54,1.31l3.55,3.55c1.2,1.2.35,3.26-1.35,3.26h-.82c-1.06,0-1.92.86-1.92,1.92v22.93c0,1.06.86,1.92,1.92,1.92h13.26c1.24,0,2.15,1.16,1.86,2.37l-2.79,11.37c-.09.35.02.73.3,1.06l17.6,21.04c.93,1.11,3,.99,3.29-.18l5.95-24.28c.35-1.45,2.16-1.95,3.21-.9l24.51,24.52c1.16,1.16,3.15.34,3.15-1.31v-30.91c0-.49-.19-.96-.54-1.31l-11.15-11.15c-.75-.75-.75-1.96,0-2.7l11.12-11.12c1.21-1.21.35-3.27-1.36-3.27h-17.17c-1.24,0-2.15-1.16-1.86-2.37l10.57-43.09c.29-1.18-1.5-2.24-2.83-1.68l-25.34,10.52c-.4.16-.67.45-.75.8Z'/%3E%3C/svg%3E");
+  }
+
+  html{ scroll-behavior:smooth; }
+  body{ -webkit-font-smoothing:antialiased; }
+  .accent{ color:var(--accent); }
+  .bg-accent{ background:var(--accent); color:var(--on-accent); }
+  .border-accent{ border-color:var(--accent); }
+  .logo-accent{ fill:var(--accent); }
+  .marker-accent::before{ content:''; display:inline-block; width:.62rem; height:.88rem; margin-right:.55rem; vertical-align:-2px; background:var(--accent);
+        -webkit-mask:var(--litera-mark) center/contain no-repeat; mask:var(--litera-mark) center/contain no-repeat; }
+
+  /* Кнопки */
+  .btn{ display:inline-flex; align-items:center; gap:.5rem; font-weight:700; border-radius:0;
+        padding:.95rem 1.6rem; transition:.18s ease; line-height:1; border:1.5px solid transparent; }
+  .btn-accent{ background:var(--accent); color:var(--on-accent); }
+  .btn-accent:hover{ transform:translateY(-2px); box-shadow:0 12px 30px -10px rgba(0,0,0,.4); }
+  .btn-ghost{ background:transparent; color:#000; border-color:#e4e4e7; }
+  .btn-ghost:hover{ transform:translateY(-2px); border-color:#000; box-shadow:0 12px 30px -10px rgba(0,0,0,.18); }
+  .btn-dark{ background:#000; color:#fff; }
+  .btn-dark:hover{ transform:translateY(-2px); }
+  .btn-sm{ padding:.55rem 1rem; font-size:14px; gap:.4rem; }
+  .btn-lg{ padding:1.15rem 2rem; font-size:17px; }
+
+  .kicker{ font-size:.8rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:#71717a; }
+
+  /* ---- Шапка: навигация и каталог (общая система с category.html) ---- */
+  .nav-link{ display:inline-flex; align-items:center; gap:.3rem; padding:.45rem .55rem; color:#3f3f46; transition:.15s; cursor:pointer; }
+  .nav-link:hover, .nav-link.is-open{ color:#18181b; }
+  .nav-chev{ width:.8rem; height:.8rem; opacity:.4; transition:.2s; }
+  .nav-link.is-open .nav-chev{ transform:rotate(180deg); }
+  .header-panel{ position:absolute; left:0; right:0; top:100%; background:#fff;
+        border-bottom:1px solid #e4e4e7; box-shadow:0 26px 44px -26px rgba(0,0,0,.28); z-index:55;
+        opacity:0; visibility:hidden; transform:translateY(-8px);
+        transition:opacity .18s ease, transform .18s ease, visibility .18s; }
+  .header-panel.is-open{ opacity:1; visibility:visible; transform:none; }
+
+  .mega-body{ display:block; }
+  .mega-rail{ position:relative; display:flex; flex-wrap:wrap; gap:.1rem .3rem; margin-bottom:1.3rem; }
+  .mega-rail::after{ content:''; position:absolute; bottom:0; left:50%; transform:translateX(-50%); width:100vw; height:1px; background:#ececee; }
+  .mega-rail-h{ display:none; }
+  .mega-dir{ position:relative; z-index:1; display:inline-flex; align-items:center; gap:.5rem; padding:.65rem .85rem; font-size:.95rem; font-weight:600; color:#52525b; white-space:nowrap; border-bottom:2px solid transparent; margin-bottom:-1px; cursor:pointer;
+        transition:color .18s ease, border-color .18s ease; }
+  .mega-dir::before{ content:''; width:.82rem; height:1.16rem; flex-shrink:0; opacity:.45; background:var(--c);
+        -webkit-mask:var(--litera-mark) center/contain no-repeat; mask:var(--litera-mark) center/contain no-repeat;
+        transition:opacity .18s ease, transform .18s ease; }
+  .mega-dir:hover, .mega-dir.is-active{ color:var(--c); border-bottom-color:var(--c); }
+  .mega-dir:hover::before, .mega-dir.is-active::before{ opacity:1; transform:scale(1.12); }
+  .mega-panels{ min-width:0; }
+  .mega-panel{ display:none; }
+  .mega-panel.is-active{ display:block; }
+  #catalog-panel{ --c:#0000FF; }
+  .mega-panel.is-active .mega-cat{ animation:mega-rise .34s ease both; }
+  .mega-panel.is-active .mega-cat:nth-child(2){ animation-delay:.03s; }
+  .mega-panel.is-active .mega-cat:nth-child(3){ animation-delay:.06s; }
+  .mega-panel.is-active .mega-cat:nth-child(4){ animation-delay:.09s; }
+  .mega-panel.is-active .mega-cat:nth-child(5){ animation-delay:.12s; }
+  .mega-panel.is-active .mega-cat:nth-child(6){ animation-delay:.15s; }
+  .mega-panel.is-active .mega-cat:nth-child(7){ animation-delay:.18s; }
+  .mega-panel.is-active .mega-cat:nth-child(8){ animation-delay:.21s; }
+  @keyframes mega-rise{ from{ opacity:0; transform:translateY(8px); } to{ opacity:1; transform:none; } }
+  @media (prefers-reduced-motion:reduce){ .mega-panel.is-active .mega-cat{ animation:none; } }
+  .mega-head{ display:flex; align-items:baseline; flex-wrap:wrap; gap:.4rem .7rem; margin:-.1rem 0 1.15rem; }
+  .mega-head-t{ font-family:'Raptor V2 Premium','Manrope',system-ui,sans-serif; font-weight:700; font-size:1.35rem; line-height:1; letter-spacing:-.02em; color:var(--c); }
+  .mega-head-d{ font-size:.84rem; color:#a1a1aa; }
+  .mega-head-all{ margin-left:auto; font-size:.85rem; font-weight:700; color:var(--c); white-space:nowrap; transition:opacity .15s; }
+  .mega-head-all:hover{ text-decoration:underline; }
+  .mega-grid{ column-count:4; column-gap:1.75rem; }
+  .mega-cat{ break-inside:avoid; margin-bottom:1.4rem; }
+  .mega-cat:last-child{ margin-bottom:0; }
+  .mega-cat-h{ display:block; padding:0 0 .5rem; font-family:'Raptor V2 Premium','Manrope',system-ui,sans-serif; font-size:1rem; font-weight:700; letter-spacing:-.01em; color:#18181b; transition:color .12s; }
+  .mega-cat-h:hover{ color:var(--c); }
+  .mega-svc{ display:block; padding:.24rem 0; font-size:.875rem; color:#52525b; transition:.12s; }
+  .mega-svc:hover{ color:var(--c); padding-left:.3rem; }
+  .mega-foot{ position:relative; display:flex; align-items:center; justify-content:space-between; gap:1rem; margin-top:1rem; padding-top:.9rem; font-size:.85rem; }
+  .mega-foot::before{ content:''; position:absolute; top:0; left:50%; transform:translateX(-50%); width:100vw; height:1px; background:#ececee; }
+  .mega-foot-promo{ display:flex; align-items:center; gap:.5rem; min-width:0; }
+  .mega-foot-mark{ width:.66rem; height:.94rem; flex-shrink:0; background:var(--c);
+        -webkit-mask:var(--litera-mark) center/contain no-repeat; mask:var(--litera-mark) center/contain no-repeat; }
+  .mega-foot-promo b{ color:#18181b; font-weight:700; }
+  .mega-foot-tail{ color:#a1a1aa; }
+  .mega-foot a{ font-weight:700; color:var(--c); white-space:nowrap; }
+  .mega-foot a:hover{ text-decoration:underline; }
+  .navsearch-btn{ width:2.5rem; height:2.5rem; display:grid; place-items:center; color:#3f3f46; transition:.15s; }
+  .navsearch-btn svg{ width:20px; height:20px; }
+  .navsearch-btn:hover, .navsearch-btn.is-open{ color:#18181b; }
+  .searchfield{ width:100%; padding:.9rem 1rem .9rem 3rem; font-size:1.05rem; border:0; border-bottom:2px solid #ececee; outline:none; background:transparent; }
+  .searchfield:focus{ border-color:var(--accent); }
+  .searchfield::placeholder{ color:#a1a1aa; }
+  .searchfield-ico{ position:absolute; left:.6rem; top:50%; transform:translateY(-50%); width:20px; height:20px; color:#a1a1aa; pointer-events:none; }
+  .searchresults{ margin-top:.9rem; display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:0 1.6rem; max-height:48vh; overflow:auto; }
+  .mega-res{ display:flex; align-items:baseline; gap:.5rem; padding:.5rem .2rem; border-bottom:1px solid #f5f5f5; }
+  .mega-res:hover{ color:var(--rc); }
+  .mega-res .dot{ width:.45rem; height:.45rem; border-radius:99px; background:var(--rc); flex-shrink:0; align-self:center; }
+  .mega-res .svc{ font-size:.92rem; font-weight:600; color:#27272a; }
+  .mega-res:hover .svc{ color:var(--rc); }
+  .mega-res .path{ font-size:.78rem; color:#a1a1aa; }
+  .mega-res mark{ background:transparent; color:var(--rc); font-weight:700; }
+  .mega-empty{ padding:1rem .2rem; color:#a1a1aa; font-size:.9rem; }
+
+  /* ---- Полоса направлений (герой A): печатная цветошкала-навигация ---- */
+  .dirbar{ display:flex; align-items:stretch; }
+  .dir-col{ position:relative; flex:1; min-width:0; display:flex; flex-direction:column; justify-content:flex-end;
+        padding:1.5rem 1.25rem; color:var(--fg, #fff); overflow:hidden; isolation:isolate;
+        transition:flex-grow .35s cubic-bezier(.4,0,.2,1); }
+  .dir-col + .dir-col{ box-shadow:inset 1px 0 0 rgba(255,255,255,.18); }
+  .dir-col::before{ content:''; position:absolute; right:1.1rem; bottom:1.1rem; width:.9rem; height:1.28rem; opacity:.32; background:var(--fg,#fff);
+        -webkit-mask:var(--litera-mark) center/contain no-repeat; mask:var(--litera-mark) center/contain no-repeat;
+        transition:opacity .3s ease, transform .3s ease; }
+  .dir-col:hover{ flex-grow:1.6; }
+  .dir-col:hover::before{ opacity:.7; transform:scale(1.15) translateY(-2px); }
+  .dir-num{ font-size:.72rem; font-weight:700; letter-spacing:.16em; opacity:.65; }
+  .dir-name{ font-family:'Raptor V2 Premium','Manrope',system-ui,sans-serif; font-weight:700; font-size:1.6rem; line-height:1; letter-spacing:-.02em; margin-top:.35rem; }
+  .dir-desc{ font-size:.84rem; opacity:0; max-height:0; margin-top:0; transition:.3s ease; }
+  .dir-col:hover .dir-desc{ opacity:.85; max-height:3rem; margin-top:.5rem; }
+
+  /* ---- Герой C (в духе G.F Smith): полноэкранный цвет, крупная типографика ---- */
+  #hero-c{ transition:background-color .5s cubic-bezier(.4,0,.2,1), color .5s; }
+  /* Гигантская фирменная фигура — водяной знак за текстом */
+  .hc-mark{ position:absolute; right:-8vh; top:-12vh; width:88vh; height:88vh; opacity:.09; background:currentColor; pointer-events:none;
+        -webkit-mask:var(--litera-mark) center/contain no-repeat; mask:var(--litera-mark) center/contain no-repeat; }
+  .hc-eyebrow{ display:inline-flex; align-items:baseline; gap:.6rem; font-size:.8rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; }
+  .hc-eyebrow .swatch{ font-variant-numeric:tabular-nums; opacity:.6; }
+  .hc-title{ font-family:'Raptor V2 Premium','Manrope',system-ui,sans-serif; font-weight:700;
+        font-size:clamp(3.2rem, 13vw, 9.5rem); line-height:.86; letter-spacing:-.04em; }
+  /* Нижний ряд свотчей = выбор направления (поклон «Colourer») */
+  .hc-swatches{ display:flex; align-items:stretch; height:4.25rem; background:rgba(0,0,0,.12); }
+  .hc-sw{ flex:1; position:relative; display:flex; align-items:center; gap:.6rem; padding:0 1.1rem; cursor:pointer;
+        font-size:.82rem; font-weight:700; color:inherit; transition:flex-grow .35s ease; overflow:hidden; white-space:nowrap; }
+  .hc-sw + .hc-sw{ box-shadow:inset 1px 0 0 rgba(255,255,255,.22); }
+  .hc-sw .chip{ width:.95rem; height:.95rem; flex-shrink:0; box-shadow:0 0 0 1px rgba(255,255,255,.5); }
+  .hc-sw .lbl{ opacity:.78; transition:opacity .2s; }
+  .hc-sw:hover{ flex-grow:1.5; }
+  .hc-sw:hover .lbl, .hc-sw.is-active .lbl{ opacity:1; }
+  .hc-sw.is-active::after{ content:''; position:absolute; left:0; right:0; bottom:0; height:3px; background:currentColor; }
+
+  /* ---- Тема C: шапка под полноэкранный цвет (бесшовно с hero, цвет ведёт JS) ---- */
+  body.theme-c .topbar{ display:none; }
+  body.theme-c #navbar-bar{ border-bottom-color:transparent;
+        transition:background-color .5s cubic-bezier(.4,0,.2,1), color .35s; }
+  body.theme-c #navbar-bar a[aria-label]{ color:inherit; }     /* лого наследует цвет текста шапки */
+  body.theme-c .logo-accent{ fill:currentColor; }
+  body.theme-c .nav-link,
+  body.theme-c .navsearch-btn,
+  body.theme-c #burger{ color:inherit; }
+  body.theme-c nav a{ color:inherit !important; opacity:.82; transition:opacity .2s; }
+  body.theme-c nav a:hover{ opacity:1; }
+  body.theme-c .btn-accent{ background:var(--hc-fg,#fff); color:var(--hc-bg,#0000FF); }
+  body.theme-c .btn-accent:hover{ box-shadow:0 12px 30px -10px rgba(0,0,0,.45); }
+
+  /* ---- Каталог, стиль 1 (тема C): цветная редакционная выпадашка-флуд ---- */
+  body.theme-c.cat-panel #catalog-panel{ background:var(--c); border-bottom-color:transparent; color:var(--cfg,#fff);
+        box-shadow:0 34px 60px -32px rgba(0,0,0,.55); }
+  body.theme-c.cat-panel #catalog-panel .mega-rail::after,
+  body.theme-c.cat-panel #catalog-panel .mega-foot::before{ background:currentColor; opacity:.25; }
+  body.theme-c.cat-panel .mega-dir{ color:inherit; opacity:.6;
+        font-family:'Raptor V2 Premium','Manrope',system-ui,sans-serif; font-weight:700; font-size:1.15rem; letter-spacing:-.01em; }
+  body.theme-c.cat-panel .mega-dir::before{ background:currentColor; opacity:.55; }
+  body.theme-c.cat-panel .mega-dir:hover, body.theme-c.cat-panel .mega-dir.is-active{ opacity:1; border-bottom-color:currentColor; }
+  body.theme-c.cat-panel .mega-dir:hover::before, body.theme-c.cat-panel .mega-dir.is-active::before{ opacity:1; }
+  body.theme-c.cat-panel .mega-head-t,
+  body.theme-c.cat-panel .mega-head-all,
+  body.theme-c.cat-panel .mega-cat-h,
+  body.theme-c.cat-panel .mega-foot-promo b,
+  body.theme-c.cat-panel .mega-foot a{ color:inherit; }
+  body.theme-c.cat-panel .mega-head-d,
+  body.theme-c.cat-panel .mega-foot-tail{ color:inherit; opacity:.7; }
+  body.theme-c.cat-panel .mega-cat-h:hover{ opacity:.75; }
+  body.theme-c.cat-panel .mega-svc{ color:inherit; opacity:.78; }
+  body.theme-c.cat-panel .mega-svc:hover{ opacity:1; }
+  body.theme-c.cat-panel .mega-foot-mark{ background:currentColor; }
+
+  /* ---- Каталог, стиль 2 (тема C): полноэкранный индекс-тейковер ---- */
+  .cat-full-overlay{ position:fixed; inset:0; z-index:90; display:flex; flex-direction:column; color:#fff; background:#0000FF;
+        transition:background-color .45s cubic-bezier(.4,0,.2,1), color .35s; }
+  .cat-full-overlay[hidden]{ display:none; }
+  .cf-top{ display:flex; align-items:center; justify-content:space-between; max-width:80rem; width:100%; margin:0 auto; padding:1.4rem 1.25rem; }
+  .cf-kicker{ font-size:.8rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; opacity:.8; }
+  #cf-close{ font-size:.85rem; font-weight:700; letter-spacing:.04em; color:inherit; opacity:.8; transition:opacity .15s; }
+  #cf-close:hover{ opacity:1; }
+  .cf-body{ flex:1; min-height:0; overflow:auto; max-width:80rem; width:100%; margin:0 auto; padding:1rem 1.25rem 2.5rem;
+        display:grid; gap:2.5rem; grid-template-columns:minmax(0,1fr); align-content:start; }
+  @media (min-width:1024px){ .cf-body{ grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr); gap:4rem; } }
+  .cf-dirs{ display:flex; flex-direction:column; gap:.1rem; }
+  .cf-dir{ display:flex; align-items:flex-start; gap:1rem; width:100%; text-align:left; color:inherit; opacity:.5; cursor:pointer;
+        font-family:'Raptor V2 Premium','Manrope',system-ui,sans-serif; font-weight:700; letter-spacing:-.03em; line-height:1.04;
+        font-size:clamp(2.2rem,5.5vw,4.6rem); transition:opacity .2s, padding-left .2s; }
+  .cf-dir .n{ font-size:.85rem; font-weight:700; letter-spacing:.1em; opacity:.6; margin-top:.55rem; }
+  .cf-dir:hover, .cf-dir.is-active{ opacity:1; }
+  .cf-dir.is-active{ padding-left:.4rem; }
+  .cf-detail{ columns:2; column-gap:1.75rem; align-self:start; }
+  @media (max-width:640px){ .cf-detail{ columns:1; } }
+  .cat-full-overlay .mega-grid{ display:contents; }
+  .cat-full-overlay .mega-cat{ break-inside:avoid; margin-bottom:1.3rem; }
+  .cat-full-overlay .mega-cat-h{ color:inherit; }
+  .cat-full-overlay .mega-cat-h:hover{ opacity:.75; }
+  .cat-full-overlay .mega-svc{ color:inherit; opacity:.78; }
+  .cat-full-overlay .mega-svc:hover{ opacity:1; }
+
+  /* Минимальная шапка для полноэкранного каталога (тема C + cat-full): лого + «Меню» */
+  .menu-trigger{ display:none; align-items:center; gap:.5rem; color:inherit; font-weight:700; font-size:.95rem; padding:.35rem .25rem; cursor:pointer; }
+  body.theme-c.cat-full .menu-trigger{ display:inline-flex; }
+  body.theme-c.cat-full #primary-nav,
+  body.theme-c.cat-full #burger{ display:none; }
+
+  /* Подвал полноэкранного каталога: вторичные ссылки + контакты */
+  .cf-foot{ position:relative; max-width:80rem; width:100%; margin:0 auto; padding:1.1rem 1.25rem 1.7rem;
+        display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:.7rem 1.5rem; }
+  .cf-foot::before{ content:''; position:absolute; top:0; left:1.25rem; right:1.25rem; height:1px; background:currentColor; opacity:.22; }
+  .cf-links{ display:flex; flex-wrap:wrap; gap:.4rem 1.4rem; }
+  .cf-links a, .cf-contacts a{ color:inherit; opacity:.8; font-weight:600; font-size:.92rem; transition:opacity .15s; }
+  .cf-links a:hover, .cf-contacts a:hover{ opacity:1; }
+  .cf-contacts{ display:flex; flex-wrap:wrap; gap:.4rem 1.2rem; font-weight:700; }
+
+  /* ---- Гид по прототипу (пульт сравнения + пояснения для заказчика) ---- */
+  #proto-guide{ position:fixed; left:50%; bottom:1rem; transform:translateX(-50%); z-index:80; width:min(93vw,660px);
+        background:#fff; color:#18181b; border:1px solid #e4e4e7; border-radius:14px; box-shadow:0 18px 50px -18px rgba(0,0,0,.45);
+        font-size:13px; overflow:hidden; }
+  #proto-guide.is-collapsed .pg-body{ display:none; }
+  .pg-bar{ display:flex; align-items:center; gap:.55rem; padding:.6rem .85rem; }
+  .pg-bar b{ font-weight:800; letter-spacing:-.01em; }
+  .pg-sub{ color:#a1a1aa; font-weight:600; }
+  .pg-collapse{ margin-left:auto; color:#71717a; font-weight:700; padding:.2rem .55rem; border-radius:7px; transition:.15s; }
+  .pg-collapse:hover{ background:#f4f4f5; color:#18181b; }
+  .pg-body{ padding:0 .85rem .85rem; display:flex; flex-direction:column; gap:.55rem; }
+  .pg-row{ display:flex; align-items:center; gap:.7rem; }
+  .pg-label{ width:96px; flex-shrink:0; color:#71717a; font-weight:700; text-transform:uppercase; letter-spacing:.06em; font-size:11px; }
+  .pg-seg{ display:flex; gap:.25rem; background:#f4f4f5; padding:.22rem; border-radius:9px; flex-wrap:wrap; }
+  .pg-seg button{ padding:.4rem .72rem; border-radius:7px; font-weight:700; color:#3f3f46; transition:.15s; white-space:nowrap; }
+  .pg-seg button:hover{ color:#18181b; }
+  .pg-seg button.is-active{ background:#fff; color:#000; box-shadow:0 1px 3px rgba(0,0,0,.13); }
+  .pg-row-cat{ display:none; }
+  body.theme-c .pg-row-cat{ display:flex; }
+  .pg-why{ align-self:flex-start; color:#18181b; font-weight:700; text-decoration:underline; text-underline-offset:3px; }
+  .pg-explain{ display:none; border-top:1px solid #f0f0f1; margin-top:.35rem; padding-top:.6rem; color:#52525b; line-height:1.5; }
+  #proto-guide.show-why .pg-explain{ display:block; }
+  .pg-explain p{ margin-bottom:.4rem; }
+  .pg-explain b{ color:#18181b; }
+  .pg-h{ font-weight:800; color:#18181b; margin-top:.2rem; }
+  .pg-note{ color:#a1a1aa; font-weight:600; }
+  .pg-fine{ color:#a1a1aa; }
+  .pg-explain .dot{ display:inline-block; width:.62rem; height:.62rem; border-radius:99px; vertical-align:middle; margin-right:.4rem; }
+
+  @keyframes marquee{ from{transform:translateX(0)} to{transform:translateX(-50%)} }
+  .marquee{ display:flex; gap:3rem; width:max-content; animation:marquee 28s linear infinite; }
+</style>
+</head>
+
+<body class="font-sans text-ink bg-paper antialiased">
+
+<!-- ============================ ШАПКА (общая система) ============================ -->
+<header class="sticky top-0 z-50">
+
+  <!-- ТОПБАР: цветовая шкала (печатная калибровка) + контакты, режим, адрес -->
+  <div class="topbar hidden lg:block bg-zinc-50 text-zinc-500 text-xs border-b border-zinc-100">
+    <div class="max-w-7xl mx-auto px-5 lg:px-8 h-10 flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <span class="flex items-center shrink-0" aria-hidden="true" title="Литера.Студия — типография полного цикла">
+          <span class="block w-2.5 h-3.5" style="background:#0000FF"></span>
+          <span class="block w-2.5 h-3.5" style="background:#FF00FF"></span>
+          <span class="block w-2.5 h-3.5" style="background:#9BBF00"></span>
+          <span class="block w-2.5 h-3.5" style="background:#00CC00"></span>
+        </span>
+        <span class="text-zinc-400">Пн–Пт 10:00–19:00</span>
+        <span class="w-px h-3.5 bg-zinc-200"></span>
+        <a href="#contacts" class="text-zinc-500 hover:text-ink transition">Москва, Холодильный пер., 3к1с3, под. 6, офис 404</a>
+      </div>
+      <div class="flex items-center gap-3.5">
+        <a href="tel:+74950213577" class="text-zinc-500 hover:text-ink transition">+7 (495) 021-35-77</a>
+        <a href="tel:+79777936481" class="text-zinc-500 hover:text-ink transition">+7 (977) 793-64-81</a>
+        <a href="mailto:zakaz@litera.studio" class="text-zinc-500 hover:text-ink transition">zakaz@litera.studio</a>
+        <span class="w-px h-3.5 bg-zinc-200"></span>
+        <a href="https://t.me/litera_studio" target="_blank" rel="noopener" class="flex items-center gap-1.5 text-zinc-400 hover:text-ink transition"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M21.94 4.6 18.9 19.3c-.23 1.01-.83 1.26-1.68.78l-4.64-3.42-2.24 2.16c-.25.25-.46.46-.94.46l.33-4.73 8.6-7.77c.37-.33-.08-.52-.58-.19L7.43 13.1l-4.57-1.43c-1-.31-1.01-1 .21-1.48l17.86-6.88c.83-.31 1.56.19 1.29 1.29z"/></svg><span>Telegram</span></a>
+        <a href="#" class="flex items-center gap-1.5 text-zinc-400 hover:text-ink transition"><svg class="w-4 h-4 shrink-0" viewBox="0 0 1000 1000" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M508.211 878.328c-75.007 0-109.864-10.95-170.453-54.75-38.325 49.275-159.686 87.783-164.979 21.9 0-49.456-10.95-91.248-23.36-136.873-14.782-56.21-31.572-118.807-31.572-209.508 0-216.626 177.754-379.597 388.357-379.597 210.785 0 375.947 171.001 375.947 381.604.707 207.346-166.595 376.118-373.94 377.224m3.103-571.585c-102.564-5.292-182.499 65.7-200.201 177.024-14.6 92.162 11.315 204.398 33.397 210.238 10.585 2.555 37.23-18.98 53.837-35.587a189.8 189.8 0 0 0 92.71 33.032c106.273 5.112 197.08-75.794 204.215-181.95 4.154-106.382-77.67-196.486-183.958-202.574Z"/></svg><span>MAX</span></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- НАВБАР: лого, направления, CTA -->
+  <div class="relative" id="navbar">
+    <div class="bg-paper border-b border-zinc-100" id="navbar-bar">
+    <div class="max-w-7xl mx-auto px-5 lg:px-8">
+      <div class="flex items-center justify-between h-14 lg:h-16">
+
+      <!-- Лого -->
+      <a href="index.html" class="flex items-center shrink-0 text-ink" aria-label="ЛИТЕРА.СТУДИО">
+        <svg class="h-[22px] w-auto" viewBox="0 0 167 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path class="logo-accent" d="M16.7434 0.439453H5.40039V4.48911H12.6938L16.7434 0.439453Z" fill="#0000FF"/>
+          <path class="logo-accent" d="M5.40039 10.1616L16.7434 21.5069V15.8343L5.40039 4.48911V10.1616Z" fill="#0000FF"/>
+          <path d="M0 21.507L4.04965 25.5567V0.439453L0 4.48911V21.507Z" fill="currentColor"/>
+          <path d="M5.40234 21.5068V25.5565H12.6957L16.7454 21.5068H5.40234Z" fill="currentColor"/>
+          <path d="M166.998 19.9746H164.358V8.45461H162.558C161.318 8.45461 160.598 9.19461 160.598 10.2746C160.598 11.3546 161.318 12.1146 162.558 12.1146H164.358L160.178 19.9746H157.218L160.438 13.9346C158.878 13.3946 157.858 12.1546 157.858 10.2746C157.858 7.65461 159.878 5.97461 162.558 5.97461H166.998V19.9746Z" fill="currentColor"/>
+          <path d="M149.35 19.9746H146.61L150.69 5.97461H153.43L149.35 19.9746ZM144.07 19.9746V5.97461H146.61V19.9746H144.07ZM153.43 19.9746V5.97461H155.97V19.9746H153.43Z" fill="currentColor"/>
+          <path d="M128.236 22.5746V17.4946H129.196C130.416 17.4946 130.936 16.9746 131.016 15.7146L131.496 5.97461H140.876V17.4946H142.496V22.5746H140.316V19.9746H130.396V22.5746H128.236ZM133.116 17.4946H138.236V8.45461H134.036L133.656 15.7146C133.616 16.4546 133.436 17.0346 133.116 17.4946Z" fill="currentColor"/>
+          <path d="M122.405 19.9746L127.265 5.97461H130.045L125.185 19.9746H122.405ZM118.085 5.97461H121.045L124.385 14.1546H121.445L118.085 5.97461Z" fill="currentColor"/>
+          <path d="M111.734 19.9746V8.45461H108.354V5.97461H117.774V8.45461H114.374V19.9746H111.734Z" fill="currentColor"/>
+          <path d="M101.346 20.2553C97.4862 20.2553 94.3662 17.3753 94.3662 12.9753C94.3662 8.57531 97.4862 5.69531 101.346 5.69531C104.466 5.69531 107.106 7.57531 107.926 10.6353H105.066C104.426 9.15531 103.086 8.23531 101.346 8.23531C98.8262 8.23531 97.1062 10.1553 97.1062 12.9753C97.1062 15.7953 98.8262 17.7153 101.346 17.7153C103.166 17.7153 104.506 16.7153 105.126 15.1153H107.966C107.206 18.2953 104.526 20.2553 101.346 20.2553Z" fill="currentColor"/>
+          <path class="logo-accent" d="M91.9812 20.2552C90.9412 20.2552 90.2012 19.4552 90.2012 18.4352C90.2012 17.4352 90.9412 16.6152 91.9812 16.6152C93.0012 16.6152 93.7412 17.4352 93.7412 18.4352C93.7412 19.4552 93.0012 20.2552 91.9812 20.2552Z" fill="#0000FF"/>
+          <path d="M75.7402 19.9746L79.6002 5.97461H82.3602L80.2402 13.6746H84.5202L82.3602 5.97461H85.1802L89.1202 19.9746H86.2802L85.2002 16.1346H79.5802L78.5202 19.9746H75.7402Z" fill="currentColor"/>
+          <path d="M68.3545 19.9746V5.97461H72.4945C75.1745 5.97461 77.1745 7.79461 77.1745 10.4946C77.1745 13.1946 75.1745 15.0146 72.4945 15.0146H70.9945V19.9746H68.3545ZM70.9945 12.5546H72.4945C73.7345 12.5546 74.4345 11.6546 74.4345 10.4946C74.4345 9.33461 73.7345 8.45461 72.4945 8.45461H70.9945V12.5546Z" fill="currentColor"/>
+          <path d="M58.9502 19.9746V5.97461H66.2702V8.45461H61.5902V11.3546H65.7702V13.8146H61.5902V17.4946H66.4702V19.9746H58.9502Z" fill="currentColor"/>
+          <path d="M51.4396 19.9746V8.45461H48.0596V5.97461H57.4796V8.45461H54.0796V19.9746H51.4396Z" fill="currentColor"/>
+          <path d="M39.9323 19.9746H37.1923L41.2723 5.97461H44.0123L39.9323 19.9746ZM34.6523 19.9746V5.97461H37.1923V19.9746H34.6523ZM44.0123 19.9746V5.97461H46.5523V19.9746H44.0123Z" fill="currentColor"/>
+          <path d="M20.5996 17.4946C21.8196 17.4946 22.3396 16.9746 22.3996 15.7146L22.8996 5.97461H32.2596V19.9746H29.6196V8.45461H25.4396L25.0396 15.7146C24.8996 18.7746 23.4796 19.9746 20.5996 19.9746V17.4946Z" fill="currentColor"/>
+        </svg>
+      </a>
+
+      <!-- Навигация: единый каталог-мегаменю (направления → категории → услуги) -->
+      <nav id="primary-nav" class="hidden xl:flex items-center gap-0.5 text-[15px] font-medium">
+        <button type="button" id="nav-search-toggle" aria-label="Поиск" class="navsearch-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+        </button>
+        <button type="button" id="catalog-trigger" class="nav-link" style="--c:#0000FF">Каталог<svg class="nav-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></button>
+        <a href="portfolio.html" class="px-2.5 py-2 text-zinc-700 hover:text-ink transition">Проекты</a>
+        <a href="#" class="px-2.5 py-2 text-zinc-700 hover:text-ink transition">Блог</a>
+        <a href="#" class="px-2.5 py-2 text-zinc-700 hover:text-ink transition">О нас</a>
+        <a href="#" class="px-2.5 py-2 text-zinc-700 hover:text-ink transition">Оплата и доставка</a>
+        <a href="#contacts" class="px-2.5 py-2 text-zinc-700 hover:text-ink transition">Контакты</a>
+      </nav>
+
+      <div class="flex items-center gap-2">
+        <a href="#lead" data-lead-open class="btn btn-accent btn-sm hidden sm:inline-flex">Оставить заявку</a>
+        <button id="menu-trigger" class="menu-trigger" aria-label="Открыть каталог">Меню
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+        <button id="burger" class="xl:hidden w-10 h-10 grid place-items-center" aria-label="Меню">
+          <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+      </div>
+    </div>
+    </div>
+
+    <!-- 3-й уровень шапки: КАТАЛОГ -->
+    <div class="header-panel" id="catalog-panel">
+      <div class="max-w-7xl mx-auto px-5 lg:px-8 pb-5">
+        <div class="mega-body">
+                <div class="mega-rail">
+                  <div class="mega-rail-h">Направления</div>
+                  <button class="mega-dir is-active" data-mega="0" style="--c:#0000FF">Полиграфия</button>
+                  <button class="mega-dir" data-mega="1" style="--c:#FF00FF">Упаковка и этикетки</button>
+                  <button class="mega-dir" data-mega="2" style="--c:#9bbf00">Логотип и фирменный стиль</button>
+                  <button class="mega-dir" data-mega="3" style="--c:#00CC00">Мерч и сувениры</button>
+                  <button class="mega-dir" data-mega="4" style="--c:#64748b">Отраслевые решения</button>
+                </div>
+                <div class="mega-panels">
+                  <div class="mega-head" id="mega-head"></div>
+
+                  <div class="mega-panel is-active" data-panel="0" data-dir="Полиграфия" style="--c:#0000FF">
+                    <div class="mega-grid">
+                      <div class="mega-cat"><a href="category.html" class="mega-cat-h">Листовая полиграфия</a><a href="#" class="mega-svc">Визитки</a><a href="#" class="mega-svc">Листовки</a><a href="#" class="mega-svc">Флаеры</a><a href="#" class="mega-svc">Буклеты и лифлеты</a><a href="#" class="mega-svc">Открытки</a><a href="#" class="mega-svc">Приглашения</a><a href="#" class="mega-svc">Билеты</a><a href="#" class="mega-svc">Абонементы</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Многостраничная</a><a href="#" class="mega-svc">Каталоги</a><a href="#" class="mega-svc">Брошюры</a><a href="#" class="mega-svc">Журналы</a><a href="#" class="mega-svc">Книги</a><a href="#" class="mega-svc">Блокноты</a><a href="#" class="mega-svc">Ежедневники</a><a href="#" class="mega-svc">Фотокниги</a><a href="#" class="mega-svc">Презентации</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Деловая полиграфия</a><a href="#" class="mega-svc">Бланки</a><a href="#" class="mega-svc">Конверты</a><a href="#" class="mega-svc">Папки</a><a href="#" class="mega-svc">Папки на кольцах</a><a href="#" class="mega-svc">Сертификаты</a><a href="#" class="mega-svc">Грамоты</a><a href="#" class="mega-svc">Дипломы</a><a href="#" class="mega-svc">Бейджи</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Широкоформатная</a><a href="#" class="mega-svc">Плакаты</a><a href="#" class="mega-svc">Афиши</a><a href="#" class="mega-svc">Постеры</a><a href="#" class="mega-svc">Баннеры</a><a href="#" class="mega-svc">Бэклит</a><a href="#" class="mega-svc">Press-wall</a><a href="#" class="mega-svc">Roll-up</a><a href="#" class="mega-svc">Таблички</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Календари</a><a href="#" class="mega-svc">Настольные</a><a href="#" class="mega-svc">Карманные</a><a href="#" class="mega-svc">Перекидные</a><a href="#" class="mega-svc">Квартальные</a><a href="#" class="mega-svc">Адвент-календари</a><a href="#" class="mega-svc">Календарь-плакат</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Наклейки и этикетки</a><a href="#" class="mega-svc">Наклейки и стикеры</a><a href="#" class="mega-svc">Стикерпаки</a><a href="#" class="mega-svc">Этикетки</a><a href="#" class="mega-svc">UF/DTF-наклейки</a><a href="#" class="mega-svc">3D-стикеры</a><a href="#" class="mega-svc">Светящиеся стикеры</a><a href="#" class="mega-svc">Ремувки</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Печати, штампы, карты</a><a href="#" class="mega-svc">Печати</a><a href="#" class="mega-svc">Штампы</a><a href="#" class="mega-svc">Пластиковые карты</a><a href="#" class="mega-svc">Дисконтные карты</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Карты и настольные игры</a><a href="#" class="mega-svc">Настольные игры</a><a href="#" class="mega-svc">Колода карт</a><a href="#" class="mega-svc">Метафорические карты</a><a href="#" class="mega-svc">Таро</a></div>
+                    </div>
+                  </div>
+
+                  <div class="mega-panel" data-panel="1" data-dir="Упаковка и этикетки" style="--c:#FF00FF">
+                    <div class="mega-grid">
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Коробки из картона</a><a href="#" class="mega-svc">Самосборные</a><a href="#" class="mega-svc">Крышка-дно</a><a href="#" class="mega-svc">Пенал</a><a href="#" class="mega-svc">Ласточкин хвост</a><a href="#" class="mega-svc">Два клапана</a><a href="#" class="mega-svc">С подвесом</a><a href="#" class="mega-svc">Моноблок</a><a href="#" class="mega-svc">Шкатулка</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Коробки из МГК</a><a href="#" class="mega-svc">Самосборные</a><a href="#" class="mega-svc">Лоток</a><a href="#" class="mega-svc">Самолёт</a><a href="#" class="mega-svc">С ручкой</a><a href="#" class="mega-svc">Четыре клапана</a><a href="#" class="mega-svc">С ложементом</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Кашированные коробки</a><a href="#" class="mega-svc">Крышка-дно</a><a href="#" class="mega-svc">Ларец</a><a href="#" class="mega-svc">Тортовые</a><a href="#" class="mega-svc">С магнитными клапанами</a><a href="#" class="mega-svc">С двойным дном</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Этикетки</a><a href="#" class="mega-svc">Этикетки на товар</a><a href="#" class="mega-svc">Самоклеящиеся</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Пакеты и бумага</a><a href="#" class="mega-svc">Бумажные пакеты</a><a href="#" class="mega-svc">ПВД-пакеты</a><a href="#" class="mega-svc">Упаковочная бумага</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Подарочная упаковка</a><a href="#" class="mega-svc">Подарочная упаковка</a><a href="#" class="mega-svc">Бонбоньерки</a><a href="#" class="mega-svc">Коробки для свечей</a><a href="#" class="mega-svc">Шуберы</a><a href="#" class="mega-svc">Ремувки</a></div>
+                    </div>
+                  </div>
+
+                  <div class="mega-panel" data-panel="2" data-dir="Логотип и фирменный стиль" style="--c:#9bbf00">
+                    <div class="mega-grid">
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Логотип</a><a href="#" class="mega-svc">Разработка логотипа</a><a href="#" class="mega-svc">Редизайн логотипа</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Фирменный стиль</a><a href="#" class="mega-svc">Брендбук</a><a href="#" class="mega-svc">Фирменный стиль</a><a href="#" class="mega-svc">Редизайн носителей</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Маскот бренда</a><a href="#" class="mega-svc">Дизайн маскота</a><a href="#" class="mega-svc">Айдентика маскота</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Иллюстрации</a><a href="#" class="mega-svc">Авторские</a><a href="#" class="mega-svc">Для книги</a><a href="#" class="mega-svc">Для сайта</a><a href="#" class="mega-svc">Для обложки</a><a href="#" class="mega-svc">Обложки</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Фирменные носители</a><a href="#" class="mega-svc">Визитки</a><a href="#" class="mega-svc">Бланки</a><a href="#" class="mega-svc">Конверты</a><a href="#" class="mega-svc">Папки</a><a href="#" class="mega-svc">Презентации</a></div>
+                    </div>
+                  </div>
+
+                  <div class="mega-panel" data-panel="3" data-dir="Корпоративный брендинг, сувениры" style="--c:#00CC00">
+                    <div class="mega-grid">
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Подарочные наборы</a><a href="#" class="mega-svc">Корпоративные наборы</a><a href="#" class="mega-svc">Welcome-паки</a><a href="#" class="mega-svc">Под задачу</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Мерч и одежда</a><a href="#" class="mega-svc">Футболки</a><a href="#" class="mega-svc">Толстовки</a><a href="#" class="mega-svc">Мерч</a><a href="#" class="mega-svc">Нанесение логотипа</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Посуда и термокружки</a><a href="#" class="mega-svc">Кружки</a><a href="#" class="mega-svc">Термокружки</a><a href="#" class="mega-svc">Бутылки</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Сумки и аксессуары</a><a href="#" class="mega-svc">Шопперы</a><a href="#" class="mega-svc">Сумки и рюкзаки</a><a href="#" class="mega-svc">Зонты</a><a href="#" class="mega-svc">Ручки</a><a href="#" class="mega-svc">Аккумуляторы</a><a href="#" class="mega-svc">Брелоки и обвесы</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Сувениры</a><a href="#" class="mega-svc">Корпоративные сувениры</a><a href="#" class="mega-svc">Стикеры для мерча</a><a href="#" class="mega-svc">Ежедневники</a><a href="#" class="mega-svc">Планинги</a></div>
+                    </div>
+                  </div>
+
+                  <div class="mega-panel" data-panel="4" data-dir="Отраслевые решения" style="--c:#64748b">
+                    <div class="mega-grid">
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Рестораны и бары</a><a href="#" class="mega-svc">Барное меню</a><a href="#" class="mega-svc">Барная карта</a><a href="#" class="mega-svc">Коктейльная карта</a><a href="#" class="mega-svc">Папка для меню</a><a href="#" class="mega-svc">Тейбл-тент</a><a href="#" class="mega-svc">Полиграфия для ресторанов</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Свадьба</a><a href="#" class="mega-svc">Приглашения</a><a href="#" class="mega-svc">Свадебное меню</a><a href="#" class="mega-svc">План рассадки</a><a href="#" class="mega-svc">Конверты</a><a href="#" class="mega-svc">Свадебная полиграфия</a></div>
+                      <div class="mega-cat"><a href="#" class="mega-cat-h">Салоны красоты</a><a href="#" class="mega-svc">Сертификаты</a><a href="#" class="mega-svc">Прайс-лист</a><a href="#" class="mega-svc">Абонементы</a></div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+              <div class="mega-foot">
+                <span class="mega-foot-promo"><span class="mega-foot-mark"></span><b id="mega-promo">Визитки за 1 день</b> <span class="mega-foot-tail">— рассчитаем стоимость за час</span></span>
+                <a href="#lead" data-lead-open>Оставить заявку →</a>
+              </div>
+            </div>
+          </div>
+
+    <!-- 3-й уровень шапки: ПОИСК -->
+    <div class="header-panel" id="search-panel">
+      <div class="max-w-7xl mx-auto px-5 lg:px-8 py-5">
+        <div class="relative">
+          <svg class="searchfield-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+          <input type="text" id="nav-q" class="searchfield" placeholder="Найти услугу — визитки, коробки, логотип…" autocomplete="off">
+        </div>
+        <div class="searchresults" id="nav-results" hidden></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Мобильное меню -->
+  <div id="mobile-menu" class="xl:hidden hidden bg-paper border-t border-zinc-100 px-5 py-4 text-[15px] font-medium">
+    <div class="text-xs uppercase tracking-wider text-zinc-400 mb-2 mt-1">Направления</div>
+    <a href="#" class="flex items-center gap-2.5 py-2.5"><span class="w-2 h-2 rounded-full" style="background:#0000FF"></span>Полиграфия</a>
+    <a href="#" class="flex items-center gap-2.5 py-2.5"><span class="w-2 h-2 rounded-full" style="background:#FF00FF"></span>Упаковка и этикетки</a>
+    <a href="#" class="flex items-center gap-2.5 py-2.5"><span class="w-2 h-2 rounded-full" style="background:#9bbf00"></span>Логотип и фирменный стиль</a>
+    <a href="#" class="flex items-center gap-2.5 py-2.5"><span class="w-2 h-2 rounded-full" style="background:#00CC00"></span>Корпоративный брендинг, бизнес-сувениры</a>
+    <a href="#" class="flex items-center gap-2.5 py-2.5"><span class="w-2 h-2 rounded-full" style="background:#64748b"></span>Отраслевые решения</a>
+    <div class="h-px bg-zinc-100 my-3"></div>
+    <a href="portfolio.html" class="block py-2.5">Проекты</a>
+    <a href="#" class="block py-2.5">Блог</a>
+    <a href="#" class="block py-2.5">О нас</a>
+    <a href="#" class="block py-2.5">Оплата и доставка</a>
+    <a href="#" class="block py-2.5">Вакансии</a>
+    <a href="#contacts" class="block py-2.5">Контакты</a>
+    <a href="tel:+74950213577" class="block py-2.5 font-semibold">+7 (495) 021-35-77</a>
+    <a href="tel:+79777936481" class="block py-2.5 font-semibold">+7 (977) 793-64-81</a>
+    <a href="#lead" class="btn btn-accent w-full justify-center mt-3">Оставить заявку</a>
+  </div>
+</header>
+
+<main>
+
+<!-- Переключатель вариантов hero (служебный, для сравнения) -->
+<!-- ГИД ПО ПРОТОТИПУ: пульт сравнения вариантов + пояснения для заказчика -->
+<div id="proto-guide">
+  <div class="pg-bar">
+    <b>Прототип главной — Litera</b>
+    <span class="pg-sub">демо для согласования</span>
+    <button class="pg-collapse" type="button" aria-label="Свернуть">Свернуть –</button>
+  </div>
+  <div class="pg-body">
+    <div class="pg-row">
+      <span class="pg-label">Первый экран</span>
+      <div class="pg-seg">
+        <button data-hero="a">Цветошкала</button>
+        <button data-hero="b">Сплит + фото</button>
+        <button data-hero="c">Полноэкранный цвет</button>
+      </div>
+    </div>
+    <div class="pg-row pg-row-cat">
+      <span class="pg-label">Каталог</span>
+      <div class="pg-seg">
+        <button data-catmode="panel">Выпадашка</button>
+        <button data-catmode="full">Во весь экран</button>
+      </div>
+    </div>
+    <button class="pg-why" type="button">Чем отличаются варианты? ▾</button>
+    <div class="pg-explain">
+      <p class="pg-h">Первый экран</p>
+      <p><span class="dot" style="background:#0000FF"></span><b>Цветошкала</b> — 5 направлений-цветов как навигация. Узнаваемо и быстро, не зависит от качества фото.</p>
+      <p><span class="dot" style="background:#9BBF00"></span><b>Сплит + фото</b> — привычный «текст + изображение». Понятно и тепло, но держится на хорошем снимке.</p>
+      <p><span class="dot" style="background:#FF00FF"></span><b>Полноэкранный цвет</b> — смелое имиджевое решение в духе мировых студий (G.F Smith). Премиум-восприятие и отстройка от конкурентов на рынке РФ/СНГ.</p>
+      <p class="pg-h">Каталог <span class="pg-note">— для «Полноэкранного цвета»</span></p>
+      <p>• <b>Выпадашка</b> — привычная механика магазина: все разделы и ссылки под рукой, но в фирменном цвете. Безопасный вариант.</p>
+      <p>• <b>Во весь экран</b> — каталог-разворот как в журнале, шапка сворачивается в минимум (лого + «Меню»). Самое дерзкое; до услуги — на один клик дольше.</p>
+      <p class="pg-fine">Глубина и все ссылки каталога сохранены во всех вариантах — меняется только подача.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ============================ HERO A — типографика + полоса направлений ============================ -->
+<section id="hero-a" class="relative bg-white overflow-hidden h-[calc(100svh-3.5rem)] lg:h-[calc(100svh-6.5rem)] flex flex-col">
+  <!-- Заявление студии -->
+  <div class="max-w-5xl mx-auto px-5 text-center pt-12 lg:pt-20 pb-8 lg:pb-12">
+    <div class="kicker mb-5">Студия графического дизайна · собственная типография с 2012</div>
+    <h1 class="font-display text-[2.6rem] sm:text-[3.5rem] lg:text-[78px] leading-[0.9] tracking-[-0.05em]">
+      От логотипа<br>до тиража
+    </h1>
+    <p class="mt-6 text-[1.05rem] leading-[1.7] text-zinc-600 max-w-2xl mx-auto">
+      Придумываем фирменный стиль и печатаем его на собственном производстве:
+      полиграфия, упаковка, брендинг и мерч — в одном месте, без посредников
+      и потери качества от макета до готового тиража.
+    </p>
+    <div class="mt-8 flex flex-wrap justify-center gap-3">
+      <a href="#lead" data-lead-open class="btn btn-accent btn-lg">Обсудить проект</a>
+      <a href="portfolio.html" class="btn btn-ghost btn-lg">Смотреть работы</a>
+    </div>
+  </div>
+
+  <!-- Полоса направлений: печатная цветошкала = навигация по 5 направлениям -->
+  <div class="dirbar mt-auto h-[34vh] min-h-[200px]">
+    <a href="category.html" class="dir-col" style="background:#0000FF;--fg:#fff">
+      <span class="dir-num">01</span><span class="dir-name">Полиграфия</span>
+      <span class="dir-desc">Визитки, листовки, каталоги, бизнес-печать</span>
+    </a>
+    <a href="#" class="dir-col" style="background:#FF00FF;--fg:#fff">
+      <span class="dir-num">02</span><span class="dir-name">Упаковка</span>
+      <span class="dir-desc">Коробки, этикетки, пакеты под продукт</span>
+    </a>
+    <a href="#" class="dir-col" style="background:#9BBF00;--fg:#111">
+      <span class="dir-num">03</span><span class="dir-name">Брендинг</span>
+      <span class="dir-desc">Логотип и фирменный стиль под ключ</span>
+    </a>
+    <a href="#" class="dir-col" style="background:#00CC00;--fg:#fff">
+      <span class="dir-num">04</span><span class="dir-name">Мерч</span>
+      <span class="dir-desc">Сувениры, одежда, корпоративные наборы</span>
+    </a>
+    <a href="#" class="dir-col" style="background:#64748B;--fg:#fff">
+      <span class="dir-num">05</span><span class="dir-name">Отраслевые</span>
+      <span class="dir-desc">Готовые решения: рестораны, свадьбы, бьюти</span>
+    </a>
+  </div>
+</section>
+
+<!-- ============================ HERO B — сплит: текст + фото ============================ -->
+<section id="hero-b" class="relative bg-white overflow-hidden hidden h-[calc(100svh-3.5rem)] lg:h-[calc(100svh-6.5rem)]">
+  <div class="h-full max-w-7xl mx-auto grid lg:grid-cols-2 items-stretch">
+    <!-- Текст -->
+    <div class="flex flex-col justify-center px-5 lg:px-8 py-12 order-2 lg:order-1">
+      <div class="kicker mb-5">Студия графического дизайна · собственная типография с 2012</div>
+      <h1 class="font-display text-[2.6rem] sm:text-[3.5rem] lg:text-[72px] leading-[0.9] tracking-[-0.05em]">
+        От логотипа<br>до тиража
+      </h1>
+      <p class="mt-6 text-[1.05rem] leading-[1.7] text-zinc-600 max-w-xl">
+        Придумываем фирменный стиль и печатаем его на собственном производстве:
+        полиграфия, упаковка, брендинг и мерч — без посредников и потери качества.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href="#lead" data-lead-open class="btn btn-accent btn-lg">Обсудить проект</a>
+        <a href="portfolio.html" class="btn btn-ghost btn-lg">Смотреть работы</a>
+      </div>
+      <!-- Полоса направлений-цветов как тонкий акцент под текстом -->
+      <div class="mt-10 flex items-center gap-4">
+        <div class="flex h-2.5 w-40">
+          <span class="flex-1" style="background:#0000FF"></span>
+          <span class="flex-1" style="background:#FF00FF"></span>
+          <span class="flex-1" style="background:#9BBF00"></span>
+          <span class="flex-1" style="background:#00CC00"></span>
+          <span class="flex-1" style="background:#64748B"></span>
+        </div>
+        <span class="text-caption text-zinc-500">5 направлений · одно производство</span>
+      </div>
+    </div>
+    <!-- Фото -->
+    <div class="relative order-1 lg:order-2 min-h-[34vh] lg:min-h-0">
+      <img src="assets/hero-flatlay.jpg" alt="Полиграфия Litera" class="absolute inset-0 w-full h-full object-cover">
+    </div>
+  </div>
+</section>
+
+<!-- ============================ HERO C — G.F Smith: полноэкранный цвет ============================ -->
+<section id="hero-c" class="relative overflow-hidden hidden h-[calc(100svh-3.5rem)] lg:h-[calc(100svh-4rem)] flex flex-col text-white" style="background:#0000FF">
+  <span class="hc-mark"></span>
+
+  <!-- Верхняя мета-строка -->
+  <div class="relative z-10 w-full max-w-7xl mx-auto flex items-center justify-between px-5 lg:px-8 pt-6 lg:pt-8 text-[.8rem] font-bold uppercase tracking-[.16em]">
+    <span>Litera · студия дизайна и печати</span>
+    <span><span id="hc-index">01</span> / 05</span>
+  </div>
+
+  <!-- Центр: заявление -->
+  <div class="relative z-10 my-auto w-full max-w-7xl mx-auto px-5 lg:px-8">
+    <div class="hc-eyebrow mb-5"><span id="hc-dir">Полиграфия</span><span class="swatch" id="hc-hex">0000FF</span></div>
+    <h1 class="hc-title">От логотипа<br>до <span id="hc-head">тиража</span></h1>
+    <p class="mt-7 text-[1.1rem] leading-[1.6] max-w-xl opacity-90">
+      Студия графического дизайна и собственная типография с 2012 года.
+      Пять направлений, один цвет на каждое — от макета до готового тиража.
+    </p>
+    <div class="mt-9 flex flex-wrap gap-3">
+      <a href="#lead" data-lead-open class="btn btn-lg" style="background:#fff;color:#111">Обсудить проект</a>
+      <a href="portfolio.html" class="btn btn-lg" style="background:transparent;color:currentColor;border-color:currentColor">Смотреть работы</a>
+    </div>
+  </div>
+
+  <!-- Свотчи направлений: клик перекрашивает экран -->
+  <div class="hc-swatches relative z-10" id="hc-swatches">
+    <button class="hc-sw is-active" data-color="#0000FF" data-fg="#ffffff" data-dir="Полиграфия"  data-n="01" data-head="тиража"><span class="chip" style="background:#0000FF"></span><span class="lbl">Полиграфия</span></button>
+    <button class="hc-sw" data-color="#FF00FF" data-fg="#ffffff" data-dir="Упаковка"   data-n="02" data-head="упаковки"><span class="chip" style="background:#FF00FF"></span><span class="lbl">Упаковка</span></button>
+    <button class="hc-sw" data-color="#9BBF00" data-fg="#111111" data-dir="Брендинг"   data-n="03" data-head="бренда"><span class="chip" style="background:#9BBF00"></span><span class="lbl">Брендинг</span></button>
+    <button class="hc-sw" data-color="#00CC00" data-fg="#ffffff" data-dir="Мерч"       data-n="04" data-head="мерча"><span class="chip" style="background:#00CC00"></span><span class="lbl">Мерч</span></button>
+    <button class="hc-sw" data-color="#64748B" data-fg="#ffffff" data-dir="Отраслевые" data-n="05" data-head="решения"><span class="chip" style="background:#64748B"></span><span class="lbl">Отраслевые</span></button>
+  </div>
+</section>
+
+<!-- Бегущая строка — намёк на продолжение под сгибом -->
+<div class="border-y border-zinc-100 h-14 flex items-center overflow-hidden">
+  <div class="marquee text-zinc-400 font-semibold uppercase tracking-wider text-sm">
+    <span class="flex gap-12 shrink-0">
+      <span class="marker-accent">Полиграфия</span><span class="marker-accent">Упаковка</span><span class="marker-accent">Брендинг</span>
+      <span class="marker-accent">Мерч</span><span class="marker-accent">Логотипы</span><span class="marker-accent">Этикетки</span>
+      <span class="marker-accent">Каталоги</span><span class="marker-accent">Своё производство</span>
+    </span>
+    <span class="flex gap-12 shrink-0" aria-hidden="true">
+      <span class="marker-accent">Полиграфия</span><span class="marker-accent">Упаковка</span><span class="marker-accent">Брендинг</span>
+      <span class="marker-accent">Мерч</span><span class="marker-accent">Логотипы</span><span class="marker-accent">Этикетки</span>
+      <span class="marker-accent">Каталоги</span><span class="marker-accent">Своё производство</span>
+    </span>
+  </div>
+</div>
+
+<!-- Каталог, стиль 2: полноэкранный индекс-тейковер (тема C) -->
+<div id="catalog-full" class="cat-full-overlay" hidden style="background:#0000FF;color:#ffffff">
+  <div class="cf-top">
+    <span class="cf-kicker">Каталог · 5 направлений</span>
+    <button id="cf-close" aria-label="Закрыть каталог">✕&nbsp;&nbsp;Закрыть</button>
+  </div>
+  <div class="cf-body">
+    <ul class="cf-dirs">
+      <li><button class="cf-dir is-active" data-i="0" data-color="#0000FF" data-fg="#ffffff"><span class="n">01</span>Полиграфия</button></li>
+      <li><button class="cf-dir" data-i="1" data-color="#FF00FF" data-fg="#ffffff"><span class="n">02</span>Упаковка</button></li>
+      <li><button class="cf-dir" data-i="2" data-color="#9BBF00" data-fg="#111111"><span class="n">03</span>Брендинг</button></li>
+      <li><button class="cf-dir" data-i="3" data-color="#00CC00" data-fg="#ffffff"><span class="n">04</span>Мерч</button></li>
+      <li><button class="cf-dir" data-i="4" data-color="#64748B" data-fg="#ffffff"><span class="n">05</span>Отраслевые</button></li>
+    </ul>
+    <div class="cf-detail" id="cf-detail"></div>
+  </div>
+  <div class="cf-foot">
+    <nav class="cf-links">
+      <a href="portfolio.html">Проекты</a>
+      <a href="#">Блог</a>
+      <a href="#">О студии</a>
+      <a href="#">Оплата и доставка</a>
+      <a href="#contacts">Контакты</a>
+    </nav>
+    <div class="cf-contacts">
+      <a href="tel:+74950213577">+7 (495) 021-35-77</a>
+      <a href="mailto:zakaz@litera.studio">zakaz@litera.studio</a>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<script>
+  // Попап заявки (на главной пока нет разметки попапа — guard от null)
+  (function(){
+    const modal = document.getElementById('lead-modal');
+    document.querySelectorAll('[data-lead-open]').forEach(el => el.addEventListener('click', e => {
+      if (!modal) return;   // попап появится при сборке остальной страницы
+      e.preventDefault();
+      modal.classList.remove('hidden'); modal.classList.add('flex'); document.body.style.overflow = 'hidden';
+    }));
+  })();
+  // Заливка шапки под тему C (бесшовно с hero); цвет ведёт активный свотч
+  function paintHeaderC(color, fg){
+    const bar = document.getElementById('navbar-bar'); if (!bar) return;
+    bar.style.background = color; bar.style.color = fg;
+    bar.style.setProperty('--hc-bg', color); bar.style.setProperty('--hc-fg', fg);
+  }
+  function clearHeaderC(){
+    const bar = document.getElementById('navbar-bar'); if (!bar) return;
+    bar.style.background = ''; bar.style.color = '';
+    bar.style.removeProperty('--hc-bg'); bar.style.removeProperty('--hc-fg');
+  }
+  // Контрастный текст под заливку: тёмный на светлых цветах (лайм/жёлтый), белый на остальных
+  function pickFg(hex){
+    const m = (hex || '').replace('#', '');
+    if (m.length < 6) return '#ffffff';
+    const r = parseInt(m.slice(0,2),16), g = parseInt(m.slice(2,4),16), b = parseInt(m.slice(4,6),16);
+    return (0.299*r + 0.587*g + 0.114*b) / 255 > 0.6 ? '#111111' : '#ffffff';
+  }
+  // Герой C: свотчи направлений перекрашивают экран (поклон G.F Smith «Colourer»)
+  (function(){
+    const hero = document.getElementById('hero-c');
+    if (!hero) return;
+    const sws = [...hero.querySelectorAll('.hc-sw')];
+    const dirEl = document.getElementById('hc-dir');
+    const hexEl = document.getElementById('hc-hex');
+    const idxEl = document.getElementById('hc-index');
+    const headEl = document.getElementById('hc-head');
+    function apply(sw){
+      sws.forEach(s => s.classList.toggle('is-active', s === sw));
+      hero.style.background = sw.dataset.color;
+      hero.style.color = sw.dataset.fg;
+      dirEl.textContent = sw.dataset.dir;
+      hexEl.textContent = sw.dataset.color.replace('#', '').toUpperCase();
+      idxEl.textContent = sw.dataset.n;
+      if (headEl) headEl.textContent = sw.dataset.head;
+      if (document.body.classList.contains('theme-c')) paintHeaderC(sw.dataset.color, sw.dataset.fg);
+    }
+    sws.forEach(sw => { sw.addEventListener('mouseenter', () => apply(sw)); sw.addEventListener('click', () => apply(sw)); });
+  })();
+  // Переключатель вариантов hero
+  (function(){
+    const variants = ['a', 'b', 'c'];
+    const set = (v) => {
+      variants.forEach(x => document.getElementById('hero-' + x).classList.toggle('hidden', x !== v));
+      document.querySelectorAll('[data-hero]').forEach(b => b.classList.toggle('is-active', b.dataset.hero === v));
+      // Тема C: бесшовная цветная шапка только для этого варианта
+      document.body.classList.toggle('theme-c', v === 'c');
+      if (v === 'c') { const a = document.querySelector('.hc-sw.is-active'); if (a) paintHeaderC(a.dataset.color, a.dataset.fg); }
+      else clearHeaderC();
+      document.dispatchEvent(new CustomEvent('litera:variant', { detail: v }));
+      try { localStorage.setItem('homeHeroVariant', v); } catch (e) {}
+    };
+    document.querySelectorAll('[data-hero]').forEach(b => b.addEventListener('click', () => set(b.dataset.hero)));
+    let init = 'a';
+    try { init = localStorage.getItem('homeHeroVariant') || 'a'; } catch (e) {}
+    if (!variants.includes(init)) init = 'a';
+    set(init);
+  })();
+  // Шапка, 3-й уровень: каталог (по наведению) и поиск (по клику)
+  (function () {
+    const dirs = [...document.querySelectorAll('.mega-dir')];
+    const panels = [...document.querySelectorAll('.mega-panel')];
+    const navbar = document.getElementById('navbar');
+    const catalogTrigger = document.getElementById('catalog-trigger');
+    const catalogPanel = document.getElementById('catalog-panel');
+    const searchToggle = document.getElementById('nav-search-toggle');
+    const searchPanel = document.getElementById('search-panel');
+    const input = document.getElementById('nav-q');
+    const results = document.getElementById('nav-results');
+    if (!catalogTrigger) return;
+
+    const META = {
+      '0': { desc: 'Печать и изготовление под ключ', promo: 'Визитки за 1 день' },
+      '1': { desc: 'Коробки, этикетки, пакеты', promo: 'Бесплатный образец коробки' },
+      '2': { desc: 'Айдентика и фирменные носители', promo: 'Логотип за 3 дня' },
+      '3': { desc: 'Мерч, сувениры, наборы', promo: 'Welcome-пак под ключ' },
+      '4': { desc: 'Готовые подборки по отраслям', promo: 'Готовое барное меню' },
+    };
+    const megaHead = document.getElementById('mega-head');
+    const megaPromo = document.getElementById('mega-promo');
+    function setMeta(i, fullName) {
+      const m = META[i]; if (!m) return;
+      if (megaHead) megaHead.innerHTML = `<span class="mega-head-t">${fullName}</span><span class="mega-head-d">${m.desc}</span><a href="#" class="mega-head-all">Все услуги направления →</a>`;
+      if (megaPromo) megaPromo.textContent = m.promo;
+    }
+
+    function activateDir(d) {
+      const i = d.dataset.mega;
+      dirs.forEach(x => x.classList.toggle('is-active', x === d));
+      const ap = panels.find(p => p.dataset.panel === i);
+      panels.forEach(p => p.classList.toggle('is-active', p === ap));
+      const col = getComputedStyle(d).getPropertyValue('--c').trim();
+      catalogPanel.style.setProperty('--c', col);
+      catalogPanel.style.setProperty('--cfg', pickFg(col));
+      setMeta(i, ap ? ap.dataset.dir : '');
+    }
+    dirs.forEach(d => d.addEventListener('mouseenter', () => activateDir(d)));
+    (() => { const d0 = dirs.find(x => x.classList.contains('is-active')) || dirs[0];
+      if (d0) { const col0 = getComputedStyle(d0).getPropertyValue('--c').trim();
+        catalogPanel.style.setProperty('--c', col0); catalogPanel.style.setProperty('--cfg', pickFg(col0));
+        const p0 = panels.find(p => p.dataset.panel === d0.dataset.mega); setMeta(d0.dataset.mega, p0 ? p0.dataset.dir : ''); } })();
+
+    function closeResults() { results.hidden = true; results.innerHTML = ''; }
+    function closeCatalog() { catalogPanel.classList.remove('is-open'); catalogTrigger.classList.remove('is-open'); }
+    function openCatalog() {
+      if (document.body.classList.contains('cat-full')) return;   // в режиме «во весь экран» выпадашка не открывается
+      closeSearch(); catalogPanel.classList.add('is-open'); catalogTrigger.classList.add('is-open');
+      const ap = catalogPanel.querySelector('.mega-panel.is-active');
+      if (ap) { ap.classList.remove('is-active'); void ap.offsetWidth; ap.classList.add('is-active'); }
+    }
+    function closeSearch() { searchPanel.classList.remove('is-open'); searchToggle.classList.remove('is-open'); input.value = ''; closeResults(); }
+    function openSearch() { closeCatalog(); searchPanel.classList.add('is-open'); searchToggle.classList.add('is-open'); input.focus(); }
+
+    catalogTrigger.addEventListener('mouseenter', openCatalog);
+    navbar.querySelectorAll('nav a').forEach(a => a.addEventListener('mouseenter', closeCatalog));
+    navbar.addEventListener('mouseleave', closeCatalog);
+    searchToggle.addEventListener('click', () => searchPanel.classList.contains('is-open') ? closeSearch() : openSearch());
+
+    // --- Каталог, стиль 2: полноэкранный тейковер ---
+    const overlay = document.getElementById('catalog-full');
+    const cfDetail = document.getElementById('cf-detail');
+    const cfDirs = overlay ? [...overlay.querySelectorAll('.cf-dir')] : [];
+    function cfActivate(btn){
+      if (!btn) return;
+      cfDirs.forEach(x => x.classList.toggle('is-active', x === btn));
+      overlay.style.background = btn.dataset.color;
+      overlay.style.color = btn.dataset.fg;
+      const src = panels.find(p => p.dataset.panel === btn.dataset.i);
+      const grid = src && src.querySelector('.mega-grid');
+      cfDetail.innerHTML = '';
+      if (grid) cfDetail.appendChild(grid.cloneNode(true));
+    }
+    cfDirs.forEach(b => { b.addEventListener('mouseenter', () => cfActivate(b)); b.addEventListener('click', () => cfActivate(b)); });
+    function openCatalogFull(){ if (!overlay) return; closeCatalog(); closeSearch();
+      cfActivate(cfDirs.find(x => x.classList.contains('is-active')) || cfDirs[0]);
+      overlay.hidden = false; document.body.style.overflow = 'hidden'; }
+    function closeCatalogFull(){ if (!overlay) return; overlay.hidden = true; document.body.style.overflow = ''; }
+    const cfClose = document.getElementById('cf-close');
+    if (cfClose) cfClose.addEventListener('click', closeCatalogFull);
+    catalogTrigger.addEventListener('click', () => { if (document.body.classList.contains('cat-full')) openCatalogFull(); });
+    const menuTrigger = document.getElementById('menu-trigger');
+    if (menuTrigger) menuTrigger.addEventListener('click', openCatalogFull);
+
+    // --- Переключатель режимов каталога (действует только в теме C) ---
+    let catMode = 'panel';
+    try { catMode = localStorage.getItem('catMode') || 'panel'; } catch (e) {}
+    const catBtns = [...document.querySelectorAll('[data-catmode]')];
+    function applyCatMode(){
+      const c = document.body.classList.contains('theme-c');
+      document.body.classList.toggle('cat-panel', c && catMode === 'panel');
+      document.body.classList.toggle('cat-full', c && catMode === 'full');
+      catBtns.forEach(b => b.classList.toggle('is-active', b.dataset.catmode === catMode));
+      if (!(c && catMode === 'full')) closeCatalogFull();
+      else closeCatalog();
+    }
+    catBtns.forEach(b => b.addEventListener('click', () => { catMode = b.dataset.catmode; try { localStorage.setItem('catMode', catMode); } catch (e) {} applyCatMode(); }));
+    document.addEventListener('litera:variant', applyCatMode);
+    applyCatMode();
+
+    const index = [];
+    panels.forEach(p => {
+      const dir = p.dataset.dir;
+      const color = getComputedStyle(p).getPropertyValue('--c').trim();
+      p.querySelectorAll('.mega-cat').forEach(c => {
+        const cat = c.querySelector('.mega-cat-h').textContent;
+        c.querySelectorAll('.mega-svc').forEach(s => index.push({ svc: s.textContent, cat, dir, color }));
+      });
+    });
+
+    const esc = s => s.replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m]));
+    function hl(text, q) {
+      const i = text.toLowerCase().indexOf(q);
+      if (i < 0) return esc(text);
+      return esc(text.slice(0, i)) + '<mark>' + esc(text.slice(i, i + q.length)) + '</mark>' + esc(text.slice(i + q.length));
+    }
+
+    input.addEventListener('input', () => {
+      const q = input.value.trim().toLowerCase();
+      if (!q) { closeResults(); return; }
+      const hits = index.filter(it => it.svc.toLowerCase().includes(q) || it.cat.toLowerCase().includes(q)).slice(0, 40);
+      results.innerHTML = hits.length
+        ? hits.map(it => `<a href="#" class="mega-res" style="--rc:${it.color}"><span class="dot"></span><span class="svc">${hl(it.svc, q)}</span><span class="path">${esc(it.dir)} › ${esc(it.cat)}</span></a>`).join('')
+        : '<div class="mega-empty">Ничего не нашлось. Попробуйте другой запрос или напишите нам.</div>';
+      results.hidden = false;
+    });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeCatalog(); closeSearch(); closeCatalogFull(); } });
+    document.addEventListener('click', e => { if (!navbar.contains(e.target)) { closeCatalog(); closeSearch(); } });
+  })();
+  // Мобильное меню
+  document.getElementById('burger').addEventListener('click', () => {
+    document.getElementById('mobile-menu').classList.toggle('hidden');
+  });
+  // Гид по прототипу: свернуть/развернуть и раскрыть пояснения
+  (function(){
+    const guide = document.getElementById('proto-guide'); if (!guide) return;
+    guide.querySelector('.pg-collapse').addEventListener('click', () => {
+      const c = guide.classList.toggle('is-collapsed');
+      guide.querySelector('.pg-collapse').textContent = c ? 'Развернуть +' : 'Свернуть –';
+    });
+    guide.querySelector('.pg-why').addEventListener('click', () => {
+      const on = guide.classList.toggle('show-why');
+      guide.querySelector('.pg-why').textContent = on ? 'Свернуть пояснения ▴' : 'Чем отличаются варианты? ▾';
+    });
+  })();
+</script>
+</body>
+</html>
