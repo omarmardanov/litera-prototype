@@ -153,24 +153,37 @@
   .navsearch-btn{ width:2.5rem; height:2.5rem; display:grid; place-items:center; color:#3f3f46; transition:.15s; }
   .navsearch-btn svg{ width:20px; height:20px; }
   .navsearch-btn:hover, .navsearch-btn.is-open{ color:#18181b; }
-  .searchfield{ width:100%; padding:.9rem 1rem .9rem 3rem; font-size:1.05rem; border:0; border-bottom:2px solid #ececee; outline:none; background:transparent; }
-  .searchfield:focus{ border-color:var(--accent); }
+  .searchfield{ width:100%; padding:.5rem 1rem .5rem 3rem; font-size:1.05rem; border:0; outline:none; background:transparent; }
   .searchfield::placeholder{ color:#a1a1aa; }
   .searchfield-ico{ position:absolute; left:.6rem; top:50%; transform:translateY(-50%); width:20px; height:20px; color:#a1a1aa; pointer-events:none; }
-  .searchresults{ margin-top:.9rem; display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:0 1.6rem; max-height:48vh; overflow:auto; }
-  .mega-res{ display:flex; align-items:baseline; gap:.5rem; padding:.5rem .2rem; border-bottom:1px solid #f5f5f5; }
-  .mega-res:hover{ color:var(--rc); }
+  .searchresults{ margin-top:.55rem; max-height:52vh; overflow:auto; }
+  /* Метка-заголовок над подсказками */
+  .sugg-label{ font-size:.7rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:#a1a1aa; padding:.1rem .2rem .55rem; }
+  /* Пустое состояние: популярные запросы — простые текстовые ссылки */
+  .sugg-chips{ display:flex; flex-wrap:wrap; gap:.35rem 1.4rem; padding:0 .2rem .25rem; }
+  .sugg-chip{ font-size:.95rem; font-weight:600; color:#52525b; transition:color .15s; }
+  .sugg-chip:hover{ color:var(--rc); }
+  /* Результаты — список строк */
+  .sugg-grid{ display:flex; flex-direction:column; }
+  .mega-res{ display:flex; align-items:baseline; gap:.55rem; padding:.5rem .55rem; transition:background-color .12s, color .12s; }
+  .mega-res + .mega-res{ box-shadow:inset 0 1px 0 #f4f4f5; }
+  .mega-res:hover, .mega-res.is-active{ background:#f6f6f7; color:var(--rc); }
   .mega-res .dot{ width:.45rem; height:.45rem; border-radius:99px; background:var(--rc); flex-shrink:0; align-self:center; }
-  .mega-res .svc{ font-size:.92rem; font-weight:600; color:#27272a; }
-  .mega-res:hover .svc{ color:var(--rc); }
-  .mega-res .path{ font-size:.78rem; color:#a1a1aa; }
+  .mega-res .svc{ font-size:.92rem; font-weight:600; color:#27272a; flex-shrink:0; }
+  .mega-res:hover .svc, .mega-res.is-active .svc{ color:var(--rc); }
+  .mega-res .path{ font-size:.78rem; color:#a1a1aa; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
   .mega-res mark{ background:transparent; color:var(--rc); font-weight:700; }
-  .mega-empty{ padding:1rem .2rem; color:#a1a1aa; font-size:.9rem; }
+  .mega-empty{ padding:.85rem .2rem; color:#a1a1aa; font-size:.9rem; }
+  .mega-empty a{ color:inherit; text-decoration:underline; text-underline-offset:2px; }
+  /* Подвал: показать все */
+  .sugg-foot{ padding:.7rem .2rem .15rem; margin-top:.3rem; border-top:1px solid #f1f1f2; }
+  .sugg-foot a{ font-weight:700; color:#18181b; font-size:.88rem; }
+  .sugg-foot a:hover{ color:var(--accent); }
 
   /* ---- Полоса направлений (герой A): печатная цветошкала-навигация ---- */
   .dirbar{ display:flex; align-items:stretch; }
   .dir-col{ position:relative; flex:1; min-width:0; display:flex; flex-direction:column; justify-content:flex-end;
-        padding:1.5rem 1.25rem; color:var(--fg, #fff); overflow:hidden; isolation:isolate;
+        padding:1.05rem 1.25rem 1.15rem; color:var(--fg, #fff); overflow:hidden; isolation:isolate;
         transition:flex-grow .35s cubic-bezier(.4,0,.2,1); }
   .dir-col + .dir-col{ box-shadow:inset 1px 0 0 rgba(255,255,255,.18); }
   .dir-col::before{ content:''; position:absolute; right:1.1rem; bottom:1.1rem; width:.9rem; height:1.28rem; opacity:.32; background:var(--fg,#fff);
@@ -179,9 +192,10 @@
   .dir-col:hover{ flex-grow:1.6; }
   .dir-col:hover::before{ opacity:.7; transform:scale(1.15) translateY(-2px); }
   .dir-num{ font-size:.72rem; font-weight:700; letter-spacing:.16em; opacity:.65; }
-  .dir-name{ font-family:'Raptor V2 Premium','Manrope',system-ui,sans-serif; font-weight:700; font-size:1.6rem; line-height:1; letter-spacing:-.02em; margin-top:.35rem; }
-  .dir-desc{ font-size:.84rem; opacity:0; max-height:0; margin-top:0; transition:.3s ease; }
-  .dir-col:hover .dir-desc{ opacity:.85; max-height:3rem; margin-top:.5rem; }
+  .dir-name{ font-family:'Raptor V2 Premium','Manrope',system-ui,sans-serif; font-weight:700; font-size:1.45rem; line-height:1; letter-spacing:-.02em; margin-top:.3rem; }
+  /* Описание держит высоту всегда (запас под текст), на ховере только проявляется — без скачка раскладки */
+  .dir-desc{ font-size:.8rem; line-height:1.3; opacity:0; height:2.1rem; margin-top:.4rem; overflow:hidden; transition:opacity .3s ease; }
+  .dir-col:hover .dir-desc{ opacity:.85; }
 
   /* ---- Герой C (в духе G.F Smith): полноэкранный цвет, крупная типографика ---- */
   #hero-c{ transition:background-color .5s cubic-bezier(.4,0,.2,1), color .5s; isolation:isolate; }
@@ -441,7 +455,7 @@
   <div class="relative" id="navbar">
     <div class="bg-paper border-b border-zinc-100" id="navbar-bar">
     <div class="max-w-7xl mx-auto px-5 lg:px-8">
-      <div class="flex items-center justify-between h-14 lg:h-16">
+      <div class="flex items-center justify-between h-12 lg:h-14">
 
       <!-- Лого -->
       <a href="index.html" class="flex items-center shrink-0 text-ink" aria-label="ЛИТЕРА.СТУДИО">
@@ -570,7 +584,7 @@
 
     <!-- 3-й уровень шапки: ПОИСК -->
     <div class="header-panel" id="search-panel">
-      <div class="max-w-7xl mx-auto px-5 lg:px-8 py-5">
+      <div class="max-w-7xl mx-auto px-5 lg:px-8 py-3">
         <div class="relative">
           <svg class="searchfield-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
           <input type="text" id="nav-q" class="searchfield" placeholder="Найти услугу — визитки, коробки, логотип…" autocomplete="off">
@@ -631,27 +645,27 @@
 </div>
 
 <!-- ============================ HERO A — типографика + полоса направлений ============================ -->
-<section id="hero-a" class="relative bg-white overflow-hidden h-[calc(100svh-3.5rem)] lg:h-[calc(100svh-6.5rem)] flex flex-col">
-  <!-- Заявление студии -->
-  <div class="max-w-5xl mx-auto px-5 text-center pt-12 lg:pt-20 pb-8 lg:pb-12">
-    <div class="kicker mb-5">Студия графического дизайна · собственная типография с 2012</div>
-    <h1 class="font-display text-[2.6rem] sm:text-[3.5rem] lg:text-[78px] leading-[0.9] tracking-[-0.05em]">
-      От логотипа<br>до тиража
+<section id="hero-a" class="relative bg-white overflow-hidden h-[calc(100svh-3rem)] lg:h-[calc(100svh-6rem)] flex flex-col">
+  <!-- Заявление студии: центрируется по вертикали между шапкой и цветошкалой -->
+  <div class="flex-1 flex flex-col justify-center text-center max-w-5xl mx-auto px-5 py-8">
+    <div class="kicker mb-7">Студия графического дизайна · собственная типография с 2012</div>
+    <h1 class="font-display text-[2.2rem] sm:text-[3rem] lg:text-[64px] lg:whitespace-nowrap leading-[0.95] tracking-[-0.05em]">
+      Дизайн, который печатается
     </h1>
-    <p class="mt-6 text-[1.05rem] leading-[1.7] text-zinc-600 max-w-2xl mx-auto">
+    <p class="mt-9 text-[1.05rem] leading-[1.7] text-zinc-600 max-w-2xl mx-auto">
       Придумываем фирменный стиль и печатаем его на собственном производстве:
       полиграфия, упаковка, брендинг и мерч — в одном месте, без посредников
       и потери качества от макета до готового тиража.
     </p>
-    <div class="mt-8 flex flex-wrap justify-center gap-3">
-      <a href="#lead" data-lead-open class="btn btn-accent btn-lg">Обсудить проект</a>
-      <a href="portfolio.html" class="btn btn-ghost btn-lg">Смотреть работы</a>
+    <div class="mt-12 flex flex-wrap justify-center gap-3">
+      <a href="#lead" data-lead-open class="btn btn-accent">Обсудить проект</a>
+      <a href="portfolio.html" class="btn btn-ghost">Смотреть работы</a>
     </div>
   </div>
 
   <!-- Полоса направлений: печатная цветошкала = навигация (в контейнере шапки) -->
-  <div class="mt-auto w-full max-w-7xl mx-auto px-5 lg:px-8 pb-5 lg:pb-7">
-  <div class="dirbar h-[28vh] min-h-[180px]">
+  <div class="w-full max-w-7xl mx-auto px-5 lg:px-8 pb-5 lg:pb-7">
+  <div class="dirbar">
     <a href="category.html" class="dir-col" style="background:#2A37C2;--fg:#fff">
       <span class="dir-num">01</span><span class="dir-name">Полиграфия</span>
       <span class="dir-desc">Визитки, листовки, каталоги, бизнес-печать</span>
@@ -677,7 +691,7 @@
 </section>
 
 <!-- ============================ HERO B — сплит: текст + фото ============================ -->
-<section id="hero-b" class="relative bg-white overflow-hidden hidden h-[calc(100svh-3.5rem)] lg:h-[calc(100svh-6.5rem)]">
+<section id="hero-b" class="relative bg-white overflow-hidden hidden h-[calc(100svh-3rem)] lg:h-[calc(100svh-6rem)]">
   <div class="h-full max-w-7xl mx-auto grid lg:grid-cols-2 items-stretch">
     <!-- Текст -->
     <div class="flex flex-col justify-center px-5 lg:px-8 py-12 order-2 lg:order-1">
@@ -713,7 +727,7 @@
 </section>
 
 <!-- ============================ HERO C — G.F Smith: полноэкранный цвет ============================ -->
-<section id="hero-c" class="relative overflow-hidden hidden h-[calc(100svh-3.5rem)] lg:h-[calc(100svh-4rem)] flex flex-col text-white sw-1" style="background:#2A37C2">
+<section id="hero-c" class="relative overflow-hidden hidden h-[calc(100svh-3rem)] lg:h-[calc(100svh-3.5rem)] flex flex-col text-white sw-1" style="background:#2A37C2">
   <span class="hc-mark"></span>
   <span class="hc-paper"></span>
 
@@ -761,7 +775,7 @@
 </section>
 
 <!-- ============================ HERO D — премиум, светлый холст (цвет акцентом) ============================ -->
-<section id="hero-d" class="hero-craft relative overflow-hidden hidden h-[calc(100svh-3.5rem)] lg:h-[calc(100svh-6.5rem)] flex flex-col justify-center">
+<section id="hero-d" class="hero-craft relative overflow-hidden hidden h-[calc(100svh-3rem)] lg:h-[calc(100svh-6rem)] flex flex-col justify-center">
   <span class="craft-grain" aria-hidden="true"></span>
   <span class="craft-mark" aria-hidden="true"></span>
   <div class="relative z-10 w-full max-w-7xl mx-auto px-5 lg:px-8">
@@ -781,7 +795,7 @@
 </section>
 
 <!-- ============================ HERO E — премиум, тёмный холст (цвет акцентом) ============================ -->
-<section id="hero-e" class="hero-prem prem-dark relative overflow-hidden hidden h-[calc(100svh-3.5rem)] lg:h-[calc(100svh-6.5rem)] flex items-center">
+<section id="hero-e" class="hero-prem prem-dark relative overflow-hidden hidden h-[calc(100svh-3rem)] lg:h-[calc(100svh-6rem)] flex items-center">
   <div class="w-full max-w-7xl mx-auto px-5 lg:px-8 grid lg:grid-cols-[minmax(0,1fr)_auto] gap-10 lg:gap-20 items-center">
     <div class="prem-main">
       <div class="prem-kicker">Студия графического дизайна · собственная типография с 2012</div>
@@ -1025,7 +1039,7 @@
       if (ap) { ap.classList.remove('is-active'); void ap.offsetWidth; ap.classList.add('is-active'); }
     }
     function closeSearch() { searchPanel.classList.remove('is-open'); searchToggle.classList.remove('is-open'); input.value = ''; closeResults(); }
-    function openSearch() { closeCatalog(); searchPanel.classList.add('is-open'); searchToggle.classList.add('is-open'); input.focus(); }
+    function openSearch() { closeCatalog(); searchPanel.classList.add('is-open'); searchToggle.classList.add('is-open'); renderDefault(); input.focus(); }
 
     catalogTrigger.addEventListener('mouseenter', openCatalog);
     navbar.querySelectorAll('nav a').forEach(a => a.addEventListener('mouseenter', closeCatalog));
@@ -1089,14 +1103,72 @@
       return esc(text.slice(0, i)) + '<mark>' + esc(text.slice(i, i + q.length)) + '</mark>' + esc(text.slice(i + q.length));
     }
 
+    const POPULAR = [
+      { q: 'Визитки',  c: '#2A37C2' },
+      { q: 'Коробки',  c: '#C633A0' },
+      { q: 'Логотип',  c: '#9BBF00' },
+      { q: 'Каталоги', c: '#2A37C2' },
+      { q: 'Этикетки', c: '#C633A0' },
+      { q: 'Мерч',     c: '#E8BE1E' },
+    ];
+    const MAX_RES = 8;
+    let activeIdx = -1;
+
+    function renderDefault() {
+      activeIdx = -1;
+      results.innerHTML =
+        '<div class="sugg-label">Популярные запросы</div>' +
+        '<div class="sugg-chips">' +
+        POPULAR.map(p => `<button type="button" class="sugg-chip" data-q="${esc(p.q)}" style="--rc:${p.c}">${esc(p.q)}</button>`).join('') +
+        '</div>';
+      results.hidden = false;
+    }
+
+    function renderResults(q) {
+      activeIdx = -1;
+      const hits = index.filter(it => it.svc.toLowerCase().includes(q) || it.cat.toLowerCase().includes(q));
+      if (!hits.length) {
+        results.innerHTML = '<div class="mega-empty">Ничего не нашлось. Попробуйте другой запрос или <a href="#lead" data-lead-open>напишите нам</a>.</div>';
+        results.hidden = false; return;
+      }
+      const shown = hits.slice(0, MAX_RES);
+      const row = it => `<a href="#" class="mega-res" style="--rc:${it.color}"><span class="dot"></span><span class="svc">${hl(it.svc, q)}</span><span class="path">${esc(it.dir)} › ${esc(it.cat)}</span></a>`;
+      results.innerHTML =
+        `<div class="sugg-label">Найдено услуг: ${hits.length}</div>` +
+        `<div class="sugg-grid">${shown.map(row).join('')}</div>` +
+        (hits.length > MAX_RES ? `<div class="sugg-foot"><a href="#">Показать все результаты (${hits.length}) →</a></div>` : '');
+      results.hidden = false;
+    }
+
     input.addEventListener('input', () => {
       const q = input.value.trim().toLowerCase();
-      if (!q) { closeResults(); return; }
-      const hits = index.filter(it => it.svc.toLowerCase().includes(q) || it.cat.toLowerCase().includes(q)).slice(0, 40);
-      results.innerHTML = hits.length
-        ? hits.map(it => `<a href="#" class="mega-res" style="--rc:${it.color}"><span class="dot"></span><span class="svc">${hl(it.svc, q)}</span><span class="path">${esc(it.dir)} › ${esc(it.cat)}</span></a>`).join('')
-        : '<div class="mega-empty">Ничего не нашлось. Попробуйте другой запрос или напишите нам.</div>';
-      results.hidden = false;
+      if (!q) { renderDefault(); return; }
+      renderResults(q);
+    });
+
+    // Клик по чипу популярного запроса — подставляем и ищем
+    results.addEventListener('click', e => {
+      const chip = e.target.closest('.sugg-chip');
+      if (!chip) return;
+      input.value = chip.dataset.q;
+      input.focus();
+      input.dispatchEvent(new Event('input'));
+    });
+
+    // Навигация по подсказкам с клавиатуры
+    input.addEventListener('keydown', e => {
+      const items = [...results.querySelectorAll('.mega-res')];
+      if (!items.length) return;
+      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        activeIdx = e.key === 'ArrowDown'
+          ? (activeIdx + 1) % items.length
+          : (activeIdx - 1 + items.length) % items.length;
+        items.forEach((el, i) => el.classList.toggle('is-active', i === activeIdx));
+        items[activeIdx].scrollIntoView({ block: 'nearest' });
+      } else if (e.key === 'Enter' && activeIdx >= 0) {
+        items[activeIdx].click();
+      }
     });
     document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeCatalog(); closeSearch(); closeCatalogFull(); } });
     document.addEventListener('click', e => { if (!navbar.contains(e.target)) { closeCatalog(); closeSearch(); } });
