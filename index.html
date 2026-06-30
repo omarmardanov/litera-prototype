@@ -93,6 +93,22 @@
 
   .kicker{ font-size:.8rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:#71717a; }
 
+  /* ---- Топбар: копирование контактов и маршрут (аккуратные единые подсказки) ---- */
+  .cp{ position:relative; }
+  button.cp{ background:none; border:0; padding:0; margin:0; font:inherit; color:inherit; cursor:pointer; }
+  .cp[data-copy]{ cursor:copy; }
+  /* Подсказка вниз (топбар у верхнего края — вверх обрезалось бы) */
+  .cp::after{ content:attr(data-tip); position:absolute; left:50%; top:calc(100% + 9px); transform:translate(-50%,-4px);
+        background:#18181b; color:#fff; font-size:11px; font-weight:600; line-height:1; letter-spacing:.01em; white-space:nowrap;
+        padding:.42rem .55rem; border-radius:0; box-shadow:0 8px 22px -10px rgba(0,0,0,.55);
+        opacity:0; pointer-events:none; transition:opacity .15s ease, transform .15s ease; z-index:70; }
+  .cp::before{ content:''; position:absolute; left:50%; top:calc(100% + 4px); transform:translateX(-50%);
+        border:5px solid transparent; border-bottom-color:#18181b; opacity:0; transition:opacity .15s ease; z-index:70; }
+  .cp:hover::after, .cp:focus-visible::after, .cp.is-copied::after{ opacity:1; transform:translate(-50%,0); }
+  .cp:hover::before, .cp:focus-visible::before, .cp.is-copied::before{ opacity:1; }
+  .cp.is-copied::after{ background:#15803d; }
+  .cp.is-copied::before{ border-bottom-color:#15803d; }
+
   /* ---- Шапка: навигация и каталог (общая система с category.html) ---- */
   .nav-link{ display:inline-flex; align-items:center; gap:.3rem; padding:.45rem .55rem; color:#3f3f46; transition:.15s; cursor:pointer; }
   .nav-link:hover, .nav-link.is-open{ color:#18181b; }
@@ -181,6 +197,13 @@
   .sugg-foot a:hover{ color:var(--accent); }
 
   /* ---- Полоса направлений (герой A): печатная цветошкала-навигация ---- */
+  /* Подпись-линейка над шкалой: печатная калибровка (насечки) + лейблы */
+  .dir-scale-head{ display:flex; align-items:center; gap:1rem; margin-bottom:.7rem; }
+  .dir-scale-rule{ flex:1; height:7px; align-self:flex-end; margin-bottom:1px;
+        background-image:repeating-linear-gradient(to right,#d4d4d8 0,#d4d4d8 1px,transparent 1px,transparent 13px);
+        -webkit-mask-image:linear-gradient(to right,transparent,#000 8%,#000 92%,transparent);
+        mask-image:linear-gradient(to right,transparent,#000 8%,#000 92%,transparent); }
+  .dir-scale-meta{ font-size:.72rem; font-weight:600; color:#a1a1aa; white-space:nowrap; }
   .dirbar{ display:flex; align-items:stretch; }
   .dir-col{ position:relative; flex:1; min-width:0; display:flex; flex-direction:column; justify-content:flex-end;
         padding:1.05rem 1.25rem 1.15rem; color:var(--fg, #fff); overflow:hidden; isolation:isolate;
@@ -191,7 +214,8 @@
         transition:opacity .3s ease, transform .3s ease; }
   .dir-col:hover{ flex-grow:1.6; }
   .dir-col:hover::before{ opacity:.7; transform:scale(1.15) translateY(-2px); }
-  .dir-num{ font-size:.72rem; font-weight:700; letter-spacing:.16em; opacity:.65; }
+  .dir-num{ display:inline-flex; align-items:center; gap:.45rem; font-size:.72rem; font-weight:700; letter-spacing:.16em; opacity:.65; font-variant-numeric:tabular-nums; }
+  .dir-num::before{ content:''; width:1px; height:.78rem; background:currentColor; opacity:.55; }
   .dir-name{ font-family:'Raptor V2 Premium','Manrope',system-ui,sans-serif; font-weight:700; font-size:1.45rem; line-height:1; letter-spacing:-.02em; margin-top:.3rem; }
   /* Описание держит высоту всегда (запас под текст), на ховере только проявляется — без скачка раскладки */
   .dir-desc{ font-size:.8rem; line-height:1.3; opacity:0; height:2.1rem; margin-top:.4rem; overflow:hidden; transition:opacity .3s ease; }
@@ -418,6 +442,134 @@
 
   @keyframes marquee{ from{transform:translateX(0)} to{transform:translateX(-50%)} }
   .marquee{ display:flex; gap:3rem; width:max-content; animation:marquee 28s linear infinite; }
+
+  /* ============================================================
+     ГЛАВНАЯ — секции под первым экраном (скелет структуры)
+     Много воздуха (просьба директора), острые углы, цвет — акцентом.
+     ============================================================ */
+  .sec{ padding:5.5rem 0; }
+  @media(min-width:1024px){ .sec{ padding:8rem 0; } }
+  .lead-txt{ font-size:1.12rem; line-height:1.65; color:#52525b; }
+
+  /* — Единая шапка секции (редакционная; литера-марка как сквозной признак) — */
+  .sec-kicker{ display:flex; align-items:center; width:max-content; font-size:.74rem; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:#a1a1aa; }
+  .sec-kicker::before{ content:''; width:.46rem; height:.66rem; margin-right:.6rem; background:currentColor;
+        -webkit-mask:var(--litera-mark) center/contain no-repeat; mask:var(--litera-mark) center/contain no-repeat; }
+  .sec-title{ font-size:clamp(1.85rem,4.1vw,3rem); line-height:1.05; letter-spacing:-.03em; }
+  .sec-head{ display:flex; align-items:flex-end; justify-content:space-between; gap:1.2rem 2rem; flex-wrap:wrap; margin-bottom:2.8rem; }
+  .sec-head .sec-kicker{ margin-bottom:1rem; }
+  @media(min-width:1024px){ .sec-head{ margin-bottom:3.5rem; } }
+
+  /* — Текст-ссылка со стрелкой: единый элемент действия — */
+  .tlink{ display:inline-flex; align-items:center; gap:.55rem; font-weight:700; font-size:.95rem; color:inherit; white-space:nowrap; }
+  .tlink .t{ position:relative; }
+  .tlink .t::after{ content:''; position:absolute; left:0; right:0; bottom:-3px; height:1.5px; background:currentColor; transform:scaleX(0); transform-origin:left; transition:transform .3s ease; }
+  .tlink:hover .t::after{ transform:scaleX(1); }
+  .tlink .a{ transition:transform .2s ease; }
+  .tlink:hover .a{ transform:translateX(4px); }
+
+  /* — Манифест: опоры на хэйрлайнах (без коробок) — */
+  .man-pt{ padding-top:1.4rem; border-top:1px solid #e4e4e7; }
+
+  /* Блок 4 — направления-витрина */
+  .dir-card{ position:relative; display:flex; flex-direction:column; background:var(--c); overflow:hidden;
+        transition:transform .2s, box-shadow .2s; }
+  .dir-card:hover{ transform:translateY(-3px); box-shadow:0 26px 46px -26px rgba(0,0,0,.42); }
+  .dir-card .ph{ position:relative; aspect-ratio:4/3; background:#f4f4f5; overflow:hidden; }
+  .dir-card .ph img{ width:100%; height:100%; object-fit:cover; transition:transform .5s ease; }
+  .dir-card:hover .ph img{ transform:scale(1.04); }
+  /* Цветной подвал — заливка в цвет направления, текст контрастный (--fg) */
+  .dir-card .bd{ position:relative; flex:1; padding:1.5rem; background:var(--c); color:var(--fg,#fff); overflow:hidden; }
+  .dir-card .bd::after{ content:''; position:absolute; right:1.1rem; bottom:1.05rem; width:.85rem; height:1.2rem; opacity:.28; background:var(--fg,#fff);
+        -webkit-mask:var(--litera-mark) center/contain no-repeat; mask:var(--litera-mark) center/contain no-repeat;
+        transition:opacity .3s ease, transform .3s ease; }
+  .dir-card:hover .bd::after{ opacity:.6; transform:scale(1.12) translateY(-2px); }
+  .dir-card .num{ font-size:.78rem; font-weight:700; letter-spacing:.14em; color:inherit; opacity:.72; font-variant-numeric:tabular-nums; }
+  .dir-card .desc{ color:inherit; opacity:.85; }
+  .dir-card .arr{ display:inline-flex; align-items:center; gap:.4rem; margin-top:1.1rem; font-weight:700; font-size:.92rem; color:inherit; transition:gap .2s; }
+  .dir-card:hover .arr{ gap:.75rem; }
+  .dir-cta{ display:flex; flex-direction:column; justify-content:center; gap:.7rem; border:1px dashed #d4d4d8; padding:1.5rem; transition:border-color .2s, background .2s; }
+  .dir-cta:hover{ border-color:#18181b; background:#fafafa; }
+
+  /* Блок 5 — производство (стат-цифры) */
+  .stat-n{ font-size:clamp(2.4rem,5vw,3.6rem); line-height:1; letter-spacing:-.03em; }
+
+  /* Блок 6 — портфолио. Минимальный фильтр: текст + активная цветная черта */
+  .pf-chip{ position:relative; padding:.35rem 0; border:0; background:none; font-weight:600; font-size:.95rem; color:#a1a1aa; cursor:pointer; transition:color .15s; white-space:nowrap; }
+  .pf-chip:hover{ color:#18181b; }
+  .pf-chip.is-active{ color:#18181b; }
+  .pf-chip.is-active::after{ content:''; position:absolute; left:0; right:0; bottom:-3px; height:2px; background:var(--c,#18181b); }
+  .pf-tile{ position:relative; overflow:hidden; background:#f4f4f5; }
+  .pf-tile img{ width:100%; height:100%; object-fit:cover; transition:transform .5s; }
+  .pf-tile:hover img{ transform:scale(1.05); }
+  .pf-tile .cap{ position:absolute; left:0; bottom:0; right:0; padding:1rem; color:#fff;
+        background:linear-gradient(to top, rgba(0,0,0,.6), transparent); opacity:0; transition:opacity .2s; }
+  .pf-tile:hover .cap{ opacity:1; }
+
+  /* Блок 6.5 — вертикальные видео-reels (как на litera.studio) */
+  .reels{ display:flex; gap:1rem; overflow-x:auto; scroll-snap-type:x mandatory; padding-top:.5rem; padding-bottom:.5rem; scrollbar-width:none; }
+  .reels::-webkit-scrollbar{ display:none; }
+  /* Плитки точно по 4 в ряд — край ровный, без обрезка */
+  .reel{ position:relative; flex:0 0 calc((100% - 3rem)/4); aspect-ratio:9/16; scroll-snap-align:start; overflow:hidden; background:#0a0a0c; }
+  @media(max-width:1023px){ .reel{ flex-basis:calc((100% - 2rem)/3); } }
+  @media(max-width:639px){ .reel{ flex-basis:calc((100% - 1rem)/2); } }
+  .reel img{ width:100%; height:100%; object-fit:cover; opacity:.9; transition:transform .5s ease, opacity .3s; }
+  .reel:hover img{ transform:scale(1.05); opacity:1; }
+  .reel .play{ position:absolute; inset:0; display:grid; place-items:center; pointer-events:none; }
+  .reel .play i{ width:0; height:0; border-left:18px solid rgba(255,255,255,.95); border-top:12px solid transparent; border-bottom:12px solid transparent;
+        filter:drop-shadow(0 2px 10px rgba(0,0,0,.55)); transition:transform .2s ease; }
+  .reel:hover .play i{ transform:scale(1.18); }
+  .reel .rcap{ position:absolute; left:0; right:0; bottom:0; padding:.9rem; color:#fff; font-weight:600; font-size:.82rem; line-height:1.3;
+        background:linear-gradient(to top, rgba(0,0,0,.72), transparent); }
+  .reel-nav{ width:2.6rem; height:2.6rem; display:grid; place-items:center; border:1px solid rgba(255,255,255,.28); color:#fff; transition:.15s; }
+  .reel-nav:hover{ background:#fff; color:#000; }
+
+  /* Блок 7 — процесс */
+  .step{ padding-top:1.5rem; border-top:2px solid var(--c,#18181b); }
+  .step-n{ font-size:.8rem; font-weight:700; letter-spacing:.14em; color:#a1a1aa; font-variant-numeric:tabular-nums; }
+
+  /* Блок 8 — отзывы (тянутся из Яндекс.Карт и 2ГИС) + логострип «делали для» */
+  .logo-cell{ height:5rem; display:grid; place-items:center; color:#c4c4cc; font-weight:700; letter-spacing:.06em; font-size:.95rem; }
+  .rev-agg{ display:flex; align-items:center; gap:.85rem; }
+  .stars{ color:#E8BE1E; letter-spacing:.14em; }
+  .review{ padding-top:1.5rem; border-top:1px solid #e4e4e7; }
+  .review blockquote{ margin-top:.7rem; font-size:1.02rem; line-height:1.55; color:#27272a; }
+  .review .who{ margin-top:1.1rem; display:flex; align-items:center; gap:.65rem; }
+  .src-badge{ display:inline-flex; align-items:center; gap:.4rem; margin-top:.15rem; font-size:.72rem; font-weight:700; color:#71717a; }
+  .src-badge .dot{ width:.5rem; height:.5rem; border-radius:50%; flex-shrink:0; }
+  /* Отзывы каруселью */
+  .rev-track{ display:flex; gap:1.5rem; overflow-x:auto; scroll-snap-type:x mandatory; padding-bottom:.5rem; scrollbar-width:none; }
+  .rev-track::-webkit-scrollbar{ display:none; }
+  /* Карточки точно по 3 в ряд — край всегда ровный, без обрезка (фейд не нужен) */
+  .rev-track .review{ flex:0 0 calc((100% - 3rem)/3); scroll-snap-align:start; }
+  @media(max-width:1023px){ .rev-track .review{ flex-basis:calc((100% - 1.5rem)/2); } }
+  @media(max-width:639px){ .rev-track .review{ flex-basis:100%; } }
+  .car-nav{ width:2.6rem; height:2.6rem; display:grid; place-items:center; border:1px solid #e4e4e7; color:#18181b; transition:.15s; }
+  .car-nav:hover{ background:#18181b; color:#fff; border-color:#18181b; }
+
+  /* Блок 9 — блог */
+  .post .ph{ aspect-ratio:16/10; background:#f4f4f5; overflow:hidden; }
+  .post .ph img{ width:100%; height:100%; object-fit:cover; transition:transform .5s; }
+  .post:hover .ph img{ transform:scale(1.04); }
+  .tag{ font-size:.72rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
+
+  /* Блок 10 — лид-форма (матовое стекло — просьба директора) */
+  .lead-glass{ background:rgba(255,255,255,.12); -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,.22); }
+  .field{ width:100%; padding:.8rem 0; border:0; border-bottom:1.5px solid #d4d4d8; background:transparent; font-size:1rem; outline:none; transition:border-color .2s; }
+  .field::placeholder{ color:#a1a1aa; }
+  .field:focus{ border-bottom-color:#18181b; }
+  .field-label{ font-size:.74rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#a1a1aa; }
+  .chip{ padding:.55rem .95rem; border:1.5px solid #e4e4e7; font-weight:600; font-size:.9rem; cursor:pointer; transition:.15s; }
+  .chip:hover{ border-color:#18181b; }
+  .chip.is-on{ background:#18181b; color:#fff; border-color:#18181b; }
+
+  /* Блок 11 — футер. Гигантское слово тоном (масса, не «радужный градиент») */
+  .footer-word{ font-size:clamp(4.5rem,23vw,20rem); line-height:.72; letter-spacing:-.05em; color:#161619; }
+  /* Цветная шкала-засечка над словом — отсыл к цветошкале */
+  .footer-scale{ display:flex; height:6px; max-width:22rem; }
+  .footer-scale span{ flex:1; }
+  .foot-link{ color:#a1a1aa; transition:color .15s, padding-left .15s; }
+  .foot-link:hover{ color:#fff; }
 </style>
 </head>
 
@@ -430,20 +582,21 @@
   <div class="topbar hidden lg:block bg-zinc-50 text-zinc-500 text-xs border-b border-zinc-100">
     <div class="max-w-7xl mx-auto px-5 lg:px-8 h-10 flex items-center justify-between">
       <div class="flex items-center gap-4">
-        <span class="flex items-center shrink-0" aria-hidden="true" title="Литера.Студия — типография полного цикла">
+        <span class="flex items-center shrink-0" aria-hidden="true" title="Литера.Студия — 5 направлений, один цвет на каждое">
           <span class="block w-2.5 h-3.5" style="background:#2A37C2"></span>
           <span class="block w-2.5 h-3.5" style="background:#C633A0"></span>
           <span class="block w-2.5 h-3.5" style="background:#9BBF00"></span>
           <span class="block w-2.5 h-3.5" style="background:#E8BE1E"></span>
+          <span class="block w-2.5 h-3.5" style="background:#64748B"></span>
         </span>
         <span class="text-zinc-400">Пн–Пт 10:00–19:00</span>
         <span class="w-px h-3.5 bg-zinc-200"></span>
-        <a href="#contacts" class="text-zinc-500 hover:text-ink transition">Москва, Холодильный пер., 3к1с3, под. 6, офис 404</a>
+        <a href="https://yandex.ru/maps/?rtext=~%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0%2C%20%D0%A5%D0%BE%D0%BB%D0%BE%D0%B4%D0%B8%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9%20%D0%BF%D0%B5%D1%80%D0%B5%D1%83%D0%BB%D0%BE%D0%BA%2C%203%D0%BA1%D1%813&rtt=auto" target="_blank" rel="noopener" class="cp text-zinc-500 hover:text-ink transition" data-tip="Построить маршрут">Москва, Холодильный пер., 3к1с3, под. 6, офис 404</a>
       </div>
       <div class="flex items-center gap-3.5">
-        <a href="tel:+74950213577" class="text-zinc-500 hover:text-ink transition">+7 (495) 021-35-77</a>
-        <a href="tel:+79777936481" class="text-zinc-500 hover:text-ink transition">+7 (977) 793-64-81</a>
-        <a href="mailto:zakaz@litera.studio" class="text-zinc-500 hover:text-ink transition">zakaz@litera.studio</a>
+        <a href="tel:+74950213577" class="cp text-zinc-500 hover:text-ink transition" data-tip="Скопировать" data-copy="+74950213577">+7 (495) 021-35-77</a>
+        <a href="tel:+79777936481" class="cp text-zinc-500 hover:text-ink transition" data-tip="Скопировать" data-copy="+79777936481">+7 (977) 793-64-81</a>
+        <a href="mailto:zakaz@litera.studio" class="cp text-zinc-500 hover:text-ink transition" data-tip="Скопировать" data-copy="zakaz@litera.studio">zakaz@litera.studio</a>
         <span class="w-px h-3.5 bg-zinc-200"></span>
         <a href="https://t.me/litera_studio" target="_blank" rel="noopener" class="flex items-center gap-1.5 text-zinc-400 hover:text-ink transition"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M21.94 4.6 18.9 19.3c-.23 1.01-.83 1.26-1.68.78l-4.64-3.42-2.24 2.16c-.25.25-.46.46-.94.46l.33-4.73 8.6-7.77c.37-.33-.08-.52-.58-.19L7.43 13.1l-4.57-1.43c-1-.31-1.01-1 .21-1.48l17.86-6.88c.83-.31 1.56.19 1.29 1.29z"/></svg><span>Telegram</span></a>
         <a href="#" class="flex items-center gap-1.5 text-zinc-400 hover:text-ink transition"><svg class="w-4 h-4 shrink-0" viewBox="0 0 1000 1000" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M508.211 878.328c-75.007 0-109.864-10.95-170.453-54.75-38.325 49.275-159.686 87.783-164.979 21.9 0-49.456-10.95-91.248-23.36-136.873-14.782-56.21-31.572-118.807-31.572-209.508 0-216.626 177.754-379.597 388.357-379.597 210.785 0 375.947 171.001 375.947 381.604.707 207.346-166.595 376.118-373.94 377.224m3.103-571.585c-102.564-5.292-182.499 65.7-200.201 177.024-14.6 92.162 11.315 204.398 33.397 210.238 10.585 2.555 37.23-18.98 53.837-35.587a189.8 189.8 0 0 0 92.71 33.032c106.273 5.112 197.08-75.794 204.215-181.95 4.154-106.382-77.67-196.486-183.958-202.574Z"/></svg><span>MAX</span></a>
@@ -665,6 +818,11 @@
 
   <!-- Полоса направлений: печатная цветошкала = навигация (в контейнере шапки) -->
   <div class="w-full max-w-7xl mx-auto px-5 lg:px-8 pb-5 lg:pb-7">
+  <div class="dir-scale-head">
+    <span class="kicker">Направления</span>
+    <span class="dir-scale-rule"></span>
+    <span class="dir-scale-meta">Один цвет на каждое — от макета до тиража</span>
+  </div>
   <div class="dirbar">
     <a href="category.html" class="dir-col" style="background:#2A37C2;--fg:#fff">
       <span class="dir-num">01</span><span class="dir-name">Полиграфия</span>
@@ -832,6 +990,397 @@
   </div>
 </div>
 
+<!-- ============================ БЛОК 3 — МАНИФЕСТ / ПОЗИЦИОНИРОВАНИЕ ============================ -->
+<section class="sec">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <span class="sec-kicker mb-8">Кто мы</span>
+    <h2 class="font-display sec-title max-w-4xl">
+      Полиграфическая клиника для бизнеса.
+      <span class="text-zinc-400">Возвращаем брендам уверенный вид — от макета до готового тиража.</span>
+    </h2>
+    <div class="mt-16 grid gap-x-10 gap-y-12 sm:grid-cols-3 max-w-5xl">
+      <div class="man-pt">
+        <h3 class="marker-accent font-display text-h4">Всё решаемо</h3>
+        <p class="mt-3 text-zinc-500 text-caption leading-relaxed">Любая задача — от визитки до сложной упаковки. Подскажем формат, материал и тираж под вашу цель.</p>
+      </div>
+      <div class="man-pt">
+        <h3 class="marker-accent font-display text-h4">Дурного не посоветуем</h3>
+        <p class="mt-3 text-zinc-500 text-caption leading-relaxed">Дизайн и препресс ведёт студия, печать — наша. Никаких посредников и «как получится» на выходе.</p>
+      </div>
+      <div class="man-pt">
+        <h3 class="marker-accent font-display text-h4">Своё производство</h3>
+        <p class="mt-3 text-zinc-500 text-caption leading-relaxed">Контролируем качество на каждом этапе и держим сроки — оборудование в Москве, с 2012 года.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ БЛОК 4 — НАПРАВЛЕНИЯ (ВИТРИНА) ============================ -->
+<section class="sec bg-zinc-50/60 border-y border-zinc-100">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <div class="sec-head">
+      <div>
+        <span class="sec-kicker">Направления</span>
+        <h2 class="font-display sec-title">Что мы делаем</h2>
+      </div>
+      <button type="button" id="catalog-trigger-2" class="tlink"><span class="t">Весь каталог</span><span class="a">→</span></button>
+    </div>
+    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      <a href="category.html" class="dir-card" style="--c:#2A37C2;--fg:#fff">
+        <span class="ph"><img src="assets/mock-vizitki.jpg" alt="Полиграфия"></span>
+        <span class="bd"><span class="num">01</span>
+          <span class="block font-display text-h4 mt-1">Полиграфия</span>
+          <span class="desc block mt-2 text-caption">Визитки, листовки, каталоги, календари, наклейки и этикетки, меню и барные карты.</span>
+          <span class="arr">Смотреть направление →</span></span>
+      </a>
+      <a href="#" class="dir-card" style="--c:#C633A0;--fg:#fff">
+        <span class="ph"><img src="assets/obvesy.jpg" alt="Упаковка"></span>
+        <span class="bd"><span class="num">02</span>
+          <span class="block font-display text-h4 mt-1">Упаковка и этикетки</span>
+          <span class="desc block mt-2 text-caption">Картонные и кашированные коробки, МГК, бумажные пакеты, шуберы, адвент-календари.</span>
+          <span class="arr">Смотреть направление →</span></span>
+      </a>
+      <a href="#" class="dir-card" style="--c:#9BBF00;--fg:#111">
+        <span class="ph"><img src="assets/hero-cards.jpg" alt="Брендинг"></span>
+        <span class="bd"><span class="num">03</span>
+          <span class="block font-display text-h4 mt-1">Логотип и фирменный стиль</span>
+          <span class="desc block mt-2 text-caption">Логобук и брендбук, фирменные носители, маскот бренда, редизайн.</span>
+          <span class="arr">Смотреть направление →</span></span>
+      </a>
+      <a href="#" class="dir-card" style="--c:#E8BE1E;--fg:#111">
+        <span class="ph"><img src="assets/hero-flatlay.jpg" alt="Мерч"></span>
+        <span class="bd"><span class="num">04</span>
+          <span class="block font-display text-h4 mt-1">Корпоративный брендинг</span>
+          <span class="desc block mt-2 text-caption">Подарочные наборы, корпоративный мерч, брендирование сувениров, акриловые обвесы.</span>
+          <span class="arr">Смотреть направление →</span></span>
+      </a>
+      <a href="#" class="dir-card" style="--c:#64748B;--fg:#fff">
+        <span class="ph"><img src="assets/mock-listovki.jpg" alt="Отраслевые решения"></span>
+        <span class="bd"><span class="num">05</span>
+          <span class="block font-display text-h4 mt-1">Отраслевые решения</span>
+          <span class="desc block mt-2 text-caption">Сборки проектов по отраслям: рестораны и бары, мода, медицина, спорт.</span>
+          <span class="arr">Смотреть направление →</span></span>
+      </a>
+      <a href="#lead" data-lead-open class="dir-cta">
+        <span class="font-display text-h4">Не нашли нужное?</span>
+        <span class="text-zinc-500 text-caption">Опишите задачу — подберём формат и рассчитаем стоимость.</span>
+        <span class="btn btn-accent btn-sm mt-2">Обсудить проект →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ БЛОК 4.5 — LITERA GIFTS (отдельный сервис) ============================ -->
+<section class="sec">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <div class="grid lg:grid-cols-2 border border-zinc-200">
+      <!-- Саббренд: панель с фирменным зелёным акцентом -->
+      <div class="bg-ink text-white p-8 lg:p-12 flex flex-col justify-between gap-12">
+        <div>
+          <span class="sec-kicker mb-6" style="color:#00CC00">Отдельный сервис</span>
+          <div class="font-display text-h1 leading-none">Litera&nbsp;Gifts</div>
+          <p class="mt-5 text-white/70 max-w-md leading-relaxed">Корпоративные подарки и бизнес-сувениры с нанесением логотипа. Имидж компании складывается из мелочей — собираем их под ключ.</p>
+        </div>
+        <a href="https://literagifts.ru/" target="_blank" rel="noopener" class="btn self-start" style="background:#00CC00;color:#06210a">Перейти в Litera Gifts →</a>
+      </div>
+      <!-- Каталог: реальные цифры по категориям -->
+      <div class="p-8 lg:p-12">
+        <div class="flex items-baseline justify-between gap-4 flex-wrap mb-8">
+          <span class="sec-kicker">Каталог</span>
+          <span class="text-zinc-400 text-caption">от 999 ₽ · нанесение логотипа</span>
+        </div>
+        <div class="grid grid-cols-2 gap-x-10 gap-y-8">
+          <div class="border-t border-zinc-200 pt-4"><div class="font-display leading-none" style="font-size:2.4rem;letter-spacing:-.03em">3800+</div><div class="text-zinc-500 text-caption mt-2">одежда и промо</div></div>
+          <div class="border-t border-zinc-200 pt-4"><div class="font-display leading-none" style="font-size:2.4rem;letter-spacing:-.03em">3500+</div><div class="text-zinc-500 text-caption mt-2">электроника</div></div>
+          <div class="border-t border-zinc-200 pt-4"><div class="font-display leading-none" style="font-size:2.4rem;letter-spacing:-.03em">2000+</div><div class="text-zinc-500 text-caption mt-2">посуда и термокружки</div></div>
+          <div class="border-t border-zinc-200 pt-4"><div class="font-display leading-none" style="font-size:2.4rem;letter-spacing:-.03em">1800+</div><div class="text-zinc-500 text-caption mt-2">ежедневники</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ БЛОК 5 — СВОЙ ЦИКЛ / ПРОИЗВОДСТВО ============================ -->
+<section class="sec bg-ink text-white">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8 grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+    <div>
+      <span class="sec-kicker mb-5">Полный цикл</span>
+      <h2 class="font-display sec-title">Дизайним и печатаем<br>на своём производстве</h2>
+      <p class="lead-txt mt-6 text-zinc-300 max-w-lg">Придумываем фирменный стиль и тут же печатаем его на собственном производстве. Без подрядчиков, без потери качества между макетом и тиражом.</p>
+      <a href="#lead" data-lead-open class="btn mt-9" style="background:#fff;color:#000">Обсудить проект</a>
+    </div>
+    <div class="grid grid-cols-2 gap-x-10 gap-y-10">
+      <div class="border-t border-white/15 pt-5"><div class="stat-n font-display">2012</div><div class="mt-2 text-zinc-400 text-caption">год основания студии</div></div>
+      <div class="border-t border-white/15 pt-5"><div class="stat-n font-display">5</div><div class="mt-2 text-zinc-400 text-caption">направлений под одной крышей</div></div>
+      <div class="border-t border-white/15 pt-5"><div class="stat-n font-display">1000+</div><div class="mt-2 text-zinc-400 text-caption">проектов в&nbsp;год</div></div>
+      <div class="border-t border-white/15 pt-5"><div class="stat-n font-display">0</div><div class="mt-2 text-zinc-400 text-caption">посредников до печати</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ БЛОК 6 — РАБОТЫ / ПОРТФОЛИО ============================ -->
+<section class="sec">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <div class="sec-head">
+      <div>
+        <span class="sec-kicker">Работы</span>
+        <h2 class="font-display sec-title">Свежее из печати</h2>
+      </div>
+      <a href="portfolio.html" class="tlink self-end"><span class="t">Все проекты</span><span class="a">→</span></a>
+    </div>
+    <div class="flex flex-wrap gap-x-7 gap-y-2.5 mb-9" id="pf-filter">
+      <button class="pf-chip is-active" style="--c:#18181b">Все</button>
+      <button class="pf-chip" style="--c:#2A37C2">Полиграфия</button>
+      <button class="pf-chip" style="--c:#C633A0">Упаковка</button>
+      <button class="pf-chip" style="--c:#9BBF00">Брендинг</button>
+      <button class="pf-chip" style="--c:#E8BE1E">Мерч</button>
+      <button class="pf-chip" style="--c:#64748B">Отраслевые</button>
+    </div>
+    <!-- Bento-сетка работ (заглушки на реальных ассетах) -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <a href="portfolio.html" class="pf-tile col-span-2 row-span-2 aspect-square lg:aspect-auto"><img src="assets/hero-flatlay.jpg" alt="Проект"><span class="cap"><b class="font-display text-lead">Кофейня «Любимая кружка»</b><span class="block text-caption opacity-80">Логотип и фирменный стиль</span></span></a>
+      <a href="portfolio.html" class="pf-tile aspect-square"><img src="assets/mock-vizitki.jpg" alt="Проект"><span class="cap text-caption">Меню для ресторана «Ohana»</span></a>
+      <a href="portfolio.html" class="pf-tile aspect-square"><img src="assets/obvesy.jpg" alt="Проект"><span class="cap text-caption">Адвент-календарь «FIRDAWS»</span></a>
+      <a href="portfolio.html" class="pf-tile aspect-square"><img src="assets/hero-cards.jpg" alt="Проект"><span class="cap text-caption">Логотип «ПРОМАКТИВ»</span></a>
+      <a href="portfolio.html" class="pf-tile aspect-square"><img src="assets/mock-listovki.jpg" alt="Проект"><span class="cap text-caption">Корпнабор для «Реилго»</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ БЛОК 6.5 — ВЕРТИКАЛЬНЫЕ ВИДЕО (REELS) ============================ -->
+<section class="sec bg-ink text-white overflow-hidden">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <div class="sec-head">
+      <div>
+        <span class="sec-kicker">В движении</span>
+        <h2 class="font-display sec-title">Работы в reels</h2>
+        <p class="lead-txt mt-4 text-zinc-400 max-w-md">Снимаем процесс и результат — фактуры, отделки, распаковка. Живьём видно то, что не передаст фото.</p>
+      </div>
+      <div class="flex gap-2 self-end">
+        <button class="reel-nav" data-dir="-1" aria-label="Назад">←</button>
+        <button class="reel-nav" data-dir="1" aria-label="Вперёд">→</button>
+      </div>
+    </div>
+  </div>
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <div class="reels" id="reels">
+      <a href="#" class="reel"><img src="assets/hero-flatlay.jpg" alt="Видео работы"><span class="play"><i></i></span><span class="rcap">Кофейня «Любимая кружка»</span></a>
+      <a href="#" class="reel"><img src="assets/obvesy.jpg" alt="Видео работы"><span class="play"><i></i></span><span class="rcap">Адвент-календарь «FIRDAWS»</span></a>
+      <a href="#" class="reel"><img src="assets/mock-vizitki.jpg" alt="Видео работы"><span class="play"><i></i></span><span class="rcap">Тиснение и кромка визиток</span></a>
+      <a href="#" class="reel"><img src="assets/hero-cards.jpg" alt="Видео работы"><span class="play"><i></i></span><span class="rcap">Логотип «ПРОМАКТИВ»</span></a>
+      <a href="#" class="reel"><img src="assets/mock-listovki.jpg" alt="Видео работы"><span class="play"><i></i></span><span class="rcap">Меню для ресторана «Ohana»</span></a>
+      <a href="#" class="reel"><img src="assets/card-vizitki.jpg" alt="Видео работы"><span class="play"><i></i></span><span class="rcap">Коробка из МГК</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ БЛОК 7 — ПРОЦЕСС ============================ -->
+<section class="sec bg-zinc-50/60 border-y border-zinc-100">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <span class="sec-kicker mb-4">Как работаем</span>
+    <h2 class="font-display sec-title mb-14">Спокойно, по шагам</h2>
+    <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
+      <div class="step" style="--c:#2A37C2"><div class="step-n">01</div><div class="font-display text-h4 mt-2">Бриф</div><p class="mt-2 text-zinc-500 text-caption">Разбираем задачу, сроки и бюджет. Подсказываем, что реально нужно.</p></div>
+      <div class="step" style="--c:#C633A0"><div class="step-n">02</div><div class="font-display text-h4 mt-2">Дизайн</div><p class="mt-2 text-zinc-500 text-caption">Макет и концепция. Показываем, согласуем, правим до «то самое».</p></div>
+      <div class="step" style="--c:#9BBF00"><div class="step-n">03</div><div class="font-display text-h4 mt-2">Препресс</div><p class="mt-2 text-zinc-500 text-caption">Готовим файлы к печати: цвет, вылеты, материалы, отделки.</p></div>
+      <div class="step" style="--c:#E8BE1E"><div class="step-n">04</div><div class="font-display text-h4 mt-2">Печать</div><p class="mt-2 text-zinc-500 text-caption">Печатаем на своём оборудовании. Контроль качества тиража.</p></div>
+      <div class="step" style="--c:#64748B"><div class="step-n">05</div><div class="font-display text-h4 mt-2">Выдача</div><p class="mt-2 text-zinc-500 text-caption">Постобработка, упаковка, доставка. Готово — а вы боялись.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ БЛОК 8 — ДОВЕРИЕ ============================ -->
+<section class="sec">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <div class="sec-head">
+      <div>
+        <span class="sec-kicker">Отзывы</span>
+        <h2 class="font-display sec-title">Что о нас говорят</h2>
+      </div>
+      <div class="rev-agg self-end">
+        <span class="font-display" style="font-size:2.7rem;line-height:1">5,0</span>
+        <span><span class="stars block">★★★★★</span><span class="block text-zinc-400 text-caption mt-1">10 отзывов · Яндекс и 2ГИС</span></span>
+      </div>
+    </div>
+    <div class="rev-track" id="rev-track">
+      <figure class="review">
+        <div class="stars" aria-label="Оценка 5 из 5">★★★★★</div>
+        <blockquote>Первый раз заказывал не просто печать, а ещё и разработку макета. Получилось очень достойно.</blockquote>
+        <figcaption class="who"><span class="w-9 h-9 rounded-full bg-zinc-200"></span><span><b class="block leading-tight">Егор Дронов</b><span class="src-badge"><i class="dot" style="background:#46AD25"></i>2ГИС</span></span></figcaption>
+      </figure>
+      <figure class="review">
+        <div class="stars" aria-label="Оценка 5 из 5">★★★★★</div>
+        <blockquote>Анастасия разработала макет, который отразил суть бизнеса. По качеству вопросов нет.</blockquote>
+        <figcaption class="who"><span class="w-9 h-9 rounded-full bg-zinc-200"></span><span><b class="block leading-tight">Максим Пирожков</b><span class="src-badge"><i class="dot" style="background:#46AD25"></i>2ГИС</span></span></figcaption>
+      </figure>
+      <figure class="review">
+        <div class="stars" aria-label="Оценка 5 из 5">★★★★★</div>
+        <blockquote>Всё сделали очень быстро. Нужны были правки в макете — правили без доплат. Очень рекомендую!</blockquote>
+        <figcaption class="who"><span class="w-9 h-9 rounded-full bg-zinc-200"></span><span><b class="block leading-tight">Nevada More</b><span class="src-badge"><i class="dot" style="background:#46AD25"></i>2ГИС</span></span></figcaption>
+      </figure>
+      <figure class="review">
+        <div class="stars" aria-label="Оценка 5 из 5">★★★★★</div>
+        <blockquote>Хороший опыт. Если снова понадобится — обращусь ещё.</blockquote>
+        <figcaption class="who"><span class="w-9 h-9 rounded-full bg-zinc-200"></span><span><b class="block leading-tight">Городской житель</b><span class="src-badge"><i class="dot" style="background:#46AD25"></i>2ГИС</span></span></figcaption>
+      </figure>
+    </div>
+    <div class="mt-9 flex items-center justify-between gap-4 flex-wrap">
+      <div class="flex flex-wrap gap-x-8 gap-y-3">
+        <a href="https://2gis.ru/moscow/firm/70000001046388634/tab/reviews" target="_blank" rel="noopener" class="tlink"><span class="t">Все отзывы в 2ГИС</span><span class="a">→</span></a>
+        <a href="https://yandex.ru/maps/?text=Litera.Studio%20%D0%A5%D0%BE%D0%BB%D0%BE%D0%B4%D0%B8%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9%20%D0%BF%D0%B5%D1%80%D0%B5%D1%83%D0%BB%D0%BE%D0%BA" target="_blank" rel="noopener" class="tlink"><span class="t">Отзывы на Яндекс.Картах</span><span class="a">→</span></a>
+      </div>
+      <div class="flex gap-2 shrink-0">
+        <button class="car-nav rev-nav" data-dir="-1" aria-label="Назад">←</button>
+        <button class="car-nav rev-nav" data-dir="1" aria-label="Вперёд">→</button>
+      </div>
+    </div>
+    <div class="mt-16 pt-10 border-t border-zinc-100">
+      <span class="sec-kicker mb-7">Делали для</span>
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 border-y border-zinc-100 divide-x divide-zinc-100">
+        <div class="logo-cell">ПРОМАКТИВ</div><div class="logo-cell">Sequoiapay</div><div class="logo-cell">Реилго</div>
+        <div class="logo-cell">Модум-Транс</div><div class="logo-cell">FIRDAWS</div><div class="logo-cell">Complex&nbsp;Smile</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ БЛОК 9 — БЛОГ ============================ -->
+<section class="sec bg-zinc-50/60 border-y border-zinc-100">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <div class="sec-head">
+      <div><span class="sec-kicker">Журнал</span><h2 class="font-display sec-title">Полезное о печати и бренде</h2></div>
+      <a href="#" class="tlink self-end"><span class="t">Все статьи</span><span class="a">→</span></a>
+    </div>
+    <div class="grid gap-6 md:grid-cols-3">
+      <a href="#" class="post block group">
+        <span class="ph block"><img src="assets/obvesy.jpg" alt=""></span>
+        <span class="tag block mt-4" style="color:#C633A0">Упаковка</span>
+        <span class="block font-display text-h4 mt-1.5 group-hover:opacity-70 transition">Дизайн упаковки как инструмент продаж: привлекаем покупателей с первого взгляда</span>
+        <span class="block text-zinc-400 text-caption mt-2">30 августа 2024</span>
+      </a>
+      <a href="#" class="post block group">
+        <span class="ph block"><img src="assets/hero-cards.jpg" alt=""></span>
+        <span class="tag block mt-4" style="color:#C633A0">Упаковка</span>
+        <span class="block font-display text-h4 mt-1.5 group-hover:opacity-70 transition">Чем МГК отличается от гофрокартона?</span>
+        <span class="block text-zinc-400 text-caption mt-2">18 декабря 2023</span>
+      </a>
+      <a href="#" class="post block group">
+        <span class="ph block"><img src="assets/mock-vizitki.jpg" alt=""></span>
+        <span class="tag block mt-4" style="color:#2A37C2">Полиграфия</span>
+        <span class="block font-display text-h4 mt-1.5 group-hover:opacity-70 transition">Кто пишет и проверяет текст для макета?</span>
+        <span class="block text-zinc-400 text-caption mt-2">16 декабря 2023</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ БЛОК 10 — ЛИД-ФОРМА ============================ -->
+<section id="lead" class="sec scroll-mt-24">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <div class="grid lg:grid-cols-[0.85fr_1.15fr] border border-zinc-200">
+      <!-- Левая панель: «менеджер-терапевт» на фирменном цвете + матовое стекло -->
+      <div class="relative overflow-hidden text-white p-8 lg:p-10 flex flex-col" style="background:#2A37C2">
+        <span class="hc-paper"></span>
+        <div class="relative z-10">
+          <span class="sec-kicker mb-6" style="color:rgba(255,255,255,.75)">Заявка</span>
+          <h2 class="font-display text-h2">Расскажите задачу — подскажем, что делать</h2>
+          <p class="mt-5 text-white/85 leading-relaxed max-w-sm">Ответим в течение рабочего дня, предложим формат и сориентируем по стоимости и срокам. Ну вот и всё, а вы боялись.</p>
+        </div>
+        <div class="lead-glass mt-auto relative z-10 p-5 flex items-center gap-4">
+          <span class="w-12 h-12 rounded-full bg-white/25 shrink-0"></span>
+          <span><b class="block">Ваш менеджер</b><span class="text-white/75 text-caption">ведёт проект от брифа до выдачи тиража</span></span>
+        </div>
+      </div>
+      <!-- Правая панель: форма с чипами-направлениями -->
+      <form class="p-8 lg:p-10" onsubmit="return false">
+        <div class="field-label mb-3">С чем нужна помощь?</div>
+        <div class="flex flex-wrap gap-2.5 mb-8" data-chips>
+          <button type="button" class="chip">Полиграфия</button>
+          <button type="button" class="chip">Упаковка</button>
+          <button type="button" class="chip">Логотип</button>
+          <button type="button" class="chip">Сувениры</button>
+          <button type="button" class="chip">Отраслевое</button>
+          <button type="button" class="chip">Пока не знаю</button>
+        </div>
+        <div class="grid sm:grid-cols-2 gap-x-8 gap-y-6">
+          <label class="block"><span class="field-label">Как вас зовут</span><input class="field" type="text" placeholder="Имя"></label>
+          <label class="block"><span class="field-label">Телефон или почта</span><input class="field" type="text" placeholder="Как с вами связаться"></label>
+        </div>
+        <label class="block mt-6"><span class="field-label">О задаче</span><input class="field" type="text" placeholder="Кратко: что нужно, тираж, сроки"></label>
+        <div class="mt-6 flex items-center gap-2.5 text-zinc-500 text-caption">
+          <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+          <button type="button" class="hover:text-ink transition underline underline-offset-2">Прикрепить макет или ТЗ</button>
+          <span class="text-zinc-300">·</span><span>до 25 МБ</span>
+        </div>
+        <button type="submit" class="btn btn-accent btn-lg w-full justify-center mt-8">Отправить заявку</button>
+        <p class="mt-4 text-zinc-400 text-xs leading-relaxed">Нажимая кнопку, вы соглашаетесь с <a href="#" class="underline">политикой конфиденциальности</a>.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ============================ БЛОК 11 — ФУТЕР ============================ -->
+<footer class="bg-ink text-white pt-20 lg:pt-28 overflow-hidden">
+  <div class="max-w-7xl mx-auto px-5 lg:px-8">
+    <!-- CTA -->
+    <div class="flex flex-wrap items-end justify-between gap-8 pb-16 border-b border-white/10">
+      <h2 class="font-display text-[2.4rem] sm:text-[3.4rem] lg:text-[4.5rem] leading-[0.95] tracking-[-0.04em]">Есть задача?<br>Давайте сделаем.</h2>
+      <a href="#lead" data-lead-open class="btn btn-lg" style="background:#fff;color:#000">Обсудить проект →</a>
+    </div>
+    <!-- Колонки -->
+    <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4 py-16">
+      <div>
+        <div class="kicker mb-5" style="color:#71717a">Направления</div>
+        <ul class="space-y-2.5">
+          <li><a href="category.html" class="foot-link">Полиграфия</a></li>
+          <li><a href="#" class="foot-link">Упаковка и этикетки</a></li>
+          <li><a href="#" class="foot-link">Логотип и фирменный стиль</a></li>
+          <li><a href="#" class="foot-link">Корпоративный брендинг и сувениры</a></li>
+          <li><a href="#" class="foot-link">Решения по отраслям</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="kicker mb-5" style="color:#71717a">Студия</div>
+        <ul class="space-y-2.5">
+          <li><a href="portfolio.html" class="foot-link">Проекты</a></li>
+          <li><a href="#" class="foot-link">О нас</a></li>
+          <li><a href="#" class="foot-link">Блог</a></li>
+          <li><a href="#" class="foot-link">Вакансии</a></li>
+          <li><a href="#" class="foot-link">Оплата и доставка</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="kicker mb-5" style="color:#71717a">Контакты</div>
+        <ul class="space-y-2.5">
+          <li><a href="tel:+74950213577" class="cp foot-link" data-tip="Скопировать" data-copy="+74950213577">+7 (495) 021-35-77</a></li>
+          <li><a href="tel:+79777936481" class="cp foot-link" data-tip="Скопировать" data-copy="+79777936481">+7 (977) 793-64-81</a></li>
+          <li><a href="mailto:zakaz@litera.studio" class="cp foot-link" data-tip="Скопировать" data-copy="zakaz@litera.studio">zakaz@litera.studio</a></li>
+          <li><a href="https://yandex.ru/maps/?rtext=~%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0%2C%20%D0%A5%D0%BE%D0%BB%D0%BE%D0%B4%D0%B8%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9%20%D0%BF%D0%B5%D1%80%D0%B5%D1%83%D0%BB%D0%BE%D0%BA%2C%203%D0%BA1%D1%813&rtt=auto" target="_blank" rel="noopener" class="cp foot-link" data-tip="Построить маршрут">Холодильный пер., 3к1с3</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="kicker mb-5" style="color:#71717a">Соцсети</div>
+        <ul class="space-y-2.5">
+          <li><a href="https://t.me/litera_studio" target="_blank" rel="noopener" class="foot-link">Telegram</a></li>
+          <li><a href="#" class="foot-link">MAX</a></li>
+          <li><a href="https://www.instagram.com/litera_studio/" target="_blank" rel="noopener" class="foot-link">Instagram</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <!-- Гигантское слово-бренд тоном + цветошкала-засечка (в общем контейнере шапки) -->
+  <div class="max-w-7xl mx-auto px-5 lg:px-8 pb-6 select-none overflow-hidden" aria-hidden="true">
+    <div class="footer-scale mb-5"><span style="background:#2A37C2"></span><span style="background:#C633A0"></span><span style="background:#9BBF00"></span><span style="background:#E8BE1E"></span><span style="background:#64748B"></span></div>
+    <div class="footer-word font-display leading-none">ЛИТЕРА</div>
+  </div>
+  <div class="border-t border-white/10">
+    <div class="max-w-7xl mx-auto px-5 lg:px-8 py-6 flex flex-wrap items-center justify-between gap-3 text-zinc-500 text-caption">
+      <span>© 2012–2026 Литера.Студия — дизайн и печать на собственном производстве</span>
+      <span class="flex gap-5"><a href="#" class="foot-link">Политика конфиденциальности</a><a href="#" class="foot-link">Оферта</a></span>
+    </div>
+  </div>
+</footer>
+
 <!-- Каталог, стиль 2: полноэкранный индекс-тейковер (тема C) -->
 <div id="catalog-full" class="cat-full-overlay" hidden style="background:#2A37C2;color:#ffffff">
   <div class="cf-top">
@@ -874,6 +1423,31 @@
       e.preventDefault();
       modal.classList.remove('hidden'); modal.classList.add('flex'); document.body.style.overflow = 'hidden';
     }));
+  })();
+  // Контакты в топбаре: клик копирует телефон/почту, подсказка → «Скопировано»
+  (function(){
+    function fallbackCopy(text){
+      const ta = document.createElement('textarea');
+      ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta);
+    }
+    function flash(el){
+      const orig = el.getAttribute('data-tip');
+      el.setAttribute('data-tip', 'Скопировано'); el.classList.add('is-copied');
+      clearTimeout(el._cpT);
+      el._cpT = setTimeout(() => { el.classList.remove('is-copied'); el.setAttribute('data-tip', orig); }, 1500);
+    }
+    document.querySelectorAll('.cp[data-copy]').forEach(el => {
+      el.addEventListener('click', e => {
+        e.preventDefault();
+        const text = el.getAttribute('data-copy');
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(() => flash(el)).catch(() => { fallbackCopy(text); flash(el); });
+        } else { fallbackCopy(text); flash(el); }
+      });
+    });
   })();
   // Заливка шапки под тему C (бесшовно с hero); цвет ведёт активный свотч
   function paintHeaderC(color, fg){
@@ -1177,6 +1751,37 @@
   document.getElementById('burger').addEventListener('click', () => {
     document.getElementById('mobile-menu').classList.toggle('hidden');
   });
+  // Лид-форма: чипы «с чем нужна помощь» (множественный выбор)
+  document.querySelectorAll('[data-chips] .chip').forEach(c =>
+    c.addEventListener('click', () => c.classList.toggle('is-on')));
+  // Портфолио: активный фильтр (пока только состояние, без реальной фильтрации — скелет)
+  (function(){
+    const chips = [...document.querySelectorAll('#pf-filter .pf-chip')];
+    chips.forEach(c => c.addEventListener('click', () => {
+      chips.forEach(x => x.classList.toggle('is-active', x === c));
+    }));
+  })();
+  // Карусели (reels + отзывы): прокрутка стрелками на ширину карточки
+  (function(){
+    function bind(trackId, navSel){
+      const t = document.getElementById(trackId); if (!t) return;
+      const step = () => {
+        const card = t.firstElementChild;
+        const gap = parseFloat(getComputedStyle(t).gap) || 16;
+        return card ? card.getBoundingClientRect().width + gap : t.clientWidth * 0.8;
+      };
+      document.querySelectorAll(navSel).forEach(b => b.addEventListener('click', () => {
+        t.scrollBy({ left: parseInt(b.dataset.dir, 10) * step(), behavior: 'smooth' });
+      }));
+    }
+    bind('reels', '.reel-nav');
+    bind('rev-track', '.rev-nav');
+  })();
+  // Дублирующая кнопка «Весь каталог» в блоке направлений — открывает то же мегаменю
+  (function(){
+    const b2 = document.getElementById('catalog-trigger-2'); const t = document.getElementById('catalog-trigger');
+    if (b2 && t) b2.addEventListener('click', () => { window.scrollTo({ top: 0, behavior: 'smooth' }); t.dispatchEvent(new Event('mouseenter')); });
+  })();
   // Гид по прототипу: свернуть/развернуть и раскрыть пояснения
   (function(){
     const guide = document.getElementById('proto-guide'); if (!guide) return;
