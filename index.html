@@ -196,30 +196,6 @@
   .sugg-foot a{ font-weight:700; color:#18181b; font-size:.88rem; }
   .sugg-foot a:hover{ color:var(--accent); }
 
-  /* ---- Полоса направлений (герой A): печатная цветошкала-навигация ---- */
-  /* Подпись-линейка над шкалой: печатная калибровка (насечки) + лейблы */
-  .dir-scale-head{ display:flex; align-items:center; gap:1rem; margin-bottom:.7rem; }
-  .dir-scale-rule{ flex:1; height:7px; align-self:flex-end; margin-bottom:1px;
-        background-image:repeating-linear-gradient(to right,#d4d4d8 0,#d4d4d8 1px,transparent 1px,transparent 13px);
-        -webkit-mask-image:linear-gradient(to right,transparent,#000 8%,#000 92%,transparent);
-        mask-image:linear-gradient(to right,transparent,#000 8%,#000 92%,transparent); }
-  .dir-scale-meta{ font-size:.72rem; font-weight:600; color:#a1a1aa; white-space:nowrap; }
-  .dirbar{ display:flex; align-items:stretch; }
-  .dir-col{ position:relative; flex:1; min-width:0; display:flex; flex-direction:column; justify-content:flex-end;
-        padding:1.05rem 1.25rem 1.15rem; color:var(--fg, #fff); overflow:hidden; isolation:isolate;
-        transition:flex-grow .35s cubic-bezier(.4,0,.2,1); }
-  .dir-col + .dir-col{ box-shadow:inset 1px 0 0 rgba(255,255,255,.18); }
-  .dir-col::before{ content:''; position:absolute; right:1.1rem; bottom:1.1rem; width:.9rem; height:1.28rem; opacity:.32; background:var(--fg,#fff);
-        -webkit-mask:var(--litera-mark) center/contain no-repeat; mask:var(--litera-mark) center/contain no-repeat;
-        transition:opacity .3s ease, transform .3s ease; }
-  .dir-col:hover{ flex-grow:1.6; }
-  .dir-col:hover::before{ opacity:.7; transform:scale(1.15) translateY(-2px); }
-  .dir-num{ display:inline-flex; align-items:center; gap:.45rem; font-size:.72rem; font-weight:700; letter-spacing:.16em; opacity:.65; font-variant-numeric:tabular-nums; }
-  .dir-num::before{ content:''; width:1px; height:.78rem; background:currentColor; opacity:.55; }
-  .dir-name{ font-family:'Raptor V2 Premium','Manrope',system-ui,sans-serif; font-weight:700; font-size:1.45rem; line-height:1; letter-spacing:-.02em; margin-top:.3rem; }
-  /* Описание держит высоту всегда (запас под текст), на ховере только проявляется — без скачка раскладки */
-  .dir-desc{ font-size:.8rem; line-height:1.3; opacity:0; height:2.1rem; margin-top:.4rem; overflow:hidden; transition:opacity .3s ease; }
-  .dir-col:hover .dir-desc{ opacity:.85; }
 
   /* ---- Герой C (в духе G.F Smith): полноэкранный цвет, крупная типографика ---- */
   #hero-c{ transition:background-color .5s cubic-bezier(.4,0,.2,1), color .5s; isolation:isolate; }
@@ -251,63 +227,7 @@
   .sw-index .sw-item.is-active{ opacity:1; padding-left:.5rem; }
   .sw-index .sw-item .sw-fill{ position:absolute; left:0; bottom:.15rem; height:2px; width:100%; background:currentColor; transform:scaleX(var(--p,0)); transform-origin:left; opacity:0; }
   .sw-index .sw-item.is-active .sw-fill{ opacity:1; }
-  /* Вариант 2 — точки/пипсы снизу */
-  #hero-c.sw-2 .sw-dots{ display:flex; align-items:center; gap:.55rem; }
-  .sw-dots .sw-item{ position:relative; height:4px; width:48px; background:color-mix(in srgb, currentColor 26%, transparent); cursor:pointer; overflow:hidden; transition:width .25s ease; }
-  .sw-dots .sw-item.is-active{ width:84px; }
-  .sw-dots .sw-item .sw-fill{ position:absolute; inset:0; background:currentColor; transform:scaleX(var(--p,0)); transform-origin:left; }
-  /* Вариант 3 — боковые вкладки у правого края */
-  #hero-c.sw-3 .sw-tabs{ display:flex; position:absolute; top:0; right:0; bottom:0; z-index:10; flex-direction:column; justify-content:center; gap:.5rem; }
-  .sw-tabs .sw-item{ position:relative; display:flex; align-items:center; gap:.6rem; height:48px; padding:0 1.4rem 0 1.3rem; color:inherit; cursor:pointer; white-space:nowrap; font-weight:700; font-size:.92rem;
-        background:color-mix(in srgb, currentColor 10%, transparent); transform:translateX(calc(100% - 16px)); transition:transform .3s cubic-bezier(.4,0,.2,1), background-color .2s; }
-  .sw-tabs .sw-item::before{ content:''; position:absolute; left:0; top:0; bottom:0; width:6px; background:var(--tc); }
-  .sw-tabs .sw-item .t{ opacity:0; transition:opacity .2s; }
-  .sw-tabs .sw-item:hover, .sw-tabs .sw-item.is-active{ transform:none; background:color-mix(in srgb, currentColor 20%, transparent); }
-  .sw-tabs .sw-item:hover .t, .sw-tabs .sw-item.is-active .t{ opacity:1; }
-  .sw-tabs .sw-item .sw-fill{ position:absolute; left:0; bottom:0; height:2px; width:100%; background:currentColor; transform:scaleX(var(--p,0)); transform-origin:left; }
 
-  /* ---- Премиум-герои (сдержанный холст, цвет акцентом) ---- */
-  .prem-light{ background:#F6F5F2; color:#16161a; }
-  .prem-dark{ background:#141417; color:#f4f4f5; }
-  .prem-kicker{ font-size:.8rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; opacity:.5; margin-bottom:1.5rem; }
-  .prem-title{ font-family:'Raptor V2 Premium','Manrope',system-ui,sans-serif; font-weight:700; font-size:clamp(2.6rem,7.5vw,6rem); line-height:.95; letter-spacing:-.035em; }
-  .prem-sub{ margin-top:1.6rem; font-size:1.1rem; line-height:1.65; max-width:34rem; opacity:.65; }
-  .prem-cta{ margin-top:2.2rem; display:flex; flex-wrap:wrap; gap:.8rem; }
-  .prem-light .prem-btn-primary{ background:#111; color:#fff; }
-  .prem-dark .prem-btn-primary{ background:#fff; color:#111; }
-  .prem-btn-ghost{ background:transparent; color:inherit; border-color:color-mix(in srgb, currentColor 28%, transparent); }
-  .prem-btn-ghost:hover{ border-color:currentColor; }
-  .prem-index{ display:flex; flex-direction:column; min-width:240px; border-top:1px solid color-mix(in srgb, currentColor 15%, transparent); }
-  .prem-index li{ border-bottom:1px solid color-mix(in srgb, currentColor 15%, transparent); }
-  .prem-index a{ display:flex; align-items:center; gap:1rem; padding:.85rem .25rem; color:inherit; transition:padding-left .2s ease, color .2s ease; }
-  .prem-index a:hover{ padding-left:.55rem; }
-  .prem-index .pi-chip{ width:.85rem; height:.85rem; flex-shrink:0; background:var(--c); }
-  .prem-index .pi-n{ font-size:.74rem; opacity:.45; font-variant-numeric:tabular-nums; letter-spacing:.06em; }
-  .prem-index .pi-t{ font-family:'Raptor V2 Premium','Manrope',system-ui,sans-serif; font-weight:700; font-size:1.18rem; letter-spacing:-.01em; }
-  .prem-index a:hover .pi-t{ color:var(--c); }
-
-  /* ---- Премиум-герой с ремеслом (бумага, серифный акцент, редакционная сетка) ---- */
-  .hero-craft{ background:#F3F1EA; color:#16150F; }
-  .craft-grain{ position:absolute; inset:0; z-index:1; pointer-events:none; mix-blend-mode:multiply; opacity:.55;
-        background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
-        background-size:200px 200px; }
-  .craft-mark{ position:absolute; right:-5vw; top:50%; transform:translateY(-50%); width:46vw; max-width:680px; aspect-ratio:113.12/161.82;
-        background:#16150F; opacity:.045; pointer-events:none; z-index:0;
-        -webkit-mask:var(--litera-mark) center/contain no-repeat; mask:var(--litera-mark) center/contain no-repeat; }
-  .craft-kicker{ display:flex; align-items:center; gap:1rem; margin-bottom:2.2rem; font-size:.72rem; font-weight:600; letter-spacing:.22em; text-transform:uppercase; opacity:.55; }
-  .craft-kicker .hair{ width:46px; height:1px; background:currentColor; opacity:.55; }
-  .craft-title{ font-family:'Raptor V2 Premium','Manrope',system-ui,sans-serif; font-weight:700; font-size:clamp(2.7rem,8.4vw,7rem); line-height:.96; letter-spacing:-.035em; }
-  .craft-title em{ font-family:'Instrument Serif',Georgia,serif; font-style:italic; font-weight:400; letter-spacing:0; font-size:1.08em; }
-  .craft-foot{ display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:1.4rem 2rem; margin-top:3rem; padding-top:1.4rem; border-top:1px solid color-mix(in srgb, currentColor 20%, transparent); }
-  .craft-link{ position:relative; display:inline-flex; align-items:center; gap:.5rem; font-weight:700; font-size:1.05rem; color:inherit; }
-  .craft-link .arr{ transition:transform .2s ease; }
-  .craft-link:hover .arr{ transform:translateX(4px); }
-  .craft-link .ln{ position:absolute; left:0; right:0; bottom:-4px; height:1.5px; background:currentColor; transform:scaleX(0); transform-origin:left; transition:transform .3s ease; }
-  .craft-link:hover .ln{ transform:scaleX(1); }
-  .craft-dirs{ display:flex; flex-wrap:wrap; gap:.5rem 1.4rem; font-size:.74rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; }
-  .craft-dirs a{ display:inline-flex; align-items:center; gap:.5rem; color:inherit; opacity:.6; transition:opacity .15s; }
-  .craft-dirs a:hover{ opacity:1; }
-  .craft-dirs i{ width:.6rem; height:.6rem; flex-shrink:0; background:var(--c); }
   @media (prefers-reduced-motion:reduce){ .hc-mark{ animation:none; } }
   .hc-eyebrow{ display:inline-flex; align-items:baseline; gap:.6rem; font-size:.8rem; font-weight:700; letter-spacing:.16em; text-transform:uppercase; }
   .hc-eyebrow .swatch{ font-variant-numeric:tabular-nums; opacity:.6; }
@@ -409,37 +329,6 @@
   .cf-links a:hover, .cf-contacts a:hover{ opacity:1; }
   .cf-contacts{ display:flex; flex-wrap:wrap; gap:.4rem 1.2rem; font-weight:700; }
 
-  /* ---- Гид по прототипу (пульт сравнения + пояснения для заказчика) ---- */
-  #proto-guide{ position:fixed; left:50%; bottom:1rem; transform:translateX(-50%); z-index:80; width:min(93vw,660px);
-        background:#fff; color:#18181b; border:1px solid #e4e4e7; border-radius:14px; box-shadow:0 18px 50px -18px rgba(0,0,0,.45);
-        font-size:13px; overflow:hidden; }
-  #proto-guide.is-collapsed .pg-body{ display:none; }
-  #proto-guide.pg-hidden{ display:none; }
-  .pg-key{ margin-left:auto; color:#c4c4cc; font-weight:600; font-size:11px; white-space:nowrap; }
-  .pg-bar{ display:flex; align-items:center; gap:.55rem; padding:.6rem .85rem; }
-  .pg-bar b{ font-weight:800; letter-spacing:-.01em; }
-  .pg-sub{ color:#a1a1aa; font-weight:600; }
-  .pg-collapse{ color:#71717a; font-weight:700; padding:.2rem .55rem; border-radius:7px; transition:.15s; }
-  .pg-collapse:hover{ background:#f4f4f5; color:#18181b; }
-  .pg-body{ padding:0 .85rem .85rem; display:flex; flex-direction:column; gap:.55rem; }
-  .pg-row{ display:flex; align-items:center; gap:.7rem; }
-  .pg-label{ width:96px; flex-shrink:0; color:#71717a; font-weight:700; text-transform:uppercase; letter-spacing:.06em; font-size:11px; }
-  .pg-seg{ display:flex; gap:.25rem; background:#f4f4f5; padding:.22rem; border-radius:9px; flex-wrap:wrap; }
-  .pg-seg button{ padding:.4rem .72rem; border-radius:7px; font-weight:700; color:#3f3f46; transition:.15s; white-space:nowrap; }
-  .pg-seg button:hover{ color:#18181b; }
-  .pg-seg button.is-active{ background:#fff; color:#000; box-shadow:0 1px 3px rgba(0,0,0,.13); }
-  .pg-row-cat{ display:none; }
-  body.theme-c .pg-row-cat{ display:flex; }
-  .pg-why{ align-self:flex-start; color:#18181b; font-weight:700; text-decoration:underline; text-underline-offset:3px; }
-  .pg-explain{ display:none; border-top:1px solid #f0f0f1; margin-top:.35rem; padding-top:.6rem; color:#52525b; line-height:1.5; }
-  #proto-guide.show-why .pg-explain{ display:block; }
-  .pg-explain p{ margin-bottom:.4rem; }
-  .pg-explain b{ color:#18181b; }
-  .pg-h{ font-weight:800; color:#18181b; margin-top:.2rem; }
-  .pg-note{ color:#a1a1aa; font-weight:600; }
-  .pg-fine{ color:#a1a1aa; }
-  .pg-explain .dot{ display:inline-block; width:.62rem; height:.62rem; border-radius:99px; vertical-align:middle; margin-right:.4rem; }
-
   @keyframes marquee{ from{transform:translateX(0)} to{transform:translateX(-50%)} }
   .marquee{ display:flex; gap:3rem; width:max-content; animation:marquee 28s linear infinite; }
 
@@ -529,7 +418,9 @@
   .step-n{ font-size:.8rem; font-weight:700; letter-spacing:.14em; color:#a1a1aa; font-variant-numeric:tabular-nums; }
 
   /* Блок 8 — отзывы (тянутся из Яндекс.Карт и 2ГИС) + логострип «делали для» */
-  .logo-cell{ height:5rem; display:grid; place-items:center; color:#c4c4cc; font-weight:700; letter-spacing:.06em; font-size:.95rem; }
+  .logo-cell{ height:5rem; display:grid; place-items:center; padding:1rem 1.2rem; color:#c4c4cc; font-weight:700; letter-spacing:.06em; font-size:.95rem; }
+  .logo-cell img{ max-height:2.9rem; max-width:100%; object-fit:contain; filter:grayscale(1); opacity:.72; transition:filter .25s, opacity .25s; }
+  .logo-cell:hover img{ filter:none; opacity:1; }
   .rev-agg{ display:flex; align-items:center; gap:.85rem; }
   .stars{ color:#E8BE1E; letter-spacing:.14em; }
   .review{ padding-top:1.5rem; border-top:1px solid #e4e4e7; }
@@ -573,7 +464,7 @@
 </style>
 </head>
 
-<body class="font-sans text-ink bg-paper antialiased">
+<body class="font-sans text-ink bg-paper antialiased theme-c">
 
 <!-- ============================ ШАПКА (общая система) ============================ -->
 <header class="sticky top-0 z-50">
@@ -770,122 +661,10 @@
 
 <main>
 
-<!-- Переключатель вариантов hero (служебный, для сравнения) -->
-<!-- ГИД ПО ПРОТОТИПУ: пульт сравнения вариантов + пояснения для заказчика -->
-<div id="proto-guide">
-  <div class="pg-bar">
-    <b>Прототип главной — Litera</b>
-    <span class="pg-sub">демо для согласования</span>
-    <span class="pg-key">H — скрыть</span>
-    <button class="pg-collapse" type="button" aria-label="Свернуть">Свернуть –</button>
-  </div>
-  <div class="pg-body">
-    <div class="pg-row">
-      <span class="pg-label">Первый экран</span>
-      <div class="pg-seg">
-        <button data-hero="a">Цветошкала</button>
-        <button data-hero="c">Полноэкранный цвет</button>
-      </div>
-    </div>
-    <button class="pg-why" type="button">Чем отличаются варианты? ▾</button>
-    <div class="pg-explain">
-      <p class="pg-h">Две версии главной</p>
-      <p><span class="dot" style="background:#2A37C2"></span><b>Цветошкала</b> — нейтральная главная, 5 направлений-цветов как навигация. Спокойнее и привычнее.</p>
-      <p><span class="dot" style="background:#E8BE1E"></span><b>Полноэкранный цвет</b> — смелая имиджевая версия: фирменный цвет во весь экран, каталог-разворот по кнопке «Меню», индекс направлений. Премиум-восприятие и отстройка от конкурентов.</p>
-      <p class="pg-fine">Глубина каталога и все ссылки сохранены в обеих версиях.</p>
-    </div>
-  </div>
-</div>
 
-<!-- ============================ HERO A — типографика + полоса направлений ============================ -->
-<section id="hero-a" class="relative bg-white overflow-hidden h-[calc(100svh-3rem)] lg:h-[calc(100svh-6rem)] flex flex-col">
-  <!-- Заявление студии: центрируется по вертикали между шапкой и цветошкалой -->
-  <div class="flex-1 flex flex-col justify-center text-center max-w-5xl mx-auto px-5 py-8">
-    <div class="kicker mb-7">Студия графического дизайна · собственная типография с 2012</div>
-    <h1 class="font-display text-[2.2rem] sm:text-[3rem] lg:text-[64px] lg:whitespace-nowrap leading-[0.95] tracking-[-0.05em]">
-      Дизайн, который печатается
-    </h1>
-    <p class="mt-9 text-[1.05rem] leading-[1.7] text-zinc-600 max-w-2xl mx-auto">
-      Придумываем фирменный стиль и печатаем его на собственном производстве:
-      полиграфия, упаковка, брендинг и мерч — в одном месте, без посредников
-      и потери качества от макета до готового тиража.
-    </p>
-    <div class="mt-12 flex flex-wrap justify-center gap-3">
-      <a href="#lead" data-lead-open class="btn btn-accent">Обсудить проект</a>
-      <a href="portfolio.html" class="btn btn-ghost">Смотреть работы</a>
-    </div>
-  </div>
-
-  <!-- Полоса направлений: печатная цветошкала = навигация (в контейнере шапки) -->
-  <div class="w-full max-w-7xl mx-auto px-5 lg:px-8 pb-5 lg:pb-7">
-  <div class="dir-scale-head">
-    <span class="kicker">Направления</span>
-    <span class="dir-scale-rule"></span>
-    <span class="dir-scale-meta">Один цвет на каждое — от макета до тиража</span>
-  </div>
-  <div class="dirbar">
-    <a href="category.html" class="dir-col" style="background:#2A37C2;--fg:#fff">
-      <span class="dir-num">01</span><span class="dir-name">Полиграфия</span>
-      <span class="dir-desc">Визитки, листовки, каталоги, бизнес-печать</span>
-    </a>
-    <a href="#" class="dir-col" style="background:#C633A0;--fg:#fff">
-      <span class="dir-num">02</span><span class="dir-name">Упаковка</span>
-      <span class="dir-desc">Коробки, этикетки, пакеты под продукт</span>
-    </a>
-    <a href="#" class="dir-col" style="background:#9BBF00;--fg:#111">
-      <span class="dir-num">03</span><span class="dir-name">Брендинг</span>
-      <span class="dir-desc">Логотип и фирменный стиль под ключ</span>
-    </a>
-    <a href="#" class="dir-col" style="background:#E8BE1E;--fg:#111">
-      <span class="dir-num">04</span><span class="dir-name">Мерч</span>
-      <span class="dir-desc">Сувениры, одежда, корпоративные наборы</span>
-    </a>
-    <a href="#" class="dir-col" style="background:#64748B;--fg:#fff">
-      <span class="dir-num">05</span><span class="dir-name">Отраслевые</span>
-      <span class="dir-desc">Готовые решения: рестораны, свадьбы, бьюти</span>
-    </a>
-  </div>
-  </div>
-</section>
-
-<!-- ============================ HERO B — сплит: текст + фото ============================ -->
-<section id="hero-b" class="relative bg-white overflow-hidden hidden h-[calc(100svh-3rem)] lg:h-[calc(100svh-6rem)]">
-  <div class="h-full max-w-7xl mx-auto grid lg:grid-cols-2 items-stretch">
-    <!-- Текст -->
-    <div class="flex flex-col justify-center px-5 lg:px-8 py-12 order-2 lg:order-1">
-      <div class="kicker mb-5">Студия графического дизайна · собственная типография с 2012</div>
-      <h1 class="font-display text-[2.6rem] sm:text-[3.5rem] lg:text-[72px] leading-[0.9] tracking-[-0.05em]">
-        От логотипа<br>до тиража
-      </h1>
-      <p class="mt-6 text-[1.05rem] leading-[1.7] text-zinc-600 max-w-xl">
-        Придумываем фирменный стиль и печатаем его на собственном производстве:
-        полиграфия, упаковка, брендинг и мерч — без посредников и потери качества.
-      </p>
-      <div class="mt-8 flex flex-wrap gap-3">
-        <a href="#lead" data-lead-open class="btn btn-accent btn-lg">Обсудить проект</a>
-        <a href="portfolio.html" class="btn btn-ghost btn-lg">Смотреть работы</a>
-      </div>
-      <!-- Полоса направлений-цветов как тонкий акцент под текстом -->
-      <div class="mt-10 flex items-center gap-4">
-        <div class="flex h-2.5 w-40">
-          <span class="flex-1" style="background:#2A37C2"></span>
-          <span class="flex-1" style="background:#C633A0"></span>
-          <span class="flex-1" style="background:#9BBF00"></span>
-          <span class="flex-1" style="background:#E8BE1E"></span>
-          <span class="flex-1" style="background:#64748B"></span>
-        </div>
-        <span class="text-caption text-zinc-500">5 направлений · одно производство</span>
-      </div>
-    </div>
-    <!-- Фото -->
-    <div class="relative order-1 lg:order-2 min-h-[34vh] lg:min-h-0">
-      <img src="assets/hero-flatlay.jpg" alt="Полиграфия Litera" class="absolute inset-0 w-full h-full object-cover">
-    </div>
-  </div>
-</section>
 
 <!-- ============================ HERO C — G.F Smith: полноэкранный цвет ============================ -->
-<section id="hero-c" class="relative overflow-hidden hidden h-[calc(100svh-3rem)] lg:h-[calc(100svh-3.5rem)] flex flex-col text-white sw-1" style="background:#2A37C2">
+<section id="hero-c" class="relative overflow-hidden h-[calc(100svh-3rem)] lg:h-[calc(100svh-3.5rem)] flex flex-col text-white sw-1" style="background:#2A37C2">
   <span class="hc-mark"></span>
   <span class="hc-paper"></span>
 
@@ -913,66 +692,8 @@
     </ul>
   </div>
 
-  <!-- Переключатель 2 — точки/пипсы снизу -->
-  <div class="sw sw-dots relative z-10 w-full max-w-7xl mx-auto px-5 lg:px-8 pb-7">
-    <button class="sw-item" data-i="0"><i class="sw-fill"></i></button>
-    <button class="sw-item" data-i="1"><i class="sw-fill"></i></button>
-    <button class="sw-item" data-i="2"><i class="sw-fill"></i></button>
-    <button class="sw-item" data-i="3"><i class="sw-fill"></i></button>
-    <button class="sw-item" data-i="4"><i class="sw-fill"></i></button>
-  </div>
-
-  <!-- Переключатель 3 — боковые вкладки у правого края -->
-  <div class="sw sw-tabs">
-    <button class="sw-item" data-i="0" style="--tc:#2A37C2"><span class="t">Полиграфия</span><i class="sw-fill"></i></button>
-    <button class="sw-item" data-i="1" style="--tc:#C633A0"><span class="t">Упаковка</span><i class="sw-fill"></i></button>
-    <button class="sw-item" data-i="2" style="--tc:#9BBF00"><span class="t">Брендинг</span><i class="sw-fill"></i></button>
-    <button class="sw-item" data-i="3" style="--tc:#E8BE1E"><span class="t">Мерч</span><i class="sw-fill"></i></button>
-    <button class="sw-item" data-i="4" style="--tc:#64748B"><span class="t">Отраслевые</span><i class="sw-fill"></i></button>
-  </div>
 </section>
 
-<!-- ============================ HERO D — премиум, светлый холст (цвет акцентом) ============================ -->
-<section id="hero-d" class="hero-craft relative overflow-hidden hidden h-[calc(100svh-3rem)] lg:h-[calc(100svh-6rem)] flex flex-col justify-center">
-  <span class="craft-grain" aria-hidden="true"></span>
-  <span class="craft-mark" aria-hidden="true"></span>
-  <div class="relative z-10 w-full max-w-7xl mx-auto px-5 lg:px-8">
-    <div class="craft-kicker"><span class="hair"></span>Студия дизайна и печати · Москва · с 2012</div>
-    <h1 class="craft-title">Дизайн,<br>который уходит<br>в <em>тираж.</em></h1>
-    <div class="craft-foot">
-      <a href="portfolio.html" class="craft-link">Смотреть работы <span class="arr">→</span><i class="ln"></i></a>
-      <div class="craft-dirs">
-        <a href="category.html"><i style="--c:#2A37C2"></i>Полиграфия</a>
-        <a href="#"><i style="--c:#C633A0"></i>Упаковка</a>
-        <a href="#"><i style="--c:#9BBF00"></i>Брендинг</a>
-        <a href="#"><i style="--c:#E8BE1E"></i>Мерч</a>
-        <a href="#"><i style="--c:#64748B"></i>Отраслевые</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================ HERO E — премиум, тёмный холст (цвет акцентом) ============================ -->
-<section id="hero-e" class="hero-prem prem-dark relative overflow-hidden hidden h-[calc(100svh-3rem)] lg:h-[calc(100svh-6rem)] flex items-center">
-  <div class="w-full max-w-7xl mx-auto px-5 lg:px-8 grid lg:grid-cols-[minmax(0,1fr)_auto] gap-10 lg:gap-20 items-center">
-    <div class="prem-main">
-      <div class="prem-kicker">Студия графического дизайна · собственная типография с 2012</div>
-      <h1 class="prem-title">От логотипа<br>до тиража</h1>
-      <p class="prem-sub">Придумываем фирменный стиль и печатаем его на собственном производстве — полиграфия, упаковка, брендинг и мерч. От макета до готового тиража, без посредников.</p>
-      <div class="prem-cta">
-        <a href="#lead" data-lead-open class="btn btn-lg prem-btn-primary">Обсудить проект</a>
-        <a href="portfolio.html" class="btn btn-lg prem-btn-ghost">Смотреть работы</a>
-      </div>
-    </div>
-    <ul class="prem-index">
-      <li><a href="category.html"><span class="pi-chip" style="--c:#2A37C2"></span><span class="pi-n">01</span><span class="pi-t">Полиграфия</span></a></li>
-      <li><a href="#"><span class="pi-chip" style="--c:#C633A0"></span><span class="pi-n">02</span><span class="pi-t">Упаковка</span></a></li>
-      <li><a href="#"><span class="pi-chip" style="--c:#9BBF00"></span><span class="pi-n">03</span><span class="pi-t">Брендинг</span></a></li>
-      <li><a href="#"><span class="pi-chip" style="--c:#E8BE1E"></span><span class="pi-n">04</span><span class="pi-t">Мерч</span></a></li>
-      <li><a href="#"><span class="pi-chip" style="--c:#64748B"></span><span class="pi-n">05</span><span class="pi-t">Отраслевые</span></a></li>
-    </ul>
-  </div>
-</section>
 
 <!-- Бегущая строка — намёк на продолжение под сгибом -->
 <div class="border-y border-zinc-100 h-14 flex items-center overflow-hidden">
@@ -1027,35 +748,35 @@
     </div>
     <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
       <a href="category.html" class="dir-card" style="--c:#2A37C2;--fg:#fff">
-        <span class="ph"><img src="assets/mock-vizitki.jpg" alt="Полиграфия"></span>
+        <span class="ph"><img src="assets/work-modum-calendar.jpg" alt="Перекидной календарь для «Модум-Транс»"></span>
         <span class="bd"><span class="num">01</span>
           <span class="block font-display text-h4 mt-1">Полиграфия</span>
           <span class="desc block mt-2 text-caption">Визитки, листовки, каталоги, календари, наклейки и этикетки, меню и барные карты.</span>
           <span class="arr">Смотреть направление →</span></span>
       </a>
       <a href="#" class="dir-card" style="--c:#C633A0;--fg:#fff">
-        <span class="ph"><img src="assets/obvesy.jpg" alt="Упаковка"></span>
+        <span class="ph"><img src="assets/work-oxygen.jpg" alt="Упаковка для «Oxygen Home»"></span>
         <span class="bd"><span class="num">02</span>
           <span class="block font-display text-h4 mt-1">Упаковка и этикетки</span>
           <span class="desc block mt-2 text-caption">Картонные и кашированные коробки, МГК, бумажные пакеты, шуберы, адвент-календари.</span>
           <span class="arr">Смотреть направление →</span></span>
       </a>
       <a href="#" class="dir-card" style="--c:#9BBF00;--fg:#111">
-        <span class="ph"><img src="assets/hero-cards.jpg" alt="Брендинг"></span>
+        <span class="ph"><img src="assets/work-promaktiv.jpg" alt="Фирменный стиль «ПРОМАКТИВ»"></span>
         <span class="bd"><span class="num">03</span>
           <span class="block font-display text-h4 mt-1">Логотип и фирменный стиль</span>
           <span class="desc block mt-2 text-caption">Логобук и брендбук, фирменные носители, маскот бренда, редизайн.</span>
           <span class="arr">Смотреть направление →</span></span>
       </a>
       <a href="#" class="dir-card" style="--c:#E8BE1E;--fg:#111">
-        <span class="ph"><img src="assets/hero-flatlay.jpg" alt="Мерч"></span>
+        <span class="ph"><img src="assets/work-diary-foil.jpg" alt="Ежедневник с тиснением фольгой"></span>
         <span class="bd"><span class="num">04</span>
           <span class="block font-display text-h4 mt-1">Корпоративный брендинг</span>
           <span class="desc block mt-2 text-caption">Подарочные наборы, корпоративный мерч, брендирование сувениров, акриловые обвесы.</span>
           <span class="arr">Смотреть направление →</span></span>
       </a>
       <a href="#" class="dir-card" style="--c:#64748B;--fg:#fff">
-        <span class="ph"><img src="assets/mock-listovki.jpg" alt="Отраслевые решения"></span>
+        <span class="ph"><img src="assets/work-klass-goda.jpg" alt="Наклейки для Ломоносовской школы"></span>
         <span class="bd"><span class="num">05</span>
           <span class="block font-display text-h4 mt-1">Отраслевые решения</span>
           <span class="desc block mt-2 text-caption">Сборки проектов по отраслям: рестораны и бары, мода, медицина, спорт.</span>
@@ -1112,7 +833,7 @@
     <div class="grid grid-cols-2 gap-x-10 gap-y-10">
       <div class="border-t border-white/15 pt-5"><div class="stat-n font-display">2012</div><div class="mt-2 text-zinc-400 text-caption">год основания студии</div></div>
       <div class="border-t border-white/15 pt-5"><div class="stat-n font-display">5</div><div class="mt-2 text-zinc-400 text-caption">направлений под одной крышей</div></div>
-      <div class="border-t border-white/15 pt-5"><div class="stat-n font-display">1000+</div><div class="mt-2 text-zinc-400 text-caption">проектов в&nbsp;год</div></div>
+      <div class="border-t border-white/15 pt-5"><div class="stat-n font-display">800+</div><div class="mt-2 text-zinc-400 text-caption">работ в&nbsp;портфолио</div></div>
       <div class="border-t border-white/15 pt-5"><div class="stat-n font-display">0</div><div class="mt-2 text-zinc-400 text-caption">посредников до печати</div></div>
     </div>
   </div>
@@ -1138,11 +859,11 @@
     </div>
     <!-- Bento-сетка работ (заглушки на реальных ассетах) -->
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-      <a href="portfolio.html" class="pf-tile col-span-2 row-span-2 aspect-square lg:aspect-auto"><img src="assets/hero-flatlay.jpg" alt="Проект"><span class="cap"><b class="font-display text-lead">Кофейня «Любимая кружка»</b><span class="block text-caption opacity-80">Логотип и фирменный стиль</span></span></a>
-      <a href="portfolio.html" class="pf-tile aspect-square"><img src="assets/mock-vizitki.jpg" alt="Проект"><span class="cap text-caption">Меню для ресторана «Ohana»</span></a>
-      <a href="portfolio.html" class="pf-tile aspect-square"><img src="assets/obvesy.jpg" alt="Проект"><span class="cap text-caption">Адвент-календарь «FIRDAWS»</span></a>
-      <a href="portfolio.html" class="pf-tile aspect-square"><img src="assets/hero-cards.jpg" alt="Проект"><span class="cap text-caption">Логотип «ПРОМАКТИВ»</span></a>
-      <a href="portfolio.html" class="pf-tile aspect-square"><img src="assets/mock-listovki.jpg" alt="Проект"><span class="cap text-caption">Корпнабор для «Реилго»</span></a>
+      <a href="portfolio.html" class="pf-tile col-span-2 row-span-2 aspect-square lg:aspect-auto"><img src="assets/work-taro.jpg" alt="Колода карт Таро Уэйта"><span class="cap"><b class="font-display text-lead">Колода карт Таро Уэйта</b><span class="block text-caption opacity-80">78 арканов · тиснение фольгой</span></span></a>
+      <a href="portfolio.html" class="pf-tile aspect-square"><img src="assets/work-dune.jpg" alt="Колода карт «Дюна»"><span class="cap text-caption">Колода карт «Дюна»</span></a>
+      <a href="portfolio.html" class="pf-tile aspect-square"><img src="assets/work-octopays.jpg" alt="Логотип «OCTOPAYS»"><span class="cap text-caption">Логотип «OCTOPAYS»</span></a>
+      <a href="portfolio.html" class="pf-tile aspect-square"><img src="assets/work-oxygen.jpg" alt="Упаковка «Oxygen Home»"><span class="cap text-caption">Упаковка «Oxygen Home»</span></a>
+      <a href="portfolio.html" class="pf-tile aspect-square"><img src="assets/work-modum-box.jpg" alt="Коробка для «Модум-Транс»"><span class="cap text-caption">Коробка для «Модум-Транс»</span></a>
     </div>
   </div>
 </section>
@@ -1164,12 +885,12 @@
   </div>
   <div class="max-w-7xl mx-auto px-5 lg:px-8">
     <div class="reels" id="reels">
-      <a href="#" class="reel"><img src="assets/hero-flatlay.jpg" alt="Видео работы"><span class="play"><i></i></span><span class="rcap">Кофейня «Любимая кружка»</span></a>
-      <a href="#" class="reel"><img src="assets/obvesy.jpg" alt="Видео работы"><span class="play"><i></i></span><span class="rcap">Адвент-календарь «FIRDAWS»</span></a>
-      <a href="#" class="reel"><img src="assets/mock-vizitki.jpg" alt="Видео работы"><span class="play"><i></i></span><span class="rcap">Тиснение и кромка визиток</span></a>
-      <a href="#" class="reel"><img src="assets/hero-cards.jpg" alt="Видео работы"><span class="play"><i></i></span><span class="rcap">Логотип «ПРОМАКТИВ»</span></a>
-      <a href="#" class="reel"><img src="assets/mock-listovki.jpg" alt="Видео работы"><span class="play"><i></i></span><span class="rcap">Меню для ресторана «Ohana»</span></a>
-      <a href="#" class="reel"><img src="assets/card-vizitki.jpg" alt="Видео работы"><span class="play"><i></i></span><span class="rcap">Коробка из МГК</span></a>
+      <a href="#" class="reel"><img src="assets/reel-foil.jpg" alt="Объёмная фольга"><span class="play"><i></i></span><span class="rcap">Объёмная фольга на тёмном картоне</span></a>
+      <a href="#" class="reel"><img src="assets/reel-advent.jpg" alt="Адвент-календарь"><span class="play"><i></i></span><span class="rcap">Корпоративный адвент-календарь</span></a>
+      <a href="#" class="reel"><img src="assets/reel-notebook.jpg" alt="Блокнот «Амбар»"><span class="play"><i></i></span><span class="rcap">Блокнот «Амбар»</span></a>
+      <a href="#" class="reel"><img src="assets/reel-calendar.jpg" alt="Календарь GES 2026"><span class="play"><i></i></span><span class="rcap">Календарь GES 2026</span></a>
+      <a href="#" class="reel"><img src="assets/reel-dune.jpg" alt="Колода карт «Дюна»"><span class="play"><i></i></span><span class="rcap">Колода карт «Дюна»</span></a>
+      <a href="#" class="reel"><img src="assets/reel-box-foil.jpg" alt="Коробка с объёмной фольгой"><span class="play"><i></i></span><span class="rcap">Коробка с объёмной фольгой</span></a>
     </div>
   </div>
 </section>
@@ -1237,8 +958,12 @@
     <div class="mt-16 pt-10 border-t border-zinc-100">
       <span class="sec-kicker mb-7">Делали для</span>
       <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 border-y border-zinc-100 divide-x divide-zinc-100">
-        <div class="logo-cell">ПРОМАКТИВ</div><div class="logo-cell">Sequoiapay</div><div class="logo-cell">Реилго</div>
-        <div class="logo-cell">Модум-Транс</div><div class="logo-cell">FIRDAWS</div><div class="logo-cell">Complex&nbsp;Smile</div>
+        <div class="logo-cell"><img src="assets/client1.png" alt="Модум-Транс"></div>
+        <div class="logo-cell"><img src="assets/client3.png" alt="Inkerman"></div>
+        <div class="logo-cell"><img src="assets/client4.png" alt="Посольство Франции в России"></div>
+        <div class="logo-cell"><img src="assets/client6.png" alt="БНБК"></div>
+        <div class="logo-cell"><img src="assets/client10.png" alt="Helppo"></div>
+        <div class="logo-cell"><img src="assets/client11.png" alt="ЛИГО"></div>
       </div>
     </div>
   </div>
@@ -1253,19 +978,19 @@
     </div>
     <div class="grid gap-6 md:grid-cols-3">
       <a href="#" class="post block group">
-        <span class="ph block"><img src="assets/obvesy.jpg" alt=""></span>
+        <span class="ph block"><img src="assets/work-stickers.jpg" alt=""></span>
         <span class="tag block mt-4" style="color:#C633A0">Упаковка</span>
         <span class="block font-display text-h4 mt-1.5 group-hover:opacity-70 transition">Дизайн упаковки как инструмент продаж: привлекаем покупателей с первого взгляда</span>
         <span class="block text-zinc-400 text-caption mt-2">30 августа 2024</span>
       </a>
       <a href="#" class="post block group">
-        <span class="ph block"><img src="assets/hero-cards.jpg" alt=""></span>
+        <span class="ph block"><img src="assets/work-highlvl.jpg" alt=""></span>
         <span class="tag block mt-4" style="color:#C633A0">Упаковка</span>
         <span class="block font-display text-h4 mt-1.5 group-hover:opacity-70 transition">Чем МГК отличается от гофрокартона?</span>
         <span class="block text-zinc-400 text-caption mt-2">18 декабря 2023</span>
       </a>
       <a href="#" class="post block group">
-        <span class="ph block"><img src="assets/mock-vizitki.jpg" alt=""></span>
+        <span class="ph block"><img src="assets/work-estetico.jpg" alt=""></span>
         <span class="tag block mt-4" style="color:#2A37C2">Полиграфия</span>
         <span class="block font-display text-h4 mt-1.5 group-hover:opacity-70 transition">Кто пишет и проверяет текст для макета?</span>
         <span class="block text-zinc-400 text-caption mt-2">16 декабря 2023</span>
@@ -1520,45 +1245,8 @@
     hero.addEventListener('mouseenter', () => { paused = true; });
     hero.addEventListener('mouseleave', () => { paused = false; });
 
-    function sync(){
-      const onC = document.body.classList.contains('theme-c') && !hero.classList.contains('hidden');
-      if (onC){ apply(idx); play(); } else stop();
-    }
-    document.addEventListener('litera:variant', sync);
     document.addEventListener('visibilitychange', () => { paused = document.hidden; });
-    apply(0); sync();
-  })();
-  // Герой C: тумблер вида переключателя (индекс / точки / вкладки) — только в теме C
-  (function(){
-    const hero = document.getElementById('hero-c'); if (!hero) return;
-    let mode = '1'; // зафиксирован «индекс» (под-тумблер убран из показа)
-    const btns = [...document.querySelectorAll('[data-sw]')];
-    function apply(){
-      hero.classList.remove('sw-1', 'sw-2', 'sw-3');
-      hero.classList.add('sw-' + mode);
-      btns.forEach(b => b.classList.toggle('is-active', b.dataset.sw === mode));
-    }
-    btns.forEach(b => b.addEventListener('click', () => { mode = b.dataset.sw; try { localStorage.setItem('swMode', mode); } catch (e) {} apply(); }));
-    apply();
-  })();
-  // Переключатель вариантов hero
-  (function(){
-    const variants = ['a', 'c'];
-    const set = (v) => {
-      variants.forEach(x => document.getElementById('hero-' + x).classList.toggle('hidden', x !== v));
-      document.querySelectorAll('[data-hero]').forEach(b => b.classList.toggle('is-active', b.dataset.hero === v));
-      // Тема C: бесшовная цветная шапка только для этого варианта
-      document.body.classList.toggle('theme-c', v === 'c');
-      if (v === 'c') { const a = document.querySelector('.hc-sw.is-active'); if (a) paintHeaderC(a.dataset.color, a.dataset.fg); }
-      else clearHeaderC();
-      document.dispatchEvent(new CustomEvent('litera:variant', { detail: v }));
-      try { localStorage.setItem('homeHeroVariant', v); } catch (e) {}
-    };
-    document.querySelectorAll('[data-hero]').forEach(b => b.addEventListener('click', () => set(b.dataset.hero)));
-    let init = 'a';
-    try { init = localStorage.getItem('homeHeroVariant') || 'a'; } catch (e) {}
-    if (!variants.includes(init)) init = 'a';
-    set(init);
+    apply(0); play();
   })();
   // Шапка, 3-й уровень: каталог (по наведению) и поиск (по клику)
   (function () {
@@ -1645,20 +1333,9 @@
     const menuTrigger = document.getElementById('menu-trigger');
     if (menuTrigger) menuTrigger.addEventListener('click', openCatalogFull);
 
-    // --- Режим каталога зафиксирован: «во весь экран» (под-тумблер убран из показа) ---
-    let catMode = 'full';
-    const catBtns = [...document.querySelectorAll('[data-catmode]')];
-    function applyCatMode(){
-      const c = document.body.classList.contains('theme-c');
-      document.body.classList.toggle('cat-panel', c && catMode === 'panel');
-      document.body.classList.toggle('cat-full', c && catMode === 'full');
-      catBtns.forEach(b => b.classList.toggle('is-active', b.dataset.catmode === catMode));
-      if (!(c && catMode === 'full')) closeCatalogFull();
-      else closeCatalog();
-    }
-    catBtns.forEach(b => b.addEventListener('click', () => { catMode = b.dataset.catmode; try { localStorage.setItem('catMode', catMode); } catch (e) {} applyCatMode(); }));
-    document.addEventListener('litera:variant', applyCatMode);
-    applyCatMode();
+    // --- Режим каталога зафиксирован: «во весь экран» ---
+    document.body.classList.add('cat-full');
+    closeCatalog();
 
     const index = [];
     panels.forEach(p => {
@@ -1781,25 +1458,6 @@
   (function(){
     const b2 = document.getElementById('catalog-trigger-2'); const t = document.getElementById('catalog-trigger');
     if (b2 && t) b2.addEventListener('click', () => { window.scrollTo({ top: 0, behavior: 'smooth' }); t.dispatchEvent(new Event('mouseenter')); });
-  })();
-  // Гид по прототипу: свернуть/развернуть и раскрыть пояснения
-  (function(){
-    const guide = document.getElementById('proto-guide'); if (!guide) return;
-    guide.querySelector('.pg-collapse').addEventListener('click', () => {
-      const c = guide.classList.toggle('is-collapsed');
-      guide.querySelector('.pg-collapse').textContent = c ? 'Развернуть +' : 'Свернуть –';
-    });
-    guide.querySelector('.pg-why').addEventListener('click', () => {
-      const on = guide.classList.toggle('show-why');
-      guide.querySelector('.pg-why').textContent = on ? 'Свернуть пояснения ▴' : 'Чем отличаются варианты? ▾';
-    });
-    // Клавиша H — полностью скрыть/показать панель (не мешать вводу в поля)
-    document.addEventListener('keydown', e => {
-      if (e.code !== 'KeyH' || e.metaKey || e.ctrlKey || e.altKey) return;
-      const t = e.target;
-      if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.isContentEditable)) return;
-      guide.classList.toggle('pg-hidden');
-    });
   })();
 </script>
 </body>
