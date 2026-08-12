@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Litera.Studio — главная</title>
+
+<!-- ОДНА СИСТЕМА НА ВСЮ СТРАНИЦУ.
+     1. Сетка: шесть колонок во всю ширину экрана. Ничего не центрируется
+        в контейнере — всё лежит на одной модульной решётке.
+     2. Разделение: хэйрлайн 1px. Ни карточек, ни теней, ни скруглений.
+     3. Цвет: только заливка ячейки. Одинаково в глаголах, в работах, в каталоге.
+     4. Числа: шесть задач, шесть шагов, шесть колонок работ — один ритм.
+     Первый экран — те же шесть колонок, поэтому коробка, заголовок и глаголы
+     стоят на общих вертикалях. -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  @font-face{
+    font-family:'Raptor V2 Premium';
+    src:url('assets/RaptorV2Premium-Bold.woff2') format('woff2'),
+        url('assets/RaptorV2Premium-Bold.woff') format('woff');
+    font-weight:700; font-style:normal; font-display:swap;
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+
+  :root{
+    --print:#2A37C2;  --pack:#C633A0;  --brand:#CCFF00;
+    --merch:#E8BE1E;  --ind:#71717A;
+
+    --ink:#0b0b0d;
+    --paper:#ffffff;
+    --hair:#e3e3e6;
+    --mute:#8a8a92;
+
+    --pad:clamp(18px, 2.4vw, 34px);   /* поле ячейки — одно на весь сайт */
+    --row:clamp(132px, 13.5vw, 190px);/* высота модульной строки */
+  }
+
+  html{ -webkit-text-size-adjust:100%; scroll-behavior:smooth; }
+  body{ font:400 16px/1.5 'Manrope',-apple-system,'Segoe UI',Roboto,sans-serif;
+        color:var(--ink); background:var(--paper); -webkit-font-smoothing:antialiased; }
+  a{ color:inherit; text-decoration:none; }
+  img,canvas{ display:block; max-width:100%; }
+  .d{ font-family:'Raptor V2 Premium','Manrope',sans-serif; font-weight:700; letter-spacing:-.035em; }
+  .num{ font-variant-numeric:tabular-nums; }
+
+  /* ── СЕТКА: шесть колонок, разделённых хэйрлайнами ─────────────────── */
+  .g{ display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); }
+  .cell{ position:relative; padding:var(--pad); border-left:1px solid var(--hair); min-width:0; }
+  .cell:first-child{ border-left:0; }
+  .rule-t{ border-top:1px solid var(--hair); }
+  @media(max-width:1100px){
+    .g{ grid-template-columns:repeat(3,minmax(0,1fr)); }
+    .cell:nth-child(3n+1){ border-left:0; }
+  }
+  @media(max-width:640px){
+    .g{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+    .cell:nth-child(3n+1){ border-left:1px solid var(--hair); }
+    .cell:nth-child(odd){ border-left:0; }
+  }
+
+  /* ── ШАПКА: те же шесть колонок ─────────────────────────────────────── */
+  /* Шапка на той же решётке, но иерархия внутри: марка — своя ячейка,
+     четыре пункта делят три колонки, телефон и заявка — по краю. */
+  .top{ position:relative; z-index:3; display:grid;
+        grid-template-columns:repeat(6,minmax(0,1fr)); align-items:stretch;
+        border-bottom:1px solid var(--hair); background:var(--paper); }
+  .top > *{ display:flex; align-items:center; padding:0 var(--pad); height:72px;
+        border-left:1px solid var(--hair); font-size:14.5px; color:#4a4a52; }
+  .top > *:first-child{ border-left:0; }
+  .top-logo{ font-size:19px; color:var(--ink); letter-spacing:-.03em; }
+  .top-nav{ grid-column:2 / span 3; gap:clamp(18px,2.6vw,44px); }
+  .top-nav a{ transition:color .16s ease; }
+  .top-nav a:hover{ color:var(--ink); }
+  .top-tel{ justify-content:flex-end; font-weight:600; color:var(--ink); white-space:nowrap; }
+  .top-cta{ background:var(--ink); color:#fff; font-weight:600; justify-content:space-between; gap:12px;
+        transition:background-color .16s ease; }
+  .top-cta:hover{ background:#26262c; }
+  @media(max-width:1100px){
+    .top{ grid-template-columns:repeat(3,minmax(0,1fr)); }
+    .top-nav, .top-tel{ display:none; }
+    .top-logo{ grid-column:1 / span 2; }
+  }
+
+  /* ── ЭКРАН 1 ────────────────────────────────────────────────────────── */
+  .one{ position:relative; display:flex; flex-direction:column; min-height:100svh; overflow:hidden; }
+  #fold{ position:absolute; inset:0; width:100%; height:100%; z-index:0; }
+
+  /* Набор занимает четыре колонки из шести — правые две отданы предмету */
+  .one-mid{ position:relative; z-index:2; margin-block:auto;
+        display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); pointer-events:none; }
+  .one-txt{ grid-column:1 / span 4; padding:calc(var(--pad) * 1.6) var(--pad); pointer-events:auto; }
+  @media(max-width:1100px){ .one-txt{ grid-column:1 / span 6; } }
+  .one-h{ font-size:clamp(52px,7.6vw,124px); line-height:.88; }
+  .one-sub{ margin-top:26px; max-width:30em; font-size:17px; line-height:1.6; color:#52525b; }
+  .one-act{ margin-top:30px; display:flex; flex-wrap:wrap; align-items:center; gap:14px 24px; }
+  .btn{ display:inline-flex; align-items:center; gap:12px; height:52px; padding:0 24px;
+        background:var(--ink); color:#fff; font-size:15px; font-weight:600;
+        transition:background-color .16s ease; }
+  .btn:hover{ background:#26262c; }
+  .link{ display:inline-flex; align-items:center; gap:9px; font-size:15px; font-weight:600; }
+  .link u{ text-decoration:none; box-shadow:inset 0 -1px 0 var(--hair); }
+  .link:hover u{ box-shadow:inset 0 -1px 0 var(--ink); }
+
+  /* Путь от идеи к вещи — одна тонкая строка на шесть колонок, не отдельный блок */
+  .path{ position:relative; z-index:2; display:grid;
+        grid-template-columns:repeat(6,minmax(0,1fr)); border-top:1px solid var(--hair); }
+  .path span{ display:flex; align-items:baseline; gap:10px; padding:14px var(--pad);
+        border-left:1px solid var(--hair); font-size:12.5px; color:var(--mute); }
+  .path span:first-child{ border-left:0; }
+  .path i{ font-style:normal; font-size:11px; letter-spacing:.1em; color:#c2c2c8; }
+  .path span:last-child{ color:var(--ink); font-weight:600; }
+  @media(max-width:1100px){ .path{ display:none; } }
+
+  /* ── ШЕСТЬ ЗАДАЧ: ячейки той же сетки ───────────────────────────────── */
+  .verb{ display:flex; flex-direction:column; gap:8px; min-height:var(--row);
+        overflow:hidden; transition:color .3s ease; }
+  /* Цвет заливает ячейку снизу вверх — единственный приём для цвета на сайте */
+  .verb::before{ content:''; position:absolute; inset:0; background:var(--c);
+        transform:scaleY(0); transform-origin:bottom;
+        transition:transform .42s cubic-bezier(.2,.7,.2,1); }
+  .verb > *{ position:relative; z-index:1; }
+  .verb:hover::before{ transform:scaleY(1); }
+  .verb:hover{ color:var(--fg,#fff); }
+  .verb:hover p, .verb:hover u{ color:inherit; opacity:.82; }
+  .verb b{ font-size:clamp(20px,1.7vw,27px); line-height:1; }
+  .verb p{ font-size:13px; line-height:1.45; color:var(--mute); transition:color .3s ease;
+        display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; overflow:hidden; }
+  .verb u{ margin-top:auto; text-decoration:none; font-size:12.5px; font-weight:600;
+        color:#b4b4bb; transition:color .3s ease; }
+  .verb-ask{ background:var(--ink); color:#fff; }
+  .verb-ask p{ color:#8a8a95; } .verb-ask u{ color:#fff; }
+
+  /* ── ЭКРАН 2: РАБОТЫ. Те же ячейки, только тёмные ───────────────────── */
+  .works{ background:var(--ink); color:#fff; --hair:#26262c; }
+  .works .head{ display:grid; grid-template-columns:repeat(6,minmax(0,1fr));
+        border-bottom:1px solid var(--hair); }
+  .works .head .cell{ border-color:var(--hair); }
+  .works h2{ grid-column:1 / span 3; font-size:clamp(26px,2.9vw,40px); line-height:1.05; }
+  @media(max-width:1100px){ .works h2{ grid-column:1 / span 3; } }
+  .works .head p{ grid-column:5 / span 2; align-self:end; font-size:13px; color:#8a8a95; }
+  @media(max-width:1100px){ .works .head p{ display:none; } }
+
+  .grid-works{ display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); }
+  .work{ position:relative; aspect-ratio:1; border-left:1px solid var(--hair);
+        border-bottom:1px solid var(--hair); overflow:hidden; background:#17171b; }
+  .work:nth-child(6n+1){ border-left:0; }
+  .work i{ position:absolute; inset:0; background:#2a2a30; transition:transform .5s cubic-bezier(.2,.7,.2,1); }
+  .work:hover i{ transform:scale(1.03); }
+  /* Метка направления — та же логика цвета, что и в глаголах */
+  .work em{ position:absolute; left:0; top:0; width:100%; height:4px; background:var(--c);
+        transform:scaleX(0); transform-origin:left; transition:transform .35s ease; z-index:2; }
+  .work:hover em{ transform:scaleX(1); }
+  .work b{ position:absolute; left:0; right:0; bottom:0; z-index:2; padding:var(--pad);
+        font-size:13.5px; font-weight:600; line-height:1.3;
+        background:linear-gradient(to top, rgba(0,0,0,.85), transparent); }
+  .work b s{ display:block; text-decoration:none; font-weight:400; color:#9a9aa2; font-size:12px; margin-top:3px; }
+  @media(max-width:1100px){ .grid-works{ grid-template-columns:repeat(3,minmax(0,1fr)); }
+        .work:nth-child(6n+1){ border-left:1px solid var(--hair); }
+        .work:nth-child(3n+1){ border-left:0; } }
+  @media(max-width:640px){ .grid-works{ grid-template-columns:repeat(2,minmax(0,1fr)); }
+        .work:nth-child(3n+1){ border-left:1px solid var(--hair); }
+        .work:nth-child(odd){ border-left:0; } }
+
+  .works .foot{ display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); }
+  .works .foot .cell{ border-color:var(--hair); font-size:13px; color:#8a8a95; }
+  .works .foot .cell b{ display:block; font-family:'Raptor V2 Premium','Manrope',sans-serif;
+        font-weight:700; font-size:27px; line-height:1; color:#fff; margin-bottom:8px; }
+  .works .foot .all{ grid-column:5 / span 2; display:flex; align-items:center;
+        justify-content:space-between; color:#fff; font-weight:600; font-size:15px; }
+  @media(max-width:1100px){ .works .foot .all{ grid-column:auto; } }
+
+  @media (prefers-reduced-motion:reduce){ *{ transition:none !important; } }
+</style>
+</head>
+<body>
+
+<!-- ── ЭКРАН 1 ──────────────────────────────────────────────────────── -->
+<section class="one">
+  <canvas id="fold" aria-hidden="true"></canvas>
+
+  <nav class="top">
+    <a href="#" class="top-logo d">ЛИТЕРА.СТУДИЯ</a>
+    <span class="top-nav">
+      <a href="#verbs">Что сделать</a>
+      <a href="#works">Работы</a>
+      <a href="#">Производство</a>
+      <a href="#">Студия</a>
+    </span>
+    <a href="tel:+74950213577" class="top-tel num">+7 (495) 021-35-77</a>
+    <a href="#" class="top-cta">Есть идея <span>→</span></a>
+  </nav>
+
+  <div class="one-mid">
+    <div class="one-txt">
+      <h1 class="d one-h">Идея становится<br>вещью</h1>
+      <p class="one-sub">Приносите задачу — от коробки под парфюм до мерча на команду.
+         Придумаем, отрисуем и напечатаем на своём производстве в Москве.</p>
+      <div class="one-act">
+        <a href="#verbs" class="btn">Что нужно сделать <span>→</span></a>
+        <a href="#works" class="link"><u>813 работ в портфолио</u><span>→</span></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Путь идеи — подписью по нижней грани, а не отдельным экраном -->
+  <div class="path">
+    <span><i>01</i> Идея</span>
+    <span><i>02</i> Форма</span>
+    <span><i>03</i> Материал</span>
+    <span><i>04</i> Печать</span>
+    <span><i>05</i> Отделка</span>
+    <span><i>06</i> Вещь</span>
+  </div>
+
+  <!-- Шесть задач вместо тридцати шести разделов. Каждая — вход в направление
+       каталога: под глаголом реальные категории и число услуг. -->
+  <div class="g" id="verbs">
+    <a href="#" class="cell verb" style="--c:#C633A0;--fg:#fff">
+      <b class="d">Упаковать</b>
+      <p>Коробки, этикетки, пакеты, шуберы, ложементы</p>
+      <u class="num">29 услуг</u>
+    </a>
+    <a href="#" class="cell verb" style="--c:#2A37C2;--fg:#fff">
+      <b class="d">Напечатать</b>
+      <p>Визитки, каталоги, книги, календари, наклейки</p>
+      <u class="num">53 услуги</u>
+    </a>
+    <a href="#" class="cell verb" style="--c:#E8BE1E;--fg:#0b0b0d">
+      <b class="d">Надеть</b>
+      <p>Футболки, толстовки, кепки, нанесение логотипа</p>
+      <u class="num">7 услуг</u>
+    </a>
+    <a href="#" class="cell verb" style="--c:#E8BE1E;--fg:#0b0b0d">
+      <b class="d">Подарить</b>
+      <p>Наборы, сувениры, кружки, ежедневники, шопперы</p>
+      <u class="num">13 услуг</u>
+    </a>
+    <a href="#" class="cell verb" style="--c:#CCFF00;--fg:#0b0b0d">
+      <b class="d">Оформить</b>
+      <p>Логотип, фирменный стиль, брендбук, маскот</p>
+      <u class="num">17 услуг</u>
+    </a>
+    <a href="#" class="cell verb verb-ask" style="--c:#2A37C2;--fg:#fff">
+      <b class="d">Придумать</b>
+      <p>Ещё не знаете, что именно нужно — расскажите задачу</p>
+      <u>Обсудить</u>
+    </a>
+  </div>
+</section>
+
+<!-- ── ЭКРАН 2: РАБОТЫ ──────────────────────────────────────────────── -->
+<section class="works" id="works">
+  <div class="head">
+    <h2 class="d cell">Что уже<br>напечатано</h2>
+    <p class="cell">Реальные работы студии — фото подставим из портфолио</p>
+  </div>
+
+  <div class="grid-works">
+    <a href="#" class="work" style="--c:#C633A0"><i></i><em></em><b>Коробка «Модум-Транс»<s>Упаковка · кашировка, тиснение фольгой</s></b></a>
+    <a href="#" class="work" style="--c:#2A37C2"><i></i><em></em><b>Прайс «ЭстеТико»<s>Полиграфия · кашировка, объёмная фольга</s></b></a>
+    <a href="#" class="work" style="--c:#CCFF00"><i></i><em></em><b>Логотип «OCTOPAYS»<s>Брендинг · фирменный стиль</s></b></a>
+    <a href="#" class="work" style="--c:#E8BE1E"><i></i><em></em><b>Акриловые обвесы<s>Мерч · свой мерч студии</s></b></a>
+    <a href="#" class="work" style="--c:#2A37C2"><i></i><em></em><b>Таро Уэйта<s>Полиграфия · голографическая фольга</s></b></a>
+    <a href="#" class="work" style="--c:#C633A0"><i></i><em></em><b>Упаковка «Антико»<s>Упаковка · тубус, дизайнерская бумага</s></b></a>
+    <a href="#" class="work" style="--c:#2A37C2"><i></i><em></em><b>Календарь «Модум»<s>Полиграфия · вырубка</s></b></a>
+    <a href="#" class="work" style="--c:#E8BE1E"><i></i><em></em><b>Кружки «Любимая»<s>Мерч · сублимация</s></b></a>
+    <a href="#" class="work" style="--c:#71717A"><i></i><em></em><b>Класс года<s>Отраслевые · сувенирный набор</s></b></a>
+    <a href="#" class="work" style="--c:#C633A0"><i></i><em></em><b>Дюна<s>Упаковка · подарочный бокс</s></b></a>
+    <a href="#" class="work" style="--c:#2A37C2"><i></i><em></em><b>Ежедневник с фольгой<s>Полиграфия · тиснение</s></b></a>
+    <a href="#" class="work" style="--c:#CCFF00"><i></i><em></em><b>ПРОМАКТИВ<s>Брендинг · фирменный стиль</s></b></a>
+  </div>
+
+  <div class="foot">
+    <div class="cell"><b class="num">813</b>работ в портфолио</div>
+    <div class="cell"><b class="num">2649</b>фотографий работ</div>
+    <div class="cell"><b class="num">10</b>видов отделки</div>
+    <div class="cell"><b class="num">2012</b>своё производство</div>
+    <a href="#" class="cell all">Все работы <span>→</span></a>
+  </div>
+</section>
+
+<!-- ── ЛИСТ → КОРОБКА ───────────────────────────────────────────────── -->
+<script type="importmap">
+{ "imports": { "three": "https://unpkg.com/three@0.184.0/build/three.module.js" } }
+</script>
+<script type="module">
+import * as THREE from 'three';
+
+const canvas = document.getElementById('fold');
+const still  = matchMedia('(prefers-reduced-motion: reduce)').matches
+            || location.hash === '#folded';   // служебное: проверка конечного кадра
+
+const renderer = new THREE.WebGLRenderer({ canvas, antialias:true, alpha:true });
+renderer.setClearAlpha(0);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 0.92;   // иначе фирменный синий уходит в неон
+
+const scene  = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 100);
+
+scene.add(new THREE.HemisphereLight(0xffffff, 0xdedad2, 1.15));
+const key = new THREE.DirectionalLight(0xffffff, 1.7);
+key.position.set(3.5, 6, 4);
+key.castShadow = true;
+key.shadow.mapSize.set(1024, 1024);
+key.shadow.camera.near = 1;  key.shadow.camera.far = 24;
+key.shadow.camera.left = -8; key.shadow.camera.right = 8;
+key.shadow.camera.top = 8;   key.shadow.camera.bottom = -8;
+key.shadow.bias = -0.0015;
+scene.add(key);
+
+const floor = new THREE.Mesh(new THREE.PlaneGeometry(40, 40),
+  new THREE.ShadowMaterial({ opacity:.3 }));
+floor.rotation.x = -Math.PI / 2;
+floor.position.y = -0.015;
+floor.receiveShadow = true;
+scene.add(floor);
+
+// Развёртка: дно и четыре борта, каждый на своей линии сгиба
+const W = 2.4, D = 3.0, H = 1.3;
+
+// Коробка запечатана: цвет направления + фирменная марка тиснением.
+// Пустой серый картон доказывал ровно обратное тому, что продаёт типография.
+const mark = new Image();
+let markReady = false;
+mark.onload = () => { markReady = true; paint(current); };
+mark.src = 'assets/litera-mark.svg';
+
+const cv = document.createElement('canvas');
+cv.width = cv.height = 512;
+const ctx = cv.getContext('2d');
+const tex = new THREE.CanvasTexture(cv);
+tex.colorSpace = THREE.SRGBColorSpace;
+tex.wrapS = tex.wrapT = THREE.RepeatWrapping;
+tex.repeat.set(1, 1);
+tex.anisotropy = 8;
+
+function paint(hex){
+  ctx.fillStyle = hex;
+  ctx.fillRect(0, 0, 512, 512);
+  if (!markReady) return;
+  // марка светлее фона — читается как тиснение, а не как наклейка
+  ctx.globalAlpha = .13;
+  for (let y = 0; y < 512; y += 256)
+    for (let x = 0; x < 512; x += 256)
+      ctx.drawImage(mark, x + 88, y + 74, 80, 114);
+  ctx.globalAlpha = 1;
+  tex.needsUpdate = true;
+}
+
+let current = '#2A37C2';           // по умолчанию синий — Полиграфия
+paint(current);
+
+const outer = new THREE.MeshStandardMaterial({ map:tex, roughness:.74, metalness:0, side:THREE.DoubleSide });
+const inner = new THREE.MeshStandardMaterial({ color:0xe8e5dd, roughness:.95, side:THREE.DoubleSide });
+
+const box = new THREE.Group();
+scene.add(box);
+
+const bottom = new THREE.Mesh(new THREE.PlaneGeometry(W, D), outer);
+bottom.rotation.x = -Math.PI / 2;
+bottom.castShadow = bottom.receiveShadow = true;
+box.add(bottom);
+
+// sx/sz — размеры борта в плоскости; от линии сгиба он отходит на половину
+// ВЫСОТЫ борта, не его длины
+function wall(sx, sz, x, z, axis, sign){
+  const hinge = new THREE.Group();
+  hinge.position.set(x, 0, z);
+  const m = new THREE.Mesh(new THREE.PlaneGeometry(sx, sz), outer);
+  m.castShadow = m.receiveShadow = true;
+  m.rotation.x = -Math.PI / 2;
+  if (axis === 'x') m.position.z = sign * H / 2;
+  else              m.position.x = sign * H / 2;
+  hinge.add(m);
+  box.add(hinge);
+  return { hinge, axis, sign };
+}
+const walls = [
+  wall(W, H, 0, -D / 2, 'x', -1),
+  wall(W, H, 0,  D / 2, 'x',  1),
+  wall(H, D, -W / 2, 0, 'z', -1),
+  wall(H, D,  W / 2, 0, 'z',  1),
+];
+
+function fold(t){
+  const a = t * Math.PI / 2;
+  walls.forEach(w => {
+    if (w.axis === 'x') w.hinge.rotation.x = -w.sign * a;
+    else                w.hinge.rotation.z =  w.sign * a;
+  });
+}
+
+// Предмет стоит в правых двух колонках сетки — там, где текста нет
+function layout(){
+  const w = canvas.clientWidth, h = canvas.clientHeight;
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  renderer.setSize(w, h, false);
+  camera.aspect = w / h;
+  camera.updateProjectionMatrix();
+  const narrow = w < 1100;
+  camera.position.set(narrow ? 0.2 : 4.2, narrow ? 8.6 : 6.6, narrow ? 9.6 : 8.4);
+  box.position.set(narrow ? 0 : 3.15, 0, narrow ? 1.6 : 0.9);
+  box.scale.setScalar(narrow ? 0.6 : 0.66);
+  camera.lookAt(box.position.x, 0.35, box.position.z);
+}
+
+// Коробка — общий индикатор: наводишь на задачу, она перекрашивается в цвет
+// направления. Так предмет связан с сеткой, а не просто лежит рядом с текстом.
+document.querySelectorAll('.verb').forEach(v => {
+  const c = getComputedStyle(v).getPropertyValue('--c').trim();
+  v.addEventListener('pointerenter', () => { current = c; paint(c); });
+});
+document.getElementById('verbs').addEventListener('pointerleave', () => {
+  current = '#2A37C2'; paint(current);
+});
+
+let t0 = null, turn = 0, aim = 0;
+addEventListener('pointermove', e => { aim = ((e.clientX / innerWidth) - 0.5) * 0.9; }, { passive:true });
+
+function frame(now){
+  if (t0 === null) t0 = now;
+  const p = Math.min(1, (now - t0 - 400) / 1600);
+  const e = p <= 0 ? 0 : 1 - Math.pow(1 - p, 3);
+  fold(still ? 1 : e);
+  turn += ((still ? 0 : aim) - turn) * 0.055;
+  box.rotation.y = -0.38 + turn;
+  renderer.render(scene, camera);
+  requestAnimationFrame(frame);
+}
+
+addEventListener('resize', layout);
+layout();
+requestAnimationFrame(frame);
+</script>
+
+</body>
+</html>
