@@ -31,6 +31,15 @@
 .ls-chat-fab[aria-expanded="true"] .ls-chat-ico-talk{display:none}
 .ls-chat-fab[aria-expanded="true"] .ls-chat-ico-close{display:block}
 
+/* Спрятан до прокрутки первого экрана. Класс ставит chat.js и только
+   на телефоне: на первом экране виджет перекрывает кадр и главную кнопку.
+   `visibility` — чтобы спрятанная кнопка не ловила фокус с клавиатуры;
+   уходит с задержкой, иначе исчезновение будет без перехода. */
+.ls-chat{transition:opacity .2s var(--ease),transform .2s var(--ease)}
+.ls-chat.ls-is-away{opacity:0;transform:translateY(10px);visibility:hidden;
+  pointer-events:none;
+  transition:opacity .2s var(--ease),transform .2s var(--ease),visibility 0s .2s}
+
 /* Список каналов. `hidden` снимается скриптом сразу, видимость держит класс —
    иначе перехода не будет. */
 .ls-chat-list{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
@@ -45,7 +54,7 @@
 .ls-chat-list.ls-is-open .ls-chat-item:nth-last-child(3){transition-delay:.08s}
 
 @media (prefers-reduced-motion:reduce){
-  .ls-chat-item{transition:none}
+  .ls-chat,.ls-chat-item{transition:none}
 }
 
 /* ── Широкий экран ─────────────────────────────────────────────── */

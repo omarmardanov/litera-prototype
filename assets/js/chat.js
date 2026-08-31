@@ -27,6 +27,31 @@
     if (e.target.closest('.ls-chat-item')) set(false);
   });
 
+  // На телефоне виджет не висит на первом экране: он перекрывает кадр и кнопку
+  // «Рассчитать». Появляется, когда первый экран ушёл под шапку — по метке
+  // `.ls-chat-sentinel` в разметке. На широком экране виджет как был.
+  var wrap = document.querySelector('.ls-chat');
+  var mark = document.querySelector('.ls-chat-sentinel');
+  var barH = (document.querySelector('.ls-topbar') || {}).offsetHeight || 54;
+  var narrow = window.matchMedia('(max-width: 1023px)');
+
+  if (mark) {
+    var past = false;
+    var paint = function () {
+      var away = narrow.matches && !past;
+      wrap.classList.toggle('ls-is-away', away);
+      if (away && open) set(false);
+    };
+    paint();
+    // Положение метки считаем сами, а не по isIntersecting: метка может быть
+    // и выше окна, и ниже его — «не пересекается» об этом не говорит.
+    new IntersectionObserver(function () {
+      past = mark.getBoundingClientRect().top <= barH;
+      paint();
+    }, { rootMargin: '-' + barH + 'px 0px 0px 0px', threshold: 0 }).observe(mark);
+    narrow.addEventListener('change', paint);
+  }
+
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && open) { set(false); fab.focus(); }
   });

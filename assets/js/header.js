@@ -14,10 +14,24 @@
   if (!bar || !sentinel) return;
 
   var themeMeta = document.querySelector('meta[name="theme-color"]');
+  var noHero = document.documentElement.classList.contains('ls-no-hero');
+
+  // Холст под содержимым: тёмный, пока видно фотографию, и у футера.
+  // Объявлены здесь, потому что их красит setStuck — он вызывается раньше.
+  var foot = document.querySelector('.ls-foot');
+  var atTop = true, atFoot = false;
 
   function setStuck(on) {
     bar.classList.toggle('ls-is-stuck', on);
-    if (themeMeta) themeMeta.setAttribute('content', on ? '#ffffff' : '#111112');
+    // На странице без фотографии верх всегда белый — тёмная строка статуса
+    // там висела бы над белой страницей.
+    if (themeMeta) themeMeta.setAttribute('content', on || noHero ? '#ffffff' : '#111112');
+    // Холст переключается тем же событием, что и шапка: Safari берёт цвет
+    // строки статуса из фона тела, а не из theme-color. По своей метке в начале
+    // документа холст белел уже после 50 px прокрутки — фотография ещё на весь
+    // экран, а строка статуса над ней уже белая.
+    atTop = !on;
+    paintCanvas();
     if (!cta) return;
     // пока открыто меню, кнопкой распоряжается menu.js — не перебиваем
     if (document.body.classList.contains('ls-is-menu')) return;
@@ -91,20 +105,12 @@
     });
   }, { passive: true });
 
-  // Холст: тёмный на первом экране и у футера (там фотография и чёрный футер),
+  // Тёмный на первом экране и у футера (там фотография и чёрный футер),
   // светлый в середине. Иначе при оттяжке снизу видно белую полосу под футером.
-  var foot = document.querySelector('.ls-foot');
-  var atTop = true, atFoot = false;
-
   function paintCanvas() {
     document.body.classList.toggle('ls-canvas-light', !atTop && !atFoot);
     document.body.classList.toggle('ls-canvas-foot', atFoot);
   }
-
-  new IntersectionObserver(function (e) {
-    atTop = e[0].isIntersecting;
-    paintCanvas();
-  }, { threshold: 0 }).observe(sentinel);
 
   if (foot) {
     new IntersectionObserver(function (e) {

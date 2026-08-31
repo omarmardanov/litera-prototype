@@ -175,7 +175,7 @@
       grid-template-columns:minmax(0,640px) minmax(0,1fr);
       column-gap:80px;align-items:start;
       padding-top:72px;padding-bottom:80px}
-    
+
     .ls-lead-mark{right:auto;left:calc(50% + 120px);top:-60px;width:340px;opacity:.12}
     .ls-lead-form h2,.ls-lead-form .ls-sub,.ls-lead-form form{grid-column:1}
     .ls-lead-form .ls-lead-side{grid-column:2;grid-row:2 / span 2;align-self:start;
