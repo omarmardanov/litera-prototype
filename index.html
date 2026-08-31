@@ -1,1746 +1,1116 @@
-<!DOCTYPE html>
+<!doctype html>
+<!-- СОБРАНО build.py. Не править этот файл: правки затрутся при следующей сборке.
+     Исходник страницы — _pages/index.html, общие части — _parts/. -->
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Litera.Studio — дизайн и печать на собственном производстве</title>
-<meta name="description" content="Студия графического дизайна и типография полного цикла: полиграфия, упаковка, фирменный стиль, мерч. Собственное производство в Москве с 2012 года.">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<!-- Цвет строки статуса. Переключается в assets/js/header.js:
+     тёмный на фотографии, белый когда шапка стала белой полосой. -->
+<meta name="theme-color" content="#111112">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Литера.Студия">
+<meta property="og:locale" content="ru_RU">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="assets/fonts/inter-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/raptor-v2-premium-700.woff2" as="font" type="font/woff2" crossorigin>
+<!-- ── Набор для любой страницы сайта ──────────────────────────────────
+     Эти файлы можно подключать и на страницах старого дизайна: в них нет
+     ни одного правила, которое красит чужую вёрстку. Всё своё живёт
+     на классах с приставкой `ls-`.
+     Сюда же входят компоненты шапки, меню, футера, виджета и куки-баннера —
+     они помечены ниже. -->
+<link rel="stylesheet" href="assets/css/tokens.css?v=410">
+<link rel="stylesheet" href="assets/css/base.css?v=410">
 
-<!-- ===================================================================
-     LITERA.STUDIO — ГЛАВНАЯ СТРАНИЦА (зонтик над 5 направлениями)
-     Шапка — общая система с category.html (нейтральный хром, без одного
-     акцента: главная не привязана к направлению). Пока: шапка + первый экран.
-     Два варианта hero (A/B) переключаются нижним тумблером.
-     ================================================================== -->
+<!-- ── Только для шаблонов нового дизайна ──────────────────────────────
+     Правила на голых `html`, `body` и `h2`. На чужой странице покрасят фон
+     в тёмный и переведут заголовки на Raptor. -->
+<link rel="stylesheet" href="assets/css/page.css?v=410">
 
-<!-- Шрифты: Raptor V2 (лицензия у заказчика) первым; Manrope — видимый fallback -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<!-- Кнопка — базовый компонент, поэтому идёт сразу за базой:
+     остальные компоненты должны иметь возможность её перебить.
+     Нужна и общему набору: кнопки есть в шапке, виджете и куки-баннере. -->
+<link rel="stylesheet" href="assets/css/components/button.css?v=410">
 
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-  tailwind.config = {
-    theme: {
-      extend: {
-        colors: {
-          ink:      '#000000',
-          paper:    '#ffffff',
-          'b-blue':    '#2A37C2',
-          'b-magenta': '#C633A0',
-          'b-lime':    '#CCFF00',
-          'b-yellow':  '#E8BE1E',
-          'b-green':   '#00CC00',
-          'b-gray':    '#ABA7A7',
-        },
-        fontFamily: {
-          sans: ['"Raptor V2"', 'Manrope', 'system-ui', 'sans-serif'],
-        },
-        fontSize: {
-          'eyebrow': ['11px', { lineHeight: '1.3' }],
-          'caption': ['14px', { lineHeight: '1.5' }],
-          'body':    ['17px', { lineHeight: '1.7' }],
-          'lead':    ['21px', { lineHeight: '1.6' }],
-          'h4':      ['27px', { lineHeight: '1.25' }],
-          'h3':      ['33px', { lineHeight: '1.2' }],
-          'h2':      ['42px', { lineHeight: '1.1', letterSpacing: '-0.02em' }],
-          'h1':      ['52px', { lineHeight: '1.0', letterSpacing: '-0.03em' }],
-          'display': ['65px', { lineHeight: '0.9', letterSpacing: '-0.06em' }],
-        },
-        borderRadius: { 'xl2': '1.75rem' },
-      }
-    }
-  }
+<!-- Компоненты. Список одинаков для всех страниц: набор блоков у них
+     разный, но система одна, и лишний файл на 20 строк дешевле, чем два
+     расходящихся списка. Порядок — по следованию на странице, он важен
+     при равной специфичности. -->
+<link rel="stylesheet" href="assets/css/components/shell.css?v=410">
+<!-- общие: идут на любой странице сайта -->
+<link rel="stylesheet" href="assets/css/components/header.css?v=410">
+<link rel="stylesheet" href="assets/css/components/menu.css?v=410">
+<link rel="stylesheet" href="assets/css/components/cookie.css?v=410">
+<link rel="stylesheet" href="assets/css/components/hero.css?v=410">
+<link rel="stylesheet" href="assets/css/components/intro.css?v=410">
+<link rel="stylesheet" href="assets/css/components/value.css?v=410">
+<link rel="stylesheet" href="assets/css/components/works.css?v=410">
+<link rel="stylesheet" href="assets/css/components/rows.css?v=410">
+<link rel="stylesheet" href="assets/css/components/catalog.css?v=410">
+<link rel="stylesheet" href="assets/css/components/specs.css?v=410">
+<link rel="stylesheet" href="assets/css/components/steps.css?v=410">
+<link rel="stylesheet" href="assets/css/components/faq.css?v=410">
+<link rel="stylesheet" href="assets/css/components/figures.css?v=410">
+<link rel="stylesheet" href="assets/css/components/form.css?v=410">
+<link rel="stylesheet" href="assets/css/components/text.css?v=410">
+<link rel="stylesheet" href="assets/css/components/related.css?v=410">
+<!-- общие: идут на любой странице сайта -->
+<link rel="stylesheet" href="assets/css/components/footer.css?v=410">
+<link rel="stylesheet" href="assets/css/components/copy-tip.css?v=410">
+<link rel="stylesheet" href="assets/css/components/chat.css?v=410">
+
+<!-- Раскладка идёт последней: её медиазапросы должны перебивать компоненты,
+     иначе обёртка-телефон для десктопа не срабатывает. -->
+<link rel="stylesheet" href="assets/css/layout.css?v=410">
+<link rel="stylesheet" href="assets/css/motion.css?v=410">
+<title>Подарочный сертификат — Литера.Студия</title>
+<meta name="description" content="Дизайн и печать подарочных сертификатов от 1500 ₽. Первый вариант за 2 дня.">
+
+<!-- Канонический адрес: страница доступна и по адресу с параметрами utm,
+     без этого поиск считает их разными страницами. -->
+<link rel="canonical" href="https://litera.studio/dizajn-sertifikata">
+
+
+<meta property="og:title" content="Подарочный сертификат — дизайн и печать">
+<meta property="og:description" content="Дизайн и печать подарочных сертификатов от 1500 ₽. Первый вариант за 2 дня.">
+<meta property="og:url" content="https://litera.studio/dizajn-sertifikata">
+<meta property="og:image" content="https://litera.studio/assets/img/p1.jpg">
+
+<!-- Путь для поиска: в выдаче он показывается вместо адреса страницы.
+     Здесь он полный, а на экране крошка сокращена до одного шага вверх —
+     на телефоне цепочка из четырёх звеньев занимает две строки и режется.
+     Разметку нельзя вынести в отдельный файл: по внешней ссылке поисковики
+     структурированные данные не читают. -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+{"@type":"ListItem","position":1,"name":"Главная","item":"https://litera.studio/"},
+{"@type":"ListItem","position":2,"name":"Полиграфия","item":"https://litera.studio/poligrafiya"},
+{"@type":"ListItem","position":3,"name":"Листовая полиграфия","item":"https://litera.studio/listovaya-poligrafiya"},
+{"@type":"ListItem","position":4,"name":"Подарочный сертификат","item":"https://litera.studio/dizajn-sertifikata"}]}
+</script>
+<!-- Услуга: цена «от», валюта и город. Даёт в выдаче строку с ценой.
+     Числа держать в согласии с первым экраном — при правке менять оба места. -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Service","name":"Дизайн и печать подарочных сертификатов",
+"serviceType":"Полиграфия","url":"https://litera.studio/dizajn-sertifikata",
+"areaServed":{"@type":"City","name":"Москва"},
+"provider":{"@type":"Organization","name":"Литера.Студия","url":"https://litera.studio/",
+"telephone":"+7 495 021-35-77","email":"zakaz@litera.studio",
+"address":{"@type":"PostalAddress","addressLocality":"Москва","addressCountry":"RU",
+"streetAddress":"Холодильный пер., 3к1с3"}},
+"offers":{"@type":"Offer","price":"1500","priceCurrency":"RUB",
+"availability":"https://schema.org/InStock","url":"https://litera.studio/dizajn-sertifikata"}}
 </script>
 
-<style>
-  @font-face {
-    font-family:'Raptor V2 Premium';
-    src:url('assets/RaptorV2Premium-Bold.woff2') format('woff2'),
-        url('assets/RaptorV2Premium-Bold.woff') format('woff');
-    font-weight:700; font-style:normal; font-display:swap;
-  }
-  .font-display{ font-family:'Raptor V2 Premium','Manrope',system-ui,sans-serif; font-weight:700; }
-
-  :root{
-    /* Главная — нейтральный хром: акцент = чёрный, цвета живут в полосе направлений */
-    --accent: #111111;
-    --accent-soft: #f4f4f5;
-    --on-accent: #ffffff;
-    /* Единая сетка первого экрана: поле листа + поле ячейки. По --pad-edge выровнены
-       лого, слаг, заголовок H1 и содержимое выпадающих панелей — это то, что «стакает»
-       шапку с героем: у них общая левая грань. */
-    --pad-sheet: clamp(1.1rem, 2vw, 1.9rem);
-    --pad-cell:  clamp(.9rem, 1.6vw, 1.2rem);
-    --pad-edge:  calc(var(--pad-sheet) + var(--pad-cell));
-    --hair: #e4e4e7;
-    --litera-mark:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 113.12 161.82'%3E%3Cpath fill='black' d='m53.39,38.49l-4.17,17.01c-.35,1.45-2.16,1.95-3.21.9l-22.43-22.43c-1.16-1.16-3.15-.34-3.15,1.31v30.92c0,.49.19.96.54,1.31l3.55,3.55c1.2,1.2.35,3.26-1.35,3.26h-.82c-1.06,0-1.92.86-1.92,1.92v22.93c0,1.06.86,1.92,1.92,1.92h13.26c1.24,0,2.15,1.16,1.86,2.37l-2.79,11.37c-.09.35.02.73.3,1.06l17.6,21.04c.93,1.11,3,.99,3.29-.18l5.95-24.28c.35-1.45,2.16-1.95,3.21-.9l24.51,24.52c1.16,1.16,3.15.34,3.15-1.31v-30.91c0-.49-.19-.96-.54-1.31l-11.15-11.15c-.75-.75-.75-1.96,0-2.7l11.12-11.12c1.21-1.21.35-3.27-1.36-3.27h-17.17c-1.24,0-2.15-1.16-1.86-2.37l10.57-43.09c.29-1.18-1.5-2.24-2.83-1.68l-25.34,10.52c-.4.16-.67.45-.75.8Z'/%3E%3C/svg%3E");
-  }
-
-  html{ scroll-behavior:smooth; }
-  body{ -webkit-font-smoothing:antialiased; }
-  .accent{ color:var(--accent); }
-  .bg-accent{ background:var(--accent); color:var(--on-accent); }
-  .border-accent{ border-color:var(--accent); }
-  .logo-accent{ fill:var(--accent); }
-  .marker-accent::before{ content:''; display:inline-block; width:.62rem; height:.88rem; margin-right:.55rem; vertical-align:-2px; background:var(--accent);
-        -webkit-mask:var(--litera-mark) center/contain no-repeat; mask:var(--litera-mark) center/contain no-repeat; }
-
-  /* Кнопки */
-  .btn{ display:inline-flex; align-items:center; gap:.5rem; font-weight:700; border-radius:0;
-        padding:.95rem 1.6rem; transition:.18s ease; line-height:1; border:1.5px solid transparent; }
-  .btn-accent{ background:var(--accent); color:var(--on-accent); }
-  .btn-accent:hover{ transform:translateY(-2px); box-shadow:0 12px 30px -10px rgba(0,0,0,.4); }
-  .btn-ghost{ background:transparent; color:#000; border-color:#e4e4e7; }
-  .btn-ghost:hover{ transform:translateY(-2px); border-color:#000; box-shadow:0 12px 30px -10px rgba(0,0,0,.18); }
-  .btn-dark{ background:#000; color:#fff; }
-  .btn-dark:hover{ transform:translateY(-2px); }
-  .btn-sm{ padding:.55rem 1rem; font-size:14px; gap:.4rem; }
-  .btn-lg{ padding:1.15rem 2rem; font-size:17px; }
-
-  .kicker{ font-size:.8rem; font-weight:700; letter-spacing:.14em; text-transform:uppercase; color:#71717a; }
-
-  /* ---- Топбар: копирование контактов и маршрут (аккуратные единые подсказки) ---- */
-  .cp{ position:relative; }
-  button.cp{ background:none; border:0; padding:0; margin:0; font:inherit; color:inherit; cursor:pointer; }
-  .cp[data-copy]{ cursor:copy; }
-  /* Подсказка вниз (топбар у верхнего края — вверх обрезалось бы) */
-  .cp::after{ content:attr(data-tip); position:absolute; left:50%; top:calc(100% + 9px); transform:translate(-50%,-4px);
-        background:#18181b; color:#fff; font-size:11px; font-weight:600; line-height:1; letter-spacing:.01em; white-space:nowrap;
-        padding:.42rem .55rem; border-radius:0; box-shadow:0 8px 22px -10px rgba(0,0,0,.55);
-        opacity:0; pointer-events:none; transition:opacity .15s ease, transform .15s ease; z-index:70; }
-  .cp::before{ content:''; position:absolute; left:50%; top:calc(100% + 4px); transform:translateX(-50%);
-        border:5px solid transparent; border-bottom-color:#18181b; opacity:0; transition:opacity .15s ease; z-index:70; }
-  .cp:hover::after, .cp:focus-visible::after, .cp.is-copied::after{ opacity:1; transform:translate(-50%,0); }
-  .cp:hover::before, .cp:focus-visible::before, .cp.is-copied::before{ opacity:1; }
-  .cp.is-copied::after{ background:#15803d; }
-  .cp.is-copied::before{ border-bottom-color:#15803d; }
-
-  /* ---- Шапка: навигация и каталог (общая система с category.html) ---- */
-  .nav-link{ display:inline-flex; align-items:center; gap:.32rem; padding:.5rem .7rem; font-size:14.5px; font-weight:600;
-        color:#3f3f46; transition:color .15s; cursor:pointer; }
-  .nav-link:hover, .nav-link.is-open{ color:#18181b; }
-  .nav-chev{ width:.7rem; height:.7rem; opacity:.4; transition:.2s; }
-  .nav-link.is-open .nav-chev{ transform:rotate(180deg); }
-
-  /* Панели 3-го уровня висят под той шапкой, из которой их открыли:
-     координату верха ставит скрипт (--panel-top), поэтому position:fixed. */
-  .header-panel{ position:fixed; left:0; right:0; top:var(--panel-top,0px); background:#fff;
-        border-bottom:1px solid var(--hair);
-        box-shadow:0 30px 52px -30px rgba(0,0,0,.3); z-index:58;
-        opacity:0; visibility:hidden; transform:translateY(-8px);
-        transition:opacity .18s ease, transform .18s ease, visibility .18s; }
-  .header-panel.is-open{ opacity:1; visibility:visible; transform:none; }
-  .panel-in{ padding:1.35rem var(--pad-edge) 1.1rem; }
-
-  .mega-body{ display:block; }
-  .mega-rail{ position:relative; display:flex; flex-wrap:wrap; gap:.1rem .3rem; margin-bottom:1.3rem; }
-  .mega-rail::after{ content:''; position:absolute; bottom:0; left:50%; transform:translateX(-50%); width:100vw; height:1px; background:#ececee; }
-  .mega-rail-h{ display:none; }
-  .mega-dir{ position:relative; z-index:1; display:inline-flex; align-items:center; gap:.5rem; padding:.65rem .85rem; font-size:.95rem; font-weight:600; color:#52525b; white-space:nowrap; border-bottom:2px solid transparent; margin-bottom:-1px; cursor:pointer;
-        transition:color .18s ease, border-color .18s ease; }
-  .mega-dir::before{ content:''; width:.82rem; height:1.16rem; flex-shrink:0; opacity:.45; background:var(--c);
-        -webkit-mask:var(--litera-mark) center/contain no-repeat; mask:var(--litera-mark) center/contain no-repeat;
-        transition:opacity .18s ease, transform .18s ease; }
-  .mega-dir:hover, .mega-dir.is-active{ color:var(--c); border-bottom-color:var(--c); }
-  .mega-dir:hover::before, .mega-dir.is-active::before{ opacity:1; transform:scale(1.12); }
-  .mega-panels{ min-width:0; }
-  .mega-panel{ display:none; }
-  .mega-panel.is-active{ display:block; }
-  #catalog-panel{ --c:#2A37C2; }
-  .mega-panel.is-active .mega-cat{ animation:mega-rise .34s ease both; }
-  .mega-panel.is-active .mega-cat:nth-child(2){ animation-delay:.03s; }
-  .mega-panel.is-active .mega-cat:nth-child(3){ animation-delay:.06s; }
-  .mega-panel.is-active .mega-cat:nth-child(4){ animation-delay:.09s; }
-  .mega-panel.is-active .mega-cat:nth-child(5){ animation-delay:.12s; }
-  .mega-panel.is-active .mega-cat:nth-child(6){ animation-delay:.15s; }
-  .mega-panel.is-active .mega-cat:nth-child(7){ animation-delay:.18s; }
-  .mega-panel.is-active .mega-cat:nth-child(8){ animation-delay:.21s; }
-  @keyframes mega-rise{ from{ opacity:0; transform:translateY(8px); } to{ opacity:1; transform:none; } }
-  @media (prefers-reduced-motion:reduce){ .mega-panel.is-active .mega-cat{ animation:none; } }
-  .mega-head{ display:flex; align-items:baseline; flex-wrap:wrap; gap:.4rem .7rem; margin:-.1rem 0 1.15rem; }
-  .mega-head-t{ font-family:'Raptor V2 Premium','Manrope',system-ui,sans-serif; font-weight:700; font-size:1.35rem; line-height:1; letter-spacing:-.02em; color:var(--c); }
-  .mega-head-d{ font-size:.84rem; color:#a1a1aa; }
-  .mega-head-all{ margin-left:auto; font-size:.85rem; font-weight:700; color:var(--c); white-space:nowrap; transition:opacity .15s; }
-  .mega-head-all:hover{ text-decoration:underline; }
-  .mega-grid{ column-count:4; column-gap:1.75rem; }
-  .mega-cat{ break-inside:avoid; margin-bottom:1.4rem; }
-  .mega-cat:last-child{ margin-bottom:0; }
-  .mega-cat-h{ display:block; padding:0 0 .5rem; font-family:'Raptor V2 Premium','Manrope',system-ui,sans-serif; font-size:1rem; font-weight:700; letter-spacing:-.01em; color:#18181b; transition:color .12s; }
-  .mega-cat-h:hover{ color:var(--c); }
-  .mega-svc{ display:block; padding:.24rem 0; font-size:.875rem; color:#52525b; transition:.12s; }
-  .mega-svc:hover{ color:var(--c); padding-left:.3rem; }
-  .mega-foot{ position:relative; display:flex; align-items:center; justify-content:space-between; gap:1rem; margin-top:1rem; padding-top:.9rem; font-size:.85rem; }
-  .mega-foot::before{ content:''; position:absolute; top:0; left:50%; transform:translateX(-50%); width:100vw; height:1px; background:#ececee; }
-  .mega-foot-promo{ display:flex; align-items:center; gap:.5rem; min-width:0; }
-  .mega-foot-mark{ width:.66rem; height:.94rem; flex-shrink:0; background:var(--c);
-        -webkit-mask:var(--litera-mark) center/contain no-repeat; mask:var(--litera-mark) center/contain no-repeat; }
-  .mega-foot-promo b{ color:#18181b; font-weight:700; }
-  .mega-foot-tail{ color:#a1a1aa; }
-  .mega-foot a{ font-weight:700; color:var(--c); white-space:nowrap; }
-  .mega-foot a:hover{ text-decoration:underline; }
-  .navsearch-btn{ width:2.5rem; height:2.5rem; display:grid; place-items:center; color:#3f3f46; transition:.15s; }
-  .navsearch-btn svg{ width:20px; height:20px; }
-  .navsearch-btn:hover, .navsearch-btn.is-open{ color:#18181b; }
-  .searchfield{ width:100%; padding:.5rem 1rem .5rem 3rem; font-size:1.05rem; border:0; outline:none; background:transparent; }
-  .searchfield::placeholder{ color:#a1a1aa; }
-  .searchfield-ico{ position:absolute; left:.6rem; top:50%; transform:translateY(-50%); width:20px; height:20px; color:#a1a1aa; pointer-events:none; }
-  .searchresults{ margin-top:.55rem; max-height:52vh; overflow:auto; }
-  /* Метка-заголовок над подсказками */
-  .sugg-label{ font-size:.7rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:#a1a1aa; padding:.1rem .2rem .55rem; }
-  /* Пустое состояние: популярные запросы — простые текстовые ссылки */
-  .sugg-chips{ display:flex; flex-wrap:wrap; gap:.35rem 1.4rem; padding:0 .2rem .25rem; }
-  .sugg-chip{ font-size:.95rem; font-weight:600; color:#52525b; transition:color .15s; }
-  .sugg-chip:hover{ color:var(--rc); }
-  /* Результаты — список строк */
-  .sugg-grid{ display:flex; flex-direction:column; }
-  .mega-res{ display:flex; align-items:baseline; gap:.55rem; padding:.5rem .55rem; transition:background-color .12s, color .12s; }
-  .mega-res + .mega-res{ box-shadow:inset 0 1px 0 #f4f4f5; }
-  .mega-res:hover, .mega-res.is-active{ background:#f6f6f7; color:var(--rc); }
-  .mega-res .dot{ width:.45rem; height:.45rem; border-radius:99px; background:var(--rc); flex-shrink:0; align-self:center; }
-  .mega-res .svc{ font-size:.92rem; font-weight:600; color:#27272a; flex-shrink:0; }
-  .mega-res:hover .svc, .mega-res.is-active .svc{ color:var(--rc); }
-  .mega-res .path{ font-size:.78rem; color:#a1a1aa; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-  .mega-res mark{ background:transparent; color:var(--rc); font-weight:700; }
-  .mega-empty{ padding:.85rem .2rem; color:#a1a1aa; font-size:.9rem; }
-  .mega-empty a{ color:inherit; text-decoration:underline; text-underline-offset:2px; }
-  /* Подвал: показать все */
-  .sugg-foot{ padding:.7rem .2rem .15rem; margin-top:.3rem; border-top:1px solid #f1f1f2; }
-  .sugg-foot a{ font-weight:700; color:#18181b; font-size:.88rem; }
-  .sugg-foot a:hover{ color:var(--accent); }
-
-
-  .mono{ font-family:ui-monospace,'SF Mono',Menlo,monospace; font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; }
-
-  /* ---- Ячейки шапки: остались от печатного листа, их доедает мобильное меню ---- */
-  .hdr{ display:flex; align-items:stretch; min-height:3.55rem; border-bottom:1px solid var(--hair); }
-  .hdr-logo{ display:flex; align-items:center; padding:0 var(--pad-cell); flex-shrink:0; color:#000; }
-  .hdr-nav{ display:none; align-items:center; flex:1; min-width:0; padding:0 .5rem; border-left:1px solid var(--hair); }
-  .hdr-nav a{ padding:.5rem .7rem; font-size:14.5px; font-weight:600; color:#3f3f46; letter-spacing:-.01em; transition:color .15s; }
-  .hdr-nav a:hover{ color:#000; }
-  .hdr-spacer{ flex:1; }
-  @media(min-width:1160px){ .hdr-nav{ display:flex; } .hdr-spacer{ display:none; } }
-  .hdr-ico{ width:3.4rem; display:grid; place-items:center; border-left:1px solid var(--hair); color:#3f3f46; transition:color .15s, background-color .15s; }
-  .hdr-ico svg{ width:19px; height:19px; }
-  .hdr-ico:hover, .hdr-ico.is-open{ color:#000; background:#fafafa; }
-  @media(min-width:1160px){ .hdr-burger{ display:none; } }
-  /* Единственная плотная масса в шапке — заявка. Стоит впритык к грани листа. */
-  .hdr-cta{ display:none; align-items:center; gap:.6rem; padding:0 1.5rem; background:#000; color:#fff;
-        font-size:14.5px; font-weight:700; letter-spacing:-.01em; }
-  .hdr-cta .a{ transition:transform .22s ease; }
-  .hdr-cta:hover .a{ transform:translateX(5px); }
-  @media(min-width:560px){ .hdr-cta{ display:inline-flex; } }
-
-  /* ---- Сжатая шапка: приезжает, когда лист ушёл за верхний край ---- */
-  #stickybar{ position:fixed; top:0; left:0; right:0; z-index:60; background:rgba(255,255,255,.86);
-        -webkit-backdrop-filter:saturate(1.5) blur(14px); backdrop-filter:saturate(1.5) blur(14px);
-        border-bottom:1px solid var(--hair); transform:translateY(-101%);
-        transition:transform .32s cubic-bezier(.2,.7,.2,1); }
-  #stickybar.is-on{ transform:none; }
-  .bar-in{ display:flex; align-items:stretch; height:3.2rem; padding-right:0; }
-  .bar-logo{ display:flex; align-items:center; padding:0 var(--pad-edge); color:#000; }
-  .bar-nav{ display:none; align-items:center; flex:1; min-width:0; }
-  .bar-nav a{ padding:.5rem .7rem; font-size:14.5px; font-weight:600; color:#3f3f46; transition:color .15s; }
-  .bar-nav a:hover{ color:#000; }
-  @media(min-width:1160px){ .bar-nav{ display:flex; } }
-  .bar-spacer{ flex:1; }
-  @media(min-width:1160px){ .bar-spacer{ display:none; } }
-  .bar-tel{ display:none; align-items:center; padding:0 1rem; font-size:14px; font-weight:700; color:#18181b; }
-  @media(min-width:860px){ .bar-tel{ display:inline-flex; } }
-  /* Полоса прочтения страницы — та же шкала красок, что и в герое */
-  .bar-prog{ position:absolute; left:0; bottom:-1px; height:2px; width:0; overflow:hidden; }
-  .bar-prog i{ display:block; width:100vw; height:100%;
-        background:linear-gradient(90deg,#2A37C2 0 20%,#C633A0 20% 40%,#9bbf00 40% 60%,#E8BE1E 60% 80%,#ABA7A7 80% 100%); }
-
-  /* ============================ ПЕРВЫЙ ЭКРАН ============================
-     Печатный лист снят: рамка, метки реза, приводка, колонтитулы и моно-подписи
-     по отдельности были ремеслом, вместе — шумом. Осталась вещь, ради которой
-     всё затевалось: цвет на направление. Он ушёл из квадратиков 10×10 в полосу
-     плашек во всю ширину экрана.
-     Сетка первого экрана: контейнер 1280 / поля 40 / 12 колонок / межколонник 24. */
-  .h-wrap{ max-width:1280px; margin:0 auto; padding-left:40px; padding-right:40px; }
-  .h-g12{ display:grid; grid-template-columns:repeat(12,minmax(0,1fr)); gap:24px; }
-  @media(max-width:720px){ .h-wrap{ padding-left:20px; padding-right:20px; } }
-
-  /* ---- Статичная шапка над героем ---- */
-  /* Шапка стоит только над первым экраном и живёт с ним одним цветом.
-     При скролле её сменяет светлый #stickybar. */
-  .top{ position:relative; z-index:30; background:#0b0b0d; color:#fff;
-        border-bottom:1px solid rgba(255,255,255,.1); }
-  .top .top-logo{ color:#fff; }
-  .top .logo-accent{ fill:#6f7bff; }
-  .top .top-nav a{ color:#b4b4bd; }
-  .top .top-nav a:hover{ background:rgba(255,255,255,.08); color:#fff; }
-  .top .nav-link{ color:#fff; }
-  .top .top-search{ background:rgba(255,255,255,.06); border-color:rgba(255,255,255,.16); color:#8f8f99; }
-  .top .top-search:hover{ border-color:rgba(255,255,255,.36); }
-  .top .top-tel{ color:#fff; }
-  .top .top-tel:hover{ color:#8f9bff; }
-  .top .top-cta{ color:#fff; border-color:rgba(255,255,255,.28); }
-  .top .top-cta:hover{ border-color:#fff; }
-  .top .top-burger{ color:#fff; border-color:rgba(255,255,255,.28); }
-  .top-in{ height:76px; display:flex; align-items:center; gap:32px; }
-  @media(max-width:720px){ .top-in{ gap:12px; } .top-search{ min-width:0; } }
-  .top-logo{ flex-shrink:0; display:flex; align-items:center; color:#000; }
-  .top-nav{ display:none; align-items:center; gap:4px; flex-shrink:0; }
-  @media(min-width:1100px){ .top-nav{ display:flex; } }
-  .top-nav a{ display:inline-flex; align-items:center; padding:9px 12px; font-size:15px; font-weight:500; color:#4a4a52; line-height:1;
-        transition:background-color .16s ease, color .16s ease; }
-  .top-nav a:hover{ background:#f6f6f7; color:#18181b; }
-  /* Поиск полем: при каталоге в ~200 страниц часть людей идёт искать сразу.
-     Белый с хэйрлайном, а не серая заливка — иначе он главный элемент шапки. */
-  .top-search{ flex:1; min-width:150px; max-width:300px; height:44px; background:#fff;
-        display:flex; align-items:center; gap:10px; padding:0 14px; cursor:text;
-        color:#8c8c94; font-size:14.5px; border:1px solid var(--hair); text-align:left;
-        transition:border-color .16s ease; }
-  .top-search:hover{ border-color:#c9c9d0; }
-  .top-search.is-open{ border-color:#18181b; color:#4a4a52; }
-  .top-search svg{ width:17px; height:17px; flex-shrink:0; }
-  .top-tail{ margin-left:auto; display:flex; align-items:center; gap:20px; flex-shrink:0; }
-  .top-tel{ display:none; font-size:15px; font-weight:600; white-space:nowrap; letter-spacing:-.01em; }
-  @media(min-width:860px){ .top-tel{ display:inline-flex; } }
-  .top-tel:hover{ color:#2A37C2; }
-  .top-cta{ display:none; align-items:center; justify-content:center; height:44px; padding:0 20px;
-        font-size:14.5px; font-weight:600; white-space:nowrap; border:1px solid var(--hair); color:#18181b;
-        transition:border-color .16s ease; }
-  .top-cta:hover{ border-color:#18181b; }
-  @media(min-width:560px){ .top-cta{ display:inline-flex; } }
-  .top-burger{ width:44px; height:44px; display:grid; place-items:center; border:1px solid var(--hair); color:#3f3f46; }
-  @media(min-width:1100px){ .top-burger{ display:none; } }
-
-  /* ---- Первый экран: одна вещь на чистом поле ----
-     Композиция держится на трёх вещах: очень крупный набор, много воздуха
-     и предмет, который заходит на буквы и кладёт на них тень. Всё остальное
-     (кикер, доказательства) — мелким по краям, чтобы не спорило. */
-  /* Поле тёмное не ради эффекта: на белом прозрачный акрил и хром невидимы —
-     предмет читается серой картонкой. На тёмном у стекла появляются кромки,
-     а зеркалу есть что отражать. */
-  .stage{ position:relative; min-height:100svh; display:flex; flex-direction:column;
-        padding:96px 0 0; overflow:hidden;
-        background:#0b0b0d; color:#fff; }
-  .stage .stage-kick{ color:#6e6e78; }
-  .stage .stage-sub{ color:#a1a1aa; }
-  .stage .btn-accent{ background:#fff; color:#0b0b0d; }
-  .stage .btn-accent:hover{ box-shadow:0 12px 30px -10px rgba(255,255,255,.45); }
-  .stage .tlink{ color:#fff; }
-  .stage-foot b{ color:#fff; }
-  #charm{ position:absolute; inset:0; width:100%; height:100%; display:block;
-        pointer-events:none; z-index:2; }
-  .stage-in{ position:relative; z-index:1; margin-block:auto; }   /* набор по центру, строка цифр — у нижней грани */
-  .stage-kick{ font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:#a1a1aa; }
-  .stage-h{ margin-top:20px; font-family:'Raptor V2 Premium','Manrope',system-ui,sans-serif;
-        font-weight:700; font-size:clamp(60px,12.5vw,208px); line-height:.85; letter-spacing:-.045em; }
-  .stage-sub{ margin-top:28px; max-width:30em; font-size:17.5px; line-height:1.62; color:#52525b; }
-  .stage-act{ margin-top:28px; display:flex; flex-wrap:wrap; align-items:center; gap:16px 28px; }
-  /* Подвал экрана: цифры и подпись к предмету — на одной строке у нижней грани */
-  .stage-foot{ position:relative; z-index:3; margin-top:auto; display:flex; flex-wrap:wrap;
-        gap:10px 34px; padding-top:22px; padding-bottom:22px; font-size:13px; color:#a1a1aa; }
-  .stage-foot b{ font-weight:700; font-variant-numeric:tabular-nums; }
-  .stage-obj{ margin-left:auto; }
-  @media(max-width:900px){
-    .stage{ padding-top:92px; }
-    .stage-obj{ margin-left:0; }
-    /* На узком предмет уходит за правый край — текст важнее */
-    #charm{ opacity:.9; }
-  }
-
-  /* ---- Старый герой: текст 6 колонок, работа 6 колонок ---- */
-  .hero{ padding:40px 0 32px; }
-  .hero-txt{ grid-column:1 / span 12; display:flex; flex-direction:column; }
-  .hero-media{ grid-column:1 / span 12; margin-top:32px; }
-  @media(min-width:1000px){
-    .hero-txt{ grid-column:1 / span 6; }
-    .hero-media{ grid-column:7 / span 6; margin-top:0; }
-  }
-  .hero h1{ font-family:'Raptor V2 Premium','Manrope',system-ui,sans-serif; font-weight:700;
-        font-size:clamp(46px,6.4vw,88px); line-height:.94; letter-spacing:-.035em; }
-  /* Накатка краски под словом: та же шкала пяти направлений, что в полосе ниже.
-     Полоса уходит под буквы — краска под оттиском, а не подчёркивание. */
-  .ovp{ position:relative; display:inline-block; isolation:isolate; }
-  .ovp::before{ content:''; position:absolute; left:-.02em; right:-.02em; bottom:.11em; height:.2em; z-index:-1;
-        background:linear-gradient(90deg,#2A37C2 0 20%,#C633A0 20% 40%,#9BBF00 40% 60%,#D4B300 60% 80%,#71717A 80% 100%); }
-  .hero-sub{ margin-top:20px; font-size:18px; line-height:1.6; color:#4a4a52; }
-  .hero-act{ margin-top:28px; display:flex; flex-wrap:wrap; align-items:center; gap:14px 18px; }
-
-  /* Доказательство стоит у кнопки, а не в подвале: там его видят.
-     Набрано цифрой, а не сноской 13,5px серым — это главный аргумент B2B. */
-  .trust{ margin-top:auto; padding-top:34px; display:flex; list-style:none; }
-  .trust li{ flex:1; min-width:0; padding-right:16px; }
-  .trust li + li{ padding-left:20px; border-left:1px solid var(--hair); }
-  .trust b{ display:block; font-family:'Raptor V2 Premium','Manrope',system-ui,sans-serif; font-weight:700;
-        font-size:29px; line-height:1; letter-spacing:-.02em; font-variant-numeric:tabular-nums; }
-  .trust span{ display:block; margin-top:7px; font-size:12.5px; line-height:1.35; color:#8c8c94; }
-  .trust a b{ transition:color .16s ease; }
-  .trust a:hover b{ color:#2A37C2; }
-
-  /* Работа в герое: карусель по направлениям */
-  .shot{ display:block; position:relative; aspect-ratio:3 / 2; overflow:hidden; background:#f6f6f7; }
-  .shot img{ width:100%; height:100%; object-fit:cover; display:block; opacity:1;
-        transition:opacity .28s ease, transform .7s cubic-bezier(.2,.6,.2,1); }
-  .shot:hover img{ transform:scale(1.03); }
-  .shot.is-swap img{ opacity:0; }
-  .shot-cap{ margin-top:14px; display:flex; align-items:center; justify-content:space-between; gap:20px; }
-  .shot-cap p{ font-size:13.5px; color:#4a4a52; min-width:0;
-        overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-  .shot-cap p i{ width:9px; height:9px; background:var(--c); display:inline-block; margin-right:9px; vertical-align:1px; }
-  .shot-cap p em{ font-style:normal; color:#8c8c94; }
-  .shot-nav{ display:flex; align-items:center; gap:8px; flex-shrink:0; }
-  .shot-nav button{ width:38px; height:38px; border:1px solid var(--hair); background:#fff;
-        display:grid; place-items:center; cursor:pointer; color:#4a4a52;
-        transition:border-color .16s ease, color .16s ease; }
-  .shot-nav button:hover{ border-color:#18181b; color:#18181b; }
-  .shot-nav svg{ width:15px; height:15px; }
-
-  /* ---- Полоса направлений: пять красок заливкой во всю ширину экрана ----
-     Заливка берёт чистые лайм и жёлтый: затемнение нужно было тонким элементам
-     на белом, под чёрным текстом на плашке оно ни к чему (.on-light). */
-  .dirs{ display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); }
-  @media(max-width:1023px){ .dirs{ grid-template-columns:repeat(2,minmax(0,1fr)); } }
-  @media(max-width:520px){ .dirs{ grid-template-columns:minmax(0,1fr); } }
-  .dir{ position:relative; display:flex; flex-direction:column; gap:6px; overflow:hidden;
-        padding:18px 22px 16px; min-height:126px; background:var(--c); color:#fff;
-        transition:filter .2s ease; }
-  .dir.on-light{ color:#101012; }
-  .dir:hover{ filter:brightness(1.07); }
-  .dir-n{ font-size:11px; font-weight:600; letter-spacing:.12em; opacity:.62; font-variant-numeric:tabular-nums; }
-  .dir b{ font-family:'Raptor V2 Premium','Manrope',system-ui,sans-serif; font-weight:700;
-        font-size:27px; line-height:1.05; letter-spacing:-.02em; }
-  .dir p{ font-size:13px; line-height:1.45; opacity:.78;
-        display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; overflow:hidden; }
-  .dir u{ margin-top:auto; text-decoration:none; font-size:13px; font-weight:600;
-        display:inline-flex; align-items:center; gap:7px; opacity:.9; font-variant-numeric:tabular-nums; }
-  .dir u .a{ transition:transform .2s ease; }
-  .dir:hover u .a{ transform:translateX(4px); }
-
-  /* ---- Второй вход в каталог: по отделке. Цифры — по выгрузке 813 работ ---- */
-  .fin{ display:flex; flex-wrap:wrap; align-items:center; gap:12px 28px; padding-top:16px; padding-bottom:16px; }
-  .fin-l{ font-size:11.5px; letter-spacing:.1em; text-transform:uppercase; color:#8c8c94; flex-shrink:0; }
-  .fin-chips{ display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 28px; flex:1; min-width:0; }
-  .fin-chips a{ display:inline-flex; align-items:baseline; gap:7px; font-size:15px; font-weight:500;
-        box-shadow:inset 0 -1px 0 transparent; transition:box-shadow .18s ease; }
-  .fin-chips a:hover{ box-shadow:inset 0 -1px 0 #18181b; }
-  .fin-chips b{ font-size:12.5px; font-weight:600; color:#8c8c94; font-variant-numeric:tabular-nums; }
-
-  /* Мобильное меню — отдельный лист поверх страницы */
-  #mobile-menu{ position:fixed; inset:0; z-index:80; background:#fff; display:flex; flex-direction:column; overflow:auto; }
-  #mobile-menu[hidden]{ display:none; }
-  .mm-dir{ display:flex; align-items:center; gap:.9rem; padding:.95rem var(--pad-edge); border-bottom:1px solid var(--hair);
-        font-size:1.05rem; font-weight:700; }
-  .mm-dir i{ width:1.1rem; height:2.2rem; background:var(--c); flex-shrink:0; }
-  .mm-dir u{ margin-left:auto; text-decoration:none; color:#a1a1aa; }
-  .mm-link{ display:block; padding:.7rem var(--pad-edge); font-size:1rem; font-weight:600; color:#3f3f46; }
-
-  @keyframes marquee{ from{transform:translateX(0)} to{transform:translateX(-50%)} }
-  .marquee{ display:flex; gap:3rem; width:max-content; animation:marquee 28s linear infinite; }
-
-  /* ============================================================
-     ГЛАВНАЯ — секции под первым экраном (скелет структуры)
-     Много воздуха (просьба директора), острые углы, цвет — акцентом.
-     ============================================================ */
-  .sec{ padding:5.5rem 0; }
-  @media(min-width:1024px){ .sec{ padding:8rem 0; } }
-  .lead-txt{ font-size:1.12rem; line-height:1.65; color:#52525b; }
-
-  /* — Единая шапка секции (редакционная; литера-марка как сквозной признак) — */
-  .sec-kicker{ display:flex; align-items:center; width:max-content; font-size:.74rem; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:#a1a1aa; }
-  .sec-kicker::before{ content:''; width:.46rem; height:.66rem; margin-right:.6rem; background:currentColor;
-        -webkit-mask:var(--litera-mark) center/contain no-repeat; mask:var(--litera-mark) center/contain no-repeat; }
-  .sec-title{ font-size:clamp(1.85rem,4.1vw,3rem); line-height:1.05; letter-spacing:-.03em; }
-  .sec-head{ display:flex; align-items:flex-end; justify-content:space-between; gap:1.2rem 2rem; flex-wrap:wrap; margin-bottom:2.8rem; }
-  .sec-head .sec-kicker{ margin-bottom:1rem; }
-  @media(min-width:1024px){ .sec-head{ margin-bottom:3.5rem; } }
-
-  /* — Текст-ссылка со стрелкой: единый элемент действия — */
-  .tlink{ display:inline-flex; align-items:center; gap:.55rem; font-weight:700; font-size:.95rem; color:inherit; white-space:nowrap; }
-  .tlink .t{ position:relative; }
-  .tlink .t::after{ content:''; position:absolute; left:0; right:0; bottom:-3px; height:1.5px; background:currentColor; transform:scaleX(0); transform-origin:left; transition:transform .3s ease; }
-  .tlink:hover .t::after{ transform:scaleX(1); }
-  .tlink .a{ transition:transform .2s ease; }
-  .tlink:hover .a{ transform:translateX(4px); }
-
-  /* — Манифест: опоры на хэйрлайнах (без коробок) — */
-  .man-pt{ padding-top:1.4rem; border-top:1px solid #e4e4e7; }
-
-  /* Блок 4 — направления-витрина */
-  .dir-card{ position:relative; display:flex; flex-direction:column; background:var(--c); overflow:hidden;
-        transition:transform .2s, box-shadow .2s; }
-  .dir-card:hover{ transform:translateY(-3px); box-shadow:0 26px 46px -26px rgba(0,0,0,.42); }
-  .dir-card .ph{ position:relative; aspect-ratio:4/3; background:#f4f4f5; overflow:hidden; }
-  .dir-card .ph img{ width:100%; height:100%; object-fit:cover; transition:transform .5s ease; }
-  .dir-card:hover .ph img{ transform:scale(1.04); }
-  /* Цветной подвал — заливка в цвет направления, текст контрастный (--fg) */
-  .dir-card .bd{ position:relative; flex:1; padding:1.5rem; background:var(--c); color:var(--fg,#fff); overflow:hidden; }
-  .dir-card .bd::after{ content:''; position:absolute; right:1.1rem; bottom:1.05rem; width:.85rem; height:1.2rem; opacity:.28; background:var(--fg,#fff);
-        -webkit-mask:var(--litera-mark) center/contain no-repeat; mask:var(--litera-mark) center/contain no-repeat;
-        transition:opacity .3s ease, transform .3s ease; }
-  .dir-card:hover .bd::after{ opacity:.6; transform:scale(1.12) translateY(-2px); }
-  .dir-card .num{ font-size:.78rem; font-weight:700; letter-spacing:.14em; color:inherit; opacity:.72; font-variant-numeric:tabular-nums; }
-  .dir-card .desc{ color:inherit; opacity:.85; }
-  .dir-card .arr{ display:inline-flex; align-items:center; gap:.4rem; margin-top:1.1rem; font-weight:700; font-size:.92rem; color:inherit; transition:gap .2s; }
-  .dir-card:hover .arr{ gap:.75rem; }
-  .dir-cta{ display:flex; flex-direction:column; justify-content:center; gap:.7rem; border:1px dashed #d4d4d8; padding:1.5rem; transition:border-color .2s, background .2s; }
-  .dir-cta:hover{ border-color:#18181b; background:#fafafa; }
-
-  /* Блок 5 — производство (стат-цифры) */
-  .stat-n{ font-size:clamp(2.4rem,5vw,3.6rem); line-height:1; letter-spacing:-.03em; }
-
-  /* Блок 6 — портфолио. Минимальный фильтр: текст + активная цветная черта */
-  .pf-chip{ position:relative; padding:.35rem 0; border:0; background:none; font-weight:600; font-size:.95rem; color:#a1a1aa; cursor:pointer; transition:color .15s; white-space:nowrap; }
-  .pf-chip:hover{ color:#18181b; }
-  .pf-chip.is-active{ color:#18181b; }
-  .pf-chip.is-active::after{ content:''; position:absolute; left:0; right:0; bottom:-3px; height:2px; background:var(--c,#18181b); }
-  .pf-tile{ position:relative; overflow:hidden; background:#f4f4f5; }
-  .pf-tile img{ width:100%; height:100%; object-fit:cover; transition:transform .5s; }
-  .pf-tile:hover img{ transform:scale(1.05); }
-  .pf-tile .cap{ position:absolute; left:0; bottom:0; right:0; padding:1rem; color:#fff;
-        background:linear-gradient(to top, rgba(0,0,0,.6), transparent); opacity:0; transition:opacity .2s; }
-  .pf-tile:hover .cap{ opacity:1; }
-
-  /* Блок 6.5 — вертикальные видео-reels (как на litera.studio) */
-  .reels{ display:flex; gap:1rem; overflow-x:auto; scroll-snap-type:x mandatory; padding-top:.5rem; padding-bottom:.5rem; scrollbar-width:none; }
-  .reels::-webkit-scrollbar{ display:none; }
-  /* Плитки точно по 4 в ряд — край ровный, без обрезка */
-  .reel{ position:relative; flex:0 0 calc((100% - 3rem)/4); aspect-ratio:9/16; scroll-snap-align:start; overflow:hidden; background:#0a0a0c; }
-  @media(max-width:1023px){ .reel{ flex-basis:calc((100% - 2rem)/3); } }
-  @media(max-width:639px){ .reel{ flex-basis:calc((100% - 1rem)/2); } }
-  .reel img{ width:100%; height:100%; object-fit:cover; opacity:.9; transition:transform .5s ease, opacity .3s; }
-  .reel:hover img{ transform:scale(1.05); opacity:1; }
-  .reel .play{ position:absolute; inset:0; display:grid; place-items:center; pointer-events:none; }
-  .reel .play i{ width:0; height:0; border-left:18px solid rgba(255,255,255,.95); border-top:12px solid transparent; border-bottom:12px solid transparent;
-        filter:drop-shadow(0 2px 10px rgba(0,0,0,.55)); transition:transform .2s ease; }
-  .reel:hover .play i{ transform:scale(1.18); }
-  .reel .rcap{ position:absolute; left:0; right:0; bottom:0; padding:.9rem; color:#fff; font-weight:600; font-size:.82rem; line-height:1.3;
-        background:linear-gradient(to top, rgba(0,0,0,.72), transparent); }
-  .reel-nav{ width:2.6rem; height:2.6rem; display:grid; place-items:center; border:1px solid rgba(255,255,255,.28); color:#fff; transition:.15s; }
-  .reel-nav:hover{ background:#fff; color:#000; }
-
-  /* Блок 7 — процесс */
-  .step{ padding-top:1.5rem; border-top:2px solid var(--c,#18181b); }
-  .step-n{ font-size:.8rem; font-weight:700; letter-spacing:.14em; color:#a1a1aa; font-variant-numeric:tabular-nums; }
-
-  /* Блок 8 — отзывы (тянутся из Яндекс.Карт и 2ГИС) + логострип «делали для» */
-  .logo-cell{ height:5rem; display:grid; place-items:center; padding:1rem 1.2rem; color:#c4c4cc; font-weight:700; letter-spacing:.06em; font-size:.95rem; }
-  .logo-cell img{ max-height:2.9rem; max-width:100%; object-fit:contain; filter:grayscale(1); opacity:.72; transition:filter .25s, opacity .25s; }
-  .logo-cell:hover img{ filter:none; opacity:1; }
-  .rev-agg{ display:flex; align-items:center; gap:.85rem; }
-  .stars{ color:#E8BE1E; letter-spacing:.14em; }
-  .review{ padding-top:1.5rem; border-top:1px solid #e4e4e7; }
-  .review blockquote{ margin-top:.7rem; font-size:1.02rem; line-height:1.55; color:#27272a; }
-  .review .who{ margin-top:1.1rem; display:flex; align-items:center; gap:.65rem; }
-  .src-badge{ display:inline-flex; align-items:center; gap:.4rem; margin-top:.15rem; font-size:.72rem; font-weight:700; color:#71717a; }
-  .src-badge .dot{ width:.5rem; height:.5rem; border-radius:50%; flex-shrink:0; }
-  /* Отзывы каруселью */
-  .rev-track{ display:flex; gap:1.5rem; overflow-x:auto; scroll-snap-type:x mandatory; padding-bottom:.5rem; scrollbar-width:none; }
-  .rev-track::-webkit-scrollbar{ display:none; }
-  /* Карточки точно по 3 в ряд — край всегда ровный, без обрезка (фейд не нужен) */
-  .rev-track .review{ flex:0 0 calc((100% - 3rem)/3); scroll-snap-align:start; }
-  @media(max-width:1023px){ .rev-track .review{ flex-basis:calc((100% - 1.5rem)/2); } }
-  @media(max-width:639px){ .rev-track .review{ flex-basis:100%; } }
-  .car-nav{ width:2.6rem; height:2.6rem; display:grid; place-items:center; border:1px solid #e4e4e7; color:#18181b; transition:.15s; }
-  .car-nav:hover{ background:#18181b; color:#fff; border-color:#18181b; }
-
-  /* Блок 9 — блог */
-  .post .ph{ aspect-ratio:16/10; background:#f4f4f5; overflow:hidden; }
-  .post .ph img{ width:100%; height:100%; object-fit:cover; transition:transform .5s; }
-  .post:hover .ph img{ transform:scale(1.04); }
-  .tag{ font-size:.72rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
-
-  /* Блок 10 — лид-форма (матовое стекло — просьба директора) */
-  .lead-glass{ background:rgba(255,255,255,.12); -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px); border:1px solid rgba(255,255,255,.22); }
-  .field{ width:100%; padding:.8rem 0; border:0; border-bottom:1.5px solid #d4d4d8; background:transparent; font-size:1rem; outline:none; transition:border-color .2s; }
-  .field::placeholder{ color:#a1a1aa; }
-  .field:focus{ border-bottom-color:#18181b; }
-  .field-label{ font-size:.74rem; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:#a1a1aa; }
-  .chip{ padding:.55rem .95rem; border:1.5px solid #e4e4e7; font-weight:600; font-size:.9rem; cursor:pointer; transition:.15s; }
-  .chip:hover{ border-color:#18181b; }
-  .chip.is-on{ background:#18181b; color:#fff; border-color:#18181b; }
-
-  /* Блок 11 — футер. Гигантское слово тоном (масса, не «радужный градиент») */
-  .footer-word{ font-size:clamp(4.5rem,23vw,20rem); line-height:.72; letter-spacing:-.05em; color:#161619; }
-  /* Цветная шкала-засечка над словом — отсыл к цветошкале */
-  .footer-scale{ display:flex; height:6px; max-width:22rem; }
-  .footer-scale span{ flex:1; }
-  .foot-link{ color:#a1a1aa; transition:color .15s, padding-left .15s; }
-  .foot-link:hover{ color:#fff; }
-</style>
+<!-- Вопросы: собраны из блока «Частые вопросы» на этой же странице.
+     Правило поиска — разметка обязана дословно совпадать с видимым текстом,
+     поэтому при правке вопросов правится и здесь. -->
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Что входит в цену?","acceptedAnswer":{"@type":"Answer","text":"В 1 500 ₽ входит печать тиража от 50 штук на нашей бумаге. Дизайн считаем отдельно: готовый макет печатаем как есть, а если рисуем с нуля — назовём стоимость после первого разговора, она зависит от сложности."}},{"@type":"Question","name":"А если у меня нет макета?","acceptedAnswer":{"@type":"Answer","text":"Сделаем сами: соберём из вашего текста и логотипа или придумаем концепцию. Стоимость дизайна зависит от сложности, назовём её до начала работы."}},{"@type":"Question","name":"Сколько правок входит в стоимость?","acceptedAnswer":{"@type":"Answer","text":"Две по согласованному направлению. Обычно хватает: до отрисовки мы обсуждаем повод, текст и стиль, поэтому первый вариант редко расходится с ожиданием. Дальнейшие правки считаем отдельно и предупреждаем заранее."}},{"@type":"Question","name":"А если макет не понравился?","acceptedAnswer":{"@type":"Answer","text":"Скажите, что не так — покажем второй вариант, он входит в стоимость. Если не совпало само направление, вернёмся к разговору о задаче и начнём заново, а не будем чинить неподходящий макет правками."}},{"@type":"Question","name":"В каком виде присылать файл?","acceptedAnswer":{"@type":"Answer","text":"Лучше всего PDF в CMYK с вылетами по 2 мм. Принимаем и рабочие файлы: AI, CDR, PSD, EPS. Подробнее — в требованиях к макетам. Не уверены, что с файлом всё в порядке — пришлите как есть, проверим и скажем, что поправить."}},{"@type":"Question","name":"Есть ли минимальный тираж?","acceptedAnswer":{"@type":"Answer","text":"Печатаем от 50 штук. Меньше — тоже возьмёмся, но за штуку выйдет заметно дороже: подготовка стоит одинаково и на 20 экземплярах, и на 500."}},{"@type":"Question","name":"Почему цвет на экране и на бумаге разный?","acceptedAnswer":{"@type":"Answer","text":"Экран светится, бумага отражает свет — часть экранных цветов на ней просто недостижима. Поэтому перед тиражом показываем распечатку: по ней видно, каким цвет будет на самом деле."}},{"@type":"Question","name":"Можно допечатать тираж позже?","acceptedAnswer":{"@type":"Answer","text":"Можно, файлы храним. Но цвет второй партии может немного отличаться от первой, а небольшой доптираж выходит дороже за штуку. Если знаете, что понадобится ещё, лучше заложить запас сразу."}}]}
+</script>
 </head>
+<body>
+<!-- Первая цель табуляции: с клавиатуры и со скринридера можно перескочить
+     шапку с меню и попасть сразу в содержимое. -->
+<a class="ls-skip" href="#main">К содержанию</a>
+<main class="ls-card" id="main">
+  <header class="ls-topbar">
+    <!-- Логотип файлом (`assets/img/logo.svg`), а не набран шрифтом: знак берём
+         из бренд-ассетов. Показывает его CSS-маска, поэтому он перекрашивается
+         вместе с шапкой. Название остаётся текстом для скринридера и поиска. -->
+    <a class="ls-wordmark" href="/">
+      <span class="ls-sr-only">Литера.Студия — дизайн и печать</span>
+      <i class="ls-wordmark-mark" aria-hidden="true"></i>
+      <span class="ls-wordmark-text" aria-hidden="true">
+        <i class="ls-wordmark-name"></i>
+        <span class="ls-wordmark-tag">дизайн и печать</span>
+      </span>
+    </a>
 
-<body class="font-sans text-ink bg-paper antialiased">
+    <!-- Навигация десктопа, на телефоне её заменяет бургер. Состав по данным
+         аудита (см. ДАННЫЕ.md): список услуг, контакты, телефон. Проекты, кейсы
+         и блог сюда не берём — блог даёт 36,5% трафика и 2,7% заявок,
+         у кейсов 42 визита за год, портфолио ищут 3 запроса из 2256. -->
+    <nav class="ls-topnav" aria-label="Разделы сайта">
+      <button class="ls-topnav-menu" type="button" aria-expanded="false" aria-controls="menu">Услуги<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6.5l4 4 4-4"/></svg></button>
+      <a href="/projects">Работы</a>
+      <a href="/blog">Блог</a>
+      <a href="/contacts">Контакты</a>
+    </nav>
+    <!-- Место для поля поиска: с 1280 скрипт переносит его сюда из панели меню.
+         Ниже 1280 в шапке для него нет места, и поиск остаётся в панели. -->
+    <div class="ls-topbar-search"></div>
+    <!-- Телефон: 8,1% поисковых показов — гео-запросы, и это признак живой
+         компании с производством. На десктопе он не звонилка — клик копирует
+         номер, см. copy-contact.js. -->
+    <div class="ls-topbar-tel">
+      <a class="ls-topbar-phone" href="tel:+74950213577">+7 495 021-35-77</a>
+      
+      <span class="ls-topbar-tel-note">Звонок бесплатный</span>
+    </div>
+    <a class="ls-btn ls-btn-main ls-btn-xs ls-topbar-cta" href="#zayavka" tabindex="-1" aria-hidden="true">Рассчитать</a>
+    <button class="ls-burger" type="button" aria-label="Меню" aria-expanded="false" aria-controls="menu">
+      <span class="ls-ico" aria-hidden="true"><i></i><i></i><i></i></span>
+    </button>
+  </header>
+  <!-- Метка для наблюдателя в header.js: пока она видна, шапка не сжата.
+       Стоит сразу за шапкой и до содержимого — порядок общий для всех
+       страниц, иначе шапка на разных страницах сжимается в разных местах. -->
+  <i class="ls-scroll-sentinel" aria-hidden="true"></i>
 
-<!-- ============================ ШАПКА ============================
-     Основная шапка живёт внутри печатного листа (см. .plate ниже) — у неё общая
-     с героем сетка и хэйрлайны. Здесь только то, что должно пережить скролл:
-     сжатый бар, панели каталога/поиска и мобильное меню. -->
-<div id="navbar">
-
-  <!-- Сжатая шапка: приезжает, когда первый экран ушёл наверх -->
-  <div id="stickybar" data-nav-scope>
-    <div class="bar-in">
-      <a href="index.html" class="bar-logo logo-slot" aria-label="ЛИТЕРА.СТУДИЯ"></a>
-      <nav class="bar-nav">
-        <button type="button" class="nav-link" data-catalog-toggle>Каталог<svg class="nav-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></button>
-        <a href="portfolio.html">Проекты</a>
-        <a href="#">Блог</a>
-        <a href="#">О нас</a>
-        <a href="#">Оплата и доставка</a>
-        <a href="#contacts">Контакты</a>
-      </nav>
-      <span class="bar-spacer"></span>
-      <a href="tel:+74950213577" class="bar-tel">+7 (495) 021-35-77</a>
-      <button type="button" class="hdr-ico" data-search-toggle aria-label="Поиск">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+  <div class="ls-menu" id="menu" aria-label="Меню" hidden>
+    <form class="ls-menu-search" role="search" method="get" action="/">
+      <label class="ls-sr-only" for="q">Поиск по услугам</label>
+      <svg class="ls-menu-search-ico" width="18" height="18" viewBox="0 0 20 20" fill="none"
+        stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="8.5" cy="8.5" r="6.5"/><path d="M13.5 13.5L19 19"/></svg>
+      <input id="q" name="s" type="search" placeholder="Поиск услуг" autocomplete="off"
+        enterkeyhint="search">
+      <button class="ls-menu-search-clear" type="button" aria-label="Очистить" hidden>
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor"
+          stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M3 3l10 10M13 3L3 13"/></svg>
       </button>
-      <a href="#lead" data-lead-open class="hdr-cta">Оставить заявку<span class="a">→</span></a>
-      <button type="button" class="hdr-ico hdr-burger" data-menu-toggle aria-label="Меню">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-      </button>
-    </div>
-    <span class="bar-prog" id="bar-prog"><i></i></span>
-  </div>
+    </form>
 
-  <!-- Панель каталога: направления → категории → услуги -->
-  <div class="header-panel" id="catalog-panel" data-nav-scope>
-    <div class="panel-in">
-        <div class="mega-body">
-                <div class="mega-rail">
-                  <div class="mega-rail-h">Направления</div>
-                  <button class="mega-dir is-active" data-mega="0" style="--c:#2A37C2">Полиграфия</button>
-                  <button class="mega-dir" data-mega="1" style="--c:#C633A0">Упаковка и этикетки</button>
-                  <button class="mega-dir" data-mega="2" style="--c:#9bbf00">Логотип и фирменный стиль</button>
-                  <button class="mega-dir" data-mega="3" style="--c:#E8BE1E">Мерч и сувениры</button>
-                  <button class="mega-dir" data-mega="4" style="--c:#64748b">Отраслевые решения</button>
-                </div>
-                <div class="mega-panels">
-                  <div class="mega-head" id="mega-head"></div>
-
-                  <div class="mega-panel is-active" data-panel="0" data-dir="Полиграфия" style="--c:#2A37C2">
-                    <div class="mega-grid">
-                      <div class="mega-cat"><a href="category.html" class="mega-cat-h">Листовая полиграфия</a><a href="#" class="mega-svc">Визитки</a><a href="#" class="mega-svc">Листовки</a><a href="#" class="mega-svc">Флаеры</a><a href="#" class="mega-svc">Буклеты и лифлеты</a><a href="#" class="mega-svc">Открытки</a><a href="#" class="mega-svc">Приглашения</a><a href="#" class="mega-svc">Билеты</a><a href="#" class="mega-svc">Абонементы</a></div>
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Многостраничная</a><a href="#" class="mega-svc">Каталоги</a><a href="#" class="mega-svc">Брошюры</a><a href="#" class="mega-svc">Журналы</a><a href="#" class="mega-svc">Книги</a><a href="#" class="mega-svc">Блокноты</a><a href="#" class="mega-svc">Ежедневники</a><a href="#" class="mega-svc">Фотокниги</a><a href="#" class="mega-svc">Презентации</a></div>
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Деловая полиграфия</a><a href="#" class="mega-svc">Бланки</a><a href="#" class="mega-svc">Конверты</a><a href="#" class="mega-svc">Папки</a><a href="#" class="mega-svc">Папки на кольцах</a><a href="#" class="mega-svc">Сертификаты</a><a href="#" class="mega-svc">Грамоты</a><a href="#" class="mega-svc">Дипломы</a><a href="#" class="mega-svc">Бейджи</a></div>
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Широкоформатная</a><a href="#" class="mega-svc">Плакаты</a><a href="#" class="mega-svc">Афиши</a><a href="#" class="mega-svc">Постеры</a><a href="#" class="mega-svc">Баннеры</a><a href="#" class="mega-svc">Бэклит</a><a href="#" class="mega-svc">Press-wall</a><a href="#" class="mega-svc">Roll-up</a><a href="#" class="mega-svc">Таблички</a></div>
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Календари</a><a href="#" class="mega-svc">Настольные</a><a href="#" class="mega-svc">Карманные</a><a href="#" class="mega-svc">Перекидные</a><a href="#" class="mega-svc">Квартальные</a><a href="#" class="mega-svc">Адвент-календари</a><a href="#" class="mega-svc">Календарь-плакат</a></div>
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Наклейки и этикетки</a><a href="#" class="mega-svc">Наклейки и стикеры</a><a href="#" class="mega-svc">Стикерпаки</a><a href="#" class="mega-svc">Этикетки</a><a href="#" class="mega-svc">UF/DTF-наклейки</a><a href="#" class="mega-svc">3D-стикеры</a><a href="#" class="mega-svc">Светящиеся стикеры</a><a href="#" class="mega-svc">Ремувки</a></div>
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Печати, штампы, карты</a><a href="#" class="mega-svc">Печати</a><a href="#" class="mega-svc">Штампы</a><a href="#" class="mega-svc">Пластиковые карты</a><a href="#" class="mega-svc">Дисконтные карты</a></div>
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Карты и настольные игры</a><a href="#" class="mega-svc">Настольные игры</a><a href="#" class="mega-svc">Колода карт</a><a href="#" class="mega-svc">Метафорические карты</a><a href="#" class="mega-svc">Таро</a></div>
-                    </div>
-                  </div>
-
-                  <div class="mega-panel" data-panel="1" data-dir="Упаковка и этикетки" style="--c:#C633A0">
-                    <div class="mega-grid">
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Коробки из картона</a><a href="#" class="mega-svc">Самосборные</a><a href="#" class="mega-svc">Крышка-дно</a><a href="#" class="mega-svc">Пенал</a><a href="#" class="mega-svc">Ласточкин хвост</a><a href="#" class="mega-svc">Два клапана</a><a href="#" class="mega-svc">С подвесом</a><a href="#" class="mega-svc">Моноблок</a><a href="#" class="mega-svc">Шкатулка</a></div>
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Коробки из МГК</a><a href="#" class="mega-svc">Самосборные</a><a href="#" class="mega-svc">Лоток</a><a href="#" class="mega-svc">Самолёт</a><a href="#" class="mega-svc">С ручкой</a><a href="#" class="mega-svc">Четыре клапана</a><a href="#" class="mega-svc">С ложементом</a></div>
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Кашированные коробки</a><a href="#" class="mega-svc">Крышка-дно</a><a href="#" class="mega-svc">Ларец</a><a href="#" class="mega-svc">Тортовые</a><a href="#" class="mega-svc">С магнитными клапанами</a><a href="#" class="mega-svc">С двойным дном</a></div>
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Этикетки</a><a href="#" class="mega-svc">Этикетки на товар</a><a href="#" class="mega-svc">Самоклеящиеся</a></div>
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Пакеты и бумага</a><a href="#" class="mega-svc">Бумажные пакеты</a><a href="#" class="mega-svc">ПВД-пакеты</a><a href="#" class="mega-svc">Упаковочная бумага</a></div>
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Подарочная упаковка</a><a href="#" class="mega-svc">Подарочная упаковка</a><a href="#" class="mega-svc">Бонбоньерки</a><a href="#" class="mega-svc">Коробки для свечей</a><a href="#" class="mega-svc">Шуберы</a><a href="#" class="mega-svc">Ремувки</a></div>
-                    </div>
-                  </div>
-
-                  <div class="mega-panel" data-panel="2" data-dir="Логотип и фирменный стиль" style="--c:#9bbf00">
-                    <div class="mega-grid">
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Логотип</a><a href="#" class="mega-svc">Разработка логотипа</a><a href="#" class="mega-svc">Редизайн логотипа</a></div>
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Фирменный стиль</a><a href="#" class="mega-svc">Брендбук</a><a href="#" class="mega-svc">Фирменный стиль</a><a href="#" class="mega-svc">Редизайн носителей</a></div>
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Маскот бренда</a><a href="#" class="mega-svc">Дизайн маскота</a><a href="#" class="mega-svc">Айдентика маскота</a></div>
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Иллюстрации</a><a href="#" class="mega-svc">Авторские</a><a href="#" class="mega-svc">Для книги</a><a href="#" class="mega-svc">Для сайта</a><a href="#" class="mega-svc">Для обложки</a><a href="#" class="mega-svc">Обложки</a></div>
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Фирменные носители</a><a href="#" class="mega-svc">Визитки</a><a href="#" class="mega-svc">Бланки</a><a href="#" class="mega-svc">Конверты</a><a href="#" class="mega-svc">Папки</a><a href="#" class="mega-svc">Презентации</a></div>
-                    </div>
-                  </div>
-
-                  <div class="mega-panel" data-panel="3" data-dir="Корпоративный брендинг, сувениры" style="--c:#E8BE1E">
-                    <div class="mega-grid">
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Подарочные наборы</a><a href="#" class="mega-svc">Корпоративные наборы</a><a href="#" class="mega-svc">Welcome-паки</a><a href="#" class="mega-svc">Под задачу</a></div>
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Мерч и одежда</a><a href="#" class="mega-svc">Футболки</a><a href="#" class="mega-svc">Толстовки</a><a href="#" class="mega-svc">Мерч</a><a href="#" class="mega-svc">Нанесение логотипа</a></div>
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Посуда и термокружки</a><a href="#" class="mega-svc">Кружки</a><a href="#" class="mega-svc">Термокружки</a><a href="#" class="mega-svc">Бутылки</a></div>
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Сумки и аксессуары</a><a href="#" class="mega-svc">Шопперы</a><a href="#" class="mega-svc">Сумки и рюкзаки</a><a href="#" class="mega-svc">Зонты</a><a href="#" class="mega-svc">Ручки</a><a href="#" class="mega-svc">Аккумуляторы</a><a href="#" class="mega-svc">Брелоки и обвесы</a></div>
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Сувениры</a><a href="#" class="mega-svc">Корпоративные сувениры</a><a href="#" class="mega-svc">Стикеры для мерча</a><a href="#" class="mega-svc">Ежедневники</a><a href="#" class="mega-svc">Планинги</a></div>
-                    </div>
-                  </div>
-
-                  <div class="mega-panel" data-panel="4" data-dir="Отраслевые решения" style="--c:#64748b">
-                    <div class="mega-grid">
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Рестораны и бары</a><a href="#" class="mega-svc">Барное меню</a><a href="#" class="mega-svc">Барная карта</a><a href="#" class="mega-svc">Коктейльная карта</a><a href="#" class="mega-svc">Папка для меню</a><a href="#" class="mega-svc">Тейбл-тент</a><a href="#" class="mega-svc">Полиграфия для ресторанов</a></div>
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Свадьба</a><a href="#" class="mega-svc">Приглашения</a><a href="#" class="mega-svc">Свадебное меню</a><a href="#" class="mega-svc">План рассадки</a><a href="#" class="mega-svc">Конверты</a><a href="#" class="mega-svc">Свадебная полиграфия</a></div>
-                      <div class="mega-cat"><a href="#" class="mega-cat-h">Салоны красоты</a><a href="#" class="mega-svc">Сертификаты</a><a href="#" class="mega-svc">Прайс-лист</a><a href="#" class="mega-svc">Абонементы</a></div>
-                    </div>
-                  </div>
-
-                </div>
-      </div>
-      <div class="mega-foot">
-        <span class="mega-foot-promo"><span class="mega-foot-mark"></span><b id="mega-promo">Визитки за 1 день</b> <span class="mega-foot-tail">— рассчитаем стоимость за час</span></span>
-        <a href="#lead" data-lead-open>Оставить заявку →</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- Панель поиска -->
-  <div class="header-panel" id="search-panel" data-nav-scope>
-    <div class="panel-in">
-      <div class="relative">
-        <svg class="searchfield-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-        <input type="text" id="nav-q" class="searchfield" placeholder="Найти услугу — визитки, коробки, логотип…" autocomplete="off">
-      </div>
-      <div class="searchresults" id="nav-results" hidden></div>
-    </div>
-  </div>
-
-  <!-- Мобильное меню — отдельный лист поверх страницы -->
-  <div id="mobile-menu" hidden>
-    <div class="hdr">
-      <span class="hdr-logo logo-slot"></span>
-      <span class="hdr-spacer"></span>
-      <button type="button" class="hdr-ico" data-menu-toggle aria-label="Закрыть меню">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg>
-      </button>
-    </div>
-    <div class="mono text-zinc-400 px-[var(--pad-edge)] pt-5 pb-2">Направления</div>
-    <a href="category.html" class="mm-dir" style="--c:#2A37C2"><i></i>Полиграфия<u class="mono">53</u></a>
-    <a href="#" class="mm-dir" style="--c:#C633A0"><i></i>Упаковка и этикетки<u class="mono">29</u></a>
-    <a href="#" class="mm-dir" style="--c:#9bbf00"><i></i>Логотип и фирменный стиль<u class="mono">17</u></a>
-    <a href="#" class="mm-dir" style="--c:#E8BE1E"><i></i>Мерч и сувениры<u class="mono">20</u></a>
-    <a href="#" class="mm-dir" style="--c:#ABA7A7"><i></i>Отраслевые решения<u class="mono">14</u></a>
-    <div class="mono text-zinc-400 px-[var(--pad-edge)] pt-6 pb-2">Компания</div>
-    <a href="portfolio.html" class="mm-link">Проекты</a>
-    <a href="#" class="mm-link">Блог</a>
-    <a href="#" class="mm-link">О нас</a>
-    <a href="#" class="mm-link">Оплата и доставка</a>
-    <a href="#contacts" class="mm-link">Контакты</a>
-    <div class="mt-auto border-t border-zinc-200">
-      <a href="tel:+74950213577" class="mm-link font-bold text-ink">+7 (495) 021-35-77</a>
-      <a href="mailto:zakaz@litera.studio" class="mm-link">zakaz@litera.studio</a>
-      <a href="#lead" data-lead-open class="hdr-cta !flex justify-between w-full py-4 mt-2">Оставить заявку<span class="a">→</span></a>
-    </div>
-  </div>
-</div>
-
-<!-- ============================ ШАПКА ============================
-     Статичная полоса над героем: лого, четыре пункта, поиск полем, телефон, заявка.
-     Меню сокращено до четырёх пунктов, чтобы поле поиска влезло в строку: каталог
-     на ~200 страниц услуг, поиск — основной способ найти нужное. -->
-<header class="top" data-nav-scope>
-  <div class="h-wrap top-in">
-      <a href="index.html" class="top-logo" aria-label="ЛИТЕРА.СТУДИЯ">
-        <svg id="logo-svg" class="h-[22px] w-auto" viewBox="0 0 167 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path class="logo-accent" d="M16.7434 0.439453H5.40039V4.48911H12.6938L16.7434 0.439453Z" fill="#2A37C2"/>
-          <path class="logo-accent" d="M5.40039 10.1616L16.7434 21.5069V15.8343L5.40039 4.48911V10.1616Z" fill="#2A37C2"/>
-          <path d="M0 21.507L4.04965 25.5567V0.439453L0 4.48911V21.507Z" fill="currentColor"/>
-          <path d="M5.40234 21.5068V25.5565H12.6957L16.7454 21.5068H5.40234Z" fill="currentColor"/>
-          <path d="M166.998 19.9746H164.358V8.45461H162.558C161.318 8.45461 160.598 9.19461 160.598 10.2746C160.598 11.3546 161.318 12.1146 162.558 12.1146H164.358L160.178 19.9746H157.218L160.438 13.9346C158.878 13.3946 157.858 12.1546 157.858 10.2746C157.858 7.65461 159.878 5.97461 162.558 5.97461H166.998V19.9746Z" fill="currentColor"/>
-          <path d="M149.35 19.9746H146.61L150.69 5.97461H153.43L149.35 19.9746ZM144.07 19.9746V5.97461H146.61V19.9746H144.07ZM153.43 19.9746V5.97461H155.97V19.9746H153.43Z" fill="currentColor"/>
-          <path d="M128.236 22.5746V17.4946H129.196C130.416 17.4946 130.936 16.9746 131.016 15.7146L131.496 5.97461H140.876V17.4946H142.496V22.5746H140.316V19.9746H130.396V22.5746H128.236ZM133.116 17.4946H138.236V8.45461H134.036L133.656 15.7146C133.616 16.4546 133.436 17.0346 133.116 17.4946Z" fill="currentColor"/>
-          <path d="M122.405 19.9746L127.265 5.97461H130.045L125.185 19.9746H122.405ZM118.085 5.97461H121.045L124.385 14.1546H121.445L118.085 5.97461Z" fill="currentColor"/>
-          <path d="M111.734 19.9746V8.45461H108.354V5.97461H117.774V8.45461H114.374V19.9746H111.734Z" fill="currentColor"/>
-          <path d="M101.346 20.2553C97.4862 20.2553 94.3662 17.3753 94.3662 12.9753C94.3662 8.57531 97.4862 5.69531 101.346 5.69531C104.466 5.69531 107.106 7.57531 107.926 10.6353H105.066C104.426 9.15531 103.086 8.23531 101.346 8.23531C98.8262 8.23531 97.1062 10.1553 97.1062 12.9753C97.1062 15.7953 98.8262 17.7153 101.346 17.7153C103.166 17.7153 104.506 16.7153 105.126 15.1153H107.966C107.206 18.2953 104.526 20.2553 101.346 20.2553Z" fill="currentColor"/>
-          <path class="logo-accent" d="M91.9812 20.2552C90.9412 20.2552 90.2012 19.4552 90.2012 18.4352C90.2012 17.4352 90.9412 16.6152 91.9812 16.6152C93.0012 16.6152 93.7412 17.4352 93.7412 18.4352C93.7412 19.4552 93.0012 20.2552 91.9812 20.2552Z" fill="#2A37C2"/>
-          <path d="M75.7402 19.9746L79.6002 5.97461H82.3602L80.2402 13.6746H84.5202L82.3602 5.97461H85.1802L89.1202 19.9746H86.2802L85.2002 16.1346H79.5802L78.5202 19.9746H75.7402Z" fill="currentColor"/>
-          <path d="M68.3545 19.9746V5.97461H72.4945C75.1745 5.97461 77.1745 7.79461 77.1745 10.4946C77.1745 13.1946 75.1745 15.0146 72.4945 15.0146H70.9945V19.9746H68.3545ZM70.9945 12.5546H72.4945C73.7345 12.5546 74.4345 11.6546 74.4345 10.4946C74.4345 9.33461 73.7345 8.45461 72.4945 8.45461H70.9945V12.5546Z" fill="currentColor"/>
-          <path d="M58.9502 19.9746V5.97461H66.2702V8.45461H61.5902V11.3546H65.7702V13.8146H61.5902V17.4946H66.4702V19.9746H58.9502Z" fill="currentColor"/>
-          <path d="M51.4396 19.9746V8.45461H48.0596V5.97461H57.4796V8.45461H54.0796V19.9746H51.4396Z" fill="currentColor"/>
-          <path d="M39.9323 19.9746H37.1923L41.2723 5.97461H44.0123L39.9323 19.9746ZM34.6523 19.9746V5.97461H37.1923V19.9746H34.6523ZM44.0123 19.9746V5.97461H46.5523V19.9746H44.0123Z" fill="currentColor"/>
-          <path d="M20.5996 17.4946C21.8196 17.4946 22.3396 16.9746 22.3996 15.7146L22.8996 5.97461H32.2596V19.9746H29.6196V8.45461H25.4396L25.0396 15.7146C24.8996 18.7746 23.4796 19.9746 20.5996 19.9746V17.4946Z" fill="currentColor"/>
-        </svg>
-      </a>
-      <nav class="top-nav">
-        <button type="button" class="nav-link" data-catalog-toggle>Каталог<svg class="nav-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg></button>
-        <a href="portfolio.html">Проекты</a>
-        <a href="#">О компании</a>
-        <a href="#contacts">Контакты</a>
-      </nav>
-
-      <button type="button" class="top-search" data-search-toggle>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-        Найти услугу
-      </button>
-
-      <div class="top-tail">
-        <a href="tel:+74950213577" class="top-tel cp" data-tip="Скопировать" data-copy="+74950213577">+7 (495) 021-35-77</a>
-        <a href="#lead" data-lead-open class="top-cta">Оставить заявку</a>
-        <button type="button" class="top-burger" data-menu-toggle aria-label="Меню">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-        </button>
-      </div>
-  </div>
-</header>
-
-<main>
-
-<!-- ============================ ПЕРВЫЙ ЭКРАН ============================
-     Текст в шести колонках, работа в шести. Доказательство (813 / 5,0 / 2012)
-     стоит у кнопки и набрано цифрой. Ниже — полоса направлений заливкой:
-     цвет на направление это вся навигация каталога, он обязан быть виден. -->
-<!-- Предмет висит с верхнего края и заходит на заголовок: не «3D-моделька в
-     воздухе», а вещь, попавшая в макет. Это их собственный мерч — акриловые
-     обвесы, форма подвески взята из фирменной литера-марки. -->
-<section class="stage">
-  <canvas id="charm" aria-hidden="true"></canvas>
-
-  <div class="h-wrap stage-in">
-    <p class="stage-kick">Студия дизайна и печати · Москва · с 2012</p>
-    <h1 class="stage-h">Печатаем<br>сложное</h1>
-    <p class="stage-sub">Тиснение фольгой, объёмный лак, кашировка, вырубка.
-       Дизайн и печать — на своём производстве, без посредников между макетом и тиражом.</p>
-    <div class="stage-act">
-      <button type="button" class="btn btn-accent" data-catalog-toggle>Открыть каталог<span class="a">→</span></button>
-      <a href="portfolio.html" class="tlink"><span class="t">813 работ в портфолио</span><span class="a">→</span></a>
-    </div>
-  </div>
-
-  <div class="h-wrap stage-foot">
-    <span><b>5,0</b> в 2ГИС</span>
-    <span><b>133</b> услуги в каталоге</span>
-    <span><b>10</b> видов отделки</span>
-    <span class="stage-obj">Акриловые обвесы Litera.Studio — свой мерч</span>
-  </div>
-</section>
-
-<!-- Полоса направлений: во всю ширину экрана, клик открывает каталог на нужном -->
-<section class="dirs">
-  <a href="category.html" class="dir" style="--c:#2A37C2">
-    <span class="dir-n">01</span><b>Полиграфия</b>
-    <p>Визитки, каталоги, календари, наклейки</p>
-    <u>53 услуги <span class="a">→</span></u>
-  </a>
-  <a href="#" class="dir" style="--c:#C633A0">
-    <span class="dir-n">02</span><b>Упаковка</b>
-    <p>Коробки, этикетки, пакеты, шуберы</p>
-    <u>29 услуг <span class="a">→</span></u>
-  </a>
-  <a href="#" class="dir on-light" style="--c:#CCFF00">
-    <span class="dir-n">03</span><b>Брендинг</b>
-    <p>Логотип, фирменный стиль, брендбук</p>
-    <u>17 услуг <span class="a">→</span></u>
-  </a>
-  <a href="#" class="dir on-light" style="--c:#E8BE1E">
-    <span class="dir-n">04</span><b>Мерч</b>
-    <p>Сувениры, одежда, подарочные наборы</p>
-    <u>20 услуг <span class="a">→</span></u>
-  </a>
-  <a href="#" class="dir" style="--c:#71717A">
-    <span class="dir-n">05</span><b>Отраслевые</b>
-    <p>Рестораны, свадьба, салоны красоты</p>
-    <u>14 услуг <span class="a">→</span></u>
-  </a>
-</section>
-
-<!-- Второй вход в каталог: по отделке. У конкурентов такого входа нет,
-     а для Литеры отделка — то, чем она отличается. Цифры из выгрузки портфолио. -->
-<section>
-  <div class="h-wrap fin">
-    <span class="fin-l">По отделке</span>
-    <span class="fin-chips">
-      <a href="#">Объёмный лак <b>122</b></a>
-      <a href="#">Объёмная фольга <b>97</b></a>
-      <a href="#">Шёлковая ламинация <b>74</b></a>
-      <a href="#">Кашировка <b>54</b></a>
-      <a href="#">Тиснение фольгой <b>46</b></a>
-    </span>
-    <a href="portfolio.html" class="tlink"><span class="t">Вся отделка</span><span class="a">→</span></a>
-  </div>
-</section>
-
-
-<!-- Бегущая строка — намёк на продолжение под сгибом -->
-<div class="border-y border-zinc-100 h-14 flex items-center overflow-hidden">
-  <div class="marquee text-zinc-400 font-semibold uppercase tracking-wider text-sm">
-    <span class="flex gap-12 shrink-0">
-      <span class="marker-accent">Полиграфия</span><span class="marker-accent">Упаковка</span><span class="marker-accent">Брендинг</span>
-      <span class="marker-accent">Мерч</span><span class="marker-accent">Логотипы</span><span class="marker-accent">Этикетки</span>
-      <span class="marker-accent">Каталоги</span><span class="marker-accent">Своё производство</span>
-    </span>
-    <span class="flex gap-12 shrink-0" aria-hidden="true">
-      <span class="marker-accent">Полиграфия</span><span class="marker-accent">Упаковка</span><span class="marker-accent">Брендинг</span>
-      <span class="marker-accent">Мерч</span><span class="marker-accent">Логотипы</span><span class="marker-accent">Этикетки</span>
-      <span class="marker-accent">Каталоги</span><span class="marker-accent">Своё производство</span>
-    </span>
-  </div>
-</div>
-
-<!-- ============================ БЛОК 3 — МАНИФЕСТ / ПОЗИЦИОНИРОВАНИЕ ============================ -->
-<section class="sec">
-  <div class="max-w-7xl mx-auto px-5 lg:px-8">
-    <span class="sec-kicker mb-8">Кто мы</span>
-    <h2 class="font-display sec-title max-w-4xl">
-      Полиграфическая клиника для бизнеса.
-      <span class="text-zinc-400">Возвращаем брендам уверенный вид — от макета до готового тиража.</span>
-    </h2>
-    <div class="mt-16 grid gap-x-10 gap-y-12 sm:grid-cols-3 max-w-5xl">
-      <div class="man-pt">
-        <h3 class="marker-accent font-display text-h4">Всё решаемо</h3>
-        <p class="mt-3 text-zinc-500 text-caption leading-relaxed">Любая задача — от визитки до сложной упаковки. Подскажем формат, материал и тираж под вашу цель.</p>
-      </div>
-      <div class="man-pt">
-        <h3 class="marker-accent font-display text-h4">Дурного не посоветуем</h3>
-        <p class="mt-3 text-zinc-500 text-caption leading-relaxed">Дизайн и препресс ведёт студия, печать — наша. Никаких посредников и «как получится» на выходе.</p>
-      </div>
-      <div class="man-pt">
-        <h3 class="marker-accent font-display text-h4">Своё производство</h3>
-        <p class="mt-3 text-zinc-500 text-caption leading-relaxed">Контролируем качество на каждом этапе и держим сроки — оборудование в Москве, с 2012 года.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================ БЛОК 4 — НАПРАВЛЕНИЯ (ВИТРИНА) ============================ -->
-<section class="sec bg-zinc-50/60 border-y border-zinc-100">
-  <div class="max-w-7xl mx-auto px-5 lg:px-8">
-    <div class="sec-head">
-      <div>
-        <span class="sec-kicker">Направления</span>
-        <h2 class="font-display sec-title">Что мы делаем</h2>
-      </div>
-      <button type="button" id="catalog-trigger-2" class="tlink"><span class="t">Весь каталог</span><span class="a">→</span></button>
-    </div>
-    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-      <a href="category.html" class="dir-card" style="--c:#2A37C2;--fg:#fff">
-        <span class="ph"><img src="assets/work-modum-calendar.jpg" alt="Перекидной календарь для «Модум-Транс»"></span>
-        <span class="bd"><span class="num">01</span>
-          <span class="block font-display text-h4 mt-1">Полиграфия</span>
-          <span class="desc block mt-2 text-caption">Визитки, листовки, каталоги, календари, наклейки и этикетки, меню и барные карты.</span>
-          <span class="arr">Смотреть направление →</span></span>
-      </a>
-      <a href="#" class="dir-card" style="--c:#C633A0;--fg:#fff">
-        <span class="ph"><img src="assets/work-oxygen.jpg" alt="Упаковка для «Oxygen Home»"></span>
-        <span class="bd"><span class="num">02</span>
-          <span class="block font-display text-h4 mt-1">Упаковка и этикетки</span>
-          <span class="desc block mt-2 text-caption">Картонные и кашированные коробки, МГК, бумажные пакеты, шуберы, адвент-календари.</span>
-          <span class="arr">Смотреть направление →</span></span>
-      </a>
-      <a href="#" class="dir-card" style="--c:#9BBF00;--fg:#111">
-        <span class="ph"><img src="assets/work-promaktiv.jpg" alt="Фирменный стиль «ПРОМАКТИВ»"></span>
-        <span class="bd"><span class="num">03</span>
-          <span class="block font-display text-h4 mt-1">Логотип и фирменный стиль</span>
-          <span class="desc block mt-2 text-caption">Логобук и брендбук, фирменные носители, маскот бренда, редизайн.</span>
-          <span class="arr">Смотреть направление →</span></span>
-      </a>
-      <a href="#" class="dir-card" style="--c:#E8BE1E;--fg:#111">
-        <span class="ph"><img src="assets/work-diary-foil.jpg" alt="Ежедневник с тиснением фольгой"></span>
-        <span class="bd"><span class="num">04</span>
-          <span class="block font-display text-h4 mt-1">Корпоративный брендинг</span>
-          <span class="desc block mt-2 text-caption">Подарочные наборы, корпоративный мерч, брендирование сувениров, акриловые обвесы.</span>
-          <span class="arr">Смотреть направление →</span></span>
-      </a>
-      <a href="#" class="dir-card" style="--c:#64748B;--fg:#fff">
-        <span class="ph"><img src="assets/work-klass-goda.jpg" alt="Наклейки для Ломоносовской школы"></span>
-        <span class="bd"><span class="num">05</span>
-          <span class="block font-display text-h4 mt-1">Отраслевые решения</span>
-          <span class="desc block mt-2 text-caption">Сборки проектов по отраслям: рестораны и бары, мода, медицина, спорт.</span>
-          <span class="arr">Смотреть направление →</span></span>
-      </a>
-      <a href="#lead" data-lead-open class="dir-cta">
-        <span class="font-display text-h4">Не нашли нужное?</span>
-        <span class="text-zinc-500 text-caption">Опишите задачу — подберём формат и рассчитаем стоимость.</span>
-        <span class="btn btn-accent btn-sm mt-2">Обсудить проект →</span>
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- ============================ БЛОК 4.5 — LITERA GIFTS (отдельный сервис) ============================ -->
-<section class="sec">
-  <div class="max-w-7xl mx-auto px-5 lg:px-8">
-    <div class="grid lg:grid-cols-2 border border-zinc-200">
-      <!-- Саббренд: панель с фирменным зелёным акцентом -->
-      <div class="bg-ink text-white p-8 lg:p-12 flex flex-col justify-between gap-12">
+    
+    <nav class="ls-menu-main" aria-label="Разделы">
+      <a class="ls-menu-group" href="/poligrafiya" aria-expanded="false" aria-controls="sub0"><span class="ls-menu-group-name"><span class="ls-nw">Полиграфия <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6.5l4 4 4-4"/></svg></span></span></a>
+      <div class="ls-menu-sub" id="sub0" hidden>
         <div>
-          <span class="sec-kicker mb-6" style="color:#00CC00">Отдельный сервис</span>
-          <div class="font-display text-h1 leading-none">Litera&nbsp;Gifts</div>
-          <p class="mt-5 text-white/70 max-w-md leading-relaxed">Корпоративные подарки и бизнес-сувениры с нанесением логотипа. Имидж компании складывается из мелочей — собираем их под ключ.</p>
-        </div>
-        <a href="https://literagifts.ru/" target="_blank" rel="noopener" class="btn self-start" style="background:#00CC00;color:#06210a">Перейти в Litera Gifts →</a>
-      </div>
-      <!-- Каталог: реальные цифры по категориям -->
-      <div class="p-8 lg:p-12">
-        <div class="flex items-baseline justify-between gap-4 flex-wrap mb-8">
-          <span class="sec-kicker">Каталог</span>
-          <span class="text-zinc-400 text-caption">от 999 ₽ · нанесение логотипа</span>
-        </div>
-        <div class="grid grid-cols-2 gap-x-10 gap-y-8">
-          <div class="border-t border-zinc-200 pt-4"><div class="font-display leading-none" style="font-size:2.4rem;letter-spacing:-.03em">3800+</div><div class="text-zinc-500 text-caption mt-2">одежда и промо</div></div>
-          <div class="border-t border-zinc-200 pt-4"><div class="font-display leading-none" style="font-size:2.4rem;letter-spacing:-.03em">3500+</div><div class="text-zinc-500 text-caption mt-2">электроника</div></div>
-          <div class="border-t border-zinc-200 pt-4"><div class="font-display leading-none" style="font-size:2.4rem;letter-spacing:-.03em">2000+</div><div class="text-zinc-500 text-caption mt-2">посуда и термокружки</div></div>
-          <div class="border-t border-zinc-200 pt-4"><div class="font-display leading-none" style="font-size:2.4rem;letter-spacing:-.03em">1800+</div><div class="text-zinc-500 text-caption mt-2">ежедневники</div></div>
+          <a class="ls-menu-all" href="/poligrafiya">Все услуги раздела</a>
+          <a href="/listovaya-poligrafiya">Листовая полиграфия</a>
+          <a href="/dizajn-mnogostranichnoj-produkcii">Многостраничные издания</a>
+          <a href="/verstka-poligrafii">Вёрстка полиграфии</a>
+          <a href="/dizajn-kalendarya">Календари</a>
+          <a href="/dizajn-shirokoformatnoj-poligrafii">Широкоформатная</a>
+          <a href="/dizajn-dlya-bara">Меню и прайсы</a>
+          <a href="/pechati-papki-plastikovye-karty">Папки, печати, пластиковые карты</a>
+          <a href="/svadebnaya-poligrafiya">Свадебная полиграфия</a>
+          <a href="/karty-i-nastolnye-igry">Карты и настольные игры</a>
+          <a href="/illyustracii">Иллюстрации</a>
+          <a href="/prepress">Подготовка к печати</a>
         </div>
       </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================ БЛОК 5 — СВОЙ ЦИКЛ / ПРОИЗВОДСТВО ============================ -->
-<section class="sec bg-ink text-white">
-  <div class="max-w-7xl mx-auto px-5 lg:px-8 grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-    <div>
-      <span class="sec-kicker mb-5">Полный цикл</span>
-      <h2 class="font-display sec-title">Дизайним и печатаем<br>на своём производстве</h2>
-      <p class="lead-txt mt-6 text-zinc-300 max-w-lg">Придумываем фирменный стиль и тут же печатаем его на собственном производстве. Без подрядчиков, без потери качества между макетом и тиражом.</p>
-      <a href="#lead" data-lead-open class="btn mt-9" style="background:#fff;color:#000">Обсудить проект</a>
-    </div>
-    <div class="grid grid-cols-2 gap-x-10 gap-y-10">
-      <div class="border-t border-white/15 pt-5"><div class="stat-n font-display">2012</div><div class="mt-2 text-zinc-400 text-caption">год основания студии</div></div>
-      <div class="border-t border-white/15 pt-5"><div class="stat-n font-display">5</div><div class="mt-2 text-zinc-400 text-caption">направлений под одной крышей</div></div>
-      <div class="border-t border-white/15 pt-5"><div class="stat-n font-display">800+</div><div class="mt-2 text-zinc-400 text-caption">работ в&nbsp;портфолио</div></div>
-      <div class="border-t border-white/15 pt-5"><div class="stat-n font-display">0</div><div class="mt-2 text-zinc-400 text-caption">посредников до печати</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================ БЛОК 6 — РАБОТЫ / ПОРТФОЛИО ============================ -->
-<section class="sec">
-  <div class="max-w-7xl mx-auto px-5 lg:px-8">
-    <div class="sec-head">
-      <div>
-        <span class="sec-kicker">Работы</span>
-        <h2 class="font-display sec-title">Свежее из печати</h2>
-      </div>
-      <a href="portfolio.html" class="tlink self-end"><span class="t">Все проекты</span><span class="a">→</span></a>
-    </div>
-    <div class="flex flex-wrap gap-x-7 gap-y-2.5 mb-9" id="pf-filter">
-      <button class="pf-chip is-active" style="--c:#18181b">Все</button>
-      <button class="pf-chip" style="--c:#2A37C2">Полиграфия</button>
-      <button class="pf-chip" style="--c:#C633A0">Упаковка</button>
-      <button class="pf-chip" style="--c:#9BBF00">Брендинг</button>
-      <button class="pf-chip" style="--c:#E8BE1E">Мерч</button>
-      <button class="pf-chip" style="--c:#64748B">Отраслевые</button>
-    </div>
-    <!-- Bento-сетка работ (заглушки на реальных ассетах) -->
-    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-      <a href="portfolio.html" class="pf-tile col-span-2 row-span-2 aspect-square lg:aspect-auto"><img src="assets/work-taro.jpg" alt="Колода карт Таро Уэйта"><span class="cap"><b class="font-display text-lead">Колода карт Таро Уэйта</b><span class="block text-caption opacity-80">78 арканов · тиснение фольгой</span></span></a>
-      <a href="portfolio.html" class="pf-tile aspect-square"><img src="assets/work-dune.jpg" alt="Колода карт «Дюна»"><span class="cap text-caption">Колода карт «Дюна»</span></a>
-      <a href="portfolio.html" class="pf-tile aspect-square"><img src="assets/work-octopays.jpg" alt="Логотип «OCTOPAYS»"><span class="cap text-caption">Логотип «OCTOPAYS»</span></a>
-      <a href="portfolio.html" class="pf-tile aspect-square"><img src="assets/work-oxygen.jpg" alt="Упаковка «Oxygen Home»"><span class="cap text-caption">Упаковка «Oxygen Home»</span></a>
-      <a href="portfolio.html" class="pf-tile aspect-square"><img src="assets/work-modum-box.jpg" alt="Коробка для «Модум-Транс»"><span class="cap text-caption">Коробка для «Модум-Транс»</span></a>
-    </div>
-  </div>
-</section>
-
-<!-- ============================ БЛОК 6.5 — ВЕРТИКАЛЬНЫЕ ВИДЕО (REELS) ============================ -->
-<section class="sec bg-ink text-white overflow-hidden">
-  <div class="max-w-7xl mx-auto px-5 lg:px-8">
-    <div class="sec-head">
-      <div>
-        <span class="sec-kicker">В движении</span>
-        <h2 class="font-display sec-title">Работы в reels</h2>
-        <p class="lead-txt mt-4 text-zinc-400 max-w-md">Снимаем процесс и результат — фактуры, отделки, распаковка. Живьём видно то, что не передаст фото.</p>
-      </div>
-      <div class="flex gap-2 self-end">
-        <button class="reel-nav" data-dir="-1" aria-label="Назад">←</button>
-        <button class="reel-nav" data-dir="1" aria-label="Вперёд">→</button>
-      </div>
-    </div>
-  </div>
-  <div class="max-w-7xl mx-auto px-5 lg:px-8">
-    <div class="reels" id="reels">
-      <a href="#" class="reel"><img src="assets/reel-foil.jpg" alt="Объёмная фольга"><span class="play"><i></i></span><span class="rcap">Объёмная фольга на тёмном картоне</span></a>
-      <a href="#" class="reel"><img src="assets/reel-advent.jpg" alt="Адвент-календарь"><span class="play"><i></i></span><span class="rcap">Корпоративный адвент-календарь</span></a>
-      <a href="#" class="reel"><img src="assets/reel-notebook.jpg" alt="Блокнот «Амбар»"><span class="play"><i></i></span><span class="rcap">Блокнот «Амбар»</span></a>
-      <a href="#" class="reel"><img src="assets/reel-calendar.jpg" alt="Календарь GES 2026"><span class="play"><i></i></span><span class="rcap">Календарь GES 2026</span></a>
-      <a href="#" class="reel"><img src="assets/reel-dune.jpg" alt="Колода карт «Дюна»"><span class="play"><i></i></span><span class="rcap">Колода карт «Дюна»</span></a>
-      <a href="#" class="reel"><img src="assets/reel-box-foil.jpg" alt="Коробка с объёмной фольгой"><span class="play"><i></i></span><span class="rcap">Коробка с объёмной фольгой</span></a>
-    </div>
-  </div>
-</section>
-
-<!-- ============================ БЛОК 7 — ПРОЦЕСС ============================ -->
-<section class="sec bg-zinc-50/60 border-y border-zinc-100">
-  <div class="max-w-7xl mx-auto px-5 lg:px-8">
-    <span class="sec-kicker mb-4">Как работаем</span>
-    <h2 class="font-display sec-title mb-14">Спокойно, по шагам</h2>
-    <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-5">
-      <div class="step" style="--c:#2A37C2"><div class="step-n">01</div><div class="font-display text-h4 mt-2">Бриф</div><p class="mt-2 text-zinc-500 text-caption">Разбираем задачу, сроки и бюджет. Подсказываем, что реально нужно.</p></div>
-      <div class="step" style="--c:#C633A0"><div class="step-n">02</div><div class="font-display text-h4 mt-2">Дизайн</div><p class="mt-2 text-zinc-500 text-caption">Макет и концепция. Показываем, согласуем, правим до «то самое».</p></div>
-      <div class="step" style="--c:#9BBF00"><div class="step-n">03</div><div class="font-display text-h4 mt-2">Препресс</div><p class="mt-2 text-zinc-500 text-caption">Готовим файлы к печати: цвет, вылеты, материалы, отделки.</p></div>
-      <div class="step" style="--c:#E8BE1E"><div class="step-n">04</div><div class="font-display text-h4 mt-2">Печать</div><p class="mt-2 text-zinc-500 text-caption">Печатаем на своём оборудовании. Контроль качества тиража.</p></div>
-      <div class="step" style="--c:#64748B"><div class="step-n">05</div><div class="font-display text-h4 mt-2">Выдача</div><p class="mt-2 text-zinc-500 text-caption">Постобработка, упаковка, доставка. Готово — а вы боялись.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================ БЛОК 8 — ДОВЕРИЕ ============================ -->
-<section class="sec">
-  <div class="max-w-7xl mx-auto px-5 lg:px-8">
-    <div class="sec-head">
-      <div>
-        <span class="sec-kicker">Отзывы</span>
-        <h2 class="font-display sec-title">Что о нас говорят</h2>
-      </div>
-      <div class="rev-agg self-end">
-        <span class="font-display" style="font-size:2.7rem;line-height:1">5,0</span>
-        <span><span class="stars block">★★★★★</span><span class="block text-zinc-400 text-caption mt-1">10 отзывов · Яндекс и 2ГИС</span></span>
-      </div>
-    </div>
-    <div class="rev-track" id="rev-track">
-      <figure class="review">
-        <div class="stars" aria-label="Оценка 5 из 5">★★★★★</div>
-        <blockquote>Первый раз заказывал не просто печать, а ещё и разработку макета. Получилось очень достойно.</blockquote>
-        <figcaption class="who"><span class="w-9 h-9 rounded-full bg-zinc-200"></span><span><b class="block leading-tight">Егор Дронов</b><span class="src-badge"><i class="dot" style="background:#46AD25"></i>2ГИС</span></span></figcaption>
-      </figure>
-      <figure class="review">
-        <div class="stars" aria-label="Оценка 5 из 5">★★★★★</div>
-        <blockquote>Анастасия разработала макет, который отразил суть бизнеса. По качеству вопросов нет.</blockquote>
-        <figcaption class="who"><span class="w-9 h-9 rounded-full bg-zinc-200"></span><span><b class="block leading-tight">Максим Пирожков</b><span class="src-badge"><i class="dot" style="background:#46AD25"></i>2ГИС</span></span></figcaption>
-      </figure>
-      <figure class="review">
-        <div class="stars" aria-label="Оценка 5 из 5">★★★★★</div>
-        <blockquote>Всё сделали очень быстро. Нужны были правки в макете — правили без доплат. Очень рекомендую!</blockquote>
-        <figcaption class="who"><span class="w-9 h-9 rounded-full bg-zinc-200"></span><span><b class="block leading-tight">Nevada More</b><span class="src-badge"><i class="dot" style="background:#46AD25"></i>2ГИС</span></span></figcaption>
-      </figure>
-      <figure class="review">
-        <div class="stars" aria-label="Оценка 5 из 5">★★★★★</div>
-        <blockquote>Хороший опыт. Если снова понадобится — обращусь ещё.</blockquote>
-        <figcaption class="who"><span class="w-9 h-9 rounded-full bg-zinc-200"></span><span><b class="block leading-tight">Городской житель</b><span class="src-badge"><i class="dot" style="background:#46AD25"></i>2ГИС</span></span></figcaption>
-      </figure>
-    </div>
-    <div class="mt-9 flex items-center justify-between gap-4 flex-wrap">
-      <div class="flex flex-wrap gap-x-8 gap-y-3">
-        <a href="https://2gis.ru/moscow/firm/70000001046388634/tab/reviews" target="_blank" rel="noopener" class="tlink"><span class="t">Все отзывы в 2ГИС</span><span class="a">→</span></a>
-        <a href="https://yandex.ru/maps/?text=Litera.Studio%20%D0%A5%D0%BE%D0%BB%D0%BE%D0%B4%D0%B8%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9%20%D0%BF%D0%B5%D1%80%D0%B5%D1%83%D0%BB%D0%BE%D0%BA" target="_blank" rel="noopener" class="tlink"><span class="t">Отзывы на Яндекс.Картах</span><span class="a">→</span></a>
-      </div>
-      <div class="flex gap-2 shrink-0">
-        <button class="car-nav rev-nav" data-dir="-1" aria-label="Назад">←</button>
-        <button class="car-nav rev-nav" data-dir="1" aria-label="Вперёд">→</button>
-      </div>
-    </div>
-    <div class="mt-16 pt-10 border-t border-zinc-100">
-      <span class="sec-kicker mb-7">Делали для</span>
-      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 border-y border-zinc-100 divide-x divide-zinc-100">
-        <div class="logo-cell"><img src="assets/client1.png" alt="Модум-Транс"></div>
-        <div class="logo-cell"><img src="assets/client3.png" alt="Inkerman"></div>
-        <div class="logo-cell"><img src="assets/client4.png" alt="Посольство Франции в России"></div>
-        <div class="logo-cell"><img src="assets/client6.png" alt="БНБК"></div>
-        <div class="logo-cell"><img src="assets/client10.png" alt="Helppo"></div>
-        <div class="logo-cell"><img src="assets/client11.png" alt="ЛИГО"></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============================ БЛОК 9 — БЛОГ ============================ -->
-<section class="sec bg-zinc-50/60 border-y border-zinc-100">
-  <div class="max-w-7xl mx-auto px-5 lg:px-8">
-    <div class="sec-head">
-      <div><span class="sec-kicker">Журнал</span><h2 class="font-display sec-title">Полезное о печати и бренде</h2></div>
-      <a href="#" class="tlink self-end"><span class="t">Все статьи</span><span class="a">→</span></a>
-    </div>
-    <div class="grid gap-6 md:grid-cols-3">
-      <a href="#" class="post block group">
-        <span class="ph block"><img src="assets/work-stickers.jpg" alt=""></span>
-        <span class="tag block mt-4" style="color:#C633A0">Упаковка</span>
-        <span class="block font-display text-h4 mt-1.5 group-hover:opacity-70 transition">Дизайн упаковки как инструмент продаж: привлекаем покупателей с первого взгляда</span>
-        <span class="block text-zinc-400 text-caption mt-2">30 августа 2024</span>
-      </a>
-      <a href="#" class="post block group">
-        <span class="ph block"><img src="assets/work-highlvl.jpg" alt=""></span>
-        <span class="tag block mt-4" style="color:#C633A0">Упаковка</span>
-        <span class="block font-display text-h4 mt-1.5 group-hover:opacity-70 transition">Чем МГК отличается от гофрокартона?</span>
-        <span class="block text-zinc-400 text-caption mt-2">18 декабря 2023</span>
-      </a>
-      <a href="#" class="post block group">
-        <span class="ph block"><img src="assets/work-estetico.jpg" alt=""></span>
-        <span class="tag block mt-4" style="color:#2A37C2">Полиграфия</span>
-        <span class="block font-display text-h4 mt-1.5 group-hover:opacity-70 transition">Кто пишет и проверяет текст для макета?</span>
-        <span class="block text-zinc-400 text-caption mt-2">16 декабря 2023</span>
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- ============================ БЛОК 10 — ЛИД-ФОРМА ============================ -->
-<section id="lead" class="sec scroll-mt-24">
-  <div class="max-w-7xl mx-auto px-5 lg:px-8">
-    <div class="grid lg:grid-cols-[0.85fr_1.15fr] border border-zinc-200">
-      <!-- Левая панель: «менеджер-терапевт» на фирменном цвете + матовое стекло -->
-      <div class="relative overflow-hidden text-white p-8 lg:p-10 flex flex-col" style="background:#2A37C2">
-        <span class="hc-paper"></span>
-        <div class="relative z-10">
-          <span class="sec-kicker mb-6" style="color:rgba(255,255,255,.75)">Заявка</span>
-          <h2 class="font-display text-h2">Расскажите задачу — подскажем, что делать</h2>
-          <p class="mt-5 text-white/85 leading-relaxed max-w-sm">Ответим в течение рабочего дня, предложим формат и сориентируем по стоимости и срокам. Ну вот и всё, а вы боялись.</p>
-        </div>
-        <div class="lead-glass mt-auto relative z-10 p-5 flex items-center gap-4">
-          <span class="w-12 h-12 rounded-full bg-white/25 shrink-0"></span>
-          <span><b class="block">Ваш менеджер</b><span class="text-white/75 text-caption">ведёт проект от брифа до выдачи тиража</span></span>
+      <a class="ls-menu-group" href="/upakovka-i-etiketki" aria-expanded="false" aria-controls="sub1"><span class="ls-menu-group-name">Упаковка и <span class="ls-nw">этикетки <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6.5l4 4 4-4"/></svg></span></span></a>
+      <div class="ls-menu-sub" id="sub1" hidden>
+        <div>
+          <a class="ls-menu-all" href="/upakovka-i-etiketki">Все услуги раздела</a>
+          <a href="/dizajn-i-pechat-kashirovannyh-korobok-iz-zhyostkogo-kartona">Кашированные коробки</a>
+          <a href="/dizajn-i-pechat-korobok-iz-kartona">Картонные коробки</a>
+          <a href="/dizajn-i-pechat-korobok-iz-mgk">Коробки из МГК</a>
+          <a href="/dizajn-i-pechat-korobok-s-lozhementom">Ложементы и вставки</a>
+          <a href="/dizajn-naklejki">Этикетки и наклейки</a>
+          <a href="#" data-soon>Упаковочные материалы</a> <!-- страницы ещё нет, новая подгруппа -->
         </div>
       </div>
-      <!-- Правая панель: форма с чипами-направлениями -->
-      <form class="p-8 lg:p-10" onsubmit="return false">
-        <div class="field-label mb-3">С чем нужна помощь?</div>
-        <div class="flex flex-wrap gap-2.5 mb-8" data-chips>
-          <button type="button" class="chip">Полиграфия</button>
-          <button type="button" class="chip">Упаковка</button>
-          <button type="button" class="chip">Логотип</button>
-          <button type="button" class="chip">Сувениры</button>
-          <button type="button" class="chip">Отраслевое</button>
-          <button type="button" class="chip">Пока не знаю</button>
+      <a class="ls-menu-group" href="/razrabotka-dizajna-logotipa-kompanii" aria-expanded="false" aria-controls="sub2"><span class="ls-menu-group-name">Логотип и фирменный <span class="ls-nw">стиль <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6.5l4 4 4-4"/></svg></span></span></a>
+      <div class="ls-menu-sub" id="sub2" hidden>
+        <div>
+          <a class="ls-menu-all" href="/razrabotka-dizajna-logotipa-kompanii">Все услуги раздела</a>
+          <a href="/razrabotka-dizajna-maskota-brenda">Маскот бренда</a>
+          <a href="/razrabotka-brendbuka">Брендбук и гайдлайн</a>
+          <a href="/dizajn-firmennyh-nositelej">Фирменные носители</a>
+          <a href="/redizajn-logotipa-i-firmennyh-nositelej">Редизайн логотипа</a>
         </div>
-        <div class="grid sm:grid-cols-2 gap-x-8 gap-y-6">
-          <label class="block"><span class="field-label">Как вас зовут</span><input class="field" type="text" placeholder="Имя"></label>
-          <label class="block"><span class="field-label">Телефон или почта</span><input class="field" type="text" placeholder="Как с вами связаться"></label>
+      </div>
+      <a class="ls-menu-group" href="/korporativnyj-brending-suveniry" aria-expanded="false" aria-controls="sub3"><span class="ls-menu-group-name">Корпоративный <span class="ls-nw">брендинг <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6.5l4 4 4-4"/></svg></span></span></a>
+      <div class="ls-menu-sub" id="sub3" hidden>
+        <div>
+          <a class="ls-menu-all" href="/korporativnyj-brending-suveniry">Все услуги раздела</a>
+          <a href="/korporativnyj-merch">Корпоративный мерч</a>
+          <a href="/dizajn-suvenirnoj-produkcii">Брендирование сувениров</a>
+          <a href="/korporativnye-podarochnye-nabory">Подарочные наборы</a>
         </div>
-        <label class="block mt-6"><span class="field-label">О задаче</span><input class="field" type="text" placeholder="Кратко: что нужно, тираж, сроки"></label>
-        <div class="mt-6 flex items-center gap-2.5 text-zinc-500 text-caption">
-          <svg class="w-5 h-5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
-          <button type="button" class="hover:text-ink transition underline underline-offset-2">Прикрепить макет или ТЗ</button>
-          <span class="text-zinc-300">·</span><span>до 25 МБ</span>
-        </div>
-        <button type="submit" class="btn btn-accent btn-lg w-full justify-center mt-8">Отправить заявку</button>
-        <p class="mt-4 text-zinc-400 text-xs leading-relaxed">Нажимая кнопку, вы соглашаетесь с <a href="#" class="underline">политикой конфиденциальности</a>.</p>
-      </form>
+      </div>
+    </nav>
+
+  <nav class="ls-menu-more" aria-label="Информация">
+      <a href="/projects">Работы</a>
+      <a href="/blog">Блог</a>
+      <a href="/contacts">Контакты</a>
+    </nav>
+
+    <div class="ls-menu-foot">
+      <a href="tel:+74950213577">+7 495 021-35-77</a>
+      <a href="mailto:zakaz@litera.studio">zakaz@litera.studio</a>
+      <p class="ls-menu-links">
+        <a href="https://t.me/litera_studio">Telegram</a>
+        <a href="https://api.whatsapp.com/send?phone=79777936481">WhatsApp</a>
+        <a href="https://max.ru/u/f9LHodD0cOIV9InOx6ulNiryFx5jU7n5eIY9DliBnMiKjsrZAmOxnfX0e38">Max</a>
+      </p>
     </div>
   </div>
+
+  <!-- Первый экран одним блоком: на десктопе он прилипает, и страница
+       наезжает на него слоем. Без обёртки заголовок, кнопка и кадр
+       прилипали бы вразнобой — они отдельные элементы сетки. -->
+  <div class="ls-lead">
+    <figure class="ls-hero">
+      <picture>
+          <source srcset="assets/img/p1.webp" type="image/webp">
+          <img fetchpriority="high" src="assets/img/p1.jpg" width="900" height="457" alt="Подарочный сертификат на розовой дизайнерской бумаге с золотым QR-кодом">
+        </picture>
+    </figure>
+
+    <div class="ls-body">
+    <!-- метка для телефона: по ней шапка понимает, что белый слой
+         дошёл до неё. На широком экране работает метка в начале .rest. -->
+    <i class="ls-body-sentinel" aria-hidden="true"></i>
+      <nav aria-label="Хлебные крошки">
+        <a class="ls-back" href="/listovaya-poligrafiya">
+          <svg width="12" height="11" viewBox="0 0 16 14" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M7 1L1 7l6 6M1 7h14"/></svg>
+          Листовая полиграфия
+        </a>
+      </nav>
+      <h1 class="ls-title">Подарочный сертификат</h1>
+      <p class="ls-desc">Нарисуем с нуля или вылечим готовый макет. Напечатаем тираж на своём производстве.</p>
+
+      <p class="ls-meta">
+        <span class="ls-price">от&nbsp;1&nbsp;500&nbsp;₽</span>
+        <span class="ls-price-note">от 50&nbsp;шт&nbsp;· от 2&nbsp;дней</span>
+      </p>
+    </div>
+
+    <div class="ls-cta">
+      <a class="ls-btn ls-btn-main" href="#zayavka">Рассчитать стоимость</a>
+    </div>
+
+    <p class="ls-cta-alt"><a href="https://t.me/litera_studio"><span>Написать в Telegram</span><svg width="16" height="16" viewBox="0 0 128 128" aria-hidden="true"><defs><linearGradient id="tg" x1="50%" x2="50%" y1="0%" y2="99.258%"><stop offset="0%" stop-color="#2AABEE"/><stop offset="100%" stop-color="#229ED9"/></linearGradient></defs><circle cx="64" cy="64" r="64" fill="url(#tg)"/><path fill="#fff" d="M28.9700376,63.3244248 C47.6273373,55.1957357 60.0684594,49.8368063 66.2934036,47.2476366 C84.0668845,39.855031 87.7600616,38.5708563 90.1672227,38.528 C90.6966555,38.5191258 91.8804274,38.6503351 92.6472251,39.2725385 C93.294694,39.7979149 93.4728387,40.5076237 93.5580865,41.0057381 C93.6433345,41.5038525 93.7494885,42.63857 93.6651041,43.5252052 C92.7019529,53.6451182 88.5344133,78.2034783 86.4142057,89.5379542 C85.5170662,94.3339958 83.750571,95.9420841 82.0403991,96.0994568 C78.3237996,96.4414641 75.5015827,93.6432685 71.9018743,91.2836143 C66.2690414,87.5912212 63.0868492,85.2926952 57.6192095,81.6896017 C51.3004058,77.5256038 55.3966232,75.2369981 58.9976911,71.4967761 C59.9401076,70.5179421 76.3155302,55.6232293 76.6324771,54.2720454 C76.6721165,54.1030573 76.7089039,53.4731496 76.3346867,53.1405352 C75.9604695,52.8079208 75.4081573,52.921662 75.0095933,53.0121213 C74.444641,53.1403447 65.4461175,59.0880351 48.0140228,70.8551922 C45.4598218,72.6091037 43.1463059,73.4636682 41.0734751,73.4188859 C38.7883453,73.3695169 34.3926725,72.1268388 31.1249416,71.0646282 C27.1169366,69.7617838 23.931454,69.0729605 24.208838,66.8603276 C24.3533167,65.7078514 25.9403832,64.5292172 28.9700376,63.3244248 Z"/></svg></a> или <a href="https://max.ru/u/f9LHodD0cOIV9InOx6ulNiryFx5jU7n5eIY9DliBnMiKjsrZAmOxnfX0e38"><span>Max</span><img loading="lazy" decoding="async" class="ls-max" src="assets/img/max-logo.png" width="16" height="16" alt=""></a></p>
+  </div>
+
+  <!-- Всё, что ниже первого экрана, — один слой с общим фоном.
+       Иначе в промежутках между секциями просвечивает прилипшая плашка. -->
+  <div class="ls-rest">
+    <!-- метка для широкого экрана: по ней шапка понимает, что белый слой
+         дошёл до неё. На телефоне работает метка выше, в начале страницы. -->
+    <i class="ls-rest-sentinel" aria-hidden="true"></i>
+    <section class="ls-value">
+      <h2>Зачем сертификат бизнесу</h2>
+      <ul>
+        <li>
+          <svg class="ls-mark" viewBox="0 0 113.12 161.82" fill="currentColor" aria-hidden="true"><path d="m53.39,38.49l-4.17,17.01c-.35,1.45-2.16,1.95-3.21.9l-22.43-22.43c-1.16-1.16-3.15-.34-3.15,1.31v30.92c0,.49.19.96.54,1.31l3.55,3.55c1.2,1.2.35,3.26-1.35,3.26h-.82c-1.06,0-1.92.86-1.92,1.92v22.93c0,1.06.86,1.92,1.92,1.92h13.26c1.24,0,2.15,1.16,1.86,2.37l-2.79,11.37c-.09.35.02.73.3,1.06l17.6,21.04c.93,1.11,3,.99,3.29-.18l5.95-24.28c.35-1.45,2.16-1.95,3.21-.9l24.51,24.52c1.16,1.16,3.15.34,3.15-1.31v-30.91c0-.49-.19-.96-.54-1.31l-11.15-11.15c-.75-.75-.75-1.96,0-2.7l11.12-11.12c1.21-1.21.35-3.27-1.36-3.27h-17.17c-1.24,0-2.15-1.16-1.86-2.37l10.57-43.09c.29-1.18-1.5-2.24-2.83-1.68l-25.34,10.52c-.4.16-.67.45-.75.8Z"/></svg>
+          <b>Деньги приходят раньше услуги</b>
+          <p>Клиент платит сегодня, а приходит когда захочет. Выручка появляется в низкий сезон, нагрузка — когда вам удобно.</p>
+        </li>
+        <li>
+          <svg class="ls-mark" viewBox="0 0 113.12 161.82" fill="currentColor" aria-hidden="true"><path d="m53.39,38.49l-4.17,17.01c-.35,1.45-2.16,1.95-3.21.9l-22.43-22.43c-1.16-1.16-3.15-.34-3.15,1.31v30.92c0,.49.19.96.54,1.31l3.55,3.55c1.2,1.2.35,3.26-1.35,3.26h-.82c-1.06,0-1.92.86-1.92,1.92v22.93c0,1.06.86,1.92,1.92,1.92h13.26c1.24,0,2.15,1.16,1.86,2.37l-2.79,11.37c-.09.35.02.73.3,1.06l17.6,21.04c.93,1.11,3,.99,3.29-.18l5.95-24.28c.35-1.45,2.16-1.95,3.21-.9l24.51,24.52c1.16,1.16,3.15.34,3.15-1.31v-30.91c0-.49-.19-.96-.54-1.31l-11.15-11.15c-.75-.75-.75-1.96,0-2.7l11.12-11.12c1.21-1.21.35-3.27-1.36-3.27h-17.17c-1.24,0-2.15-1.16-1.86-2.37l10.57-43.09c.29-1.18-1.5-2.24-2.83-1.68l-25.34,10.52c-.4.16-.67.45-.75.8Z"/></svg>
+          <b>Приводит нового человека</b>
+          <p>Сертификат почти всегда дарят кому-то другому. К вам приходит новый клиент, но уже с доверием от того, кто подарил.</p>
+        </li>
+        <li>
+          <svg class="ls-mark" viewBox="0 0 113.12 161.82" fill="currentColor" aria-hidden="true"><path d="m53.39,38.49l-4.17,17.01c-.35,1.45-2.16,1.95-3.21.9l-22.43-22.43c-1.16-1.16-3.15-.34-3.15,1.31v30.92c0,.49.19.96.54,1.31l3.55,3.55c1.2,1.2.35,3.26-1.35,3.26h-.82c-1.06,0-1.92.86-1.92,1.92v22.93c0,1.06.86,1.92,1.92,1.92h13.26c1.24,0,2.15,1.16,1.86,2.37l-2.79,11.37c-.09.35.02.73.3,1.06l17.6,21.04c.93,1.11,3,.99,3.29-.18l5.95-24.28c.35-1.45,2.16-1.95,3.21-.9l24.51,24.52c1.16,1.16,3.15.34,3.15-1.31v-30.91c0-.49-.19-.96-.54-1.31l-11.15-11.15c-.75-.75-.75-1.96,0-2.7l11.12-11.12c1.21-1.21.35-3.27-1.36-3.27h-17.17c-1.24,0-2.15-1.16-1.86-2.37l10.57-43.09c.29-1.18-1.5-2.24-2.83-1.68l-25.34,10.52c-.4.16-.67.45-.75.8Z"/></svg>
+          <b>Чек обычно выше номинала</b>
+          <p>Люди редко укладываются ровно в сумму: доплачивают, чтобы взять то, что хочется, а не то, что влезает.</p>
+        </li>
+        <li>
+          <svg class="ls-mark" viewBox="0 0 113.12 161.82" fill="currentColor" aria-hidden="true"><path d="m53.39,38.49l-4.17,17.01c-.35,1.45-2.16,1.95-3.21.9l-22.43-22.43c-1.16-1.16-3.15-.34-3.15,1.31v30.92c0,.49.19.96.54,1.31l3.55,3.55c1.2,1.2.35,3.26-1.35,3.26h-.82c-1.06,0-1.92.86-1.92,1.92v22.93c0,1.06.86,1.92,1.92,1.92h13.26c1.24,0,2.15,1.16,1.86,2.37l-2.79,11.37c-.09.35.02.73.3,1.06l17.6,21.04c.93,1.11,3,.99,3.29-.18l5.95-24.28c.35-1.45,2.16-1.95,3.21-.9l24.51,24.52c1.16,1.16,3.15.34,3.15-1.31v-30.91c0-.49-.19-.96-.54-1.31l-11.15-11.15c-.75-.75-.75-1.96,0-2.7l11.12-11.12c1.21-1.21.35-3.27-1.36-3.27h-17.17c-1.24,0-2.15-1.16-1.86-2.37l10.57-43.09c.29-1.18-1.5-2.24-2.83-1.68l-25.34,10.52c-.4.16-.67.45-.75.8Z"/></svg>
+          <b>Работает как учётный документ</b>
+          <p>Сквозной номер или QR-код: видно, какой сертификат выдан, какой погашен и когда истекает срок.</p>
+        </li>
+      </ul>
+    </section>
+
+    <section class="ls-works">
+      <div class="ls-works-head">
+        <h2>Работы</h2>
+        <a href="/projects">В портфолио</a>
+      </div>
+      <!-- Плитки ведут в общее портфолио: отдельных страниц работ пока нет.
+         Когда появятся, CMS подставит их адреса вместо /projects. -->
+    <ul class="ls-works-list">
+        <!-- Показ нескольких кадров работы: карточка поделена на невидимые зоны,
+             наведение на каждую показывает свой снимок, снизу полоски-указатели.
+             ВНИМАНИЕ: у нас по одному фото на работу, здесь для показа механики
+             подставлены чужие кадры. Нужны 2–3 снимка на каждую работу. -->
+        <li class="ls-work ls-has-shots"><a href="/projects">
+          <i class="ls-zone" aria-hidden="true"></i>
+          <i class="ls-zone" aria-hidden="true"></i>
+          <i class="ls-zone" aria-hidden="true"></i>
+          <span class="ls-shots">
+            <picture>
+              <source srcset="assets/img/p2.webp" type="image/webp">
+              <img loading="lazy" decoding="async" src="assets/img/p2.jpg" width="900" height="457" alt="Сертификат на дизайнерской бумаге с тиснением">
+            </picture>
+            <picture>
+              <source srcset="assets/img/p4.webp" type="image/webp">
+              <img loading="lazy" decoding="async" src="assets/img/p4.jpg" width="900" height="457" alt="">
+            </picture>
+            <picture>
+              <source srcset="assets/img/p5.webp" type="image/webp">
+              <img loading="lazy" decoding="async" src="assets/img/p5.jpg" width="900" height="457" alt="">
+            </picture>
+          </span>
+          <span class="ls-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+          <b>Сертификаты с тиснением</b>
+          <span>Студия растяжки</span>
+        </a></li>
+        <li class="ls-work"><a href="/projects">
+          <picture>
+          <source srcset="assets/img/p3.webp" type="image/webp">
+          <img loading="lazy" decoding="async" src="assets/img/p3.jpg" width="900" height="497" alt="Подарочные сертификаты с золотой фольгой">
+        </picture>
+          <b>Подарочные карты с фольгой</b>
+          <span>Салон красоты</span>
+        </a></li>
+        <li class="ls-work"><a href="/projects">
+          <picture>
+          <source srcset="assets/img/p4.webp" type="image/webp">
+          <img loading="lazy" decoding="async" src="assets/img/p4.jpg" width="900" height="457" alt="Сертификаты в конверте с логотипом">
+        </picture>
+          <b>Сертификаты в конвертах</b>
+          <span>Ресторан</span>
+        </a></li>
+        <li class="ls-work"><a href="/projects">
+          <picture>
+          <source srcset="assets/img/p5.webp" type="image/webp">
+          <img loading="lazy" decoding="async" src="assets/img/p5.jpg" width="900" height="457" alt="Комплект сертификатов разных номиналов">
+        </picture>
+          <b>Комплект на четыре номинала</b>
+          <span>Магазин подарков</span>
+        </a></li>
+        
+        <li class="ls-work"><a href="/projects">
+          <picture>
+          <source srcset="assets/img/p1.webp" type="image/webp">
+          <img loading="lazy" decoding="async" src="assets/img/p1.jpg" width="900" height="457" alt="Сертификат на розовой бумаге с QR-кодом">
+        </picture>
+          <b>Сертификаты с QR-кодом</b>
+          <span>Фитнес-студия</span>
+        </a></li>
+        <li class="ls-work"><a href="/projects">
+          <picture>
+          <source srcset="assets/img/p3.webp" type="image/webp">
+          <img loading="lazy" decoding="async" src="assets/img/p3.jpg" width="900" height="497" alt="Подарочные сертификаты с фольгой">
+        </picture>
+          <b>Именные сертификаты</b>
+          <span>Барбершоп</span>
+        </a></li>
+      </ul>
+    </section>
+
+    <!-- Группы обёрнуты, чтобы не разрывались между колонками на десктопе:
+       заголовок, строки и раскрытие «Ещё…» должны остаться вместе. -->
+  <section class="ls-specs">
+      <h2>Материалы и отделка</h2>
+
+      <!-- Две независимые колонки: раскрытие в одной не должно двигать
+           соседнюю. В сетке строки связаны, и группа справа уезжала вниз. -->
+      <div class="ls-spec-col">
+        <div class="ls-spec-group">
+          <h3>Бумага</h3>
+          <ul class="ls-rows">
+            <li class="ls-row-body">
+              <span class="ls-thumb">
+                <picture>
+                  <source srcset="assets/img/materials/paper-designer-300.webp" type="image/webp">
+                  <img loading="lazy" decoding="async" src="assets/img/materials/paper-designer-300.jpg" width="208" height="208" alt="Фактура дизайнерской бумаги 300 г">
+                </picture>
+              </span>
+              <div>
+                <b>Дизайнерская, 300 г</b>
+                <p>Фактурная, хорошо держит тиснение и выглядит дороже обычной</p>
+              </div>
+            </li>
+            <li class="ls-row-body">
+              <span class="ls-thumb">
+                <picture>
+                  <source srcset="assets/img/materials/paper-coated-300.webp" type="image/webp">
+                  <img loading="lazy" decoding="async" src="assets/img/materials/paper-coated-300.jpg" width="208" height="208" alt="Гладкая мелованная бумага 300 г">
+                </picture>
+              </span>
+              <div>
+                <b>Мелованная, 300 г</b>
+                <p>Гладкая и плотная — под фотографии и заливки без потери цвета</p>
+              </div>
+            </li>
+            <li class="ls-row-body">
+              <span class="ls-thumb">
+                <picture>
+                  <source srcset="assets/img/materials/paper-kraft-300.webp" type="image/webp">
+                  <img loading="lazy" decoding="async" src="assets/img/materials/paper-kraft-300.jpg" width="208" height="208" alt="Небелёная крафтовая бумага 300 г">
+                </picture>
+              </span>
+              <div>
+                <b>Крафт, 300 г</b>
+                <p>Тёплый небелёный оттенок, печать выглядит приглушённее</p>
+              </div>
+            </li>
+          </ul>
+          <details class="ls-more">
+            <summary><span class="ls-s-closed">Ещё 3 бумаги</span><span class="ls-s-open">Свернуть</span></summary>
+            <ul class="ls-rows">
+            <li class="ls-row-body">
+              <span class="ls-thumb" aria-hidden="true"></span>
+              <div>
+                <b>Хлопковая, 300 г</b>
+                <p>Мягкая на ощупь, для премиальных тиражей</p>
+              </div>
+            </li>
+            <li class="ls-row-body">
+              <span class="ls-thumb" aria-hidden="true"></span>
+              <div>
+                <b>Перламутровая, 290 г</b>
+                <p>Слегка мерцает на свету, хороша для подарочных</p>
+              </div>
+            </li>
+            <li class="ls-row-body">
+              <span class="ls-thumb" aria-hidden="true"></span>
+              <div>
+                <b>Тонированная в массе, 300 г</b>
+                <p>Цвет на срезе такой же, как на поверхности</p>
+              </div>
+            </li>
+            </ul>
+          </details>
+        </div>
+        <div class="ls-spec-group">
+          <h3>Формат</h3>
+          <ul class="ls-rows">
+            <li class="ls-row-body">
+              <span class="ls-thumb">
+                <img loading="lazy" decoding="async" src="assets/img/materials/fmt-euro.svg" width="416" height="416" alt="Схема формата евро: вытянутый прямоугольник">
+              </span>
+              <div>
+                <b>Евро, 210×99 мм</b>
+                <p>Влезает в стандартный конверт и в кошелёк</p>
+              </div>
+            </li>
+            <li class="ls-row-body">
+              <span class="ls-thumb">
+                <img loading="lazy" decoding="async" src="assets/img/materials/fmt-a6.svg" width="416" height="416" alt="Схема формата А6: вертикальный прямоугольник">
+              </span>
+              <div>
+                <b>А6, 105×148 мм</b>
+                <p>Ходовой размер, дешевле в раскладке на лист</p>
+              </div>
+            </li>
+            <li class="ls-row-body">
+              <span class="ls-thumb">
+                <img loading="lazy" decoding="async" src="assets/img/materials/fmt-square.svg" width="416" height="416" alt="Схема квадратного формата">
+              </span>
+              <div>
+                <b>Квадрат, 148×148 мм</b>
+                <p>Заметнее в подарочном наборе</p>
+              </div>
+            </li>
+          </ul>
+          <details class="ls-more">
+            <summary><span class="ls-s-closed">Ещё 3 формата</span><span class="ls-s-open">Свернуть</span></summary>
+            <ul class="ls-rows">
+            <li class="ls-row-body">
+              <span class="ls-thumb" aria-hidden="true"></span>
+              <div>
+                <b>Свой размер</b>
+                <p>Считаем отдельно: раскладка на листе влияет на цену тиража</p>
+              </div>
+            </li>
+            <li class="ls-row-body">
+              <span class="ls-thumb" aria-hidden="true"></span>
+              <div>
+                <b>Билетный, 210×70 мм</b>
+                <p>Узкий, удобно отрывать корешок</p>
+              </div>
+            </li>
+            <li class="ls-row-body">
+              <span class="ls-thumb" aria-hidden="true"></span>
+              <div>
+                <b>А5, 148×210 мм</b>
+                <p>Когда на сертификате много текста</p>
+              </div>
+            </li>
+            </ul>
+          </details>
+        </div>
+        <div class="ls-spec-group">
+          <h3>Печать</h3>
+          <ul class="ls-rows">
+            <li class="ls-row-body">
+              <span class="ls-thumb">
+                <picture>
+                  <source srcset="assets/img/materials/print-digital.webp" type="image/webp">
+                  <img loading="lazy" decoding="async" src="assets/img/materials/print-digital.jpg" width="416" height="416" alt="Стопка отпечатанных карточек">
+                </picture>
+              </span>
+              <div>
+                <b>Цифровая печать</b>
+                <p>Выгодна на малых тиражах, от 50 экземпляров</p>
+              </div>
+            </li>
+            <li class="ls-row-body">
+              <span class="ls-thumb">
+                <picture>
+                  <source srcset="assets/img/materials/print-offset.webp" type="image/webp">
+                  <img loading="lazy" decoding="async" src="assets/img/materials/print-offset.jpg" width="416" height="416" alt="Печатный лист с раскладкой карточек и метками реза">
+                </picture>
+              </span>
+              <div>
+                <b>Офсет</b>
+                <p>Дешевеет с ростом тиража, имеет смысл от тысячи</p>
+              </div>
+            </li>
+            <li class="ls-row-body">
+              <span class="ls-thumb">
+                <picture>
+                  <source srcset="assets/img/materials/print-back.webp" type="image/webp">
+                  <img loading="lazy" decoding="async" src="assets/img/materials/print-back.jpg" width="416" height="416" alt="Две карточки: одна лицом, другая запечатанным оборотом">
+                </picture>
+              </span>
+              <div>
+                <b>Печать с оборота</b>
+                <p>Обратная сторона под условия, срок действия и правила</p>
+              </div>
+            </li>
+          </ul>
+          <details class="ls-more">
+            <summary><span class="ls-s-closed">Ещё 3 варианта</span><span class="ls-s-open">Свернуть</span></summary>
+            <ul class="ls-rows">
+            <li class="ls-row-body">
+              <span class="ls-thumb" aria-hidden="true"></span>
+              <div>
+                <b>Плашка Pantone</b>
+                <p>Точный фирменный цвет, который не собрать из четырёх красок</p>
+              </div>
+            </li>
+            <li class="ls-row-body">
+              <span class="ls-thumb" aria-hidden="true"></span>
+              <div>
+                <b>Печать белилами</b>
+                <p>По крафту и тонированной бумаге, чтобы цвет не провалился</p>
+              </div>
+            </li>
+            <li class="ls-row-body">
+              <span class="ls-thumb" aria-hidden="true"></span>
+              <div>
+                <b>УФ-печать</b>
+                <p>По плёнке и пластику, если сертификат не бумажный</p>
+              </div>
+            </li>
+            </ul>
+          </details>
+        </div>
+      </div>
+      <div class="ls-spec-col">
+        <div class="ls-spec-group">
+          <h3>Персонализация</h3>
+          <ul class="ls-rows">
+            <li class="ls-row-body">
+              <span class="ls-thumb">
+                <picture>
+                  <source srcset="assets/img/materials/pers-numbering.webp" type="image/webp">
+                  <img loading="lazy" decoding="async" src="assets/img/materials/pers-numbering.jpg" width="416" height="416" alt="Три карточки веером с номерами подряд">
+                </picture>
+              </span>
+              <div>
+                <b>Сквозная нумерация</b>
+                <p>Чтобы вести учёт выданных и не принять чужой</p>
+              </div>
+            </li>
+            <li class="ls-row-body">
+              <span class="ls-thumb">
+                <picture>
+                  <source srcset="assets/img/materials/pers-names.webp" type="image/webp">
+                  <img loading="lazy" decoding="async" src="assets/img/materials/pers-names.jpg" width="416" height="416" alt="Три карточки веером с разными именами">
+                </picture>
+              </span>
+              <div>
+                <b>Именные экземпляры</b>
+                <p>Имя получателя печатается прямо в тираже</p>
+              </div>
+            </li>
+            <li class="ls-row-body">
+              <span class="ls-thumb">
+                <picture>
+                  <source srcset="assets/img/materials/pers-qr.webp" type="image/webp">
+                  <img loading="lazy" decoding="async" src="assets/img/materials/pers-qr.jpg" width="416" height="416" alt="Карточка с напечатанным QR-кодом">
+                </picture>
+              </span>
+              <div>
+                <b>QR-код</b>
+                <p>Ведёт на запись или проверку сертификата</p>
+              </div>
+            </li>
+          </ul>
+          <details class="ls-more">
+            <summary><span class="ls-s-closed">Ещё 3 способа</span><span class="ls-s-open">Свернуть</span></summary>
+            <ul class="ls-rows">
+            <li class="ls-row-body">
+              <span class="ls-thumb" aria-hidden="true"></span>
+              <div>
+                <b>Срок действия и номинал</b>
+                <p>Печатаем переменными данными, разными для партий</p>
+              </div>
+            </li>
+            <li class="ls-row-body">
+              <span class="ls-thumb" aria-hidden="true"></span>
+              <div>
+                <b>Скретч-слой</b>
+                <p>Стирается монетой, закрывает код активации</p>
+              </div>
+            </li>
+            <li class="ls-row-body">
+              <span class="ls-thumb" aria-hidden="true"></span>
+              <div>
+                <b>Штрихкод</b>
+                <p>Считывается кассой, если сертификат проходит через учёт</p>
+              </div>
+            </li>
+            </ul>
+          </details>
+        </div>
+        <div class="ls-spec-group">
+          <h3>Отделка</h3>
+          <ul class="ls-rows">
+            <li class="ls-row-body">
+              <span class="ls-thumb">
+                <picture>
+                  <source srcset="assets/img/materials/fin-foil.webp" type="image/webp">
+                  <img loading="lazy" decoding="async" src="assets/img/materials/fin-foil.jpg" width="416" height="416" alt="Золотое тиснение фольгой на углу карточки">
+                </picture>
+              </span>
+              <div>
+                <b>Тиснение фольгой</b>
+                <p>Золото, серебро или цветная — обычно на логотип и номинал</p>
+              </div>
+            </li>
+            <li class="ls-row-body">
+              <span class="ls-thumb">
+                <picture>
+                  <source srcset="assets/img/materials/fin-softtouch.webp" type="image/webp">
+                  <img loading="lazy" decoding="async" src="assets/img/materials/fin-softtouch.jpg" width="416" height="416" alt="Палец на бархатистой поверхности софт-тач">
+                </picture>
+              </span>
+              <div>
+                <b>Ламинация софт-тач</b>
+                <p>Бархатная на ощупь, не собирает отпечатки пальцев</p>
+              </div>
+            </li>
+            <li class="ls-row-body">
+              <span class="ls-thumb">
+                <picture>
+                  <source srcset="assets/img/materials/fin-rounded.webp" type="image/webp">
+                  <img loading="lazy" decoding="async" src="assets/img/materials/fin-rounded.jpg" width="416" height="416" alt="Скруглённый угол плотной карточки">
+                </picture>
+              </span>
+              <div>
+                <b>Скругление углов</b>
+                <p>Сертификат не мнётся в кошельке и выглядит аккуратнее</p>
+              </div>
+            </li>
+          </ul>
+          <details class="ls-more">
+            <summary><span class="ls-s-closed">Ещё 4 варианта</span><span class="ls-s-open">Свернуть</span></summary>
+            <ul class="ls-rows">
+            <li class="ls-row-body">
+              <span class="ls-thumb" aria-hidden="true"></span>
+              <div>
+                <b>Перфорация</b>
+                <p>Отрывной корешок остаётся у вас при погашении</p>
+              </div>
+            </li>
+            <li class="ls-row-body">
+              <span class="ls-thumb" aria-hidden="true"></span>
+              <div>
+                <b>Выборочный УФ-лак</b>
+                <p>Глянцевый рельеф на отдельных элементах</p>
+              </div>
+            </li>
+            <li class="ls-row-body">
+              <span class="ls-thumb" aria-hidden="true"></span>
+              <div>
+                <b>Блинтовое тиснение</b>
+                <p>Вдавленный оттиск без краски и фольги</p>
+              </div>
+            </li>
+            <li class="ls-row-body">
+              <span class="ls-thumb" aria-hidden="true"></span>
+              <div>
+                <b>Вырубка по контуру</b>
+                <p>Нестандартная форма вместо прямоугольника</p>
+              </div>
+            </li>
+            </ul>
+          </details>
+
+        </div>
+      </div>
 </section>
 
-<!-- ============================ БЛОК 11 — ФУТЕР ============================ -->
-<footer class="bg-ink text-white pt-20 lg:pt-28 overflow-hidden">
-  <div class="max-w-7xl mx-auto px-5 lg:px-8">
-    <!-- CTA -->
-    <div class="flex flex-wrap items-end justify-between gap-8 pb-16 border-b border-white/10">
-      <h2 class="font-display text-[2.4rem] sm:text-[3.4rem] lg:text-[4.5rem] leading-[0.95] tracking-[-0.04em]">Есть задача?<br>Давайте сделаем.</h2>
-      <a href="#lead" data-lead-open class="btn btn-lg" style="background:#fff;color:#000">Обсудить проект →</a>
+    
+  <section class="ls-how">
+    <h2>Как мы работаем</h2>
+    <ol>
+      <li>
+        <div>
+          <b>Разбираемся в задаче</b><p><span class="ls-term">В день обращения.</span> Спросим про тираж, сроки и повод. От этого зависят бумага, способ печати и цена.</p>
+        </div>
+      </li>
+      <li>
+        <div>
+          <b>Считаем и показываем макет</b><p><span class="ls-term">1–2 дня.</span> Присылаем смету и первый вариант. Правки по макету входят в стоимость.</p>
+        </div>
+      </li>
+      <li>
+        <div>
+          <b>Согласуем цвет и материал</b><p><span class="ls-term">1 день.</span> Покажем образцы бумаги и распечатку — так вы увидите тираж заранее, а не после печати.</p>
+        </div>
+      </li>
+      <li>
+        <div>
+          <b>Печатаем и отдаём</b><p><span class="ls-term">2–5 дней.</span> Печать на своём производстве. Забираете сами или привозим по адресу.</p>
+        </div>
+      </li>
+    </ol>
+
+    
+    <p class="ls-how-total">Весь путь от заявки до готового тиража — <b>4–8 дней</b></p>
+  </section>
+
+    
+    <section class="ls-faq ls-with-side">
+      <h2>Частые вопросы</h2>
+      <div class="ls-qa-list">
+        <details class="ls-qa" name="faq">
+          <summary><span class="ls-q">Что входит в цену?</span><span class="ls-sign" aria-hidden="true"></span></summary>
+          <p>В 1 500 ₽ входит печать тиража от 50 штук на нашей бумаге. Дизайн считаем отдельно: готовый макет печатаем как есть, а если рисуем с нуля — назовём стоимость после первого разговора, она зависит от сложности.</p>
+        </details>
+        <details class="ls-qa" name="faq">
+          <summary><span class="ls-q">А если у меня нет макета?</span><span class="ls-sign" aria-hidden="true"></span></summary>
+          <p>Сделаем сами: соберём из вашего текста и логотипа или придумаем концепцию. Стоимость дизайна зависит от сложности, назовём её до начала работы.</p>
+        </details>
+        <details class="ls-qa" name="faq">
+          <summary><span class="ls-q">Сколько правок входит в стоимость?</span><span class="ls-sign" aria-hidden="true"></span></summary>
+          <p>Две по согласованному направлению. Обычно хватает: до отрисовки мы обсуждаем повод, текст и стиль, поэтому первый вариант редко расходится с ожиданием. Дальнейшие правки считаем отдельно и предупреждаем заранее.</p>
+        </details>
+        <details class="ls-qa" name="faq">
+          <summary><span class="ls-q">А если макет не понравился?</span><span class="ls-sign" aria-hidden="true"></span></summary>
+          <p>Скажите, что не так — покажем второй вариант, он входит в стоимость. Если не совпало само направление, вернёмся к разговору о задаче и начнём заново, а не будем чинить неподходящий макет правками.</p>
+        </details>
+        <details class="ls-qa" name="faq">
+          <summary><span class="ls-q">В каком виде присылать файл?</span><span class="ls-sign" aria-hidden="true"></span></summary>
+          <p>Лучше всего PDF в CMYK с вылетами по 2 мм. Принимаем и рабочие файлы: AI, CDR, PSD, EPS. Подробнее расскажем перед печатью. Не уверены, что с файлом всё в порядке — пришлите как есть, проверим и скажем, что поправить.</p>
+        </details>
+        <details class="ls-qa" name="faq">
+          <summary><span class="ls-q">Есть ли минимальный тираж?</span><span class="ls-sign" aria-hidden="true"></span></summary>
+          <p>Печатаем от 50 штук. Меньше — тоже возьмёмся, но за штуку выйдет заметно дороже: подготовка стоит одинаково и на 20 экземплярах, и на 500.</p>
+        </details>
+        <details class="ls-qa" name="faq">
+          <summary><span class="ls-q">Почему цвет на экране и на бумаге разный?</span><span class="ls-sign" aria-hidden="true"></span></summary>
+          <p>Экран светится, бумага отражает свет — часть экранных цветов на ней просто недостижима. Поэтому перед тиражом показываем распечатку: по ней видно, каким цвет будет на самом деле.</p>
+        </details>
+        <details class="ls-qa" name="faq">
+          <summary><span class="ls-q">Можно допечатать тираж позже?</span><span class="ls-sign" aria-hidden="true"></span></summary>
+          <p>Можно, файлы храним. Но цвет второй партии может немного отличаться от первой, а небольшой доптираж выходит дороже за штуку. Если знаете, что понадобится ещё, лучше заложить запас сразу.</p>
+        </details>
+      </div>
+    
+
+      <!-- Правая колонка блоков «Частые вопросы» (карточка) и «Что выбрать под
+     задачу» (категория). Разметка на обеих страницах совпадала знак в знак,
+     поэтому это часть, а не копия.
+
+     Цифры стоят рядом с ответами: так они работают доказательством,
+     а не декором, и заодно закрывают пустоту справа. Строка с контактами
+     НАД ними: ниже начинается форма, а справа от неё те же ссылки —
+     рядом они читались как дубль. На телефоне колонка не выделяется:
+     всё идёт сплошным потоком. -->
+<aside class="ls-faq-side">
+        <h3 class="ls-faq-ask-title">Нам нравится общаться</h3>
+        <!-- Порядок каналов по логу заявок: мессенджеры 82%, звонок 11%, почта 8% -->
+        <p class="ls-faq-ask">Не нашли ответ — спросите в
+          <a href="https://t.me/litera_studio">Telegram</a>,
+          <a href="https://api.whatsapp.com/send?phone=79777936481">WhatsApp</a> или
+          <a href="https://max.ru/u/f9LHodD0cOIV9InOx6ulNiryFx5jU7n5eIY9DliBnMiKjsrZAmOxnfX0e38">Max</a>,
+          позвоните <a href="tel:+74950213577">+7&nbsp;495&nbsp;021-35-77</a>
+          или напишите на <a href="mailto:zakaz@litera.studio">zakaz@litera.studio</a></p>
+        <div class="ls-figures">
+          <div><b>13</b><span>лет студии</span></div>
+          <div><b>1500+</b><span>проектов</span></div>
+          <div><b>800+</b><span>клиентов</span></div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="ls-lead-form" id="zayavka">
+    
+    <img class="ls-lead-mark" src="assets/img/element.svg" alt="" aria-hidden="true">
+    <h2>Посчитаем и подскажем</h2>
+    <p class="ls-sub">Оставьте контакт — вернёмся со сметой и вариантами. Если задача решается проще, так и скажем.</p>
+    <form>
+      <!-- Телефон и почта парные: на широком экране встают в строку,
+           на телефоне остаются друг под другом. -->
+      <div class="ls-pair">
+        <label class="ls-sr-only" for="contact">Телефон</label>
+        <input id="contact" type="tel" name="phone" placeholder="Телефон"
+          autocomplete="tel" inputmode="tel" required
+          pattern="\s*[\d\s\(\)\+\-]{7,}\s*">
+        <label class="ls-sr-only" for="mail">Почта</label>
+        <input id="mail" type="email" name="email" placeholder="Почта, если удобнее" autocomplete="email"
+          pattern="[^@\s]+@[^@\s]+\.[^@\s]{2,}">
+      </div>
+      <label class="ls-sr-only" for="fname">Имя</label>
+      <input id="fname" type="text" name="first-name" placeholder="Имя, если хотите" autocomplete="given-name">
+
+      <label class="ls-sr-only" for="task">Что нужно напечатать</label>
+      <textarea id="task" name="comment" rows="1" maxlength="2000"
+        placeholder="Что печатаем, тираж, срок, комментарии"></textarea>
+
+      <fieldset class="ls-way">
+        <legend>Как удобнее ответить</legend>
+        <div class="ls-way-row">
+        <label><input type="radio" name="methodofcommunication" value="telegram" checked><span>Telegram</span></label>
+        <label><input type="radio" name="methodofcommunication" value="whatsapp"><span>WhatsApp</span></label>
+        <label><input type="radio" name="methodofcommunication" value="max"><span>Max</span></label>
+        <label><input type="radio" name="methodofcommunication" value="звонок"><span>Звонок</span></label>
+        <label><input type="radio" name="methodofcommunication" value="почта"><span>Почта</span></label>
+        </div>
+      </fieldset>
+
+      <ul class="ls-file-list" hidden></ul>
+      <label class="ls-file">
+        <input type="file" name="fileattached[]" multiple accept=".pdf,.ai,.cdr,.eps,.psd,.tif,.tiff,.jpg,.jpeg,.png,.heic,.heif,.webp,.zip,.rar">
+        <span>Прикрепить файлы</span>
+      </label>
+      <p class="ls-file-note">PDF, AI, CDR, PSD, фото или архив — до 25&nbsp;МБ</p>
+      <label class="ls-agree">
+        <input type="checkbox" name="agreement" required>
+        <span>Даю <a href="/soglasie-na-obrabotku-personalnyh-dannyh" target="_blank" rel="noopener">согласие</a> ООО&nbsp;«МДМпринт» на обработку моих персональных данных для ответа на заявку и подтверждаю, что ознакомлен с <a href="/politika-obrabotki-personalnyh-dannyh" target="_blank" rel="noopener">политикой обработки персональных данных</a></span>
+      </label>
+      <!-- Как отозвать согласие — прямо в форме, а не только в документе:
+           так сделано на mdmprint.ru. Номер телефона нужен, чтобы найти заявку. -->
+      <p class="ls-agree-note">Отозвать согласие можно письмом на
+        <a href="mailto:zakaz@litera.studio">zakaz@litera.studio</a> — укажите
+        в нём телефон, оставленный в форме.</p>
+      <button class="ls-btn ls-btn-main" type="submit">Рассчитать стоимость</button>
+    </form>
+    <!-- Справа не дубль каналов (полный перечень уже в колонке вопросов выше),
+         а что произойдёт после отправки. Снимает тревогу в момент решения. -->
+    <div class="ls-lead-side">
+      <h3>Что дальше</h3>
+      <ol class="ls-lead-next">
+        <li>Посмотрим задачу и уточним, если чего-то не хватает</li>
+        <li>Посчитаем стоимость под ваш тираж и сроки</li>
+        <li>Пришлём смету и первый вариант макета</li>
+      </ol>
+        <p class="ls-or">Не любите формы — напишите в
+          <a href="https://t.me/litera_studio">Telegram</a>,
+          <a href="https://api.whatsapp.com/send?phone=79777936481">WhatsApp</a>
+          или <a href="https://max.ru/u/f9LHodD0cOIV9InOx6ulNiryFx5jU7n5eIY9DliBnMiKjsrZAmOxnfX0e38">Max</a>,
+          позвоните <a href="tel:+74950213577">+7&nbsp;495&nbsp;021-35-77</a>
+          или напишите на <a href="mailto:zakaz@litera.studio">zakaz@litera.studio</a>.</p>
     </div>
-    <!-- Колонки -->
-    <div class="grid gap-10 sm:grid-cols-2 lg:grid-cols-4 py-16">
-      <div>
-        <div class="kicker mb-5" style="color:#71717a">Направления</div>
-        <ul class="space-y-2.5">
-          <li><a href="category.html" class="foot-link">Полиграфия</a></li>
-          <li><a href="#" class="foot-link">Упаковка и этикетки</a></li>
-          <li><a href="#" class="foot-link">Логотип и фирменный стиль</a></li>
-          <li><a href="#" class="foot-link">Корпоративный брендинг и сувениры</a></li>
-          <li><a href="#" class="foot-link">Решения по отраслям</a></li>
+  </section>
+
+    
+    <section class="ls-about">
+      <h2>О подарочных сертификатах</h2>
+      <p>Сертификат покупают, когда не знают, что подарить, а подарить надо. Поэтому
+        его чаще всего заказывают салоны, студии, барбершопы и мастера — те, кто продаёт
+        услугу, а не вещь. Перед праздниками спрос вырастает, и тираж обычно берут
+        с запасом: сертификат не портится и спокойно лежит до следующего повода.</p>
+      <p>Бумагу выбирают под срок жизни. Сертификат носят в кошельке и сумке неделями,
+        поэтому тонкая бумага сминается на углах и выглядит дешевле, чем услуга,
+        за которую заплатили. Плотная дизайнерская держит форму и заодно даёт фактуру
+        под тиснение. Если по сертификату вписывают дату или имя от руки, ламинацию
+        лучше не ставить: по ней не пишет ни одна ручка, кроме перманентной.</p>
+      <p>В макете под сертификат нужно заранее оставить три места: номер, срок действия
+        и поле для подписи или печати. Нумерацию мы печатаем сквозной, чтобы вы могли
+        вести учёт выданных. Если сертификат вручают в конверте, скажите об этом
+        до печати — формат подбирается под конверт, а не наоборот.</p>
+    </section>
+
+    <section class="ls-related">
+      <div class="ls-related-head">
+        <h2>Ещё из листовой полиграфии</h2>
+        <a href="/listovaya-poligrafiya">Весь раздел</a>
+      </div>
+      
+      <!-- Две колонки: одной строкой в 760 пикселей справа оставалось
+           почти пятьсот пустых. При переносе в CMS распределение
+           по колонкам считать на сервере — услуг может быть нечётно. -->
+      <div class="ls-rows-cols">
+        <ul class="ls-rows">
+          <li>
+            <a class="ls-row-body" href="/dizajn-konverta">
+              <span class="ls-thumb">
+                <picture>
+                  <source srcset="assets/img/services/konverty.webp" type="image/webp">
+                  <img loading="lazy" decoding="async" src="assets/img/services/konverty.jpg" width="416" height="416" alt="Конверты с фирменным дизайном">
+                </picture>
+              </span>
+              <span class="ls-text">
+                <span class="ls-row"><b>Конверты</b><span class="ls-price">от&nbsp;1 200&nbsp;₽</span></span>
+                <span class="ls-note">Под сертификат или приглашение, с печатью изнутри</span>
+              </span>
+            </a>
+          </li>
+          <li>
+            <a class="ls-row-body" href="/dizajn-otkrytki">
+              <span class="ls-thumb">
+                <picture>
+                  <source srcset="assets/img/services/otkrytki.webp" type="image/webp">
+                  <img loading="lazy" decoding="async" src="assets/img/services/otkrytki.jpg" width="416" height="416" alt="Открытка с яркой печатью">
+                </picture>
+              </span>
+              <span class="ls-text">
+                <span class="ls-row"><b>Открытки</b><span class="ls-price">от&nbsp;900&nbsp;₽</span></span>
+                <span class="ls-note">К празднику и к заказу — с конвертом или отдельно</span>
+              </span>
+            </a>
+          </li>
+        </ul>
+        <ul class="ls-rows">
+          <li>
+            <a class="ls-row-body" href="/dizajn-priglasheniya">
+              <span class="ls-thumb">
+                <picture>
+                  <source srcset="assets/img/services/priglasheniya.webp" type="image/webp">
+                  <img loading="lazy" decoding="async" src="assets/img/services/priglasheniya.jpg" width="416" height="416" alt="Приглашения на плотной бумаге">
+                </picture>
+              </span>
+              <span class="ls-text">
+                <span class="ls-row"><b>Приглашения</b><span class="ls-price">от&nbsp;1 400&nbsp;₽</span></span>
+                <span class="ls-note">На событие: тиснение, плотная бумага, именные</span>
+              </span>
+            </a>
+          </li>
+          <li>
+            <a class="ls-row-body" href="/dizajn-abonementov">
+              <span class="ls-thumb">
+                <picture>
+                  <source srcset="assets/img/services/abonementy.webp" type="image/webp">
+                  <img loading="lazy" decoding="async" src="assets/img/services/abonementy.jpg" width="416" height="416" alt="Стопка абонементов">
+                </picture>
+              </span>
+              <span class="ls-text">
+                <span class="ls-row"><b>Абонементы</b><span class="ls-price">от&nbsp;1 500&nbsp;₽</span></span>
+                <span class="ls-note">На количество занятий, с отрывными купонами</span>
+              </span>
+            </a>
+          </li>
         </ul>
       </div>
-      <div>
-        <div class="kicker mb-5" style="color:#71717a">Студия</div>
-        <ul class="space-y-2.5">
-          <li><a href="portfolio.html" class="foot-link">Проекты</a></li>
-          <li><a href="#" class="foot-link">О нас</a></li>
-          <li><a href="#" class="foot-link">Блог</a></li>
-          <li><a href="#" class="foot-link">Вакансии</a></li>
-          <li><a href="#" class="foot-link">Оплата и доставка</a></li>
-        </ul>
-      </div>
-      <div>
-        <div class="kicker mb-5" style="color:#71717a">Контакты</div>
-        <ul class="space-y-2.5">
-          <li><a href="tel:+74950213577" class="cp foot-link" data-tip="Скопировать" data-copy="+74950213577">+7 (495) 021-35-77</a></li>
-          <li><a href="tel:+79777936481" class="cp foot-link" data-tip="Скопировать" data-copy="+79777936481">+7 (977) 793-64-81</a></li>
-          <li><a href="mailto:zakaz@litera.studio" class="cp foot-link" data-tip="Скопировать" data-copy="zakaz@litera.studio">zakaz@litera.studio</a></li>
-          <li><a href="https://yandex.ru/maps/?rtext=~%D0%9C%D0%BE%D1%81%D0%BA%D0%B2%D0%B0%2C%20%D0%A5%D0%BE%D0%BB%D0%BE%D0%B4%D0%B8%D0%BB%D1%8C%D0%BD%D1%8B%D0%B9%20%D0%BF%D0%B5%D1%80%D0%B5%D1%83%D0%BB%D0%BE%D0%BA%2C%203%D0%BA1%D1%813&rtt=auto" target="_blank" rel="noopener" class="cp foot-link" data-tip="Построить маршрут">Холодильный пер., 3к1с3</a></li>
-        </ul>
-      </div>
-      <div>
-        <div class="kicker mb-5" style="color:#71717a">Соцсети</div>
-        <ul class="space-y-2.5">
-          <li><a href="https://t.me/litera_studio" target="_blank" rel="noopener" class="foot-link">Telegram</a></li>
-          <li><a href="#" class="foot-link">MAX</a></li>
-          <li><a href="https://www.instagram.com/litera_studio/" target="_blank" rel="noopener" class="foot-link">Instagram</a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-  <!-- Гигантское слово-бренд тоном + цветошкала-засечка (в общем контейнере шапки) -->
-  <div class="max-w-7xl mx-auto px-5 lg:px-8 pb-6 select-none overflow-hidden" aria-hidden="true">
-    <div class="footer-scale mb-5"><span style="background:#2A37C2"></span><span style="background:#C633A0"></span><span style="background:#9BBF00"></span><span style="background:#E8BE1E"></span><span style="background:#64748B"></span></div>
-    <div class="footer-word font-display leading-none">ЛИТЕРА</div>
-  </div>
-  <div class="border-t border-white/10">
-    <div class="max-w-7xl mx-auto px-5 lg:px-8 py-6 flex flex-wrap items-center justify-between gap-3 text-zinc-500 text-caption">
-      <span>© 2012–2026 Литера.Студия — дизайн и печать на собственном производстве</span>
-      <span class="flex gap-5"><a href="#" class="foot-link">Политика конфиденциальности</a><a href="#" class="foot-link">Оферта</a></span>
-    </div>
-  </div>
-</footer>
+    </section>
 
+  </div>
 
 </main>
+  <!-- Футер вне общего слоя: страница съезжает с него,
+       поэтому он не может лежать внутри того, что съезжает. -->
+  <footer class="ls-foot">
+    <a class="ls-wordmark" href="/"><span class="ls-sr-only">Литера.Студия</span></a>
 
-<script>
-  // Попап заявки (на главной пока нет разметки попапа — guard от null)
-  (function(){
-    const modal = document.getElementById('lead-modal');
-    document.querySelectorAll('[data-lead-open]').forEach(el => el.addEventListener('click', e => {
-      if (!modal) return;   // попап появится при сборке остальной страницы
-      e.preventDefault();
-      modal.classList.remove('hidden'); modal.classList.add('flex'); document.body.style.overflow = 'hidden';
-    }));
-  })();
-  // Контакты в топбаре: клик копирует телефон/почту, подсказка → «Скопировано»
-  (function(){
-    function fallbackCopy(text){
-      const ta = document.createElement('textarea');
-      ta.value = text; ta.setAttribute('readonly', ''); ta.style.position = 'fixed'; ta.style.opacity = '0';
-      document.body.appendChild(ta); ta.select();
-      try { document.execCommand('copy'); } catch (e) {}
-      document.body.removeChild(ta);
-    }
-    function flash(el){
-      const orig = el.getAttribute('data-tip');
-      el.setAttribute('data-tip', 'Скопировано'); el.classList.add('is-copied');
-      clearTimeout(el._cpT);
-      el._cpT = setTimeout(() => { el.classList.remove('is-copied'); el.setAttribute('data-tip', orig); }, 1500);
-    }
-    document.querySelectorAll('.cp[data-copy]').forEach(el => {
-      el.addEventListener('click', e => {
-        e.preventDefault();
-        const text = el.getAttribute('data-copy');
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(text).then(() => flash(el)).catch(() => { fallbackCopy(text); flash(el); });
-        } else { fallbackCopy(text); flash(el); }
-      });
-    });
-  })();
-  // Контрастный текст под заливку: тёмный на светлых цветах (лайм/жёлтый), белый на остальных
-  function pickFg(hex){
-    const m = (hex || '').replace('#', '');
-    if (m.length < 6) return '#ffffff';
-    const r = parseInt(m.slice(0,2),16), g = parseInt(m.slice(2,4),16), b = parseInt(m.slice(4,6),16);
-    return (0.299*r + 0.587*g + 0.114*b) / 255 > 0.6 ? '#111111' : '#ffffff';
-  }
-  // Лого одно на весь файл — размножаем в сжатую шапку и мобильное меню
-  (function(){
-    const src = document.getElementById('logo-svg');
-    if (!src) return;
-    document.querySelectorAll('.logo-slot').forEach(slot => slot.appendChild(src.cloneNode(true)));
-  })();
+    <!-- Обёртка колонок: на телефоне прозрачна, группы идут сплошным потоком. -->
+    <div class="ls-foot-cols">
+      <div class="ls-foot-group">
+        <h3>Связаться</h3>
+        <ul>
+          <li><a href="tel:+74950213577">+7 495 021-35-77</a></li>
+          <li><a href="mailto:zakaz@litera.studio">zakaz@litera.studio</a></li>
+          <li><a href="https://t.me/litera_studio">Telegram</a></li>
+          <li><a href="https://max.ru/u/f9LHodD0cOIV9InOx6ulNiryFx5jU7n5eIY9DliBnMiKjsrZAmOxnfX0e38">Max</a></li>
+        </ul>
+        <p class="ls-addr"><a href="https://yandex.ru/maps/org/litera_studio/204191129397/"
+          target="_blank" rel="noopener">Москва, м.&nbsp;Тульская, Холодильный пер., 3к1с3,
+          подъезд&nbsp;6, этаж&nbsp;2, офис&nbsp;404</a>
+          <span>По будням с&nbsp;10:00 до&nbsp;19:00</span></p>
+      </div>
 
-  // Шапка, 3-й уровень: каталог (по наведению) и поиск (по клику).
-  // Триггеров по два — в листе и в сжатом баре; панели висят под тем, из которого открыли.
-  (function () {
-    const dirs = [...document.querySelectorAll('.mega-dir')];
-    const panels = [...document.querySelectorAll('.mega-panel')];
-    const scopes = [...document.querySelectorAll('[data-nav-scope]')];
-    const catalogTriggers = [...document.querySelectorAll('[data-catalog-toggle]')];
-    const searchToggles = [...document.querySelectorAll('[data-search-toggle]')];
-    const catalogPanel = document.getElementById('catalog-panel');
-    const searchPanel = document.getElementById('search-panel');
-    const input = document.getElementById('nav-q');
-    const results = document.getElementById('nav-results');
-    if (!catalogTriggers.length) return;
+      <div class="ls-foot-group">
+        <h3>Услуги</h3>
+        
+        <ul class="ls-services">
+          <li><a href="/poligrafiya">Полиграфия</a></li>
+          <li><a href="/upakovka-i-etiketki">Упаковка и этикетки</a></li>
+          <li><a href="/razrabotka-dizajna-logotipa-kompanii">Логотип и фирменный стиль</a></li>
+          <li><a href="/korporativnyj-brending-suveniry">Корпоративный брендинг</a></li>
+        </ul>
+      </div>
 
-    let byHover = false;
-    const stickybar = document.getElementById('stickybar');
-    const plateHdr = document.querySelector('.top');
-    // Панель цепляется к нижней грани той шапки, что сейчас на экране
-    function anchorPanel(trigger) {
-      const fromSticky = trigger ? !!trigger.closest('#stickybar') : stickybar.classList.contains('is-on');
-      const bar = fromSticky ? stickybar : (plateHdr || stickybar);
-      const top = Math.max(0, Math.round(bar.getBoundingClientRect().bottom));
-      document.documentElement.style.setProperty('--panel-top', top + 'px');
-    }
+      <div class="ls-foot-group">
+        <h3>Информация</h3>
+        <ul>
+          <li><a href="/projects">Работы</a></li>
+          <li><a href="/blog">Блог</a></li>
+          <li><a href="/contacts">Контакты</a></li>
+        </ul>
+      </div>
 
-    const META = {
-      '0': { desc: 'Печать и изготовление под ключ', promo: 'Визитки за 1 день' },
-      '1': { desc: 'Коробки, этикетки, пакеты', promo: 'Бесплатный образец коробки' },
-      '2': { desc: 'Айдентика и фирменные носители', promo: 'Логотип за 3 дня' },
-      '3': { desc: 'Мерч, сувениры, наборы', promo: 'Welcome-пак под ключ' },
-      '4': { desc: 'Готовые подборки по отраслям', promo: 'Готовое барное меню' },
-    };
-    const megaHead = document.getElementById('mega-head');
-    const megaPromo = document.getElementById('mega-promo');
-    function setMeta(i, fullName) {
-      const m = META[i]; if (!m) return;
-      if (megaHead) megaHead.innerHTML = `<span class="mega-head-t">${fullName}</span><span class="mega-head-d">${m.desc}</span><a href="#" class="mega-head-all">Все услуги направления →</a>`;
-      if (megaPromo) megaPromo.textContent = m.promo;
-    }
+      <div class="ls-foot-group">
+        <h3>Соцсети</h3>
+        <ul>
+          <li><a href="https://vk.com/litera_studio">ВКонтакте</a></li>
+          <li><a href="https://dzen.ru/litera_studio">Дзен</a></li>
+          <li><a href="https://www.behance.net/litera_studio/">Behance</a></li>
+          <li><a href="https://www.youtube.com/@Litera.Studio">YouTube</a></li>
+        </ul>
+      </div>
+    </div>
 
-    function activateDir(d) {
-      const i = d.dataset.mega;
-      dirs.forEach(x => x.classList.toggle('is-active', x === d));
-      const ap = panels.find(p => p.dataset.panel === i);
-      panels.forEach(p => p.classList.toggle('is-active', p === ap));
-      const col = getComputedStyle(d).getPropertyValue('--c').trim();
-      catalogPanel.style.setProperty('--c', col);
-      catalogPanel.style.setProperty('--cfg', pickFg(col));
-      setMeta(i, ap ? ap.dataset.dir : '');
-    }
-    dirs.forEach(d => d.addEventListener('mouseenter', () => activateDir(d)));
-    (() => { const d0 = dirs.find(x => x.classList.contains('is-active')) || dirs[0];
-      if (d0) { const col0 = getComputedStyle(d0).getPropertyValue('--c').trim();
-        catalogPanel.style.setProperty('--c', col0); catalogPanel.style.setProperty('--cfg', pickFg(col0));
-        const p0 = panels.find(p => p.dataset.panel === d0.dataset.mega); setMeta(d0.dataset.mega, p0 ? p0.dataset.dir : ''); } })();
+    <!-- Согласие и политика — разные документы: политика описывает, как компания
+         обращается с данными вообще, согласие — то, на что человек соглашается,
+         отправляя форму. Поэтому чекбокс в форме ведёт на согласие, а не на политику.
+         Живых адресов два: оферта и пользовательское соглашение. Политику, согласие
+         и положение о куках разработчик публикует по этой задаче, тексты готовы —
+         `_юридическое/`, задачи — в РАЗРАБОТКА.md. -->
+    <ul class="ls-legal">
+      <li><a href="/politika-obrabotki-personalnyh-dannyh">Политика обработки персональных данных</a></li>
+      <li><a href="/soglasie-na-obrabotku-personalnyh-dannyh">Согласие на обработку данных</a></li>
+      <li><a href="/polozhenie-ob-obrabotke-fajlov-cookies">Обработка файлов cookies</a></li>
+      <li><a href="/publichnaya-oferta">Публичная оферта</a></li>
+      <li><a href="/terms">Пользовательское соглашение</a></li>
+    </ul>
 
-    function closeResults() { results.hidden = true; results.innerHTML = ''; }
-    function closeCatalog() { byHover = false; catalogPanel.classList.remove('is-open'); catalogTriggers.forEach(t => t.classList.remove('is-open')); }
-    function openCatalog(trigger) {
-      closeSearch();
-      anchorPanel(trigger || catalogTriggers.find(t => t.offsetParent));
-      catalogPanel.classList.add('is-open'); catalogTriggers.forEach(t => t.classList.add('is-open'));
-      const ap = catalogPanel.querySelector('.mega-panel.is-active');
-      if (ap) { ap.classList.remove('is-active'); void ap.offsetWidth; ap.classList.add('is-active'); }
-    }
-    function closeSearch() { searchPanel.classList.remove('is-open'); searchToggles.forEach(t => t.classList.remove('is-open')); input.value = ''; closeResults(); }
-    function openSearch(trigger) {
-      closeCatalog();
-      anchorPanel(trigger || searchToggles.find(t => t.offsetParent));
-      searchPanel.classList.add('is-open'); searchToggles.forEach(t => t.classList.add('is-open'));
-      renderDefault(); input.focus();
-    }
+    <!-- год в CMS подставлять динамически -->
+    <div class="ls-fine">
+      <p>© 2026 Литера.Студия — графический дизайн и полиграфия</p>
+      <p>ООО&nbsp;«МДМпринт», 115419, Москва,
+        ул.&nbsp;Орджоникидзе, 11,&nbsp;стр.&nbsp;1а</p>
+      <p>ИНН&nbsp;7704815108 · ОГРН&nbsp;1127746679587</p>
+      <p>Цены на сайте справочные и не являются публичной офертой</p>
+    </div>
+  </footer>
 
-    // Наведение открывает каталог; уход с любой из зон шапки закрывает с задержкой,
-    // иначе переход «кнопка → панель» гасил бы её на полпути.
-    let leaveT;
-    const holdOpen = () => clearTimeout(leaveT);
-    const releaseOpen = () => { clearTimeout(leaveT); leaveT = setTimeout(closeCatalog, 180); };
-    scopes.forEach(s => { s.addEventListener('mouseenter', holdOpen); s.addEventListener('mouseleave', releaseOpen); });
-    // Наведение открывает каталог. Клик сразу после наведения не должен его гасить:
-    // первый клик подтверждает открытие, закрывает — только повторный, Esc или клик вне.
-    catalogTriggers.forEach(t => {
-      t.addEventListener('mouseenter', () => { holdOpen(); openCatalog(t); byHover = true; });
-      t.addEventListener('click', () => {
-        if (catalogPanel.classList.contains('is-open')) {
-          if (byHover) { byHover = false; return; }
-          closeCatalog();
-        } else openCatalog(t);
-      });
-    });
-    document.querySelectorAll('.hdr-nav a, .bar-nav a').forEach(a => a.addEventListener('mouseenter', closeCatalog));
-    searchToggles.forEach(t => t.addEventListener('click', () => searchPanel.classList.contains('is-open') ? closeSearch() : openSearch(t)));
-    // Панель приклеена к экрану — при прокрутке её якорь уезжает, поэтому закрываем
-    window.addEventListener('scroll', () => {
-      if (catalogPanel.classList.contains('is-open') || searchPanel.classList.contains('is-open')) { closeCatalog(); closeSearch(); }
-    }, { passive: true });
+<!-- Cookie-баннер. У них он перекрывает H1 на мобильной категории — ставим внизу.
+     Показывается один раз, выбор запоминается. -->
+<div class="ls-cookie" id="cookie" role="region" aria-label="О сборе данных" hidden>
+  <p>Собираем обезличенные данные о посещениях — по ним видно, что на сайте помогает,
+    а что мешает. Подробности в <a href="/polozhenie-ob-obrabotke-fajlov-cookies" target="_blank" rel="noopener">положении о файлах cookies</a>.</p>
+  <button class="ls-btn ls-btn-light ls-btn-s ls-cookie-ok" type="button">Хорошо</button>
+</div>
 
-    // Полноэкранный каталог-оверлей (тема C) снят вместе со старой шапкой.
+<!-- Виджет связи — наш вид «Кнопки на сайт» Битрикс24 (на живом сайте грузится
+     из crm.litera.studio/upload/crm/site_button/loader_1_rd8v7d.js). Как у них:
+     угол экрана с отступом, по клику раскрывается список каналов.
+     Стоит после баннера о куках, чтобы подниматься над ним селектором. -->
+<div class="ls-chat">
+  <div class="ls-chat-list" id="chat-list" hidden>
+    <a class="ls-btn ls-btn-light ls-btn-s ls-chat-item" href="https://t.me/litera_studio" target="_blank" rel="noopener">Telegram</a>
+    <a class="ls-btn ls-btn-light ls-btn-s ls-chat-item" href="https://api.whatsapp.com/send?phone=79777936481" target="_blank" rel="noopener">WhatsApp</a>
+    <a class="ls-btn ls-btn-light ls-btn-s ls-chat-item" href="https://max.ru/u/f9LHodD0cOIV9InOx6ulNiryFx5jU7n5eIY9DliBnMiKjsrZAmOxnfX0e38" target="_blank" rel="noopener">Max</a>
+  </div>
+  <button class="ls-chat-fab" type="button" aria-expanded="false" aria-controls="chat-list" aria-label="Связаться">
+    <svg class="ls-chat-ico-talk" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M20.5 11.6c0 4-3.8 7.2-8.5 7.2-1 0-2-.15-2.9-.42L4 20l1.3-3.5C4.2 15.2 3.5 13.5 3.5 11.6c0-4 3.8-7.2 8.5-7.2s8.5 3.2 8.5 7.2Z"/>
+    </svg>
+    <svg class="ls-chat-ico-close" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.8" stroke-linecap="round" aria-hidden="true">
+      <path d="M6 6l12 12M18 6L6 18"/>
+    </svg>
+  </button>
+</div>
 
-    // Первый экран: поиск и цветные направления ведут в ту же шапку
-    // stopPropagation — иначе клик вне шапки тут же закрывает панель (обработчик ниже)
-    document.querySelectorAll('[data-search-open]').forEach(b => b.addEventListener('click', e => {
-      e.stopPropagation(); openSearch();
-      setTimeout(() => input.focus(), 200);   // панель проявляется через visibility — фокус после перехода
-    }));
-    document.querySelectorAll('[data-catalog-open]').forEach(b => b.addEventListener('click', e => {
-      e.stopPropagation(); openCatalog();
-      const d = dirs.find(x => x.dataset.mega === b.dataset.catalogOpen);
-      if (d) activateDir(d);
-    }));
-
-    const index = [];
-    panels.forEach(p => {
-      const dir = p.dataset.dir;
-      const color = getComputedStyle(p).getPropertyValue('--c').trim();
-      p.querySelectorAll('.mega-cat').forEach(c => {
-        const cat = c.querySelector('.mega-cat-h').textContent;
-        c.querySelectorAll('.mega-svc').forEach(s => index.push({ svc: s.textContent, cat, dir, color }));
-      });
-    });
-
-    const esc = s => s.replace(/[&<>]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[m]));
-    function hl(text, q) {
-      const i = text.toLowerCase().indexOf(q);
-      if (i < 0) return esc(text);
-      return esc(text.slice(0, i)) + '<mark>' + esc(text.slice(i, i + q.length)) + '</mark>' + esc(text.slice(i + q.length));
-    }
-
-    const POPULAR = [
-      { q: 'Визитки',  c: '#2A37C2' },
-      { q: 'Коробки',  c: '#C633A0' },
-      { q: 'Логотип',  c: '#9BBF00' },
-      { q: 'Каталоги', c: '#2A37C2' },
-      { q: 'Этикетки', c: '#C633A0' },
-      { q: 'Мерч',     c: '#E8BE1E' },
-    ];
-    const MAX_RES = 8;
-    let activeIdx = -1;
-
-    function renderDefault() {
-      activeIdx = -1;
-      results.innerHTML =
-        '<div class="sugg-label">Популярные запросы</div>' +
-        '<div class="sugg-chips">' +
-        POPULAR.map(p => `<button type="button" class="sugg-chip" data-q="${esc(p.q)}" style="--rc:${p.c}">${esc(p.q)}</button>`).join('') +
-        '</div>';
-      results.hidden = false;
-    }
-
-    function renderResults(q) {
-      activeIdx = -1;
-      const hits = index.filter(it => it.svc.toLowerCase().includes(q) || it.cat.toLowerCase().includes(q));
-      if (!hits.length) {
-        results.innerHTML = '<div class="mega-empty">Ничего не нашлось. Попробуйте другой запрос или <a href="#lead" data-lead-open>напишите нам</a>.</div>';
-        results.hidden = false; return;
-      }
-      const shown = hits.slice(0, MAX_RES);
-      const row = it => `<a href="#" class="mega-res" style="--rc:${it.color}"><span class="dot"></span><span class="svc">${hl(it.svc, q)}</span><span class="path">${esc(it.dir)} › ${esc(it.cat)}</span></a>`;
-      results.innerHTML =
-        `<div class="sugg-label">Найдено услуг: ${hits.length}</div>` +
-        `<div class="sugg-grid">${shown.map(row).join('')}</div>` +
-        (hits.length > MAX_RES ? `<div class="sugg-foot"><a href="#">Показать все результаты (${hits.length}) →</a></div>` : '');
-      results.hidden = false;
-    }
-
-    input.addEventListener('input', () => {
-      const q = input.value.trim().toLowerCase();
-      if (!q) { renderDefault(); return; }
-      renderResults(q);
-    });
-
-    // Клик по чипу популярного запроса — подставляем и ищем
-    results.addEventListener('click', e => {
-      const chip = e.target.closest('.sugg-chip');
-      if (!chip) return;
-      input.value = chip.dataset.q;
-      input.focus();
-      input.dispatchEvent(new Event('input'));
-    });
-
-    // Навигация по подсказкам с клавиатуры
-    input.addEventListener('keydown', e => {
-      const items = [...results.querySelectorAll('.mega-res')];
-      if (!items.length) return;
-      if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
-        e.preventDefault();
-        activeIdx = e.key === 'ArrowDown'
-          ? (activeIdx + 1) % items.length
-          : (activeIdx - 1 + items.length) % items.length;
-        items.forEach((el, i) => el.classList.toggle('is-active', i === activeIdx));
-        items[activeIdx].scrollIntoView({ block: 'nearest' });
-      } else if (e.key === 'Enter' && activeIdx >= 0) {
-        items[activeIdx].click();
-      }
-    });
-    document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeCatalog(); closeSearch(); } });
-    document.addEventListener('click', e => {
-      if (!scopes.some(s => s.contains(e.target))) { closeCatalog(); closeSearch(); }
-    });
-  })();
-  // Мобильное меню — полноэкранный лист поверх страницы
-  (function(){
-    const mm = document.getElementById('mobile-menu');
-    document.querySelectorAll('[data-menu-toggle]').forEach(b => b.addEventListener('click', () => {
-      mm.hidden = !mm.hidden;
-      document.body.style.overflow = mm.hidden ? '' : 'hidden';
-    }));
-    mm.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-      mm.hidden = true; document.body.style.overflow = '';
-    }));
-    document.addEventListener('keydown', e => {
-      if (e.key === 'Escape' && !mm.hidden) { mm.hidden = true; document.body.style.overflow = ''; }
-    });
-  })();
-
-  // Сжатая шапка + полоса прочтения. Приезжает, когда ряд навигации листа ушёл за край.
-  (function(){
-    const bar = document.getElementById('stickybar');
-    const prog = document.getElementById('bar-prog');
-    const hdr = document.querySelector('.top');
-    if (!bar || !hdr) return;
-    let trip = 0;
-    const measure = () => { trip = hdr.getBoundingClientRect().bottom + window.scrollY + 40; };
-    const tick = () => {
-      bar.classList.toggle('is-on', window.scrollY > trip);
-      const h = document.documentElement.scrollHeight - window.innerHeight;
-      if (prog) prog.style.width = (h > 0 ? Math.min(100, window.scrollY / h * 100) : 0) + '%';
-    };
-    measure(); tick();
-    window.addEventListener('scroll', tick, { passive: true });
-    window.addEventListener('resize', () => { measure(); tick(); });
-  })();
-
-  // Работа в герое: по одной на направление, чтобы первый экран показывал диапазон,
-  // а не одно направление. Технологии в подписи — только подтверждённые.
-  (function(){
-    const WORKS = [
-      { img:'assets/work-estetico.jpg',  name:'Прайс «ЭстеТико»',      tech:'кашировка, объёмная фольга',  c:'#2A37C2' },
-      { img:'assets/work-modum-box.jpg', name:'Коробка «Модум-Транс»', tech:'кашировка, тиснение фольгой', c:'#C633A0' },
-      { img:'assets/work-octopays.jpg',  name:'Логотип «OCTOPAYS»',    tech:'фирменный стиль и носители',  c:'#9BBF00' },
-      { img:'assets/obvesy.jpg',         name:'Акриловые обвесы',      tech:'фирменный мерч',              c:'#D4B300' },
-    ];
-    const shot = document.getElementById('shot');
-    const img  = document.getElementById('shot-img');
-    const txt  = document.getElementById('shot-txt');
-    if (!shot) return;
-    let i = 0, busy = false;
-
-    function show(k, animate){
-      i = (k + WORKS.length) % WORKS.length;
-      const w = WORKS[i];
-      const paint = () => {
-        img.src = w.img;
-        img.alt = w.name + ' — ' + w.tech;
-        txt.innerHTML = `<i style="--c:${w.c}"></i><b>${w.name}</b> — <em>${w.tech}</em>`;
-      };
-      if (!animate) { paint(); return; }
-      busy = true;
-      shot.classList.add('is-swap');
-      setTimeout(() => { paint(); shot.classList.remove('is-swap'); busy = false; }, 280);
-    }
-
-    document.getElementById('shot-prev').addEventListener('click', e => { e.preventDefault(); if (!busy) show(i - 1, true); });
-    document.getElementById('shot-next').addEventListener('click', e => { e.preventDefault(); if (!busy) show(i + 1, true); });
-    show(0, false);
-    WORKS.forEach(w => { const im = new Image(); im.src = w.img; });   // предзагрузка: листается без мигания
-  })();
-  // Лид-форма: чипы «с чем нужна помощь» (множественный выбор)
-  document.querySelectorAll('[data-chips] .chip').forEach(c =>
-    c.addEventListener('click', () => c.classList.toggle('is-on')));
-  // Портфолио: активный фильтр (пока только состояние, без реальной фильтрации — скелет)
-  (function(){
-    const chips = [...document.querySelectorAll('#pf-filter .pf-chip')];
-    chips.forEach(c => c.addEventListener('click', () => {
-      chips.forEach(x => x.classList.toggle('is-active', x === c));
-    }));
-  })();
-  // Карусели (reels + отзывы): прокрутка стрелками на ширину карточки
-  (function(){
-    function bind(trackId, navSel){
-      const t = document.getElementById(trackId); if (!t) return;
-      const step = () => {
-        const card = t.firstElementChild;
-        const gap = parseFloat(getComputedStyle(t).gap) || 16;
-        return card ? card.getBoundingClientRect().width + gap : t.clientWidth * 0.8;
-      };
-      document.querySelectorAll(navSel).forEach(b => b.addEventListener('click', () => {
-        t.scrollBy({ left: parseInt(b.dataset.dir, 10) * step(), behavior: 'smooth' });
-      }));
-    }
-    bind('reels', '.reel-nav');
-    bind('rev-track', '.rev-nav');
-  })();
-  // Дублирующая кнопка «Весь каталог» в блоке направлений — открывает то же мегаменю
-  (function(){
-    const b2 = document.getElementById('catalog-trigger-2');
-    const t = document.querySelector('#stickybar [data-catalog-toggle]');
-    if (b2 && t) b2.addEventListener('click', e => { e.stopPropagation(); t.click(); });
-  })();
-</script>
-<!-- ============================ ПРЕДМЕТ НА ПЕРВОМ ЭКРАНЕ ============================
-     Модель — их акриловые обвесы (assets/charm.glb, 282 КБ: исходные 4,2 МБ пожаты
-     meshopt-ом с сохранением иерархии, детали остались раздельными).
-     Висит на подвесе: трос уходит за верхний край, качается от мыши и скролла.
-     Материалы (frosted / clear / chrome) уже заданы в самой модели. -->
-<script type="importmap">
-{ "imports": {
-  "three": "https://unpkg.com/three@0.184.0/build/three.module.js",
-  "three/addons/": "https://unpkg.com/three@0.184.0/examples/jsm/"
-} }
-</script>
-<script type="module">
-import * as THREE from 'three';
-import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
-import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
-
-const canvas = document.getElementById('charm');
-const still  = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-const renderer = new THREE.WebGLRenderer({ canvas, antialias:true, alpha:true });
-renderer.setClearAlpha(0);
-renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.toneMappingExposure = 1.35;
-
-const scene  = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(26, 1, 0.1, 100);
-camera.position.set(0, 0, 9);
-
-// Окружение — единственный источник света. RoomEnvironment светлая целиком:
-// хром отражает ровное молоко и читается гипсом. Нужен контраст — тёмная
-// комната с несколькими софтбоксами, тогда у зеркала есть и блик, и тень.
-const studio = new THREE.Scene();
-studio.background = new THREE.Color(0x0a0a0c);
-const boxGeo = new THREE.BoxGeometry();
-const softbox = (w, h, d, x, y, z, power) => {
-  const m = new THREE.Mesh(boxGeo, new THREE.MeshBasicMaterial({ color:0xffffff }));
-  m.material.color.multiplyScalar(power);
-  m.scale.set(w, h, d); m.position.set(x, y, z);
-  studio.add(m);
-};
-softbox(6, 12, 0.1,  7,  2, -2, 5.5);   // ключевой справа
-softbox(9, 0.1, 9,   0,  8,  0, 2.4);   // потолочный
-softbox(4, 8, 0.1,  -8,  0,  3, 1.6);   // подсветка слева, чтобы кромки не гасли
-softbox(12, 6, 0.1,  0,  0, -9, 0.9);   // задник — даёт стеклу свечение на просвет
-softbox(7, 5, 0.1,   2,  1, 10, 3.2);   // фронтальный: без него зеркало отражает темноту и чернеет
-const pmrem = new THREE.PMREMGenerator(renderer);
-scene.environment = pmrem.fromScene(studio, 0.03).texture;
-
-// Подвес: вся модель качается вокруг точки над верхним краем экрана
-const pivot = new THREE.Object3D();
-scene.add(pivot);
-
-new GLTFLoader().setMeshoptDecoder(MeshoptDecoder).load('assets/charm.glb', gltf => {
-  const model = gltf.scene;
-
-  // Акрил — на альфе, а не на transmission. Transmission преломляет только
-  // 3D-сцену, а под канвасом лежит HTML: заголовок сквозь такое стекло не
-  // увидеть. Альфа-прозрачность смешивается со страницей, и буквы читаются
-  // сквозь подвески — ради этого всё и затевалось.
-  const frosted = new THREE.MeshPhysicalMaterial({
-    color:0xf7f7fa, roughness:.5, metalness:0, transparent:true, opacity:.42,
-    clearcoat:1, clearcoatRoughness:.35, envMapIntensity:1.2, side:THREE.DoubleSide });
-  const clear = new THREE.MeshPhysicalMaterial({
-    color:0xffffff, roughness:.04, metalness:0, transparent:true, opacity:.26,
-    clearcoat:1, clearcoatRoughness:.02, envMapIntensity:2.2, side:THREE.DoubleSide });
-  const chrome = new THREE.MeshPhysicalMaterial({
-    color:0xf2f2f4, roughness:.045, metalness:1, envMapIntensity:1.7 });
-  const steel = new THREE.MeshStandardMaterial({
-    color:0xd8d8dc, roughness:.26, metalness:.95 });
-
-  model.traverse(o => {
-    if (!o.isMesh) return;
-    const n = o.name;
-    if (n.includes('frosted'))      o.material = frosted;
-    else if (n.includes('clear'))   o.material = clear;
-    else if (n.includes('chrome'))  o.material = chrome;
-    else                            o.material = steel;   // трос, кольца, замок
-  });
-
-  const box = new THREE.Box3().setFromObject(model);
-  const size = box.getSize(new THREE.Vector3());
-  const mid  = box.getCenter(new THREE.Vector3());
-  model.scale.setScalar(2.5 / Math.max(size.x, size.y));
-  model.position.set(-mid.x * model.scale.x, -box.max.y * model.scale.y, -mid.z * model.scale.z);
-  pivot.add(model);
-  layout();
-  render();
-}, undefined, () => canvas.style.display = 'none');   // не загрузилась — просто нет предмета
-
-// Предмет стоит справа, точка подвеса — выше верхней грани экрана: трос уходит за край
-function layout(){
-  const w = canvas.clientWidth, h = canvas.clientHeight;
-  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
-  renderer.setSize(w, h, false);
-  camera.aspect = w / h;
-  camera.updateProjectionMatrix();
-
-  const visH = 2 * Math.tan(THREE.MathUtils.degToRad(camera.fov) / 2) * camera.position.z;
-  const visW = visH * camera.aspect;
-  // Точка подвеса заметно выше верхней грани — в кадр входит только низ троса
-  pivot.position.set(visW * (w < 900 ? 0.32 : 0.29), visH * 0.5 + 0.62, 0);
-  pivot.scale.setScalar(w < 900 ? 0.72 : 1);
-}
-
-// Качание: угол тянется к цели пружиной, цель задают курсор и скорость скролла
-let aim = 0, ang = 0, vel = 0, spin = 0, aimSpin = 0;
-addEventListener('pointermove', e => {
-  aim = ((e.clientX / innerWidth) - 0.5) * 0.5;
-  aimSpin = ((e.clientY / innerHeight) - 0.5) * 0.6;
-}, { passive:true });
-
-let lastY = scrollY;
-addEventListener('scroll', () => {
-  vel += (scrollY - lastY) * 0.0009;   // толчок от прокрутки — предмет отстаёт, как настоящий
-  lastY = scrollY;
-}, { passive:true });
-
-let live = true;
-new IntersectionObserver(([e]) => { live = e.isIntersecting; if (live) render(); })
-  .observe(canvas);
-
-function render(){
-  if (!live) return;
-  if (!still){
-    vel += (aim - ang) * 0.014;   // пружина к цели
-    vel *= 0.94;                  // затухание
-    ang += vel;
-    spin += (aimSpin - spin) * 0.05;
-  }
-  pivot.rotation.z = -ang;
-  pivot.rotation.y = spin;
-  renderer.render(scene, camera);
-  requestAnimationFrame(render);
-}
-
-addEventListener('resize', () => { layout(); });
-layout();
-</script>
-
+<script src="assets/js/header.js?v=410" defer></script>
+<script src="assets/js/menu.js?v=410" defer></script>
+<script src="assets/js/menu-sections.js?v=410" defer></script>
+<script src="assets/js/menu-search.js?v=410" defer></script>
+<script src="assets/js/cookie.js?v=410" defer></script>
+<script src="assets/js/contact-validation.js?v=410" defer></script>
+<script src="assets/js/form-task.js?v=410" defer></script>
+<script src="assets/js/file-attach.js?v=410" defer></script>
+<script src="assets/js/form-submit.js?v=410" defer></script>
+<script src="assets/js/faq-accordion.js?v=410" defer></script>
+<script src="assets/js/copy-contact.js?v=410" defer></script>
+<script src="assets/js/chat.js?v=410" defer></script>
 </body>
 </html>

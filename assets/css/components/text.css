@@ -1,0 +1,35 @@
+/* Ссылка к разбору различий: стоит перед списком, иначе человек доберётся
+   до объяснения только после 17 позиций. Названа так же, как блок, — чтобы ожидание
+   совпадало с тем, что он там найдёт. Тихая строка, а не кнопка: большинству
+   она не нужна, они пришли за конкретной услугой. */
+/* по центру под кнопкой — как строка с мессенджерами на карточке услуги */
+.ls-cat-hint{margin:10px 0 0;padding:0 20px;text-align:center}
+.ls-cat-hint a{display:inline-block;padding:14px 0;font-size:var(--t-ui);color:var(--ink-2);
+  text-decoration:underline;text-underline-offset:3px;text-decoration-thickness:1px;
+  text-decoration-color:var(--line)}
+.ls-cat-hint a:hover{color:var(--ink);text-decoration-color:var(--ink)}
+.ls-cat-hint a:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+
+/* Два текстовых блока категории: помощь с выбором и текст для поиска.
+   Второй нужен потому, что категории дают 1355 визитов из органики,
+   а страница без текста для поиска пустая. Написан для чтения, не для робота. */
+
+/* Строки собирает общий компонент `.ls-qa` из faq.css, колонку справа —
+   `.ls-with-side` оттуда же. Своих правил для пар здесь нет. */
+.ls-choose{margin-top:var(--gap-block);padding:0 20px}
+
+.ls-about{margin-top:var(--gap-block);padding:0 20px}
+.ls-about p{margin:16px 0 0;font-size:var(--t-ui);line-height:1.55;color:var(--ink-2);
+  text-wrap:pretty}
+/* Мера включается с планшета, а не с широкого экрана: между 600 и 1023
+   колонок нет, и без неё абзац растягивался шире, чем на десктопе. */
+@media (min-width: 600px){
+  .ls-about p{max-width:70ch}
+}
+
+/* ── Широкий экран ─────────────────────────────────────────────── */
+@media (min-width: 1024px){
+    /* на телефоне ссылка стоит по центру под кнопкой, здесь — по левой линии:
+       кнопка тут по содержимому, и центр под ней читается как случайный сдвиг */
+    .ls-cat-hint{max-width:70ch;text-align:left;padding-left:var(--side)}
+}

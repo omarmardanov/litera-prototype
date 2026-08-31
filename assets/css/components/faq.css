@@ -1,0 +1,101 @@
+/* Вопрос-ответ: строка с заголовком, текстом и линией сверху.
+   Используется дважды: «Частые вопросы» на карточке раскрываются
+   (`<details class="qa">`), «Что выбрать под задачу» на категории стоит
+   раскрытым (`<div class="qa">` внутри `<dl>`).
+
+   Поэтому вид строки не привязан к секции, а механика раскрытия висит
+   на `details.ls-qa`: обычная строка от неё не схлопывается.
+
+   `.ls-with-side` — раскладка «список слева, колонка справа». Тоже общая:
+   секция сама по себе про это ничего не знает. */
+
+.ls-faq{margin-top:var(--gap-block);padding:0 20px}
+.ls-qa-list{margin:22px 0 0}
+.ls-qa dd{margin-inline-start:0}
+.ls-qa + .ls-qa{border-top:1px solid var(--line)}
+/* Шапка строки: в вопросах это `summary` с плюсом, в парах — `dt`.
+   Отступ общий, иначе у пар заголовок слипается с текстом. */
+.ls-qa summary,.ls-qa > dt{padding:15px 0}
+.ls-qa summary{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;
+  cursor:pointer;list-style:none}
+.ls-qa summary::-webkit-details-marker{display:none}
+/* Вопросы основным шрифтом, а не акцидентным: восемь строк Raptor подряд
+   читаются тяжело — он рисованный и держит внимание, а здесь его нужно
+   отдавать ответу. Заголовок блока остаётся акцидентным. */
+.ls-q{font-family:'Inter Web',Inter,system-ui,sans-serif;font-weight:500;
+  font-size:17px;line-height:1.35;letter-spacing:-.002em;color:var(--ink)}
+/* Ответ раскрывается плавно. У <details> высоту анимировать нечем, поэтому
+   сетка с нулевой строкой: тот же приём, что в разделах меню.
+   ::details-content поддерживают не все браузеры, а сетка работает везде. */
+/* Текст строки: в вопросах это абзац, в парах — `dd`. Браузерный отступ
+   у `dd` снимаем, колонку держит сам компонент. */
+.ls-qa p,.ls-qa dd{margin:-4px 0 0;padding-bottom:17px;font-size:var(--t-ui);line-height:1.45;
+  color:var(--ink-2)}
+/* Ссылки внутри ответов. Глобального стиля ссылок в проекте нет — каждая
+   оформляется в своём компоненте, этот случай был пропущен и ссылка
+   выпадала синей браузерной. */
+.ls-qa p a,.ls-qa dd a{color:var(--ink);text-decoration:underline;text-underline-offset:3px;
+  text-decoration-thickness:1px;text-decoration-color:var(--line);
+  transition:text-decoration-color .18s var(--ease)}
+.ls-qa p a:hover,.ls-qa dd a:hover{text-decoration-color:var(--ink)}
+
+@media (prefers-reduced-motion: no-preference){
+  details.ls-qa{display:grid;grid-template-rows:auto 0fr;
+    transition:grid-template-rows .32s var(--ease)}
+  details.ls-qa[open]{grid-template-rows:auto 1fr}
+  details.ls-qa > p{overflow:hidden;min-height:0;
+    opacity:0;transition:opacity .22s var(--ease)}
+  details.ls-qa[open] > p{opacity:1;transition-delay:.08s}
+}
+.ls-qa summary:focus-visible{outline:none;box-shadow:var(--ring)}
+/* плюс, который при раскрытии становится минусом */
+.ls-sign{position:relative;flex-shrink:0;width:13px;height:13px;margin-top:5px}
+.ls-sign::before,.ls-sign::after{content:"";position:absolute;background:var(--glyph);
+  transition:transform .18s var(--ease),opacity .18s var(--ease)}
+.ls-sign::before{left:0;top:6px;width:13px;height:1.5px}
+.ls-sign::after{top:0;left:6px;width:1.5px;height:13px}
+details.ls-qa[open] .ls-sign::after{opacity:0;transform:scaleY(0)}
+.ls-qa summary:hover .ls-sign::before,.ls-qa summary:hover .ls-sign::after{background:var(--ink)}
+
+/* Боковая колонка вопросов: цифры и выход на контакт.
+   На телефоне это просто продолжение блока, никакой колонки. */
+.ls-faq-side{margin-top:44px}
+.ls-faq-ask-title{margin:32px 0 0;font-family:'Raptor V2 Premium',sans-serif;
+  font-weight:700;font-size:18px;line-height:1.2;letter-spacing:-.005em;color:var(--ink)}
+.ls-faq-ask{margin:8px 0 0;font-size:var(--t-ui);line-height:1.5;color:var(--muted)}
+.ls-faq-ask a{color:var(--ink);text-decoration:underline;text-underline-offset:3px;
+  text-decoration-thickness:1px;text-decoration-color:var(--line);
+  transition:text-decoration-color .18s var(--ease)}
+.ls-faq-ask a:hover{text-decoration-color:var(--ink)}
+
+/* ── Широкий экран ─────────────────────────────────────────────── */
+@media (min-width: 1024px){
+    /* Вопросы слева, справа колонка с цифрами и выходом на контакт.
+       Отдельной полосой цифры занимали экран ради трёх чисел, а рядом
+       с ответами работают доказательством. */
+    /* Колонка прижата к правому краю контейнера, а воздух между сторонами
+       набирается сам: аккордеоны сузили, правая сторона осталась на месте. */
+    .ls-with-side{display:grid;grid-template-columns:minmax(0,680px) minmax(0,1fr);
+      column-gap:64px;align-items:start}
+    .ls-with-side h2{grid-column:1 / -1}
+    /* верхний край колонки совпадает с первым вопросом: у списка есть свой
+       отступ от заголовка, его и повторяем */
+    .ls-faq-side{margin-top:36px;position:sticky;top:calc(var(--topbar) + 32px);
+      justify-self:end;width:100%;max-width:320px}
+    /* в колонке цифры выравниваются по её левому краю: центрирование
+       осталось от отдельной полосы, где они стояли в ряд */
+    /* margin-top у блока цифр остался от отдельной полосы — в колонке он сдвигал
+       первую цифру на 68 пикселей вниз от первого вопроса */
+    .ls-faq-side .ls-figures{display:block;margin:0;padding:0;text-align:left}
+    /* Линии-разделители, как в футере и в материалах: три числа перестают быть
+       плакатом и становятся частью общей системы. Кегль убран с 60 до 46 —
+       на 60 цифры кричали громче вопросов, ради которых блок и существует. */
+    .ls-faq-side .ls-figures div{padding:22px 0 0}
+    .ls-faq-side .ls-figures div + div{margin-top:22px;border-top:1px solid var(--line)}
+    .ls-faq-side .ls-figures b{font-size:46px;line-height:1;letter-spacing:-.02em}
+    .ls-faq-side .ls-figures span{display:block;margin-top:4px;font-size:var(--t-ui)}
+    /* блок стоит первым в колонке, поэтому отступ сверху не нужен —
+       он есть у самой колонки. Под ним воздух до цифр. */
+    .ls-faq-ask-title{margin:0;font-size:20px}
+    .ls-faq-ask{margin:10px 0 48px}
+}

@@ -1,0 +1,20 @@
+/* Список услуг раздела. Строку рисует общий компонент .ls-rows,
+   здесь только своё: цена в одной строке с названием. */
+
+.ls-cat-intro .ls-price{font-family:'Raptor V2 Premium',sans-serif;font-weight:700}
+
+.ls-catalog{margin-top:44px;padding:0 20px}
+
+/* цена стоит в строке с названием: справа отдельной колонкой она сжимала
+   текст в узкую полосу, и описания ломались на четыре строки */
+/* на 320 «по запросу» рядом с длинным названием не помещается —
+   тогда цена переносится на свою строку, а не уезжает за край */
+.ls-catalog .ls-row{display:flex;flex-wrap:wrap;align-items:baseline;
+  justify-content:space-between;gap:4px 12px}
+.ls-catalog .ls-price{white-space:nowrap;
+  font-family:'Raptor V2 Premium',sans-serif;font-weight:700;font-size:var(--t-ui);
+  color:var(--ink);font-variant-numeric:tabular-nums}
+.ls-catalog .ls-price-ask{font-family:inherit;font-weight:400;color:var(--muted)}
+
+.ls-catalog a:hover b{text-decoration:underline;text-underline-offset:3px;
+  text-decoration-thickness:1px;text-decoration-color:var(--line)}
