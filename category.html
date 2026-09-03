@@ -20,50 +20,50 @@
      на классах с приставкой `ls-`.
      Сюда же входят компоненты шапки, меню, футера, виджета и куки-баннера —
      они помечены ниже. -->
-<link rel="stylesheet" href="assets/css/tokens.css?v=429">
-<link rel="stylesheet" href="assets/css/base.css?v=429">
+<link rel="stylesheet" href="assets/css/tokens.css?v=432">
+<link rel="stylesheet" href="assets/css/base.css?v=432">
 
 <!-- ── Только для шаблонов нового дизайна ──────────────────────────────
      Правила на голых `html`, `body` и `h2`. На чужой странице покрасят фон
      в тёмный и переведут заголовки на Raptor. -->
-<link rel="stylesheet" href="assets/css/page.css?v=429">
+<link rel="stylesheet" href="assets/css/page.css?v=432">
 
 <!-- Кнопка — базовый компонент, поэтому идёт сразу за базой:
      остальные компоненты должны иметь возможность её перебить.
      Нужна и общему набору: кнопки есть в шапке, виджете и куки-баннере. -->
-<link rel="stylesheet" href="assets/css/components/button.css?v=429">
+<link rel="stylesheet" href="assets/css/components/button.css?v=432">
 
 <!-- Компоненты. Список одинаков для всех страниц: набор блоков у них
      разный, но система одна, и лишний файл на 20 строк дешевле, чем два
      расходящихся списка. Порядок — по следованию на странице, он важен
      при равной специфичности. -->
-<link rel="stylesheet" href="assets/css/components/shell.css?v=429">
+<link rel="stylesheet" href="assets/css/components/shell.css?v=432">
 <!-- общие: идут на любой странице сайта -->
-<link rel="stylesheet" href="assets/css/components/header.css?v=429">
-<link rel="stylesheet" href="assets/css/components/menu.css?v=429">
-<link rel="stylesheet" href="assets/css/components/cookie.css?v=429">
-<link rel="stylesheet" href="assets/css/components/hero.css?v=429">
-<link rel="stylesheet" href="assets/css/components/intro.css?v=429">
-<link rel="stylesheet" href="assets/css/components/value.css?v=429">
-<link rel="stylesheet" href="assets/css/components/works.css?v=429">
-<link rel="stylesheet" href="assets/css/components/rows.css?v=429">
-<link rel="stylesheet" href="assets/css/components/catalog.css?v=429">
-<link rel="stylesheet" href="assets/css/components/specs.css?v=429">
-<link rel="stylesheet" href="assets/css/components/steps.css?v=429">
-<link rel="stylesheet" href="assets/css/components/faq.css?v=429">
-<link rel="stylesheet" href="assets/css/components/figures.css?v=429">
-<link rel="stylesheet" href="assets/css/components/form.css?v=429">
-<link rel="stylesheet" href="assets/css/components/text.css?v=429">
-<link rel="stylesheet" href="assets/css/components/related.css?v=429">
+<link rel="stylesheet" href="assets/css/components/header.css?v=432">
+<link rel="stylesheet" href="assets/css/components/menu.css?v=432">
+<link rel="stylesheet" href="assets/css/components/cookie.css?v=432">
+<link rel="stylesheet" href="assets/css/components/hero.css?v=432">
+<link rel="stylesheet" href="assets/css/components/intro.css?v=432">
+<link rel="stylesheet" href="assets/css/components/value.css?v=432">
+<link rel="stylesheet" href="assets/css/components/works.css?v=432">
+<link rel="stylesheet" href="assets/css/components/rows.css?v=432">
+<link rel="stylesheet" href="assets/css/components/catalog.css?v=432">
+<link rel="stylesheet" href="assets/css/components/specs.css?v=432">
+<link rel="stylesheet" href="assets/css/components/steps.css?v=432">
+<link rel="stylesheet" href="assets/css/components/faq.css?v=432">
+<link rel="stylesheet" href="assets/css/components/figures.css?v=432">
+<link rel="stylesheet" href="assets/css/components/form.css?v=432">
+<link rel="stylesheet" href="assets/css/components/text.css?v=432">
+<link rel="stylesheet" href="assets/css/components/related.css?v=432">
 <!-- общие: идут на любой странице сайта -->
-<link rel="stylesheet" href="assets/css/components/footer.css?v=429">
-<link rel="stylesheet" href="assets/css/components/copy-tip.css?v=429">
-<link rel="stylesheet" href="assets/css/components/chat.css?v=429">
+<link rel="stylesheet" href="assets/css/components/footer.css?v=432">
+<link rel="stylesheet" href="assets/css/components/copy-tip.css?v=432">
+<link rel="stylesheet" href="assets/css/components/chat.css?v=432">
 
 <!-- Раскладка идёт последней: её медиазапросы должны перебивать компоненты,
      иначе обёртка-телефон для десктопа не срабатывает. -->
-<link rel="stylesheet" href="assets/css/layout.css?v=429">
-<link rel="stylesheet" href="assets/css/motion.css?v=429">
+<link rel="stylesheet" href="assets/css/layout.css?v=432">
+<link rel="stylesheet" href="assets/css/motion.css?v=432">
 <title>Листовая полиграфия — Литера.Студия</title>
 <meta name="description" content="Дизайн и печать листовой полиграфии: визитки, открытки, сертификаты, приглашения. 17 услуг, от 300 ₽.">
 
@@ -638,6 +638,15 @@
           <a href="https://litera.studio/wp-content/uploads/2026/09/tekhnicheskie-trebovaniya-k-maketam.pdf"><b>Полные требования</b><span>PDF, 12,7&nbsp;МБ</span></a>
           <a href="https://litera.studio/wp-content/uploads/2026/09/obshchaya-kratkaya-svodka.rar"><b>Краткая сводка</b><span>RAR, 0,2&nbsp;МБ</span></a>
         </p>
+
+        <!-- Схема крупно. Нативный <dialog>: Esc, возврат фокуса и затемнение
+             фона он делает сам, писать это руками незачем. Пока скрипт не
+             подключился или отключён, ссылка выше просто откроет файл. -->
+        <dialog class="ls-specs-modal">
+          <img src="assets/img/trebovaniya.webp" width="1430" height="1055" loading="lazy" decoding="async"
+            alt="Требования к макетам: CMYK, 300 dpi, шрифты в кривые, вылеты не менее 3 мм, отступы от края реза не менее 5 мм">
+          <button type="button" class="ls-specs-close" aria-label="Закрыть"></button>
+        </dialog>
       </div>
 </div>
   </section>
@@ -810,18 +819,19 @@
   </button>
 </div>
 
-<script src="assets/js/header.js?v=429" defer></script>
-<script src="assets/js/menu.js?v=429" defer></script>
-<script src="assets/js/menu-sections.js?v=429" defer></script>
-<script src="assets/js/menu-search.js?v=429" defer></script>
-<script src="assets/js/cookie.js?v=429" defer></script>
-<script src="assets/js/contact-validation.js?v=429" defer></script>
-<script src="assets/js/form-task.js?v=429" defer></script>
-<script src="assets/js/file-attach.js?v=429" defer></script>
-<script src="assets/js/form-submit.js?v=429" defer></script>
-<script src="assets/js/faq-accordion.js?v=429" defer></script>
-<script src="assets/js/copy-contact.js?v=429" defer></script>
-<script src="assets/js/thumb-zoom.js?v=429" defer></script>
-<script src="assets/js/chat.js?v=429" defer></script>
+<script src="assets/js/header.js?v=432" defer></script>
+<script src="assets/js/menu.js?v=432" defer></script>
+<script src="assets/js/menu-sections.js?v=432" defer></script>
+<script src="assets/js/menu-search.js?v=432" defer></script>
+<script src="assets/js/cookie.js?v=432" defer></script>
+<script src="assets/js/contact-validation.js?v=432" defer></script>
+<script src="assets/js/form-task.js?v=432" defer></script>
+<script src="assets/js/file-attach.js?v=432" defer></script>
+<script src="assets/js/form-submit.js?v=432" defer></script>
+<script src="assets/js/faq-accordion.js?v=432" defer></script>
+<script src="assets/js/copy-contact.js?v=432" defer></script>
+<script src="assets/js/thumb-zoom.js?v=432" defer></script>
+<script src="assets/js/specs-modal.js?v=432" defer></script>
+<script src="assets/js/chat.js?v=432" defer></script>
 </body>
 </html>

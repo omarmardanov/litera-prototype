@@ -160,7 +160,7 @@
    Рамка вокруг снимка нужна: схема на белом фоне, и без рамки она
    растворяется в серой плашке формы. */
 .ls-lead-specs{margin:32px 0 0}
-.ls-lead-specs h3{margin:0 0 10px;font-family:'Raptor V2 Premium',sans-serif;
+.ls-lead-specs h3{margin:0 0 18px;font-family:'Raptor V2 Premium',sans-serif;
   font-weight:700;font-size:18px;letter-spacing:-.005em;color:var(--ink)}
 .ls-specs-pic{display:block;position:relative;background:var(--paper);
   border:1px solid var(--line);transition:border-color .18s var(--ease)}
@@ -187,7 +187,7 @@
   transition:text-decoration-color .18s var(--ease)}
 .ls-specs-files a:hover b{text-decoration-color:var(--ink)}
 .ls-specs-files a:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
-.ls-specs-files a span{display:block;font-size:var(--t-cap);color:var(--muted)}
+.ls-specs-files a span{display:block;margin-top:6px;font-size:var(--t-cap);color:var(--muted)}
 
 /* Фирменный элемент за формой. На телефоне он маленький и в углу:
    страница и так узкая, крупная клякса забрала бы всё внимание. */
@@ -238,4 +238,56 @@
     /* width:auto не помогает: кнопка — блочный флекс и тянется по родителю.
        Нужна ширина по содержимому. */
     .ls-lead-form form .ls-btn{width:fit-content;min-width:300px;padding:0 40px}
+}
+
+/* ── Схема крупно ──────────────────────────────────────────────────
+   Нативный <dialog>: затемнение, Esc и возврат фокуса он берёт на себя.
+   Появление плавное — через @starting-style, потому что `display` меняется
+   скачком и обычный transition по нему не идёт. Где @starting-style не
+   поддержан, диалог просто появляется сразу: поведение то же, без плавности. */
+.ls-specs-modal{width:min(1100px, 92vw);max-height:92dvh;padding:0;border:0;overflow:auto;
+  background:var(--paper);color:var(--ink);
+  box-shadow:0 24px 60px rgba(0,0,0,.34);
+  opacity:0;transform:scale(.98) translateY(6px);
+  transition:opacity .2s var(--ease), transform .2s var(--ease), overlay .2s allow-discrete, display .2s allow-discrete}
+.ls-specs-modal[open]{opacity:1;transform:none}
+@starting-style{
+  .ls-specs-modal[open]{opacity:0;transform:scale(.98) translateY(6px)}
+}
+.ls-specs-modal::backdrop{background:rgba(17,17,18,.62);
+  opacity:0;transition:opacity .2s var(--ease), overlay .2s allow-discrete, display .2s allow-discrete}
+.ls-specs-modal[open]::backdrop{opacity:1}
+@starting-style{
+  .ls-specs-modal[open]::backdrop{opacity:0}
+}
+/* На широком экране схема видна целиком: вписываем по высоте окна, ширина
+   подстраивается. Прокручивать там нечего — и не надо. */
+.ls-specs-modal{display:flex}
+.ls-specs-modal img{display:block;width:auto;height:auto;max-width:100%;max-height:88dvh;margin:auto}
+
+/* На узком экране схему нельзя вписывать в ширину: подписи на ней набраны
+   мелко, и в 390 пикселей не читается ничего. Показываем крупнее экрана
+   и даём прокрутить — так же, как разглядывают чертёж. */
+@media (max-width: 1023px){
+  .ls-specs-modal{width:92vw}
+  .ls-specs-modal img{width:1100px;max-width:none;max-height:none;margin:0}
+}
+
+/* Крестик поверх угла схемы: у диалога нет своей рамки, и кнопке негде стоять,
+   кроме как на картинке. Белая подложка — на схеме светлый фон. */
+/* fixed, а не absolute: схему внутри диалога прокручивают, и кнопка
+   не должна уезжать вместе с ней. Диалог лежит в верхнем слое, поэтому
+   координаты считаются от окна. */
+.ls-specs-close{position:fixed;right:calc(4vw + 10px);top:calc(4dvh + 10px);width:36px;height:36px;
+  border:0;border-radius:50%;cursor:pointer;padding:0;
+  background:rgba(255,255,255,.92);box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.ls-specs-close::before,.ls-specs-close::after{content:"";position:absolute;
+  left:10px;top:17px;width:16px;height:1.5px;background:var(--ink)}
+.ls-specs-close::before{transform:rotate(45deg)}
+.ls-specs-close::after{transform:rotate(-45deg)}
+.ls-specs-close:hover{background:#fff}
+.ls-specs-close:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+
+@media (prefers-reduced-motion: reduce){
+  .ls-specs-modal,.ls-specs-modal::backdrop{transition:none}
 }
