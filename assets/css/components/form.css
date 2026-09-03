@@ -153,6 +153,19 @@
 .ls-lead-next li + li{margin-top:8px}
 .ls-lead-next::marker{color:var(--muted)}
 
+/* Требования к макетам. Карточка в рамке, а не строка-ссылка: рядом стоит
+   прикрепление файлов, и человек должен заметить её раньше, чем приложит
+   макет с ошибкой. Фон белый — форма лежит на серой плашке. */
+.ls-lead-specs{display:block;margin:16px 0 0;padding:16px 18px;
+  border:1px solid var(--line);background:var(--paper);
+  text-decoration:none;color:var(--ink);
+  transition:border-color .18s var(--ease)}
+.ls-lead-specs:hover{border-color:var(--ink)}
+.ls-lead-specs b{display:block;font-size:var(--t-ui);font-weight:500;line-height:1.3}
+.ls-lead-specs span{display:block;margin-top:4px;font-size:var(--t-cap);
+  line-height:1.4;color:var(--muted)}
+.ls-lead-specs:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+
 /* Фирменный элемент за формой. На телефоне он маленький и в углу:
    страница и так узкая, крупная клякса забрала бы всё внимание. */
 .ls-lead-mark{position:absolute;right:-24px;top:-18px;width:120px;height:auto;
@@ -175,8 +188,7 @@
       grid-template-columns:minmax(0,640px) minmax(0,1fr);
       column-gap:80px;align-items:start;
       padding-top:72px;padding-bottom:80px}
-
-    .ls-lead-mark{right:auto;left:calc(50% + 120px);top:-60px;width:340px;opacity:.12}
+        .ls-lead-mark{right:auto;left:calc(50% + 120px);top:-60px;width:340px;opacity:.12}
     .ls-lead-form h2,.ls-lead-form .ls-sub,.ls-lead-form form{grid-column:1}
     .ls-lead-form .ls-lead-side{grid-column:2;grid-row:2 / span 2;align-self:start;
       max-width:38ch}
