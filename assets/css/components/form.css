@@ -160,7 +160,7 @@
    Рамка вокруг снимка нужна: схема на белом фоне, и без рамки она
    растворяется в серой плашке формы. */
 .ls-lead-specs{margin:32px 0 0}
-.ls-lead-specs h3{margin:0 0 18px;font-family:'Raptor V2 Premium',sans-serif;
+.ls-lead-side .ls-lead-specs h3{margin:0 0 24px;font-family:'Raptor V2 Premium',sans-serif;
   font-weight:700;font-size:18px;letter-spacing:-.005em;color:var(--ink)}
 .ls-specs-pic{display:block;position:relative;background:var(--paper);
   border:1px solid var(--line);transition:border-color .18s var(--ease)}
@@ -268,25 +268,30 @@
 /* На узком экране схему нельзя вписывать в ширину: подписи на ней набраны
    мелко, и в 390 пикселей не читается ничего. Показываем крупнее экрана
    и даём прокрутить — так же, как разглядывают чертёж. */
+/* На телефоне схема вписана по ширине с полями, а разглядывают её пальцами:
+   прокрутка широкой картинки внутри диалога — это возня, увеличение щипком
+   привычнее и точнее. `touch-action` разрешает жест на самой картинке,
+   мета-вьюпорт масштабирование не запрещает. */
 @media (max-width: 1023px){
-  .ls-specs-modal{width:92vw}
-  .ls-specs-modal img{width:1100px;max-width:none;max-height:none;margin:0}
+  .ls-specs-modal{width:92vw;padding:14px}
+  .ls-specs-modal img{width:100%;max-width:100%;max-height:none;margin:0;
+    touch-action:pinch-zoom}
 }
 
-/* Крестик поверх угла схемы: у диалога нет своей рамки, и кнопке негде стоять,
-   кроме как на картинке. Белая подложка — на схеме светлый фон. */
-/* fixed, а не absolute: схему внутри диалога прокручивают, и кнопка
-   не должна уезжать вместе с ней. Диалог лежит в верхнем слое, поэтому
-   координаты считаются от окна. */
-.ls-specs-close{position:fixed;right:calc(4vw + 10px);top:calc(4dvh + 10px);width:36px;height:36px;
-  border:0;border-radius:50%;cursor:pointer;padding:0;
-  background:rgba(255,255,255,.92);box-shadow:0 2px 8px rgba(0,0,0,.2)}
-.ls-specs-close::before,.ls-specs-close::after{content:"";position:absolute;
-  left:10px;top:17px;width:16px;height:1.5px;background:var(--ink)}
-.ls-specs-close::before{transform:rotate(45deg)}
-.ls-specs-close::after{transform:rotate(-45deg)}
-.ls-specs-close:hover{background:#fff}
-.ls-specs-close:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+/* Кнопка закрытия. Тот же чёрный квадрат и тот же значок, что у кнопки
+   виджета связи: круглых кнопок в системе нет, радиус везде нулевой.
+   Стоит в углу самого диалога: прокрутки внутри нет ни на одной ширине,
+   поэтому кнопке незачем цепляться за окно — от `fixed` она уезжала
+   за правый край экрана на узких. */
+.ls-specs-close{position:absolute;right:8px;top:8px;
+  display:flex;align-items:center;justify-content:center;
+  width:44px;height:44px;padding:0;border-radius:0;cursor:pointer;
+  background:var(--ink);color:var(--paper);
+  border:1px solid var(--pop-edge);box-shadow:var(--pop-shadow);
+  transition:background-color .18s var(--ease)}
+.ls-specs-close:hover{background:var(--ink-hover)}
+.ls-specs-close:focus-visible{outline:2px solid var(--paper);outline-offset:2px}
+.ls-specs-close svg{display:block}
 
 @media (prefers-reduced-motion: reduce){
   .ls-specs-modal,.ls-specs-modal::backdrop{transition:none}
