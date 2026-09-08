@@ -45,14 +45,16 @@
 <link rel="stylesheet" href="assets/css/components/hero.css?v=435">
 <link rel="stylesheet" href="assets/css/components/intro.css?v=435">
 <link rel="stylesheet" href="assets/css/components/value.css?v=435">
-<link rel="stylesheet" href="assets/css/components/works.css?v=439">
+<link rel="stylesheet" href="assets/css/components/works.css?v=451">
+<link rel="stylesheet" href="assets/css/components/shorts.css?v=6">
 <link rel="stylesheet" href="assets/css/components/rows.css?v=435">
 <link rel="stylesheet" href="assets/css/components/catalog.css?v=435">
 <link rel="stylesheet" href="assets/css/components/specs.css?v=435">
 <link rel="stylesheet" href="assets/css/components/steps.css?v=435">
 <link rel="stylesheet" href="assets/css/components/faq.css?v=435">
 <link rel="stylesheet" href="assets/css/components/figures.css?v=435">
-<link rel="stylesheet" href="assets/css/components/form.css?v=435">
+<link rel="stylesheet" href="assets/css/components/form.css?v=436">
+<link rel="stylesheet" href="assets/css/components/modal.css?v=1">
 <link rel="stylesheet" href="assets/css/components/text.css?v=435">
 <link rel="stylesheet" href="assets/css/components/related.css?v=435">
 <!-- общие: идут на любой странице сайта -->
@@ -62,7 +64,7 @@
 
 <!-- Раскладка идёт последней: её медиазапросы должны перебивать компоненты,
      иначе обёртка-телефон для десктопа не срабатывает. -->
-<link rel="stylesheet" href="assets/css/layout.css?v=435">
+<link rel="stylesheet" href="assets/css/layout.css?v=436">
 <link rel="stylesheet" href="assets/css/motion.css?v=435">
 <title>Подарочный сертификат — Литера.Студия</title>
 <meta name="description" content="Дизайн подарочных сертификатов: нарисуем с нуля или подготовим готовый макет. Печатаем на своём производстве.">
@@ -303,14 +305,27 @@
     </section>
 
     <section class="ls-works">
+      <!-- Надзаголовок объясняет, что это за блок, а режимы набраны как
+           заголовок: они и есть то, что человек выбирает. Счётчик рядом
+           с «Видео» нужен затем, что за невыбранной вкладкой контента
+           не видно — по цифре сразу понятно, есть там что-то или нет. -->
       <div class="ls-works-head">
-        <h2>Работы</h2>
+        <div>
+          <!-- Заголовок остаётся в разметке, но не на экране: режимы читаются
+               как название блока, а скринридеру и поиску нужно слово. -->
+          <h2 class="ls-sr-only">Работы</h2>
+          <div class="ls-works-tabs" role="tablist" aria-label="Что показывать">
+            <button type="button" role="tab" aria-selected="true" aria-controls="works-photo" id="tab-photo">Фото<em>6</em></button>
+            <i aria-hidden="true">·</i>
+            <button type="button" role="tab" aria-selected="false" aria-controls="works-video" id="tab-video">Видео<em>3</em></button>
+          </div>
+        </div>
         <a href="/projects">В портфолио</a>
       </div>
       <!-- Плитки ведут в общее портфолио: отдельных страниц работ пока нет.
          Когда появятся, CMS подставит их адреса вместо /projects. -->
-    <ul class="ls-works-list">
-                <li class="ls-work ls-has-shots"><a href="/projects">
+    <ul class="ls-works-list" id="works-photo" role="tabpanel" aria-labelledby="tab-photo">
+                <li class="ls-work ls-has-shots"><a href="/projects" data-cursor="Посмотреть работу">
           <i class="ls-zone" aria-hidden="true"></i>
           <i class="ls-zone" aria-hidden="true"></i>
           <i class="ls-zone" aria-hidden="true"></i>
@@ -332,7 +347,7 @@
           <b>Сертификаты с тиснением</b>
           <span class="ls-work-tags">Студия растяжки · тиснение фольгой</span>
         </a></li>
-        <li class="ls-work"><a href="/projects">
+        <li class="ls-work"><a href="/projects" data-cursor="Посмотреть работу">
           <picture>
           <source srcset="assets/img/p3.webp" type="image/webp">
           <img loading="lazy" decoding="async" src="assets/img/p3.jpg" width="900" height="497" alt="Подарочные сертификаты с золотой фольгой">
@@ -340,7 +355,7 @@
           <b>Подарочные карты с фольгой</b>
           <span class="ls-work-tags">Салон красоты · фольга, скругление углов</span>
         </a></li>
-        <li class="ls-work"><a href="/projects">
+        <li class="ls-work"><a href="/projects" data-cursor="Посмотреть работу">
           <picture>
           <source srcset="assets/img/p4.webp" type="image/webp">
           <img loading="lazy" decoding="async" src="assets/img/p4.jpg" width="900" height="457" alt="Сертификаты в конверте с логотипом">
@@ -348,7 +363,7 @@
           <b>Сертификаты в конвертах</b>
           <span class="ls-work-tags">Ресторан · конверт под формат</span>
         </a></li>
-        <li class="ls-work"><a href="/projects">
+        <li class="ls-work"><a href="/projects" data-cursor="Посмотреть работу">
           <picture>
           <source srcset="assets/img/p5.webp" type="image/webp">
           <img loading="lazy" decoding="async" src="assets/img/p5.jpg" width="900" height="457" alt="Комплект сертификатов разных номиналов">
@@ -356,7 +371,7 @@
           <b>Комплект на четыре номинала</b>
           <span class="ls-work-tags">Магазин подарков · четыре номинала</span>
         </a></li>
-                <li class="ls-work"><a href="/projects">
+                <li class="ls-work"><a href="/projects" data-cursor="Посмотреть работу">
           <picture>
           <source srcset="assets/img/p1.webp" type="image/webp">
           <img loading="lazy" decoding="async" src="assets/img/p1.jpg" width="900" height="457" alt="Сертификат на розовой бумаге с QR-кодом">
@@ -364,7 +379,7 @@
           <b>Сертификаты с QR-кодом</b>
           <span class="ls-work-tags">Фитнес-студия · QR и сквозной номер</span>
         </a></li>
-        <li class="ls-work"><a href="/projects">
+        <li class="ls-work"><a href="/projects" data-cursor="Посмотреть работу">
           <picture>
           <source srcset="assets/img/p3.webp" type="image/webp">
           <img loading="lazy" decoding="async" src="assets/img/p3.jpg" width="900" height="497" alt="Подарочные сертификаты с фольгой">
@@ -373,7 +388,24 @@
           <span class="ls-work-tags">Барбершоп · именная печать</span>
         </a></li>
       </ul>
+          <ul class="ls-shorts-list" id="works-video" role="tabpanel" aria-labelledby="tab-video" hidden>
+        <li class="ls-short"><a href="https://vk.com/video191195025_456239176" data-video="191195025_456239176" data-cursor="Смотреть ролик" target="_blank" rel="noopener">
+          <img loading="lazy" decoding="async" src="assets/img/shorts/v1.jpg" width="405" height="720" alt="Печать подарочных сертификатов">
+          <i class="ls-short-play" aria-hidden="true"><svg width="15" height="18" viewBox="0 0 15 18" fill="currentColor" aria-hidden="true"><path d="M15 9 0 18V0Z"/></svg></i>
+        </a></li>
+        <li class="ls-short"><a href="https://vk.com/video191195025_456239214" data-video="191195025_456239214" data-cursor="Смотреть ролик" target="_blank" rel="noopener">
+          <img loading="lazy" decoding="async" src="assets/img/shorts/v2.jpg" width="405" height="720" alt="Сертификаты с тиснением, крупный план">
+          <i class="ls-short-play" aria-hidden="true"><svg width="15" height="18" viewBox="0 0 15 18" fill="currentColor" aria-hidden="true"><path d="M15 9 0 18V0Z"/></svg></i>
+        </a></li>
+        <li class="ls-short"><a href="https://vk.com/video191195025_456239129" data-video="191195025_456239129" data-cursor="Смотреть ролик" target="_blank" rel="noopener">
+          <img loading="lazy" decoding="async" src="assets/img/shorts/v3.jpg" width="405" height="720" alt="Готовый тираж сертификатов">
+          <i class="ls-short-play" aria-hidden="true"><svg width="15" height="18" viewBox="0 0 15 18" fill="currentColor" aria-hidden="true"><path d="M15 9 0 18V0Z"/></svg></i>
+        </a></li>
+      </ul>
     </section>
+
+
+
 
     <!-- Группы обёрнуты, чтобы не разрывались между колонками на десктопе:
        заголовок, строки и раскрытие «Ещё…» должны остаться вместе. -->
@@ -1093,11 +1125,21 @@
 <script src="assets/js/contact-validation.js?v=435" defer></script>
 <script src="assets/js/form-task.js?v=435" defer></script>
 <script src="assets/js/file-attach.js?v=435" defer></script>
+<script src="assets/js/modal.js?v=1" defer></script>
+<script src="assets/js/works-tabs.js?v=3" defer></script>
+<script src="assets/js/cursor-label.js?v=1" defer></script>
 <script src="assets/js/form-submit.js?v=435" defer></script>
 <script src="assets/js/faq-accordion.js?v=435" defer></script>
 <script src="assets/js/copy-contact.js?v=435" defer></script>
 <script src="assets/js/thumb-zoom.js?v=435" defer></script>
-<script src="assets/js/specs-modal.js?v=435" defer></script>
 <script src="assets/js/chat.js?v=435" defer></script>
+
+  <!-- Ролик поверх страницы. Плеер «ВКонтакте» подставляется скриптом
+       по клику и снимается при закрытии — иначе звук идёт с невидимой
+       страницы. Без скрипта плитка просто ведёт на ролик во «ВКонтакте». -->
+  <dialog class="ls-modal ls-modal-video">
+    <iframe title="Ролик Литеры" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>
+    <button type="button" class="ls-modal-close" aria-label="Закрыть"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  </dialog>
 </body>
 </html>

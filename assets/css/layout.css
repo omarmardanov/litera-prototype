@@ -66,10 +66,10 @@ html:has(.ls-menu-search input:focus){scroll-padding-top:0}
 @media (min-width: 600px) and (max-width: 1023px){
   :root{--side:max(var(--pad), calc((100vw - 680px) / 2))}
   .ls-body,.ls-cta,.ls-cta-alt,.ls-value,.ls-specs,.ls-how,.ls-faq,.ls-figures,.ls-lead-form,.ls-related,.ls-about,
-  .ls-cat-hint,.ls-catalog,.ls-choose,.ls-works-head,.ls-foot{
+  .ls-cat-hint,.ls-catalog,.ls-choose,.ls-works-head,.ls-shorts-head,.ls-foot{
     padding-left:var(--side);padding-right:var(--side)}
   /* лента работ начинается от той же линии, что и текст */
-  .ls-works-list{padding-left:var(--side);scroll-padding-left:var(--side)}
+  .ls-works-list,.ls-shorts-list{padding-left:var(--side);scroll-padding-left:var(--side)}
   /* Шапка во всю ширину, содержимое — по той же линии, что и страница.
      Иначе логотип стоит у края экрана, а заголовок под ним отступает
      на сто семьдесят пикселей. */
@@ -144,7 +144,7 @@ html:has(.ls-menu-search input:focus){scroll-padding-top:0}
      и при равной специфичности он побеждал бы то, что объявлено раньше.
      Раскладка подключается последней и расставляет поля для всех сразу. */
   .ls-value,.ls-specs,.ls-how,.ls-faq,.ls-figures,.ls-lead-form,.ls-related,.ls-about,
-  .ls-cat-hint,.ls-catalog,.ls-choose,.ls-works-head,.ls-foot{
+  .ls-cat-hint,.ls-catalog,.ls-choose,.ls-works-head,.ls-shorts-head,.ls-foot{
     padding-left:var(--side);padding-right:var(--side)}
 
   /* Шапка на широком экране при прокрутке сжимается — на обеих страницах.

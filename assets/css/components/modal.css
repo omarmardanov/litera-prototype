@@ -1,0 +1,75 @@
+/* Диалог поверх страницы: схема требований крупно, ролик из соцсетей.
+   Переехало из form.css, когда таких мест стало два — раньше диалог был один
+   и жил внутри формы.
+
+   Нативный <dialog>: затемнение, Esc и возврат фокуса он берёт на себя.
+   Появление плавное — через @starting-style, потому что `display` меняется
+   скачком и обычный transition по нему не идёт. Где @starting-style
+   не поддержан, диалог появляется сразу: поведение то же, без плавности. */
+
+.ls-modal{width:min(1100px, 92vw);max-height:92dvh;padding:0;border:0;overflow:auto;
+  background:var(--paper);color:var(--ink);
+  box-shadow:0 24px 60px rgba(0,0,0,.34);
+  opacity:0;transform:scale(.98) translateY(6px);
+  transition:opacity .2s var(--ease), transform .2s var(--ease), overlay .2s allow-discrete, display .2s allow-discrete}
+.ls-modal[open]{opacity:1;transform:none}
+@starting-style{
+  .ls-modal[open]{opacity:0;transform:scale(.98) translateY(6px)}
+}
+.ls-modal::backdrop{background:rgba(17,17,18,.62);
+  opacity:0;transition:opacity .2s var(--ease), overlay .2s allow-discrete, display .2s allow-discrete}
+.ls-modal[open]::backdrop{opacity:1}
+@starting-style{
+  .ls-modal[open]::backdrop{opacity:0}
+}
+/* На широком экране схема видна целиком: вписываем по высоте окна, ширина
+   подстраивается. Прокручивать там нечего — и не надо. */
+/* Только у открытого: авторский `display` перебивает браузерное
+   `dialog:not([open]){display:none}` — правила автора всегда старше
+   браузерных, специфичность тут ни при чём. Закрытый диалог иначе
+   виден и занимает место в конце страницы. */
+.ls-modal[open]{display:flex}
+.ls-modal img{display:block;width:auto;height:auto;max-width:100%;max-height:88dvh;margin:auto}
+
+/* На узком экране схему нельзя вписывать в ширину: подписи на ней набраны
+   мелко, и в 390 пикселей не читается ничего. Показываем крупнее экрана
+   и даём прокрутить — так же, как разглядывают чертёж. */
+/* На телефоне схема вписана по ширине с полями, а разглядывают её пальцами:
+   прокрутка широкой картинки внутри диалога — это возня, увеличение щипком
+   привычнее и точнее. `touch-action` разрешает жест на самой картинке,
+   мета-вьюпорт масштабирование не запрещает. */
+@media (max-width: 1023px){
+  .ls-modal{width:92vw;padding:14px}
+  .ls-modal img{width:100%;max-width:100%;max-height:none;margin:0;
+    touch-action:pinch-zoom}
+}
+
+/* Кнопка закрытия. Тот же чёрный квадрат и тот же значок, что у кнопки
+   виджета связи: круглых кнопок в системе нет, радиус везде нулевой.
+   Стоит в углу самого диалога: прокрутки внутри нет ни на одной ширине,
+   поэтому кнопке незачем цепляться за окно — от `fixed` она уезжала
+   за правый край экрана на узких. */
+.ls-modal-close{position:absolute;right:8px;top:8px;
+  display:flex;align-items:center;justify-content:center;
+  width:44px;height:44px;padding:0;border-radius:0;cursor:pointer;
+  background:var(--ink);color:var(--paper);
+  border:1px solid var(--pop-edge);box-shadow:var(--pop-shadow);
+  transition:background-color .18s var(--ease)}
+.ls-modal-close:hover{background:var(--ink-hover)}
+.ls-modal-close:focus-visible{outline:2px solid var(--paper);outline-offset:2px}
+.ls-modal-close svg{display:block}
+
+@media (prefers-reduced-motion: reduce){
+  .ls-modal,.ls-modal::backdrop{transition:none}
+}
+
+/* ── Ролик ─────────────────────────────────────────────────────────
+   Видео вертикальное, поэтому диалог узкий и тянется по высоте окна,
+   а не по ширине. 9:16 от высоты — так кадр виден целиком и на ноутбуке,
+   и на телефоне, где 92dvh это почти весь экран. */
+.ls-modal-video{width:auto;height:min(92dvh, 1000px);aspect-ratio:9/16;
+  max-width:92vw;background:var(--ink)}
+.ls-modal-video iframe{display:block;width:100%;height:100%;border:0}
+@media (max-width: 1023px){
+  .ls-modal-video{width:92vw;height:auto;padding:0}
+}

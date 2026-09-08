@@ -1,7 +1,31 @@
 /* Лента работ: горизонтальный скролл, карточки-ссылки. */
 
 .ls-works{margin-top:var(--gap-block)}
-.ls-works-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding:0 20px}
+/* Ссылка равняется по нижней строке слева — по режимам, а не по надзаголовку:
+   обычный `baseline` во флексе берёт первую строку, и она вставала вровень
+   с мелким словом «Работы». `last baseline` кладёт её на базовую линию
+   «Фото · Видео»; где он не поддержан, работает запасное выравнивание по низу. */
+.ls-works-head{display:flex;align-items:flex-end;align-items:last baseline;
+  justify-content:space-between;gap:12px;padding:0 20px}
+
+
+/* Режимы набраны заголовком: тот же шрифт, кегль и насыщенность, что у h2.
+   Невыбранный светлее — это единственное, что их различает, поэтому взят
+   не --muted, а более светлый --line-strong: разница должна читаться сразу. */
+.ls-works-tabs{display:flex;align-items:baseline;gap:10px}
+.ls-works-tabs button{appearance:none;-webkit-appearance:none;
+  padding:0;border:0;background:none;cursor:pointer;
+  font-family:'Raptor V2 Premium',sans-serif;font-weight:700;
+  font-size:var(--t-lead);line-height:1.1;letter-spacing:-.01em;
+  color:var(--line-strong);transition:color .15s var(--ease)}
+.ls-works-tabs button[aria-selected="true"]{color:var(--ink)}
+.ls-works-tabs button:hover{color:var(--ink-2)}
+.ls-works-tabs button:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.ls-works-tabs i{font-style:normal;font-weight:400;color:var(--line-strong)}
+/* Счётчик — мелкой цифрой сверху, системным шрифтом: в Raptor цифры крупные
+   и спорят со словом. */
+.ls-works-tabs em{font-style:normal;font-family:inherit;font-weight:400;
+  font-size:var(--t-cap);color:var(--muted);margin-left:6px;vertical-align:super}
 /* Тап-цель: ссылка занимала 87×17, пальцем не попасть. Поля растят область
    касания до 45, отрицательный отступ возвращает строку на место — соседи
    не съезжают. Выключка по базовой линии в шапке блока при этом сохраняется. */
@@ -21,7 +45,7 @@
    уезжают на текст, стоит поменять состав подписи. */
 .ls-work{flex:0 0 min(80%,420px);scroll-snap-align:start;--cap:46px}
 .ls-work img{width:100%;aspect-ratio:3/2;object-fit:cover;display:block;background:var(--ink-hover);
-  transition:opacity .18s var(--ease)}
+  transition:scale .5s var(--ease)}
 .ls-work b{display:block;margin-top:9px;font-size:var(--t-ui);font-weight:500;line-height:1.3}
 .ls-work span{display:block;margin-top:2px;font-size:var(--t-cap);color:var(--ink-2)}
 /* Вторая строка карточки: отрасль и технология. Отрасль отвечает на «делали
@@ -30,7 +54,12 @@
 .ls-work .ls-work-tags{color:var(--ink-2)}
 .ls-work a{display:block;color:inherit;text-decoration:none}
 .ls-work a:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
-.ls-work a:hover img{opacity:.92}
+/* Кадр наезжает при наведении. Раньше карточка гасла прозрачностью —
+   на тёмных снимках это было почти не видно, а на светлых читалось как
+   «картинка не загрузилась». `overflow:hidden` держит увеличенный кадр
+   в границах карточки. */
+.ls-work a{overflow:hidden}
+.ls-work a:hover img{scale:1.03}
 
 /* ── Несколько кадров одной работы ───────────────────────────────────
    Карточка поделена на невидимые зоны по числу снимков. Наведение
@@ -101,11 +130,86 @@
     .ls-work:nth-child(n+5){display:none}
     /* Две колонки вместо трёх, решение со встречи 08.09: работ у студии
        немного, и показать их надо крупно. Карточка вырастает с 397 до 612
-       пикселей, кадр становится 4:3 — на нём читается и сама работа,
-       и отделка, ради которой в неё смотрят. */
+       пикселей.
+
+       Кадр 16:9. Снимки портфолио сняты 900×457, почти 2:1, — тут обрезается
+       восьмая часть ширины. Пробовали 4:3 (съедал треть) и родные 2:1
+       (кроп нулевой, но карточка становится баннерной полосой). */
     .ls-work img,
-    .ls-work .ls-shots{aspect-ratio:4/3}
+    .ls-work .ls-shots{aspect-ratio:16/9}
     /* Работы: карточки крупнее, лента остаётся лентой — так видно,
        что справа есть продолжение */
     .ls-work b{font-size:var(--t-base)}
+}
+
+/* ── Подпись у курсора ─────────────────────────────────────────────
+   Что случится по клику. Карточка — большая картинка без видимой кнопки,
+   и подпись отвечает на вопрос там, где он возникает, не занимая места
+   в вёрстке. Плашка одна на страницу, текст берётся из `data-cursor`.
+
+   Смещение вправо-вниз: под курсором подпись пряталась бы за самим
+   курсором. `pointer-events:none` — иначе плашка перехватывала бы наведение
+   у карточки и мигала. */
+.ls-cursor{position:fixed;left:0;top:0;z-index:60;pointer-events:none;
+  margin:14px 0 0 16px;padding:7px 12px;
+  background:var(--ink);color:var(--paper);
+  font-size:var(--t-cap);line-height:1.2;white-space:nowrap;
+  opacity:0;transition:opacity .14s var(--ease)}
+.ls-cursor.is-on{opacity:1}
+@media (prefers-reduced-motion: reduce){
+  .ls-cursor{transition:none}
+}
+
+/* ── Подпись у курсора ─────────────────────────────────────────────
+   Что случится по клику. Карточка — большая картинка без видимой кнопки,
+   и подпись отвечает на вопрос там, где он возникает, не занимая места
+   в вёрстке. Плашка одна на страницу, текст берётся из `data-cursor`.
+
+   Смещение вправо-вниз: под курсором подпись пряталась бы за самим
+   курсором. `pointer-events:none` — иначе плашка перехватывала бы наведение
+   у карточки и мигала. */
+.ls-cursor{position:fixed;left:0;top:0;z-index:60;pointer-events:none;
+  margin:14px 0 0 16px;padding:7px 12px;
+  background:var(--ink);color:var(--paper);
+  font-size:var(--t-cap);line-height:1.2;white-space:nowrap;
+  opacity:0;transition:opacity .14s var(--ease)}
+.ls-cursor.is-on{opacity:1}
+@media (prefers-reduced-motion: reduce){
+  .ls-cursor{transition:none}
+}
+
+/* ── Подпись у курсора ─────────────────────────────────────────────
+   Что случится по клику. Карточка — большая картинка без видимой кнопки,
+   и подпись отвечает на вопрос там, где он возникает, не занимая места
+   в вёрстке. Плашка одна на страницу, текст берётся из `data-cursor`.
+
+   Смещение вправо-вниз: под курсором подпись пряталась бы за самим
+   курсором. `pointer-events:none` — иначе плашка перехватывала бы наведение
+   у карточки и мигала. */
+.ls-cursor{position:fixed;left:0;top:0;z-index:60;pointer-events:none;
+  margin:14px 0 0 16px;padding:7px 12px;
+  background:var(--ink);color:var(--paper);
+  font-size:var(--t-cap);line-height:1.2;white-space:nowrap;
+  opacity:0;transition:opacity .14s var(--ease)}
+.ls-cursor.is-on{opacity:1}
+@media (prefers-reduced-motion: reduce){
+  .ls-cursor{transition:none}
+}
+
+/* ── Подпись у курсора ─────────────────────────────────────────────
+   Что случится по клику. Карточка — большая картинка без видимой кнопки,
+   и подпись отвечает на вопрос там, где он возникает, не занимая места
+   в вёрстке. Плашка одна на страницу, текст берётся из `data-cursor`.
+
+   Смещение вправо-вниз: под курсором подпись пряталась бы за самим
+   курсором. `pointer-events:none` — иначе плашка перехватывала бы наведение
+   у карточки и мигала. */
+.ls-cursor{position:fixed;left:0;top:0;z-index:60;pointer-events:none;
+  margin:14px 0 0 16px;padding:7px 12px;
+  background:var(--ink);color:var(--paper);
+  font-size:var(--t-cap);line-height:1.2;white-space:nowrap;
+  opacity:0;transition:opacity .14s var(--ease)}
+.ls-cursor.is-on{opacity:1}
+@media (prefers-reduced-motion: reduce){
+  .ls-cursor{transition:none}
 }
