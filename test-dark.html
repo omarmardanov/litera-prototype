@@ -20,7 +20,7 @@
      на классах с приставкой `ls-`.
      Сюда же входят компоненты шапки, меню, футера, виджета и куки-баннера —
      они помечены ниже. -->
-<link rel="stylesheet" href="assets/css/tokens.css?v=435">
+<link rel="stylesheet" href="assets/css/tokens.css?v=436">
 <link rel="stylesheet" href="assets/css/base.css?v=435">
 
 <!-- ── Только для шаблонов нового дизайна ──────────────────────────────
@@ -44,13 +44,15 @@
 <link rel="stylesheet" href="assets/css/components/cookie.css?v=435">
 <link rel="stylesheet" href="assets/css/components/hero.css?v=435">
 <link rel="stylesheet" href="assets/css/components/intro.css?v=435">
-<link rel="stylesheet" href="assets/css/components/value.css?v=435">
-<link rel="stylesheet" href="assets/css/components/works.css?v=451">
-<link rel="stylesheet" href="assets/css/components/shorts.css?v=6">
+<link rel="stylesheet" href="assets/css/components/can.css?v=18">
+<link rel="stylesheet" href="assets/css/components/before-after.css?v=6">
+<link rel="stylesheet" href="assets/css/components/value.css?v=442">
+<link rel="stylesheet" href="assets/css/components/works.css?v=452">
+<link rel="stylesheet" href="assets/css/components/shorts.css?v=7">
 <link rel="stylesheet" href="assets/css/components/rows.css?v=435">
 <link rel="stylesheet" href="assets/css/components/catalog.css?v=435">
-<link rel="stylesheet" href="assets/css/components/specs.css?v=435">
-<link rel="stylesheet" href="assets/css/components/steps.css?v=435">
+<link rel="stylesheet" href="assets/css/components/specs.css?v=436">
+<link rel="stylesheet" href="assets/css/components/steps.css?v=441">
 <link rel="stylesheet" href="assets/css/components/faq.css?v=435">
 <link rel="stylesheet" href="assets/css/components/figures.css?v=435">
 <link rel="stylesheet" href="assets/css/components/form.css?v=436">
@@ -64,8 +66,8 @@
 
 <!-- Раскладка идёт последней: её медиазапросы должны перебивать компоненты,
      иначе обёртка-телефон для десктопа не срабатывает. -->
-<link rel="stylesheet" href="assets/css/layout.css?v=436">
-<link rel="stylesheet" href="assets/css/motion.css?v=435">
+<link rel="stylesheet" href="assets/css/layout.css?v=438">
+<link rel="stylesheet" href="assets/css/motion.css?v=436">
 <title>Подарочный сертификат — Литера.Студия</title>
 <meta name="description" content="Дизайн подарочных сертификатов: нарисуем с нуля или подготовим готовый макет. Печатаем на своём производстве.">
 
@@ -115,7 +117,7 @@
 <!-- Первая цель табуляции: с клавиатуры и со скринридера можно перескочить
      шапку с меню и попасть сразу в содержимое. -->
 <a class="ls-skip" href="#main">К содержанию</a>
-<main class="ls-card" id="main">
+<main class="ls-card" id="main" data-dir="poligrafiya">
   <header class="ls-topbar">
     <!-- Логотип файлом (`assets/img/logo.svg`), а не набран шрифтом: знак берём
          из бренд-ассетов. Показывает его CSS-маска, поэтому он перекрашивается
@@ -281,30 +283,94 @@
     <!-- метка для широкого экрана: по ней шапка понимает, что белый слой
          дошёл до неё. На телефоне работает метка выше, в начале страницы. -->
     <i class="ls-rest-sentinel" aria-hidden="true"></i>
-    <section class="ls-value">
-      <h2>Зачем сертификат бизнесу</h2>
+
+    <!-- Что можно сделать с продуктом. Не «из чего он сделан» — это ниже,
+         в материалах, — а что добавляется сверх обычного тиража. Клиент чаще
+         всего не знает, что так можно, поэтому блок стоит сразу под первым
+         экраном, до объяснений про выгоду.
+
+         Меньше трёх пунктов — блок не показывается: два из четырёх мест
+         в ряду читаются как недосмотр редактора. Больше четырёх — лишние
+         уходят под «ещё», как в материалах. -->
+    <section class="ls-can">
+      <div class="ls-can-head">
+        <h2>Ваш лучший сертификат</h2>
+        <!-- Кнопки появляются только когда лента шире экрана: скрипт
+             считает это сам и прячет их, если прокручивать нечего. -->
+        <div class="ls-can-nav" hidden>
+          <button type="button" class="ls-can-prev" aria-label="Предыдущие"><svg width="15" height="12" viewBox="0 0 18 14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7.5 1 1 7l6.5 6M1 7h16"/></svg></button>
+          <button type="button" class="ls-can-next" aria-label="Следующие"><svg width="15" height="12" viewBox="0 0 18 14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.5 1 17 7l-6.5 6M17 7H1"/></svg></button>
+        </div>
+      </div>
       <ul>
         <li>
-          <svg class="ls-mark" viewBox="0 0 113.12 161.82" fill="currentColor" aria-hidden="true"><path d="m53.39,38.49l-4.17,17.01c-.35,1.45-2.16,1.95-3.21.9l-22.43-22.43c-1.16-1.16-3.15-.34-3.15,1.31v30.92c0,.49.19.96.54,1.31l3.55,3.55c1.2,1.2.35,3.26-1.35,3.26h-.82c-1.06,0-1.92.86-1.92,1.92v22.93c0,1.06.86,1.92,1.92,1.92h13.26c1.24,0,2.15,1.16,1.86,2.37l-2.79,11.37c-.09.35.02.73.3,1.06l17.6,21.04c.93,1.11,3,.99,3.29-.18l5.95-24.28c.35-1.45,2.16-1.95,3.21-.9l24.51,24.52c1.16,1.16,3.15.34,3.15-1.31v-30.91c0-.49-.19-.96-.54-1.31l-11.15-11.15c-.75-.75-.75-1.96,0-2.7l11.12-11.12c1.21-1.21.35-3.27-1.36-3.27h-17.17c-1.24,0-2.15-1.16-1.86-2.37l10.57-43.09c.29-1.18-1.5-2.24-2.83-1.68l-25.34,10.52c-.4.16-.67.45-.75.8Z"/></svg>
-          <b>Деньги приходят раньше услуги</b>
-          <p>Клиент платит сегодня, а приходит когда захочет. Выручка появляется в низкий сезон, нагрузка — когда вам удобно.</p>
+          <span class="ls-can-pic">
+            <picture>
+              <source srcset="assets/img/materials/pers-numbering.webp" type="image/webp">
+              <img loading="lazy" decoding="async" src="assets/img/materials/pers-numbering.jpg" width="416" height="416" alt="Сертификаты со сквозной нумерацией">
+            </picture>
+          </span>
+          <b>Сквозная нумерация</b>
+          <p>Каждый экземпляр со своим номером — видно, какой выдан, какой погашен и когда истекает срок.</p>
         </li>
         <li>
-          <svg class="ls-mark" viewBox="0 0 113.12 161.82" fill="currentColor" aria-hidden="true"><path d="m53.39,38.49l-4.17,17.01c-.35,1.45-2.16,1.95-3.21.9l-22.43-22.43c-1.16-1.16-3.15-.34-3.15,1.31v30.92c0,.49.19.96.54,1.31l3.55,3.55c1.2,1.2.35,3.26-1.35,3.26h-.82c-1.06,0-1.92.86-1.92,1.92v22.93c0,1.06.86,1.92,1.92,1.92h13.26c1.24,0,2.15,1.16,1.86,2.37l-2.79,11.37c-.09.35.02.73.3,1.06l17.6,21.04c.93,1.11,3,.99,3.29-.18l5.95-24.28c.35-1.45,2.16-1.95,3.21-.9l24.51,24.52c1.16,1.16,3.15.34,3.15-1.31v-30.91c0-.49-.19-.96-.54-1.31l-11.15-11.15c-.75-.75-.75-1.96,0-2.7l11.12-11.12c1.21-1.21.35-3.27-1.36-3.27h-17.17c-1.24,0-2.15-1.16-1.86-2.37l10.57-43.09c.29-1.18-1.5-2.24-2.83-1.68l-25.34,10.52c-.4.16-.67.45-.75.8Z"/></svg>
-          <b>Приводит нового человека</b>
-          <p>Сертификат почти всегда дарят кому-то другому. К вам приходит новый клиент, но уже с доверием от того, кто подарил.</p>
+          <span class="ls-can-pic">
+            <picture>
+              <source srcset="assets/img/materials/pers-names.webp" type="image/webp">
+              <img loading="lazy" decoding="async" src="assets/img/materials/pers-names.jpg" width="416" height="416" alt="Именной сертификат с напечатанным именем">
+            </picture>
+          </span>
+          <b>Именные экземпляры</b>
+          <p>Имя получателя печатается прямо в тираже, вписывать от руки не нужно.</p>
         </li>
         <li>
-          <svg class="ls-mark" viewBox="0 0 113.12 161.82" fill="currentColor" aria-hidden="true"><path d="m53.39,38.49l-4.17,17.01c-.35,1.45-2.16,1.95-3.21.9l-22.43-22.43c-1.16-1.16-3.15-.34-3.15,1.31v30.92c0,.49.19.96.54,1.31l3.55,3.55c1.2,1.2.35,3.26-1.35,3.26h-.82c-1.06,0-1.92.86-1.92,1.92v22.93c0,1.06.86,1.92,1.92,1.92h13.26c1.24,0,2.15,1.16,1.86,2.37l-2.79,11.37c-.09.35.02.73.3,1.06l17.6,21.04c.93,1.11,3,.99,3.29-.18l5.95-24.28c.35-1.45,2.16-1.95,3.21-.9l24.51,24.52c1.16,1.16,3.15.34,3.15-1.31v-30.91c0-.49-.19-.96-.54-1.31l-11.15-11.15c-.75-.75-.75-1.96,0-2.7l11.12-11.12c1.21-1.21.35-3.27-1.36-3.27h-17.17c-1.24,0-2.15-1.16-1.86-2.37l10.57-43.09c.29-1.18-1.5-2.24-2.83-1.68l-25.34,10.52c-.4.16-.67.45-.75.8Z"/></svg>
-          <b>Чек обычно выше номинала</b>
-          <p>Люди редко укладываются ровно в сумму: доплачивают, чтобы взять то, что хочется, а не то, что влезает.</p>
+          <span class="ls-can-pic">
+            <picture>
+              <source srcset="assets/img/materials/pers-qr.webp" type="image/webp">
+              <img loading="lazy" decoding="async" src="assets/img/materials/pers-qr.jpg" width="416" height="416" alt="Сертификат с QR-кодом">
+            </picture>
+          </span>
+          <b>QR-код</b>
+          <p>Ведёт на проверку подлинности или сразу на запись — человек не ищет ваш сайт руками.</p>
+        </li>
+      
+        <li>
+            <span class="ls-can-pic">
+              <picture>
+                <source srcset="assets/img/materials/fin-foil.webp" type="image/webp">
+                <img loading="lazy" decoding="async" src="assets/img/materials/fin-foil.jpg" width="416" height="416" alt="Сертификат с золотым тиснением">
+              </picture>
+            </span>
+            <b>Тиснение фольгой</b>
+            <p>Золото, серебро или цвет — единственное, что нельзя подделать сканером.</p>
+          </li>
+        <li>
+            <span class="ls-can-pic">
+              <picture>
+                <source srcset="assets/img/materials/fin-rounded.webp" type="image/webp">
+                <img loading="lazy" decoding="async" src="assets/img/materials/fin-rounded.jpg" width="416" height="416" alt="Сертификат со скруглёнными углами">
+              </picture>
+            </span>
+            <b>Скругление углов</b>
+            <p>Сертификат не мнётся в кошельке и не выглядит вырезанным из листа.</p>
+          </li>
+              <li>
+          <span class="ls-can-pic" aria-hidden="true"></span>
+          <b>Срок действия и номинал</b>
+          <p>Печатаем прямо в тираже — не нужно вписывать от руки и следить, чтобы не стёрлось.</p>
         </li>
         <li>
-          <svg class="ls-mark" viewBox="0 0 113.12 161.82" fill="currentColor" aria-hidden="true"><path d="m53.39,38.49l-4.17,17.01c-.35,1.45-2.16,1.95-3.21.9l-22.43-22.43c-1.16-1.16-3.15-.34-3.15,1.31v30.92c0,.49.19.96.54,1.31l3.55,3.55c1.2,1.2.35,3.26-1.35,3.26h-.82c-1.06,0-1.92.86-1.92,1.92v22.93c0,1.06.86,1.92,1.92,1.92h13.26c1.24,0,2.15,1.16,1.86,2.37l-2.79,11.37c-.09.35.02.73.3,1.06l17.6,21.04c.93,1.11,3,.99,3.29-.18l5.95-24.28c.35-1.45,2.16-1.95,3.21-.9l24.51,24.52c1.16,1.16,3.15.34,3.15-1.31v-30.91c0-.49-.19-.96-.54-1.31l-11.15-11.15c-.75-.75-.75-1.96,0-2.7l11.12-11.12c1.21-1.21.35-3.27-1.36-3.27h-17.17c-1.24,0-2.15-1.16-1.86-2.37l10.57-43.09c.29-1.18-1.5-2.24-2.83-1.68l-25.34,10.52c-.4.16-.67.45-.75.8Z"/></svg>
-          <b>Работает как учётный документ</b>
-          <p>Сквозной номер или QR-код: видно, какой сертификат выдан, какой погашен и когда истекает срок.</p>
+          <span class="ls-can-pic" aria-hidden="true"></span>
+          <b>Скретч-слой</b>
+          <p>Номинал или код под стираемым слоем: видно, что сертификатом ещё не пользовались.</p>
+        </li>
+        <li>
+          <span class="ls-can-pic" aria-hidden="true"></span>
+          <b>Штрихкод</b>
+          <p>Считывается кассой — сертификат гасится в вашей учётной системе, а не в тетради.</p>
         </li>
       </ul>
+      <div class="ls-can-bar" aria-hidden="true"><i></i></div>
     </section>
 
     <section class="ls-works">
@@ -412,6 +478,62 @@
 
     <!-- Группы обёрнуты, чтобы не разрывались между колонками на десктопе:
        заголовок, строки и раскрытие «Ещё…» должны остаться вместе. -->
+    <!-- Было и стало. Пока снимков нет — две заглушки разной светлоты,
+         чтобы движение шторки было видно. Когда появятся, вместо .ls-ba-stub
+         встанут <picture> с макетом до правки и после. -->
+<section class="ls-value">
+      <h2>Зачем сертификат бизнесу</h2>
+      <ul>
+        <li>
+          <svg class="ls-mark" viewBox="0 0 113.12 161.82" fill="currentColor" aria-hidden="true"><path d="m53.39,38.49l-4.17,17.01c-.35,1.45-2.16,1.95-3.21.9l-22.43-22.43c-1.16-1.16-3.15-.34-3.15,1.31v30.92c0,.49.19.96.54,1.31l3.55,3.55c1.2,1.2.35,3.26-1.35,3.26h-.82c-1.06,0-1.92.86-1.92,1.92v22.93c0,1.06.86,1.92,1.92,1.92h13.26c1.24,0,2.15,1.16,1.86,2.37l-2.79,11.37c-.09.35.02.73.3,1.06l17.6,21.04c.93,1.11,3,.99,3.29-.18l5.95-24.28c.35-1.45,2.16-1.95,3.21-.9l24.51,24.52c1.16,1.16,3.15.34,3.15-1.31v-30.91c0-.49-.19-.96-.54-1.31l-11.15-11.15c-.75-.75-.75-1.96,0-2.7l11.12-11.12c1.21-1.21.35-3.27-1.36-3.27h-17.17c-1.24,0-2.15-1.16-1.86-2.37l10.57-43.09c.29-1.18-1.5-2.24-2.83-1.68l-25.34,10.52c-.4.16-.67.45-.75.8Z"/></svg>
+          <b>Деньги приходят раньше услуги</b>
+          <p>Клиент платит сегодня, а приходит когда захочет. Выручка появляется в низкий сезон, нагрузка — когда вам удобно.</p>
+        </li>
+        <li>
+          <svg class="ls-mark" viewBox="0 0 113.12 161.82" fill="currentColor" aria-hidden="true"><path d="m53.39,38.49l-4.17,17.01c-.35,1.45-2.16,1.95-3.21.9l-22.43-22.43c-1.16-1.16-3.15-.34-3.15,1.31v30.92c0,.49.19.96.54,1.31l3.55,3.55c1.2,1.2.35,3.26-1.35,3.26h-.82c-1.06,0-1.92.86-1.92,1.92v22.93c0,1.06.86,1.92,1.92,1.92h13.26c1.24,0,2.15,1.16,1.86,2.37l-2.79,11.37c-.09.35.02.73.3,1.06l17.6,21.04c.93,1.11,3,.99,3.29-.18l5.95-24.28c.35-1.45,2.16-1.95,3.21-.9l24.51,24.52c1.16,1.16,3.15.34,3.15-1.31v-30.91c0-.49-.19-.96-.54-1.31l-11.15-11.15c-.75-.75-.75-1.96,0-2.7l11.12-11.12c1.21-1.21.35-3.27-1.36-3.27h-17.17c-1.24,0-2.15-1.16-1.86-2.37l10.57-43.09c.29-1.18-1.5-2.24-2.83-1.68l-25.34,10.52c-.4.16-.67.45-.75.8Z"/></svg>
+          <b>Приводит нового человека</b>
+          <p>Сертификат почти всегда дарят кому-то другому. К вам приходит новый клиент, но уже с доверием от того, кто подарил.</p>
+        </li>
+        <li>
+          <svg class="ls-mark" viewBox="0 0 113.12 161.82" fill="currentColor" aria-hidden="true"><path d="m53.39,38.49l-4.17,17.01c-.35,1.45-2.16,1.95-3.21.9l-22.43-22.43c-1.16-1.16-3.15-.34-3.15,1.31v30.92c0,.49.19.96.54,1.31l3.55,3.55c1.2,1.2.35,3.26-1.35,3.26h-.82c-1.06,0-1.92.86-1.92,1.92v22.93c0,1.06.86,1.92,1.92,1.92h13.26c1.24,0,2.15,1.16,1.86,2.37l-2.79,11.37c-.09.35.02.73.3,1.06l17.6,21.04c.93,1.11,3,.99,3.29-.18l5.95-24.28c.35-1.45,2.16-1.95,3.21-.9l24.51,24.52c1.16,1.16,3.15.34,3.15-1.31v-30.91c0-.49-.19-.96-.54-1.31l-11.15-11.15c-.75-.75-.75-1.96,0-2.7l11.12-11.12c1.21-1.21.35-3.27-1.36-3.27h-17.17c-1.24,0-2.15-1.16-1.86-2.37l10.57-43.09c.29-1.18-1.5-2.24-2.83-1.68l-25.34,10.52c-.4.16-.67.45-.75.8Z"/></svg>
+          <b>Чек обычно выше номинала</b>
+          <p>Люди редко укладываются ровно в сумму: доплачивают, чтобы взять то, что хочется, а не то, что влезает.</p>
+        </li>
+        <li>
+          <svg class="ls-mark" viewBox="0 0 113.12 161.82" fill="currentColor" aria-hidden="true"><path d="m53.39,38.49l-4.17,17.01c-.35,1.45-2.16,1.95-3.21.9l-22.43-22.43c-1.16-1.16-3.15-.34-3.15,1.31v30.92c0,.49.19.96.54,1.31l3.55,3.55c1.2,1.2.35,3.26-1.35,3.26h-.82c-1.06,0-1.92.86-1.92,1.92v22.93c0,1.06.86,1.92,1.92,1.92h13.26c1.24,0,2.15,1.16,1.86,2.37l-2.79,11.37c-.09.35.02.73.3,1.06l17.6,21.04c.93,1.11,3,.99,3.29-.18l5.95-24.28c.35-1.45,2.16-1.95,3.21-.9l24.51,24.52c1.16,1.16,3.15.34,3.15-1.31v-30.91c0-.49-.19-.96-.54-1.31l-11.15-11.15c-.75-.75-.75-1.96,0-2.7l11.12-11.12c1.21-1.21.35-3.27-1.36-3.27h-17.17c-1.24,0-2.15-1.16-1.86-2.37l10.57-43.09c.29-1.18-1.5-2.24-2.83-1.68l-25.34,10.52c-.4.16-.67.45-.75.8Z"/></svg>
+          <b>Работает как учётный документ</b>
+          <p>Сквозной номер или QR-код: видно, какой сертификат выдан, какой погашен и когда истекает срок.</p>
+        </li>
+      </ul>
+    </section>
+
+    <section class="ls-ba">
+      <h2>Лечим макеты</h2>
+      <div class="ls-ba-frame" style="--pos:50%">
+        <span class="ls-ba-before">
+          <picture>
+            <source srcset="assets/img/ba/before.webp" type="image/webp">
+            <img src="assets/img/ba/before.jpg" width="1200" height="800" loading="lazy" decoding="async"
+              alt="Тот же сертификат до работы студии: системный шрифт, тонкая рамка, клипарт-завиток">
+          </picture>
+          <span class="ls-ba-tag">До</span>
+        </span>
+        <span class="ls-ba-after">
+          <picture>
+            <source srcset="assets/img/ba/after.webp" type="image/webp">
+            <img src="assets/img/ba/after.jpg" width="1200" height="800" loading="lazy" decoding="async"
+              alt="Сертификат BOURBAKI после работы студии: золотая рамка, тиснёный логотип, номер">
+          </picture>
+          <span class="ls-ba-tag">После</span>
+        </span>
+        <span class="ls-ba-handle" aria-hidden="true"></span>
+        <input class="ls-ba-range" type="range" min="0" max="100" value="50" step="1"
+          aria-label="Сравнить макет до правки и после">
+      </div>
+      <p>Тот же тираж и та же бумага. Поменялись только вёрстка, шрифт и поля —
+        и сертификат перестал выглядеть распечаткой.</p>
+    </section>
+
   <section class="ls-specs">
       <h2>Материалы и отделка</h2>
 
@@ -542,8 +664,8 @@
             </li>
             </ul>
           </details>
-        </div>
-        <div class="ls-spec-group">
+        </div></div>
+      <div class="ls-spec-col"><div class="ls-spec-group">
           <h3>Печать</h3>
           <ul class="ls-rows">
             <li class="ls-row-body">
@@ -610,90 +732,9 @@
             </ul>
           </details>
         </div>
-      </div>
-      <div class="ls-spec-col">
-        <div class="ls-spec-group">
-          <h3>Персонализация</h3>
-          <ul class="ls-rows">
-            <li class="ls-row-body">
-              <span class="ls-thumb">
-                <picture>
-                  <source srcset="assets/img/materials/pers-numbering.webp" type="image/webp">
-                  <img loading="lazy" decoding="async" src="assets/img/materials/pers-numbering.jpg" width="416" height="416" alt="Три карточки веером с номерами подряд">
-                </picture>
-              </span>
-              <div>
-                <b>Сквозная нумерация</b>
-                <p>Чтобы вести учёт выданных и не принять чужой</p>
-              </div>
-            </li>
-            <li class="ls-row-body">
-              <span class="ls-thumb">
-                <picture>
-                  <source srcset="assets/img/materials/pers-names.webp" type="image/webp">
-                  <img loading="lazy" decoding="async" src="assets/img/materials/pers-names.jpg" width="416" height="416" alt="Три карточки веером с разными именами">
-                </picture>
-              </span>
-              <div>
-                <b>Именные экземпляры</b>
-                <p>Имя получателя печатается прямо в тираже</p>
-              </div>
-            </li>
-            <li class="ls-row-body">
-              <span class="ls-thumb">
-                <picture>
-                  <source srcset="assets/img/materials/pers-qr.webp" type="image/webp">
-                  <img loading="lazy" decoding="async" src="assets/img/materials/pers-qr.jpg" width="416" height="416" alt="Карточка с напечатанным QR-кодом">
-                </picture>
-              </span>
-              <div>
-                <b>QR-код</b>
-                <p>Ведёт на запись или проверку сертификата</p>
-              </div>
-            </li>
-          </ul>
-          <details class="ls-more">
-            <summary><span class="ls-s-closed">Ещё 3 способа</span><span class="ls-s-open">Свернуть</span></summary>
-            <ul class="ls-rows">
-            <li class="ls-row-body">
-              <span class="ls-thumb" aria-hidden="true"></span>
-              <div>
-                <b>Срок действия и номинал</b>
-                <p>Печатаем переменными данными, разными для партий</p>
-              </div>
-            </li>
-            <li class="ls-row-body">
-              <span class="ls-thumb" aria-hidden="true"></span>
-              <div>
-                <b>Скретч-слой</b>
-                <p>Стирается монетой, закрывает код активации</p>
-              </div>
-            </li>
-            <li class="ls-row-body">
-              <span class="ls-thumb" aria-hidden="true"></span>
-              <div>
-                <b>Штрихкод</b>
-                <p>Считывается кассой, если сертификат проходит через учёт</p>
-              </div>
-            </li>
-            </ul>
-          </details>
-        </div>
         <div class="ls-spec-group">
           <h3>Отделка</h3>
           <ul class="ls-rows">
-            <li class="ls-row-body">
-              <span class="ls-thumb">
-                <picture>
-                  <source srcset="assets/img/materials/fin-foil.webp" type="image/webp">
-                  <img loading="lazy" decoding="async" src="assets/img/materials/fin-foil.jpg" width="416" height="416" alt="Золотое тиснение фольгой на углу карточки">
-                </picture>
-              </span>
-              <div>
-                <b>Тиснение фольгой</b>
-                <p>Золото, серебро или цветная — обычно на логотип и номинал</p>
-              </div>
-            </li>
             <li class="ls-row-body">
               <span class="ls-thumb">
                 <picture>
@@ -706,22 +747,7 @@
                 <p>Бархатная на ощупь, не собирает отпечатки пальцев</p>
               </div>
             </li>
-            <li class="ls-row-body">
-              <span class="ls-thumb">
-                <picture>
-                  <source srcset="assets/img/materials/fin-rounded.webp" type="image/webp">
-                  <img loading="lazy" decoding="async" src="assets/img/materials/fin-rounded.jpg" width="416" height="416" alt="Скруглённый угол плотной карточки">
-                </picture>
-              </span>
-              <div>
-                <b>Скругление углов</b>
-                <p>Сертификат не мнётся в кошельке и выглядит аккуратнее</p>
-              </div>
-            </li>
-          </ul>
-          <details class="ls-more">
-            <summary><span class="ls-s-closed">Ещё 4 варианта</span><span class="ls-s-open">Свернуть</span></summary>
-            <ul class="ls-rows">
+          
             <li class="ls-row-body">
               <span class="ls-thumb" aria-hidden="true"></span>
               <div>
@@ -736,6 +762,10 @@
                 <p>Глянцевый рельеф на отдельных элементах</p>
               </div>
             </li>
+          </ul>
+          <details class="ls-more">
+            <summary><span class="ls-s-closed">Ещё 2 варианта</span><span class="ls-s-open">Свернуть</span></summary>
+            <ul class="ls-rows">
             <li class="ls-row-body">
               <span class="ls-thumb" aria-hidden="true"></span>
               <div>
@@ -752,7 +782,6 @@
             </li>
             </ul>
           </details>
-
         </div>
       </div>
 </section>
@@ -1130,6 +1159,8 @@
 <script src="assets/js/file-attach.js?v=435" defer></script>
 <script src="assets/js/modal.js?v=1" defer></script>
 <script src="assets/js/works-tabs.js?v=3" defer></script>
+<script src="assets/js/can-scroll.js?v=1" defer></script>
+<script src="assets/js/before-after.js?v=3" defer></script>
 <script src="assets/js/cursor-label.js?v=1" defer></script>
 <script src="assets/js/form-submit.js?v=435" defer></script>
 <script src="assets/js/faq-accordion.js?v=435" defer></script>

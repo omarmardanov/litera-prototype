@@ -1,0 +1,88 @@
+/* Лечим макеты: чужой макет до правки и после.
+   Литера — дизайн-студия, и «вылечим готовый макет» стоит у неё на первом
+   экране. Показать это словами нельзя, а разницей — можно, и материал для
+   такого блока есть по определению: он остаётся после каждой правки.
+
+   На десктопе шторка идёт за курсором: провёл мышью — увидел разницу,
+   зажимать и тянуть ничего не надо. Под кадром при этом лежит обычный
+   <input type="range">, невидимый, но живой: это клавиатура и телефон,
+   где курсора нет. Без скрипта он тоже работает — просто ползунок
+   не двигает картинку, а показывает сам себя. */
+
+.ls-ba{margin-top:var(--gap-block);padding:0 20px}
+.ls-ba-frame{position:relative;margin-top:22px;overflow:hidden;
+  background:var(--placeholder);touch-action:pan-y}
+.ls-ba-frame img{display:block;width:100%;aspect-ratio:3/2;object-fit:cover}
+
+/* «Стало» лежит поверх «было» и обрезается по позиции шторки. */
+.ls-ba-after{position:absolute;inset:0;
+  clip-path:inset(0 0 0 var(--pos))}
+/* За курсором шторка идёт без перехода — иначе тянется следом с задержкой.
+   Переход включается только на возврат к середине, когда курсор ушёл. */
+.ls-ba-frame.is-easing .ls-ba-after{transition:clip-path .3s var(--ease)}
+.ls-ba-frame.is-easing .ls-ba-handle{transition:left .3s var(--ease)}
+.ls-ba-after img{height:100%}
+
+/* Оба кадра сняты одинаково и отличаются только макетом на карточке —
+   иначе шторка сравнивала бы две фотосъёмки, а не две работы. */
+
+/* Подписи по углам: без них непонятно, какая половина какая. */
+.ls-ba-tag{position:absolute;top:14px;padding:5px 10px;
+  font-size:var(--t-cap);line-height:1.2;background:var(--ink);color:var(--paper)}
+.ls-ba-before .ls-ba-tag{left:14px}
+.ls-ba-after .ls-ba-tag{right:14px}
+
+/* Ручка — стеклянная полоса с тонкой линией внутри. Квадрат убран: шторка
+   и так идёт за курсором, хватать её не нужно, а он закрывал часть кадра.
+
+   Сама полоса размывает то, что под ней, и тем видна на любом макете —
+   и на светлом, и на тёмном. Линия внутри в один пиксель: она обозначает
+   границу, а не делит кадр пополам. Где backdrop-filter не поддержан,
+   остаётся полупрозрачная белая полоса — линия видна всё равно. */
+.ls-ba-handle{position:absolute;top:0;bottom:0;left:var(--pos);width:10px;
+  translate:-5px 0;pointer-events:none;
+  background:rgba(255,255,255,.12);
+  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.ls-ba-handle::after{content:"";position:absolute;left:50%;top:0;bottom:0;
+  width:1px;translate:-.5px 0;background:rgba(255,255,255,.8)}
+
+/* Сам ползунок невидим, но занимает всю рамку: тянуть можно за любую точку. */
+.ls-ba-range{position:absolute;inset:0;width:100%;height:100%;margin:0;
+  appearance:none;-webkit-appearance:none;background:none;cursor:ew-resize}
+.ls-ba-range::-webkit-slider-thumb{-webkit-appearance:none;width:44px;height:100%}
+.ls-ba-range::-moz-range-thumb{width:44px;height:100%;border:0;background:none}
+.ls-ba-range:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+
+.ls-ba p{margin:12px 0 0;font-size:var(--t-ui);line-height:1.45;color:var(--muted)}
+
+@media (min-width: 1024px){
+  .ls-ba-frame{max-width:900px}
+}
+
+/* ── Показ при появлении ───────────────────────────────────────────
+   Когда блок доезжает до экрана, шторка сама проходит из стороны в сторону:
+   иначе человек видит просто картинку с полосой посередине и не догадывается,
+   что её можно двигать. Один раз, дальше — по курсору.
+
+   Позиция объявлена через @property, иначе переменную нельзя анимировать:
+   браузер считает её обычной строкой и переключает скачком. Где @property
+   не поддержан, показа просто не будет — блок останется рабочим.
+
+   inherits:true обязательно: переменную ставит рамка, а читают её слой
+   «после» и линия внутри. При inherits:false они перестают её видеть
+   и берут начальные 50% — шторка замирает намертво. */
+@property --pos{syntax:'<percentage>';inherits:true;initial-value:50%}
+
+@keyframes ls-ba-demo{
+  0%{--pos:50%} 8%{--pos:50%}
+  38%{--pos:84%}
+  72%{--pos:16%}
+  100%{--pos:50%}
+}
+.ls-ba-frame.is-demo{animation:ls-ba-demo 2.6s var(--ease) both}
+
+@media (prefers-reduced-motion: reduce){
+  .ls-ba-frame.is-demo{animation:none}
+  .ls-ba-frame.is-easing .ls-ba-after,
+  .ls-ba-frame.is-easing .ls-ba-handle{transition:none}
+}

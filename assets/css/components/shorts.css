@@ -24,12 +24,11 @@
 
 .ls-short a{position:relative;display:block;color:inherit;text-decoration:none}
 .ls-short a:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
-/* Кадр наезжает при наведении — так же, как на карточке работы.
-   `overflow:hidden` на ссылке, иначе увеличенный кадр вылезет за плитку. */
+/* `overflow:hidden` — чтобы наезжающий кадр не вылез за плитку;
+   само движение в motion.css, рядом с наездом на карточке работы. */
 .ls-short a{overflow:hidden}
 .ls-short img{width:100%;aspect-ratio:9/16;object-fit:cover;display:block;
   background:var(--ink-hover);transition:scale .5s var(--ease)}
-.ls-short a:hover img{scale:1.03}
 
 /* Кнопка проигрывания — матовое стекло: кадры в роликах пёстрые, и сплошная
    плашка на них читается как заплатка. Стекло размывает то, что под ним,

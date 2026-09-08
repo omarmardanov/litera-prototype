@@ -54,12 +54,10 @@
 .ls-work .ls-work-tags{color:var(--ink-2)}
 .ls-work a{display:block;color:inherit;text-decoration:none}
 .ls-work a:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
-/* Кадр наезжает при наведении. Раньше карточка гасла прозрачностью —
-   на тёмных снимках это было почти не видно, а на светлых читалось как
-   «картинка не загрузилась». `overflow:hidden` держит увеличенный кадр
-   в границах карточки. */
+/* Наведение: кадр наезжает. Само движение и `overflow` живут в motion.css
+   вместе с остальной анимацией — здесь только переход, чтобы он работал
+   и там, где до scroll-driven animations дело не дошло. */
 .ls-work a{overflow:hidden}
-.ls-work a:hover img{scale:1.03}
 
 /* ── Несколько кадров одной работы ───────────────────────────────────
    Карточка поделена на невидимые зоны по числу снимков. Наведение

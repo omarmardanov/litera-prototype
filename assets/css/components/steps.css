@@ -11,7 +11,61 @@
 .ls-how li::before{counter-increment:step;content:counter(step);
   display:block;width:34px;text-align:center;
   font-family:'Raptor V2 Premium',sans-serif;font-weight:700;font-size:var(--t-lead);
-  line-height:1;color:var(--glyph)}
+  line-height:1;color:var(--glyph);
+  transition:color .18s var(--ease),scale .22s var(--ease)}
+
+/* Наведение: номер берёт цвет направления и слегка подрастает, а отрезок
+   линии до следующего шага протягивается тем же цветом. Так подсвечивается
+   не только сам шаг, но и переход к следующему — блок про порядок работ,
+   и связь между шагами тут важнее отдельной цифры.
+
+   Плашку под цифру не ставим: на телефоне номер стоит по центру колонки,
+   на широком экране прижат влево и шириной по самой цифре — квадрат
+   выглядел бы по-разному в двух раскладках.
+
+   Только там, где есть мышь: на телефоне подсветка залипала бы после тапа. */
+@media (hover: hover) and (pointer: fine){
+  /* Красится не один шаг, а весь путь до него: наведённый и все, что стоят
+     раньше. `li:has(~ li:hover)` — это и есть «за мной есть наведённый».
+     Подрастает при этом только сам наведённый: если растут все, ряд дёргается. */
+  .ls-how li:hover::before,
+  .ls-how li:has(~ li:hover)::before{color:var(--dir)}
+  .ls-how li:hover::before{scale:1.12}
+  /* Номер загорается тогда, когда до него дотянулась линия, — те же задержки.
+     Увеличение при этом мгновенное: на движение курсора надо ответить сразу,
+     а цвет пусть догоняет. */
+  .ls-how li:nth-child(2):is(:hover, :has(~ li:hover))::before{
+    transition:color .18s var(--ease) .22s, scale .22s var(--ease)}
+  .ls-how li:nth-child(3):is(:hover, :has(~ li:hover))::before{
+    transition:color .18s var(--ease) .44s, scale .22s var(--ease)}
+  .ls-how li:nth-child(4):hover::before{
+    transition:color .18s var(--ease) .66s, scale .22s var(--ease)}
+  .ls-how li::before{transform-origin:0 50%}
+
+  /* Линия остаётся серой, а поверх неё протягивается цветная: анимируем
+     размер фона, а не размеры элемента, — раскладка не трогается.
+     Здесь линия вертикальная, поэтому растёт высота. */
+  .ls-how li:not(:last-child)::after{
+    background-image:linear-gradient(var(--dir),var(--dir));
+    background-repeat:no-repeat;background-size:100% 0;
+    transition:background-size .32s var(--ease)}
+  /* Отрезок ведёт от своего шага к следующему, поэтому красится у тех,
+     за кем стоит наведённый: наводим на третий — залиты 1→2 и 2→3,
+     а линия от третьего дальше остаётся серой. */
+  .ls-how li:not(:last-child):has(~ li:hover)::after{background-size:100% 100%}
+
+  /* Заливка идёт волной от первого шага к наведённому, а не вспыхивает
+     во всех отрезках разом: задержка растёт по порядку. Она короче самой
+     заливки, поэтому сегменты перекрываются и читаются как одна линия,
+     которая тянется.
+
+     Задержка висит на том же селекторе с `:has`, что и заливка, — значит
+     действует только на закрашивание. Когда курсор ушёл, селектор перестаёт
+     совпадать, задержки нет, и линия гаснет сразу: ждать обратной волны
+     некому. */
+  .ls-how li:nth-child(2):has(~ li:hover)::after{transition-delay:.22s}
+  .ls-how li:nth-child(3):has(~ li:hover)::after{transition-delay:.44s}
+}
 .ls-how b{font-size:var(--t-base);font-weight:500;line-height:1.35}
 .ls-how .ls-term{color:var(--ink)}
 .ls-how p{margin:4px 0 0;font-size:var(--t-ui);line-height:1.45;color:var(--muted)}
@@ -20,7 +74,10 @@
    последовательность. На телефоне линия вертикальная и идёт по колонке
    номеров, соединяя их сверху вниз; у последнего шага её нет. */
 .ls-how li:not(:last-child)::after{content:"";position:absolute;
-  left:17px;top:36px;bottom:-14px;width:1px;background:var(--line)}
+  left:17px;top:36px;bottom:-14px;width:1px;
+  /* именно background-color: shorthand сбрасывал бы градиент подсветки,
+     который кладётся сверху при наведении */
+  background-color:var(--line)}
 
 /* Суммарный срок: ответ на вопрос «когда получу», который иначе
    пришлось бы считать в уме. */
@@ -50,6 +107,11 @@
        От единицы отступ выйдет чуть больше, но она узкая, и это незаметно. */
     .ls-how li:not(:last-child)::after{left:26px;right:-20px;top:13px;bottom:auto;
       width:auto;height:1px}
+    /* Линия легла горизонтально — протяжка идёт по ширине, а не по высоте. */
+    @media (hover: hover) and (pointer: fine){
+      .ls-how li:not(:last-child)::after{background-size:0 100%}
+      .ls-how li:not(:last-child):has(~ li:hover)::after{background-size:100% 100%}
+    }
     /* отступ считается от списка, а первая колонка самая длинная —
        с малым полем строка липла к её тексту и читалась как продолжение */
     .ls-how-total{margin-top:64px;font-size:var(--t-base)}

@@ -4,7 +4,28 @@
 .ls-value ul{margin:22px 0 0;padding:0;list-style:none}
 .ls-value li{display:grid;grid-template-columns:auto 1fr;column-gap:12px}
 .ls-value li + li{margin-top:24px}
-.ls-value .ls-mark{width:19px;height:auto;margin-top:-3px;color:var(--glyph)}
+.ls-value .ls-mark{width:19px;height:auto;margin-top:-3px;color:var(--glyph);
+  transition:color .18s var(--ease),scale .22s var(--ease)}
+
+/* Наведение — просьба Дмитрия со встречи 08.09: «чтобы подсвечивалось, куда
+   ты наводишь». Соседи гаснут, а знак наведённого берёт цвет своего
+   направления. Подчёркивание заголовка пробовали — убрано, гашения и цвета
+   достаточно.
+
+   Только там, где есть мышь: на телефоне наведение эмулируется тапом,
+   и половина блока осталась бы приглушённой после касания. */
+@media (hover: hover) and (pointer: fine){
+  .ls-value li{transition:opacity .18s var(--ease)}
+  /* Гасим соседей, только когда курсор на самом пункте: `ul:hover` срабатывал
+     и в промежутках между строками, и блок тускнел целиком ни от чего.
+     `:not(:hover)` обязателен: `:has()` добавляет вес селектору, и правило
+     гашения перебивало возврат непрозрачности — гас и тот пункт, на который
+     смотрят. */
+  .ls-value ul:has(li:hover) li:not(:hover){opacity:.38}
+  /* Знак берёт цвет направления и слегка подрастает. Масштаб не двигает
+     соседей: `scale` не участвует в раскладке. */
+  .ls-value li:hover .ls-mark{color:var(--dir);scale:1.15}
+}
 .ls-value b{display:block;font-size:var(--t-base);font-weight:500;line-height:1.35}
 .ls-value p{grid-column:2;margin:-2px 0 0;font-size:var(--t-ui);line-height:1.45;color:var(--muted)}
 

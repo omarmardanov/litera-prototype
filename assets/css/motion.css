@@ -53,6 +53,9 @@
     .ls-work a{overflow:hidden;display:block}
     .ls-work img{transition:scale .5s var(--ease)}
     .ls-work a:hover img{scale:1.05}
+    /* Превью ролика ведёт себя так же: разница между работой и роликом
+       не в том, как они отзываются на курсор. */
+    .ls-short a:hover img{scale:1.05}
 
     /* Карточки работ появляются по очереди прямо в ленте */
     .ls-work{animation:card linear both;
