@@ -190,9 +190,14 @@
 .ls-specs-files a span{display:block;margin-top:6px;font-size:var(--t-cap);color:var(--muted)}
 
 /* Фирменный элемент за формой. На телефоне он маленький и в углу:
-   страница и так узкая, крупная клякса забрала бы всё внимание. */
+   страница и так узкая, крупная клякса забрала бы всё внимание.
+
+   Знак вставлен разметкой, а не картинкой, и красится цветом направления —
+   тем же --dir, что берут знаки в ценностях и номера в этапах. У полиграфии
+   это синий. Где направление не задано, --dir равен цвету текста, и знак
+   остаётся серым, как был. */
 .ls-lead-mark{position:absolute;right:-24px;top:-18px;width:120px;height:auto;
-  opacity:.14;pointer-events:none;z-index:0}
+  color:var(--dir);opacity:.14;pointer-events:none;z-index:0}
 .ls-lead-form > *:not(.ls-lead-mark){position:relative;z-index:1}
 
 @media (min-width: 600px){

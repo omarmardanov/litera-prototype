@@ -44,18 +44,19 @@
 <link rel="stylesheet" href="assets/css/components/cookie.css?v=435">
 <link rel="stylesheet" href="assets/css/components/hero.css?v=435">
 <link rel="stylesheet" href="assets/css/components/intro.css?v=435">
-<link rel="stylesheet" href="assets/css/components/can.css?v=18">
-<link rel="stylesheet" href="assets/css/components/before-after.css?v=6">
+<link rel="stylesheet" href="assets/css/components/can.css?v=19">
+<link rel="stylesheet" href="assets/css/components/before-after.css?v=19">
 <link rel="stylesheet" href="assets/css/components/value.css?v=442">
 <link rel="stylesheet" href="assets/css/components/works.css?v=452">
 <link rel="stylesheet" href="assets/css/components/shorts.css?v=7">
 <link rel="stylesheet" href="assets/css/components/rows.css?v=435">
 <link rel="stylesheet" href="assets/css/components/catalog.css?v=435">
 <link rel="stylesheet" href="assets/css/components/specs.css?v=436">
-<link rel="stylesheet" href="assets/css/components/steps.css?v=441">
+<link rel="stylesheet" href="assets/css/components/steps.css?v=444">
 <link rel="stylesheet" href="assets/css/components/faq.css?v=435">
+<link rel="stylesheet" href="assets/css/components/clients.css?v=8">
 <link rel="stylesheet" href="assets/css/components/figures.css?v=435">
-<link rel="stylesheet" href="assets/css/components/form.css?v=436">
+<link rel="stylesheet" href="assets/css/components/form.css?v=437">
 <link rel="stylesheet" href="assets/css/components/modal.css?v=1">
 <link rel="stylesheet" href="assets/css/components/text.css?v=435">
 <link rel="stylesheet" href="assets/css/components/related.css?v=435">
@@ -66,7 +67,7 @@
 
 <!-- Раскладка идёт последней: её медиазапросы должны перебивать компоненты,
      иначе обёртка-телефон для десктопа не срабатывает. -->
-<link rel="stylesheet" href="assets/css/layout.css?v=438">
+<link rel="stylesheet" href="assets/css/layout.css?v=444">
 <link rel="stylesheet" href="assets/css/motion.css?v=436">
 <title>Подарочный сертификат — Литера.Студия</title>
 <meta name="description" content="Дизайн подарочных сертификатов: нарисуем с нуля или подготовим готовый макет. Печатаем на своём производстве.">
@@ -393,6 +394,12 @@
       </div>
       <!-- Плитки ведут в общее портфолио: отдельных страниц работ пока нет.
          Когда появятся, CMS подставит их адреса вместо /projects. -->
+    <!-- Подпись работы: `.ls-work-tags` — это «отрасль · особенность». Туда же
+         должно встать имя клиента вместо отрасли: «Ozon Реклама · коробка
+         с грамотой». Тогда клиенты доказывают собой работы, а отдельная роспись
+         имён внизу не нужна — так устроено у &Walsh, Studio Dumbar и Логомашины.
+         Нужен ответ менеджера, чья работа за каким клиентом и кого можно
+         называть; пока стоят отрасли. -->
     <ul class="ls-works-list" id="works-photo" role="tabpanel" aria-labelledby="tab-photo">
                 <li class="ls-work ls-has-shots"><a href="/projects" data-cursor="Посмотреть работу">
           <i class="ls-zone" aria-hidden="true"></i>
@@ -530,8 +537,38 @@
         <input class="ls-ba-range" type="range" min="0" max="100" value="50" step="1"
           aria-label="Сравнить макет до правки и после">
       </div>
+      <div class="ls-ba-side">
       <p>Тот же тираж и та же бумага. Поменялись только вёрстка, шрифт и поля —
         и сертификат перестал выглядеть распечаткой.</p>
+      <!-- Выход из блока: человек только что увидел, что макет можно вылечить,
+           и здесь ему предлагают показать свой. Кнопка ведёт в форму и сразу
+           открывает выбор файла, а на десктопе макет можно просто перетащить
+           на эту плашку — он попадёт в форму сам (`ba-check.js`). Без скрипта
+           остаётся обычная ссылка на форму. -->
+      <div class="ls-ba-cta">
+        <b>Покажите свой макет</b>
+        <p>Посмотрим и вернёмся со списком, что в нём чинить. Это бесплатно
+          и ни к чему не обязывает.</p>
+        <a class="ls-btn ls-btn-main ls-btn-s" href="#zayavka">Проверить макет</a>
+        <span class="ls-ba-drop">или перетащите файл сюда</span>
+      </div>
+      <!-- Памятка под плашкой, отдельной строкой: её открывают до отправки,
+           а не вместо. В рамке она читалась частью призыва. Строка собрана тем
+           же классом, что строки материалов, чтобы не заводить свою вёрстку
+           под один пункт. -->
+      <ul class="ls-rows ls-ba-req">
+        <li><a class="ls-row-body" href="/trebovaniya-k-maketam">
+          <span class="ls-thumb">
+            <img loading="lazy" decoding="async" src="assets/img/trebovaniya.webp" width="1430" height="1055" alt="Памятка по требованиям: CMYK, 300 dpi, вылеты и отступы">
+          </span>
+          <div>
+            <b>Требования к макетам</b>
+            <p>CMYK, 300 dpi, вылеты 3 мм, шрифты в кривых</p>
+          </div>
+        </a></li>
+      </ul>
+
+      </div>
     </section>
 
   <section class="ls-specs">
@@ -872,14 +909,34 @@
           или напишите на <a href="mailto:zakaz@litera.studio">zakaz@litera.studio</a></p>
         <div class="ls-figures">
           <div><b>13</b><span>лет студии</span></div>
-          <div><b>1500+</b><span>проектов</span></div>
-          <div><b>800+</b><span>клиентов</span></div>
+          <div><b>820+</b><span>работ</span></div>
+          <div><b>640+</b><span>клиентов</span></div>
         </div>
       </aside>
     </section>
 
+    <!-- Логотипы клиентов. ВРЕМЕННО: файлы сняты с текущего сайта студии
+         и лежат мелким растром — Ozon, Сбер и «Этажи» ждут исходников.
+         Показ согласовывается: Ozon Реклама и СберСпасибо без письменного
+         разрешения в тираж не идут. Класс `ls-client-em` — для эмблем,
+         они при общей высоте выглядят крупнее надписей. -->
+    <section class="ls-clients" hidden>
+      <ul>
+        <li class="ls-c-ozon"><img src="assets/img/clients/ozon.svg" width="156" height="43" alt="Ozon" loading="lazy" decoding="async"></li>
+        <li class="ls-c-sber"><img src="assets/img/clients/sber.svg" width="135" height="41" alt="Сбер" loading="lazy" decoding="async"></li>
+        <li class="ls-c-france"><img src="assets/img/clients/france.png" width="480" height="437" alt="Посольство Франции" loading="lazy" decoding="async"></li>
+        <li class="ls-c-ormatek"><img src="assets/img/clients/ormatek.jpg" width="300" height="300" alt="Ormatek" loading="lazy" decoding="async"></li>
+        <li class="ls-c-coralclub"><img src="assets/img/clients/coralclub.svg" width="640" height="112" alt="Coral Club" loading="lazy" decoding="async"></li>
+        <li class="ls-c-modum"><img src="assets/img/clients/modum.svg" width="191" height="58" alt="Modum" loading="lazy" decoding="async"></li>
+        <li class="ls-c-inkerman"><img src="assets/img/clients/inkerman.svg" width="805" height="421" alt="Inkerman" loading="lazy" decoding="async"></li>
+        <li class="ls-c-helikon"><img src="assets/img/clients/helikon.png" width="112" height="112" alt="Геликон-опера" loading="lazy" decoding="async"></li>
+      </ul>
+    </section>
+
+
+
     <section class="ls-lead-form" id="zayavka">
-        <img class="ls-lead-mark" src="assets/img/element.svg" alt="" aria-hidden="true">
+        <svg class="ls-lead-mark" viewBox="0 0 113.12 161.82" fill="currentColor" aria-hidden="true"><path d="m53.39,38.49l-4.17,17.01c-.35,1.45-2.16,1.95-3.21.9l-22.43-22.43c-1.16-1.16-3.15-.34-3.15,1.31v30.92c0,.49.19.96.54,1.31l3.55,3.55c1.2,1.2.35,3.26-1.35,3.26h-.82c-1.06,0-1.92.86-1.92,1.92v22.93c0,1.06.86,1.92,1.92,1.92h13.26c1.24,0,2.15,1.16,1.86,2.37l-2.79,11.37c-.09.35.02.73.3,1.06l17.6,21.04c.93,1.11,3,.99,3.29-.18l5.95-24.28c.35-1.45,2.16-1.95,3.21-.9l24.51,24.52c1.16,1.16,3.15.34,3.15-1.31v-30.91c0-.49-.19-.96-.54-1.31l-11.15-11.15c-.75-.75-.75-1.96,0-2.7l11.12-11.12c1.21-1.21.35-3.27-1.36-3.27h-17.17c-1.24,0-2.15-1.16-1.86-2.37l10.57-43.09c.29-1.18-1.5-2.24-2.83-1.68l-25.34,10.52c-.4.16-.67.45-.75.8Z"/></svg>
     <h2>Посчитаем и подскажем</h2>
     <p class="ls-sub">Оставьте контакт — вернёмся со сметой и вариантами. Если задача решается проще, так и скажем.</p>
     <form>
@@ -1158,9 +1215,11 @@
 <script src="assets/js/form-task.js?v=435" defer></script>
 <script src="assets/js/file-attach.js?v=435" defer></script>
 <script src="assets/js/modal.js?v=1" defer></script>
+<script src="assets/js/pic-modal.js?v=1" defer></script>
 <script src="assets/js/works-tabs.js?v=3" defer></script>
 <script src="assets/js/can-scroll.js?v=1" defer></script>
-<script src="assets/js/before-after.js?v=3" defer></script>
+<script src="assets/js/before-after.js?v=4" defer></script>
+<script src="assets/js/ba-check.js?v=1" defer></script>
 <script src="assets/js/cursor-label.js?v=1" defer></script>
 <script src="assets/js/form-submit.js?v=435" defer></script>
 <script src="assets/js/faq-accordion.js?v=435" defer></script>
@@ -1173,6 +1232,16 @@
        страницы. Без скрипта плитка просто ведёт на ролик во «ВКонтакте». -->
   <dialog class="ls-modal ls-modal-video">
     <iframe title="Ролик Литеры" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe>
+    <button type="button" class="ls-modal-close" aria-label="Закрыть"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  </dialog>
+
+  <!-- Памятка крупно. Строка «Требования к макетам» остаётся ссылкой на
+       страницу требований: без скрипта клик просто уводит туда, и это рабочий
+       запасной путь. Со скриптом клик показывает ту же схему поверх страницы,
+       не уводя человека со страницы услуги. -->
+  <dialog class="ls-modal ls-modal-pic">
+    <img src="assets/img/trebovaniya.webp" width="1430" height="1055" loading="lazy" decoding="async"
+      alt="Требования к макетам: CMYK, 300 dpi, шрифты в кривые, вылеты не менее 3 мм, отступы от края реза не менее 5 мм">
     <button type="button" class="ls-modal-close" aria-label="Закрыть"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
   </dialog>
 </body>

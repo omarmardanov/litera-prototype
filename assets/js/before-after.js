@@ -3,9 +3,10 @@
 // Позиция живёт в CSS-переменной --pos: по ней обрезается верхний слой
 // и стоит ручка. На десктопе шторка просто идёт за курсором — тянуть
 // и зажимать ничего не надо, достаточно провести мышью по кадру.
+// На телефоне шторка идёт за пальцем, пока его не отпустят.
 //
-// Ползунок под ней остаётся: это клавиатура и телефон, где курсора нет.
-// Без скрипта он работает сам по себе, просто картинку не двигает.
+// Ползунок под ней остаётся: это клавиатура. Без скрипта он работает
+// сам по себе, просто картинку не двигает.
 
 (function () {
   var fine = matchMedia('(hover: hover) and (pointer: fine)').matches;
@@ -39,23 +40,57 @@
       }, {threshold: 0.45}).observe(frame);
     }
 
-    if (!fine) return;
+    var frameId = 0, pending = 50;
+
+    // за пальцем и курсором следим покадрово: событий приходит больше,
+    // чем перерисовок
+    function follow(clientX) {
+      var box = frame.getBoundingClientRect();
+      pending = Math.min(100, Math.max(0, ((clientX - box.left) / box.width) * 100));
+      if (!frameId) frameId = requestAnimationFrame(function () {
+        frameId = 0;
+        set(pending);
+      });
+    }
+
+    // Телефон: нативный ползунок тянется только за свой бегунок, а он тут
+    // невидим, и палец обычно попадает мимо — выходит прыжок по тычку вместо
+    // движения. Поэтому на тач-экране шторку ведём сами, а ползунку убираем
+    // приём касаний, чтобы он не спорил за палец. Значение ему проставляет
+    // set(), клавиатура и фокус работают как раньше; без скрипта он остаётся
+    // обычным ползунком.
+    if (!fine) {
+      var pointer = null;
+
+      range.style.pointerEvents = 'none';
+
+      frame.addEventListener('pointerdown', function (e) {
+        pointer = e.pointerId;
+        frame.classList.remove('is-demo');
+        frame.setPointerCapture(pointer);
+        follow(e.clientX);
+      });
+
+      frame.addEventListener('pointermove', function (e) {
+        if (e.pointerId === pointer) follow(e.clientX);
+      });
+
+      function release(e) {
+        if (e.pointerId === pointer) pointer = null;
+      }
+      frame.addEventListener('pointerup', release);
+      frame.addEventListener('pointercancel', release);
+
+      return;
+    }
 
     // курсор пришёл — показ обрывается, дальше ведёт человек
     frame.addEventListener('mouseenter', function () {
       frame.classList.remove('is-demo');
     });
 
-    var frameId = 0, pending = 50;
-
     frame.addEventListener('mousemove', function (e) {
-      var box = frame.getBoundingClientRect();
-      pending = Math.min(100, Math.max(0, ((e.clientX - box.left) / box.width) * 100));
-      // за курсором следим покадрово: mousemove приходит чаще, чем перерисовка
-      if (!frameId) frameId = requestAnimationFrame(function () {
-        frameId = 0;
-        set(pending);
-      });
+      follow(e.clientX);
     });
 
     // курсор ушёл — шторка возвращается на середину, чтобы блок не оставался

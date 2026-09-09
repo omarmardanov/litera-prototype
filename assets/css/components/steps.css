@@ -66,6 +66,38 @@
   .ls-how li:nth-child(2):has(~ li:hover)::after{transition-delay:.22s}
   .ls-how li:nth-child(3):has(~ li:hover)::after{transition-delay:.44s}
 }
+
+/* На телефоне наведения нет, и связь между шагами пропадала совсем: четыре
+   пункта опять читались как независимые. Здесь волну ведёт прокрутка —
+   шаг доходит до середины экрана, загорается его номер, и от него вниз
+   протягивается линия к следующему. Наверх прокрутили — волна так же
+   откатывается.
+
+   Отсчёт идёт по view()-таймлайну самого шага, поэтому скрипт не нужен.
+   Где таймлайны не поддержаны и где просят меньше движения, всё остаётся
+   как было: серая линия и серые номера. */
+@media (max-width: 1023px) and (prefers-reduced-motion: no-preference){
+  @supports (animation-timeline: view()){
+    .ls-how li{view-timeline:--step block}
+    /* Порядок как при наведении: номер загорается, когда до него дотянулась
+       линия, и только потом идёт отрезок к следующему шагу. Диапазоны узкие
+       и стоят встык — иначе третий номер загорается раньше, чем к нему
+       дошла линия от второго: у каждого шага свой отсчёт, а сдвинуты они
+       друг относительно друга всего на высоту шага. */
+    .ls-how li::before{animation:ls-how-num linear both;
+      animation-timeline:--step;animation-range:cover 44% cover 50%}
+    /* Линия остаётся серой, цветная протягивается поверх размером фона —
+       раскладка не трогается. */
+    .ls-how li:not(:last-child)::after{
+      background-image:linear-gradient(var(--dir),var(--dir));
+      background-repeat:no-repeat;background-size:100% 0;
+      animation:ls-how-line linear both;
+      animation-timeline:--step;animation-range:cover 50% cover 60%}
+  }
+}
+@keyframes ls-how-num{to{color:var(--dir)}}
+@keyframes ls-how-line{to{background-size:100% 100%}}
+
 .ls-how b{font-size:var(--t-base);font-weight:500;line-height:1.35}
 .ls-how .ls-term{color:var(--ink)}
 .ls-how p{margin:4px 0 0;font-size:var(--t-ui);line-height:1.45;color:var(--muted)}
