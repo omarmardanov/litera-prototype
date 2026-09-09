@@ -29,7 +29,9 @@
    браузерных, специфичность тут ни при чём. Закрытый диалог иначе
    виден и занимает место в конце страницы. */
 .ls-modal[open]{display:flex}
-.ls-modal img{display:block;width:auto;height:auto;max-width:100%;max-height:88dvh;margin:auto}
+/* Потолок высоты у картинки тот же, что у диалога. Раньше диалог мог быть
+   на четыре процента экрана выше снимка, и снизу оставалась белая полоса. */
+.ls-modal img{display:block;width:auto;height:auto;max-width:100%;max-height:92dvh;margin:auto}
 
 /* На узком экране схему нельзя вписывать в ширину: подписи на ней набраны
    мелко, и в 390 пикселей не читается ничего. Показываем крупнее экрана
@@ -49,13 +51,21 @@
    Стоит в углу самого диалога: прокрутки внутри нет ни на одной ширине,
    поэтому кнопке незачем цепляться за окно — от `fixed` она уезжала
    за правый край экрана на узких. */
+/* Стекло, а не чёрный квадрат: тот же приём, что у ручки шторки в «Лечим
+   макеты» — полупрозрачная плашка, которая размывает то, что под ней, и потому
+   видна на любом кадре, светлом и тёмном. Чёрный квадрат на тёмном снимке
+   пропадал, а на светлом читался дырой.
+
+   Где backdrop-filter не поддержан, остаётся полупрозрачная тёмная плашка:
+   значок виден всё равно. */
 .ls-modal-close{position:absolute;right:8px;top:8px;
   display:flex;align-items:center;justify-content:center;
   width:44px;height:44px;padding:0;border-radius:0;cursor:pointer;
-  background:var(--ink);color:var(--paper);
-  border:1px solid var(--pop-edge);box-shadow:var(--pop-shadow);
+  background:rgba(17,17,18,.42);color:var(--paper);
+  border:0;box-shadow:0 0 0 1px rgba(255,255,255,.22) inset;
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);
   transition:background-color .18s var(--ease)}
-.ls-modal-close:hover{background:var(--ink-hover)}
+.ls-modal-close:hover{background:rgba(17,17,18,.62)}
 .ls-modal-close:focus-visible{outline:2px solid var(--paper);outline-offset:2px}
 .ls-modal-close svg{display:block}
 
@@ -72,4 +82,69 @@
 .ls-modal-video iframe{display:block;width:100%;height:100%;border:0}
 @media (max-width: 1023px){
   .ls-modal-video{width:92vw;height:auto;padding:0}
+}
+
+/* ── Лупа в диалоге ────────────────────────────────────────────────
+   Кружок показывает то же место снимка в натуральном размере файла:
+   увеличение считает скрипт, и если файл не крупнее показанного, лупа
+   не появляется вовсе — увеличивать было бы нечего, кроме размытия.
+   Курсор внутри диалога становится прицелом, чтобы было понятно, что
+   снимок можно разглядывать. */
+.ls-modal-lens{position:fixed;left:0;top:0;z-index:3;
+  width:220px;height:220px;translate:-50% -50%;border-radius:50%;
+  background-repeat:no-repeat;background-color:var(--paper);
+  box-shadow:0 6px 24px rgba(0,0,0,.35), 0 0 0 1px rgba(255,255,255,.6) inset;
+  opacity:0;pointer-events:none;transition:opacity .12s var(--ease)}
+.ls-modal-lens.is-on{opacity:1}
+
+/* ── Листалка кадров ──────────────────────────────────────────────
+   Стрелки и счётчик стоят внизу диалога, поверх снимка: выносить их наружу
+   некуда — диалог и так во весь экран, а под снимком места нет. Плашка
+   тёмная и полупрозрачная, чтобы читаться на любом кадре.
+
+   Показывается только когда кадров больше одного: у памятки с требованиями
+   листать нечего. Стрелки работают по кругу, с последнего кадра — на первый;
+   клавиши влево-вправо делают то же самое. */
+.ls-modal-nav{position:absolute;left:50%;bottom:16px;translate:-50% 0;z-index:2;
+  display:flex;align-items:center;gap:4px;padding:4px;
+  background:rgba(17,17,18,.42);color:var(--paper);
+  box-shadow:0 0 0 1px rgba(255,255,255,.22) inset;
+  -webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.ls-modal-nav[hidden]{display:none}
+.ls-modal-nav button{appearance:none;-webkit-appearance:none;
+  display:grid;place-items:center;width:40px;height:36px;padding:0;
+  border:0;background:none;color:inherit;cursor:pointer;
+  transition:background-color .15s var(--ease)}
+.ls-modal-nav button:hover{background:rgba(255,255,255,.14)}
+.ls-modal-nav button:focus-visible{outline:2px solid var(--paper);outline-offset:-2px}
+.ls-modal-count{min-width:56px;text-align:center;
+  font-size:var(--t-cap);font-variant-numeric:tabular-nums}
+
+/* ── Диалог с картинкой ────────────────────────────────────────────
+   Прилегает к самому снимку: белого поля нет ни снизу, ни по бокам — именно
+   оно и читалось полосой под фотографией. Ширина по содержимому, фон
+   прозрачный: если из-за пропорций где-то остаётся зазор, в нём видно
+   затемнение, а не белую плашку.
+
+   На телефоне ширина остаётся по экрану: там схему требований разглядывают
+   щипком, и ей нужна вся ширина. */
+.ls-modal-pic{padding:0;background:transparent;box-shadow:none}
+@media (min-width: 1024px){
+  .ls-modal-pic{width:fit-content;max-width:92vw}
+}
+
+/* ── Диалог с картинкой на телефоне ────────────────────────────────
+   Кадры сняты горизонтально, а экран вертикальный: снимок, вписанный
+   по ширине, занимает треть высоты, и вокруг него остаётся пустота. Поэтому
+   на телефоне диалог не «окно с картинкой», а весь экран: снимок по центру,
+   вокруг затемнение, промах пальцем закрывает.
+
+   Стрелок и счётчика тут нет: листают свайпом, а подписи под кадром и так
+   стоят на странице. Кнопка закрытия остаётся — жест знают не все. */
+@media (hover: none), (pointer: coarse){
+  .ls-modal-pic{width:100vw;max-width:100vw;height:100dvh;max-height:100dvh;
+    align-items:center;justify-content:center}
+  .ls-modal-pic img{width:100%;max-width:100%;max-height:100dvh;margin:auto;
+    touch-action:pan-y pinch-zoom}
+  .ls-modal-pic .ls-modal-nav{display:none}
 }
