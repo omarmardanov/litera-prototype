@@ -1,0 +1,37 @@
+/* Направления на главной: развилка сразу после первого экрана.
+
+   Человек с главной идёт выбирать, а не читать о студии, поэтому первым
+   блоком стоит развилка на четыре вида работ. Карточка — снимок, название
+   и строка о том, что внутри: без строки название «Брендинг» ничего
+   не объясняет.
+
+   Две колонки на широком экране и одна на телефоне: карточек четыре,
+   в три колонки последняя висела бы одна. */
+
+.ls-dirs{margin-top:var(--gap-block);padding:0 var(--side)}
+.ls-dirs ul{display:grid;grid-template-columns:1fr;gap:26px;
+  margin:22px 0 0;padding:0;list-style:none}
+.ls-dirs a{display:block;color:var(--ink);text-decoration:none}
+.ls-dirs a:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+.ls-dir-pic{display:block;overflow:hidden;background:var(--placeholder)}
+.ls-dir-pic img{display:block;width:100%;height:auto;aspect-ratio:3/2;
+  object-fit:cover;transition:scale .5s var(--ease)}
+.ls-dirs b{display:block;margin-top:14px;
+  font-family:'Raptor V2 Premium',sans-serif;font-weight:700;
+  font-size:24px;line-height:1.15;letter-spacing:-.01em}
+.ls-dirs span{display:block;margin-top:4px;
+  font-size:var(--t-ui);line-height:1.45;color:var(--muted)}
+
+/* кадр наезжает при наведении — тот же приём, что на карточках работ */
+@media (hover: hover) and (pointer: fine){
+  .ls-dirs a:hover .ls-dir-pic img{scale:1.04}
+}
+
+@media (min-width: 700px){
+  .ls-dirs ul{grid-template-columns:repeat(2,1fr);gap:32px}
+}
+
+@media (min-width: 1024px){
+  .ls-dirs ul{gap:44px 32px;margin-top:28px}
+  .ls-dirs b{font-size:26px}
+}
